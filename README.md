@@ -1,12 +1,6 @@
-# TinyThings
-A tiny template web application for connecting with RERUM. You will see all
-CRUD actions proxied through RERUM in the TinyThings back-end. Feel free to fork
-this as a starting point for creating your own application that uses the RERUM service.
-
-Visit [rerum.io](http://rerum.io) for more general information about RERUM. See a working demo of this application at [tiny.rerum.io](http://tiny.rerum.io/app).
-
-Want to use the API in your web application? Learn how at the [API page](https://github.com/CenterForDigitalHumanities/rerum_server/blob/master/API.md).
-
+# McElwee Cemetery
+An extension of the tiny.rerum.io/app that exhibits the catalog of in the McElwee cemetery in Pike County, MO.
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3082.741355124313!2d-91.1464455346345!3d39.40735722949519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87de7950174de97b%3A0xeb72f104bf097098!2sMcElwee+Cemetery%2C+Louisiana%2C+MO+63353!5e0!3m2!1sen!2sus!4v1533747654339" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 
 ## Who is to blame?
 The developers at the Walter J. Ong, <sub><sup>S.J.</sup></sub> Center for Digital Humanities authored and maintain this template
