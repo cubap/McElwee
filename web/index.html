@@ -195,6 +195,8 @@
             elem.innerHTML = "<h3>" + (obj.label || "unlabeled") + "</h3>"
             elem.append(renderName(obj))
             elem.append(renderGender(obj))
+            elem.append(renderProp(obj,"birthDate"))
+            elem.append(renderProp(obj,"deathDate"))
             elem.append(renderEvidence(obj))
             document.getElementById("obj-viewer").append(renderObject(obj))
         }
@@ -206,6 +208,15 @@
                 elem = document.createElement("span")
                 elem.textContent = name
                 elem.className = "mc-name"
+            }
+            return elem || null
+        }
+        function renderProp(obj,prop) {
+            let elem;
+            if(obj[prop]){
+                elem = document.createElement("div")
+                elem.textContent = prop + ": " + obj[prop]
+                elem.className = "mc-"+prop
             }
             return elem || null
         }
