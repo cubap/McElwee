@@ -1,157 +1,191 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <title>McElwee Cemetery Exhibit</title>
-        <style>
-            /* Simplified CSS for web display */
+<head>
+    <title>McElwee Cemetery Exhibit</title>
+    <style>
+        /* Simplified CSS for web display */
+        
+        form[data-hidden] {
+            display: none;
+        }
+        
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        button,
+        input {
+            color: #a3d1ff;
+        }
+        
+        button,
+        input,
+        textarea {
+            background: #262626;
+            border-color: #666666;
+            border-radius: .25em;
+            padding: .2em;
+            font-size: 1.2rem;
+        }
+        
+        button[type="submit"] {
+            display: block;
+            margin: 0 auto;
+            padding: .5rem 1.5rem;
+        }
+        
+        button[type="submit"]::before {
+            content: "";
+            display: block;
+            width: 100%;
+        }
+        
+        html,
+        body {
+            background: #060606;
+            color: #d6d6d6;
+            font-family: sans-serif;
+        }
+        
+        form {
+            border: thin solid #a3d1ff;
+            padding: .5rem;
+            margin: .5rem 0;
+        }
+        
+        div#flash-message {
+            display: none;
+            background-color: #d6d6d6;
+            color: #111111;
+            padding: .5em;
+            font-size: 1.2rem;
+        }
+        
+        div#flash-message.error {
+            display: block;
+            background-color: #ff6666;
+        }
+        
+        div#flash-message.success {
+            display: block;
+            background-color: #66ff66;
+        }
+        
+        div#obj-viewer {
+            white-space: pre;
+            font-family: monospace;
+            font-size: .8rem;
+            max-height: 12rem;
+            overflow: auto;
+        }
+    </style>
+</head>
 
-            form[data-hidden] {
-                display: none;
+<body>
+    <h1>McElwee Cemetery</h1>
+    <p>
+        Some such.
+    </p>
+
+    <div id="flash-message">
+        This &lt;div> should be invisible until a message appears.
+    </div>
+
+    <div id="view">
+    </div>
+
+    <div id="obj-viewer">
+    </div>
+
+    <script src="mcdata.js"></script>
+    <script>
+        async function get(url) {
+
+            // shortcut
+            if (url.length < 10) {
+                return JSON.parse(localStorage.getItem(url))
             }
 
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6,
-            button,
-            input {
-                color: #a3d1ff;
-            }
-
-            button,
-            input,
-            textarea {
-                background: #262626;
-                border-color: #666666;
-                border-radius: .25em;
-                padding: .2em;
-                font-size: 1.2rem;
-            }
-
-            button[type="submit"] {
-                display: block;
-                margin: 0 auto;
-                padding: .5rem 1.5rem;
-            }
-
-            button[type="submit"]::before {
-                content: "";
-                display: block;
-                width: 100%;
-            }
-
-            html,
-            body {
-                background: #060606;
-                color: #d6d6d6;
-                font-family: sans-serif;
-            }
-
-            form {
-                border: thin solid #a3d1ff;
-                padding: .5rem;
-                margin: .5rem 0;
-            }
-
-            div#flash-message {
-                display: none;
-                background-color: #d6d6d6;
-                color: #111111;
-                padding: .5em;
-                font-size: 1.2rem;
-            }
-
-            div#flash-message.error {
-                display: block;
-                background-color: #ff6666;
-            }
-
-            div#flash-message.success {
-                display: block;
-                background-color: #66ff66;
-            }
-            div#obj-viewer {
-                white-space: pre;
-                font-family: monospace;
-                font-size: .8rem;
-                max-height: 12rem;
-                overflow: auto;
-            }
-        </style>
-    </head>
-
-    <body>
-        <h1>McElwee Cemetery</h1>
-        <p>
-            Some such.
-        </p>
-
-        <div id="flash-message">
-            This &lt;div> should be invisible until a message appears.
-        </div>
-
-        <div id="obj-viewer">
-        </div>
-        <script src="mcdata.js"></script>
-        <script>
-            async function get (url) {
-
-                // shortcut
-                if(url.length<10){
-                    return JSON.parse(localStorage.getItem(url))
-                }
-
-                let xhr = new XMLHttpRequest();
-                xhr.open("GET", url);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        let obj, err;
-                        if (xhr.status === 200) {
-                            try {
-                                obj = JSON.parse(xhr.response);
-                            } catch (error) {
-                                err = error;
-                            }
-                        } else {
-                            err = new Error(xhr.statusText || "GET failed.");
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    let obj, err;
+                    if (xhr.status === 200) {
+                        try {
+                            obj = JSON.parse(xhr.response);
+                        } catch (error) {
+                            err = error;
                         }
-                        if (typeof callback === "function") {
-                            return callback(err, obj);
-                        }
+                    } else {
+                        err = new Error(xhr.statusText || "GET failed.");
                     }
-                };
-                xhr.send();
-            }
-
-            function expand(obj){
-                let toRender = {}
-                let findId = obj["@id"]
-                let annos = findById(findId)
-                for(let i=0;i<annos.length;i++){
-                    for(let j=0;j<annos[i].body.length;j++){
-                        obj = Object.assign(annos[i].body[j],obj)
+                    if (typeof callback === "function") {
+                        return callback(err, obj);
                     }
                 }
-                return obj
-            }
+            };
+            xhr.send();
+        }
 
-            function findById(id){
-                let everything = Object.keys(localStorage).map(k=>(k&&k.length===4)&&JSON.parse(localStorage.getItem(k)))
-                let matches = everything.filter(o=>o.target===id)
-                return matches
+        function expand(obj) {
+            let toRender = {}
+            let findId = obj["@id"]
+            let annos = findById(findId)
+            for (let i = 0; i < annos.length; i++) {
+                for (let j = 0; j < annos[i].body.length; j++) {
+                    obj = Object.assign(annos[i].body[j], obj)
+                }
             }
+            return obj
+        }
 
-            function renderPerson(obj,elem){
-                elem.innerHTML = JSON.stringify(obj,null,4)
+        function findById(id) {
+            let everything = Object.keys(localStorage).map(k => (k && k.length === 4) && JSON.parse(localStorage.getItem(k)))
+            let matches = everything.filter(o => o.target === id)
+            return matches
+        }
+
+        function renderPerson(obj, elem) {
+            elem.innerHTML = "<h3>" + (obj.label || "unlabeled") + "</h3>"
+            elem.append(renderName(obj))
+            elem.append(renderGender(obj))
+            document.getElementById("obj-viewer").append(renderObject(obj))
+        }
+
+        function renderName(obj) {
+            let elem;
+            let name = obj.name;
+            let joined = obj.givenName + " " + obj.familyName;
+            if (name) {
+                elem = document.createElement("span")
+                elem.textContent = name
+                elem.className = "mc-name"
             }
-            
-            // load defaulty bits
-            renderPerson(expand(JSON.parse(localStorage.getItem("p001"))),document.getElementById("obj-viewer"))
-        </script>
+            return elem || null
+        }
 
-    </body>
+        function renderGender(obj) {
+            let elem;
+            if (obj.gender) {
+                elem = document.createElement("span")
+                elem.innerHTML = (obj.gender === "male") ? "&male;" : "&female;"
+                elem.className = "mc-gender"
+            }
+            return elem || null
+        }
+
+        function renderObject(obj) {
+            return document.createElement("span").textContent = JSON.stringify(obj, null, 4)
+        }
+
+        // load defaulty bits
+        renderPerson(expand(JSON.parse(localStorage.getItem("p001"))), document.getElementById("view"))
+    </script>
+
+</body>
 
 </html>
