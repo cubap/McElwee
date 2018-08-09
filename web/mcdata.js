@@ -68,9 +68,9 @@
             { "name": "Claud H. Bland" },
             { "birthDate": "1882-03-25" },
             { "deathDate": "1883-12-12" },
-            { "Birth": "e001" },
-            { "Death": "e002" },
-            { "evidence": "d001" }
+            { "Birth": { "@id": "e001" } },
+            { "Death": { "@id": "e002" } },
+            { "evidence": { "@id": "d001" } }
         ]
     }
     datar.annoP2 = {
@@ -84,7 +84,7 @@
             { "givenName": "J." },
             { "familyName": "Bland" },
             { "name": "J. H. Bland" },
-            { "evidence": "d001" }
+            { "evidence": { "@id": "d001" } }
         ]
     }
     datar.annoP3 = {
@@ -98,7 +98,7 @@
             { "givenName": "J." },
             { "familyName": "Bland" },
             { "name": "J. J. Bland" },
-            { "evidence": "d001" }
+            { "evidence": { "@id": "d001" } }
         ]
     }
     datar.annoE1 = {
@@ -109,9 +109,9 @@
         "target": "e001",
         "body": [
             { "label": "The birth of Claud H. Bland" },
-            { "principal": "p001" },
-            { "parent": "p002" },
-            { "parent": "p003" },
+            { "principal": { "@id": "p001" } },
+            { "parent": { "@id": "p002" } },
+            { "parent": { "@id": "p003" } },
             { "date": "1882-03-25" }
         ]
     }
@@ -123,7 +123,7 @@
         "target": "e002",
         "body": [
             { "label": "The death of Claud H. Bland" },
-            { "principal": "p001" },
+            { "principal": { "@id": "p001" } },
             { "date": "1883-12-12" }
         ]
     }
@@ -135,7 +135,7 @@
         "target": "t001",
         "body": [
             { "seeAlso": "https://www.findagrave.com/memorial/5440149/claud-bland" },
-            { "evidence": ["t001", "https://images.findagrave.com/photos/2013/93/5440149_136510870831.jpg"] }
+            { "evidence": "https://images.findagrave.com/photos/2013/93/5440149_136510870831.jpg" }
         ]
     }
     datar.annoL1 = {
@@ -146,7 +146,8 @@
         "target": "l001",
         "body": [
             { "label": "McElwee Cemetery" },
-            { "evidence": "d001" }
+            { "seeAlso": "http://phuzzy.link/context/gnis-ld#gnisf:722098" },
+            { "evidence": { "@id": "d001", "@type": "Document" } }
         ]
     }
     datar.annoD1 = {
@@ -157,6 +158,7 @@
         "target": "d001",
         "body": [
             { "label": "McElwee Cemetery Catalog" },
+            { "describes": { "@id": "l001", "@type": "Location" } },
             { "evidence": "http://public.fotki.com/iowaz/pike-co-missouri/mcelwee-cem-pike-co/burials-mcelwee-cem/" },
             { "description": "Printed catalog of grave markers available at some date." }
         ]
