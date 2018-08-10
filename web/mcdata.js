@@ -146,7 +146,7 @@
         "target": "l001",
         "body": [
             { "label": "McElwee Cemetery" },
-            { "seeAlso": "http://phuzzy.link/context/gnis-ld#gnisf:722098" },
+            { "seeAlso": "http://gnis-ld.org/lod/gnis/feature/722098" },
             { "evidence": { "@id": "d001", "@type": "Document" } }
         ]
     }
