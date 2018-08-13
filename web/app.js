@@ -1,3 +1,6 @@
+var mc = {}
+mc.focusObject = document.getElementById("mc-view")
+
 async function get(url) {
 
     // shortcut
@@ -71,7 +74,9 @@ function renderPerson(obj, elem) {
     elem.append(renderProp(obj, "birthDate"))
     elem.append(renderProp(obj, "deathDate"))
     elem.append(renderEvidence(obj))
+    elem.classList.add(obj["@type"])
     document.getElementById("obj-viewer").append(renderObject(obj))
+
 }
 
 function renderName(obj) {
@@ -131,6 +136,56 @@ function renderResidents(list) {
     // render on click
 }
 
+function renderList(obj,elem){
+    if(typeof obj.resources === "string") {
+        get(obj.resources).then(function(ls){
+            obj.resources = ls
+            return renderList(obj, elem)
+        })
+    }
+    let ul = document.createElement("ul")
+    for (item of obj.resources) {
+        let li = document.createElement("li")
+        li.innerText = item.label || "unlabeled"
+        ul.append(li)
+    }
+    elem.append(ul)
+    elem.classList.add(obj["@type"])
+    elem.classList.remove("Person","Event","Location")
+}
+
+function observerCallback(mutationsList,elem){
+    for(var mutation of mutationsList) {
+        if(mutation.attributeName === "mc-object"){
+            renderByObjectType(expand(JSON.parse(localStorage.getItem(mc.focusObject.getAttribute("mc-object")))), mc.focusObject)
+        }
+        console.log (mutation)
+    }
+}
+
+function renderByObjectType(obj,elem) {
+    let renderFunction = function(){}
+    switch(obj["@type"]) {
+        case "Person" : renderFunction = renderPerson 
+        break 
+        case "List" : renderFunction = renderList
+        break
+        case "Location" : renderFunction = renderLocation
+        break
+        case "Event" : renderFunction = renderEvent
+        break
+        default : // no render
+    }
+    while(elem.firstChild){
+        elem.removeChild(elem.firstChild);
+    }
+    renderFunction(obj,elem)
+}
+
+mc.renderObserver = new MutationObserver(observerCallback)
+mc.renderObserver.observe(mc.focusObject, { attributes: true })
+
+
 // load defaulty bits
 renderLocation()
-renderPerson(expand(JSON.parse(localStorage.getItem("p001"))), document.getElementById("view"))
+mc.focusObject.setAttribute("mc-object","li01")

@@ -52,6 +52,19 @@
         "@type": "Document",
         "label": "McElwee Cemetery Catalog"
     }
+    datar.catalogList = {
+        "@context": "",
+        "@id": "li01",
+        "@type":"List",
+        "label":"Cemetery Residents",
+        "resources": [
+            { "@id": "p001", "label": "BLAND, Claud H."},
+            { "@id": "p002", "label": "BLAND, Minnie Lee"},
+            { "@id": "p003", "label": "BEVARD, Sarah I. Howell"},
+            { "@id": "p004", "label": "BRUNAUGH, W."},
+            { "@id": "p005", "label": "CARR, Elizabeth C."},
+        ]
+    }
 
     // The Annotations
     datar.annoP1 = {
