@@ -83,6 +83,7 @@ function templatePerson(obj) {
     for (e of tmp) {
         if(e){template.append(e)}
     }
+    document.getElementById("mc-person-form").innerHTML = templatePersonForm(obj)
     return template
 }
 
@@ -220,3 +221,56 @@ mc.renderObserver.observe(mc.focusObject, {
 // load defaulty bits
 renderElement(document.getElementById("mc-location"),templateLocation())
 mc.focusObject.setAttribute("mc-object", "li01")
+
+const CREATE_URL = "http://tiny.rerum.io/app/create"
+
+function createPerson(){
+    const callback = function(error,result){
+        // create, rewrite id
+    }
+    let form = document.getElementById("mc-person-form")
+    // TODO: Make this make sense
+    let obj = {
+        "@type": "Person",
+        "label": form.getElementById("mc-label"),
+        "transcription": form.getElementById("mc-transcription"),
+        "@context": "",
+        "givenName": form.getElementById("mc-givenname"),
+        "familyName": form.getElementById("mc-familyname"),
+        "gender": form.getElementById("mc-gender")
+    }
+}
+
+function templatePersonForm(person) {
+    return `<form>
+    <label for="mc-label">Label: <input id="mc-label" type="text" placeholder="simple name" value="${ person.label }" ></label>
+    </form>`
+}
+
+function post (callback, url, obj) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            let res, err;
+            if (xhr.status === 201) {
+                try {
+                    res = JSON.parse(xhr.response);
+                } catch (error) {
+                    err = error;
+                }
+            } else {
+                err = new Error(xhr.statusText || "Create failed.");
+            }
+            if (typeof callback === "function") {
+                return callback(err, res);
+            }
+            return err;
+        }
+    };
+    if (typeof obj !== "string") {
+        obj = JSON.stringify(obj);
+    }
+    xhr.send(obj);
+}
