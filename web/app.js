@@ -1,6 +1,9 @@
 var mc = {}
 mc.focusObject = document.getElementById("mc-view")
 
+function focusOn(id) {
+    mc.focusObject.setAttribute('mc-object', id)
+}
 async function get(url) {
 
     // shortcut
@@ -10,7 +13,7 @@ async function get(url) {
 
     let xhr = new XMLHttpRequest();
     xhr.open("GET", url);
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             let obj, err;
             if (xhr.status === 200) {
@@ -35,9 +38,9 @@ function expand(obj) {
     let toRender = {}
     let findId = obj["@id"]
     let annos = findById(findId)
-    // TODO: attach evidence to each property value
-    // add each value in a predictable way
-    // type properties for possible rendering?
+        // TODO: attach evidence to each property value
+        // add each value in a predictable way
+        // type properties for possible rendering?
     for (let i = 0; i < annos.length; i++) {
         for (let j = 0; j < annos[i].body.length; j++) {
             if (annos[i].body[j].evidence) {
@@ -58,6 +61,7 @@ function findById(id) {
 }
 
 function renderEvidence(obj) {
+    if (!obj.evidence) return false
     let evidence = document.createElement("a")
     let elink = (typeof obj.evidence === "object") ? obj.evidence["@id"] : obj.evidence
     evidence.setAttribute("href", elink)
@@ -75,14 +79,15 @@ function renderPerson(obj, elem) {
     elem.append(renderProp(obj, "deathDate"))
     elem.append(renderEvidence(obj))
     elem.classList.add(obj["@type"])
-    document.getElementById("obj-viewer").append(renderObject(obj))
+    elem.classList.remove("List", "Event", "Location")
+    document.getElementById("obj-viewer").innerText = renderObject(obj)
 
 }
 
 function renderName(obj) {
     let elem;
-    let joined = obj.familyName + ", " + obj.givenName;
-    if (joined) {
+    if (obj.familyName && obj.givenName) {
+        let joined = obj.familyName + ", " + obj.givenName;
         elem = document.createElement("span")
         elem.textContent = joined
         elem.className = "mc-name"
@@ -136,9 +141,9 @@ function renderResidents(list) {
     // render on click
 }
 
-function renderList(obj,elem){
-    if(typeof obj.resources === "string") {
-        get(obj.resources).then(function(ls){
+function renderList(obj, elem) {
+    if (typeof obj.resources === "string") {
+        get(obj.resources).then(function(ls) {
             obj.resources = ls
             return renderList(obj, elem)
         })
@@ -146,46 +151,56 @@ function renderList(obj,elem){
     let ul = document.createElement("ul")
     for (item of obj.resources) {
         let li = document.createElement("li")
-        li.innerText = item.label || "unlabeled"
+        let alink = document.createElement("a")
+        alink.innerText = item.label || "unlabeled"
+        alink.setAttribute("href", "javascript:void")
+        alink.setAttribute("onclick", ("focusOn('" + item['@id'] + "')"))
+        li.append(alink)
         ul.append(li)
     }
     elem.append(ul)
     elem.classList.add(obj["@type"])
-    elem.classList.remove("Person","Event","Location")
+    elem.classList.remove("Person", "Event", "Location")
 }
 
-function observerCallback(mutationsList,elem){
-    for(var mutation of mutationsList) {
-        if(mutation.attributeName === "mc-object"){
+function observerCallback(mutationsList, elem) {
+    for (var mutation of mutationsList) {
+        if (mutation.attributeName === "mc-object") {
             renderByObjectType(expand(JSON.parse(localStorage.getItem(mc.focusObject.getAttribute("mc-object")))), mc.focusObject)
         }
-        console.log (mutation)
+        console.log(mutation)
     }
 }
 
-function renderByObjectType(obj,elem) {
-    let renderFunction = function(){}
-    switch(obj["@type"]) {
-        case "Person" : renderFunction = renderPerson 
-        break 
-        case "List" : renderFunction = renderList
-        break
-        case "Location" : renderFunction = renderLocation
-        break
-        case "Event" : renderFunction = renderEvent
-        break
-        default : // no render
+function renderByObjectType(obj, elem) {
+    let renderFunction = function() {}
+    switch (obj["@type"]) {
+        case "Person":
+            renderFunction = renderPerson
+            break
+        case "List":
+            renderFunction = renderList
+            break
+        case "Location":
+            renderFunction = renderLocation
+            break
+        case "Event":
+            renderFunction = renderEvent
+            break
+        default: // no render
     }
-    while(elem.firstChild){
+    while (elem.firstChild) {
         elem.removeChild(elem.firstChild);
     }
-    renderFunction(obj,elem)
+    renderFunction(obj, elem)
 }
 
 mc.renderObserver = new MutationObserver(observerCallback)
-mc.renderObserver.observe(mc.focusObject, { attributes: true })
+mc.renderObserver.observe(mc.focusObject, {
+    attributes: true
+})
 
 
 // load defaulty bits
 renderLocation()
-mc.focusObject.setAttribute("mc-object","li01")
+mc.focusObject.setAttribute("mc-object", "li01")

@@ -1,0 +1,107 @@
+form[data-hidden] {
+    display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+input {
+    color: #a3d1ff;
+}
+
+button,
+input,
+textarea {
+    background: #262626;
+    border-color: #666666;
+    border-radius: .25em;
+    padding: .2em;
+    font-size: 1.2rem;
+}
+
+button[type="submit"] {
+    display: block;
+    margin: 0 auto;
+    padding: .5rem 1.5rem;
+}
+
+button[type="submit"]::before {
+    content: "";
+    display: block;
+    width: 100%;
+}
+
+html,
+body {
+    background: #060606;
+    color: #d6d6d6;
+    font-family: sans-serif;
+}
+
+form {
+    border: thin solid #a3d1ff;
+    padding: .5rem;
+    margin: .5rem 0;
+}
+
+div#flash-message {
+    display: none;
+    background-color: #d6d6d6;
+    color: #111111;
+    padding: .5em;
+    font-size: 1.2rem;
+}
+
+div#flash-message.error {
+    display: block;
+    background-color: #ff6666;
+}
+
+div#flash-message.success {
+    display: block;
+    background-color: #66ff66;
+}
+
+div#obj-viewer {
+    white-space: pre;
+    font-family: monospace;
+    font-size: .8rem;
+    max-height: 12rem;
+    overflow: auto;
+}
+
+div#mc-view {
+    background: #c0c0c0;
+    padding: 2rem;
+    margin: 4rem;
+    transition: all 100ms;
+}
+
+div#mc-view.Person {
+    background: #d6d6d6;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    color: #060606;
+    text-align: center;
+}
+
+div#mc-view.Person h3 {
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, .5);
+    color: #b1b1b1;
+    font-size: 400%;
+    margin-bottom: 0;
+}
+
+.mc-gender {
+    float: right;
+    font-weight: bold;
+}
+
+.mc-evidence {
+    display: block;
+    font-size: 80%;
+}

@@ -1,4 +1,4 @@
-(function(){
+(function() {
     // hand-done data for McElwee
     // foaf, cidoc, bio not really preferenced yet...
 
@@ -21,6 +21,30 @@
         "@id": "p003",
         "@type": "Person",
         "label": "JJ Bland"
+    }
+    datar.personMLB = {
+        "@context": "",
+        "@id": "p004",
+        "@type": "Person",
+        "label": "Minnie Lee Bland"
+    }
+    datar.personSIHB = {
+        "@context": "",
+        "@id": "p005",
+        "@type": "Person",
+        "label": "Sarah I. Howell Bevard"
+    }
+    datar.personWB = {
+        "@context": "",
+        "@id": "p006",
+        "@type": "Person",
+        "label": "W.Brunaugh"
+    }
+    datar.personECC = {
+        "@context": "",
+        "@id": "p007",
+        "@type": "Person",
+        "label": "Elizabeth C. Carr"
     }
     datar.eventCBb = {
         "@context": "",
@@ -55,14 +79,14 @@
     datar.catalogList = {
         "@context": "",
         "@id": "li01",
-        "@type":"List",
-        "label":"Cemetery Residents",
+        "@type": "List",
+        "label": "Cemetery Residents",
         "resources": [
-            { "@id": "p001", "label": "BLAND, Claud H."},
-            { "@id": "p002", "label": "BLAND, Minnie Lee"},
-            { "@id": "p003", "label": "BEVARD, Sarah I. Howell"},
-            { "@id": "p004", "label": "BRUNAUGH, W."},
-            { "@id": "p005", "label": "CARR, Elizabeth C."},
+            { "@id": "p001", "label": "BLAND, Claud H." },
+            { "@id": "p004", "label": "BLAND, Minnie Lee" },
+            { "@id": "p005", "label": "BEVARD, Sarah I. Howell" },
+            { "@id": "p006", "label": "BRUNAUGH, W." },
+            { "@id": "p007", "label": "CARR, Elizabeth C." },
         ]
     }
 
@@ -177,7 +201,7 @@
         ]
     }
 
-    for(e in datar) {
-        localStorage.setItem(datar[e]["@id"],JSON.stringify(datar[e]))
+    for (e in datar) {
+        localStorage.setItem(datar[e]["@id"], JSON.stringify(datar[e]))
     }
 })()
