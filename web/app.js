@@ -60,7 +60,7 @@ function findById(id) {
     return matches
 }
 
-function renderEvidence(obj) {
+function templateEvidence(obj) {
     if (!obj.evidence) return false
     let evidence = document.createElement("a")
     let elink = (typeof obj.evidence === "object") ? obj.evidence["@id"] : obj.evidence
@@ -71,20 +71,22 @@ function renderEvidence(obj) {
     return evidence
 }
 
-function renderPerson(obj, elem) {
-    elem.innerHTML = "<h3>" + (obj.label || "unlabeled") + "</h3>"
-    elem.append(renderName(obj))
-    elem.append(renderGender(obj))
-    elem.append(renderProp(obj, "birthDate"))
-    elem.append(renderProp(obj, "deathDate"))
-    elem.append(renderEvidence(obj))
-    elem.classList.add(obj["@type"])
-    elem.classList.remove("List", "Event", "Location")
-    document.getElementById("obj-viewer").innerText = renderObject(obj)
-
+function templatePerson(obj) {
+    let template = document.createElement("div")
+    template.innerHTML = "<h3>" + (obj.label || "unlabeled") + "</h3>"
+    let tmp = [
+        templateName(obj),
+        templateGender(obj),
+        templateProp(obj, "birthDate"),
+        templateProp(obj, "deathDate"),
+        templateEvidence(obj) ]
+    for (e of tmp) {
+        if(e){template.append(e)}
+    }
+    return template
 }
 
-function renderName(obj) {
+function templateName(obj) {
     let elem;
     if (obj.familyName && obj.givenName) {
         let joined = obj.familyName + ", " + obj.givenName;
@@ -95,7 +97,7 @@ function renderName(obj) {
     return elem || null
 }
 
-function renderProp(obj, prop) {
+function templateProp(obj, prop) {
     let elem;
     if (obj[prop]) {
         elem = document.createElement("div")
@@ -105,7 +107,7 @@ function renderProp(obj, prop) {
     return elem || null
 }
 
-function renderGender(obj) {
+function templateGender(obj) {
     let elem;
     if (obj.gender) {
         elem = document.createElement("span")
@@ -115,20 +117,35 @@ function renderGender(obj) {
     return elem || null
 }
 
-function renderObject(obj) {
+function templateJSON(obj) {
     return document.createElement("span").textContent = JSON.stringify(obj, null, 4)
 }
 
-function renderLocation() {
-    let elem = document.getElementById("mc-location")
+function templateLocation() {
+    let template = document.createElement("div")
     let cemetery = expand(JSON.parse(localStorage.getItem("l001")))
-    elem.innerHTML = "<h2>" + cemetery.label + "</h2>"
+    template.innerHTML = "<h2>" + cemetery.label + "</h2>"
     let ref = document.createElement("a")
     ref.setAttribute("href", cemetery.seeAlso)
     ref.setAttribute("target", "_blank")
     ref.className = "seeAlso"
     ref.textContent = cemetery.seeAlso
-    elem.append(ref)
+    template.append(ref)
+    return template
+}
+
+function renderElement(elem,template){
+    while (elem.firstChild){
+        elem.removeChild(elem.firstChild)
+    }
+    if(template) {
+        elem.append(template)
+    }
+}
+
+function setClass(className){
+    mc.focusObject.classList.remove("Event","Person","Location","List","Thing")
+    mc.focusObject.classList.add(className)
 }
 
 function loadLists(locationId) {
@@ -141,11 +158,11 @@ function renderResidents(list) {
     // render on click
 }
 
-function renderList(obj, elem) {
+function templateList(obj, elem) {
     if (typeof obj.resources === "string") {
         get(obj.resources).then(function(ls) {
             obj.resources = ls
-            return renderList(obj, elem)
+            return templateList(obj, elem)
         })
     }
     let ul = document.createElement("ul")
@@ -158,41 +175,40 @@ function renderList(obj, elem) {
         li.append(alink)
         ul.append(li)
     }
-    elem.append(ul)
-    elem.classList.add(obj["@type"])
-    elem.classList.remove("Person", "Event", "Location")
+    return ul
 }
 
-function observerCallback(mutationsList, elem) {
+function observerCallback(mutationsList) {
     for (var mutation of mutationsList) {
         if (mutation.attributeName === "mc-object") {
-            renderByObjectType(expand(JSON.parse(localStorage.getItem(mc.focusObject.getAttribute("mc-object")))), mc.focusObject)
+            let id = mc.focusObject.getAttribute("mc-object")
+            let data = expand(JSON.parse(localStorage.getItem(id)))
+            renderElement(mc.focusObject, templateByObjectType(data))
+            renderElement(document.getElementById("obj-viewer"),templateJSON(data))
         }
         console.log(mutation)
     }
 }
 
-function renderByObjectType(obj, elem) {
-    let renderFunction = function() {}
+function templateByObjectType(obj) {
+    let templateFunction = function() {}
     switch (obj["@type"]) {
         case "Person":
-            renderFunction = renderPerson
+            templateFunction = templatePerson
             break
         case "List":
-            renderFunction = renderList
+            templateFunction = templateList
             break
         case "Location":
-            renderFunction = renderLocation
+            templateFunction = templateLocation
             break
         case "Event":
-            renderFunction = renderEvent
+            templateFunction = templateEvent
             break
-        default: // no render
+        default: return null
     }
-    while (elem.firstChild) {
-        elem.removeChild(elem.firstChild);
-    }
-    renderFunction(obj, elem)
+    setClass(obj["@type"])
+    return templateFunction(obj)
 }
 
 mc.renderObserver = new MutationObserver(observerCallback)
@@ -202,5 +218,5 @@ mc.renderObserver.observe(mc.focusObject, {
 
 
 // load defaulty bits
-renderLocation()
+renderElement(document.getElementById("mc-location"),templateLocation())
 mc.focusObject.setAttribute("mc-object", "li01")
