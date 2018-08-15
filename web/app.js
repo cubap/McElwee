@@ -1,10 +1,11 @@
 var mc = {}
 mc.focusObject = document.getElementById("mc-view")
 
-function focusOn(id) {
+mc.focusOn = function (id) {
     mc.focusObject.setAttribute('mc-object', id)
 }
-async function get(url) {
+
+function get(url) {
 
     // shortcut
     if (url.length < 6) {
@@ -13,7 +14,7 @@ async function get(url) {
 
     let xhr = new XMLHttpRequest();
     xhr.open("GET", url);
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             let obj, err;
             if (xhr.status === 200) {
@@ -38,9 +39,9 @@ function expand(obj) {
     let toRender = {}
     let findId = obj["@id"]
     let annos = findById(findId)
-        // TODO: attach evidence to each property value
-        // add each value in a predictable way
-        // type properties for possible rendering?
+    // TODO: attach evidence to each property value
+    // add each value in a predictable way
+    // type properties for possible rendering?
     for (let i = 0; i < annos.length; i++) {
         for (let j = 0; j < annos[i].body.length; j++) {
             if (annos[i].body[j].evidence) {
@@ -60,123 +61,111 @@ function findById(id) {
     return matches
 }
 
-function templateEvidence(obj) {
-    if (!obj.evidence) return false
-    let evidence = document.createElement("a")
-    let elink = (typeof obj.evidence === "object") ? obj.evidence["@id"] : obj.evidence
-    evidence.setAttribute("href", elink)
-    evidence.setAttribute("target", "_blank")
-    evidence.className = "mc-evidence"
-    evidence.textContent = obj.evidence.label || "View evidence"
-    return evidence
+var template = {}
+
+template.evidence = function (obj) {
+    if (!obj.evidence) {return null}
+    return `<a class="mc-evidence" href="${(typeof obj.evidence === "object") ? obj.evidence["@id"] : obj.evidence}" target="_blank">${obj.evidence.label || "View evidence"}</a>`
 }
 
-function templatePerson(obj) {
-    let template = document.createElement("div")
-    template.innerHTML = "<h3>" + (obj.label || "unlabeled") + "</h3>"
-    let tmp = [
-        templateName(obj),
-        templateGender(obj),
-        templateProp(obj, "birthDate"),
-        templateProp(obj, "deathDate"),
-        templateEvidence(obj) ]
-    for (e of tmp) {
-        if(e){template.append(e)}
+template.fullName = function (obj) {
+    if (!obj || !(obj.givenName || obj.familyName)) {return null}
+    return `<span class="mc-name">${obj.familyName||"[ unknown ]"}, ${obj.givenName}</span>`
+}
+
+template.prop = function (obj, prop) {
+    if(!obj.hasOwnProperty(prop)) {return ``}
+    return `<span class="mc-${prop.trim().replace(/\s+/g,"-").normalize("NFC").toLowerCase()}">${prop}: ${obj[prop] || "[ undefined ]"}</span>`
+}
+
+template.gender = function (obj) {
+    return `<span class="mc-gender">${(obj.gender === "male") ? "&male;" : "&female;"}</span>`
+}
+
+template.JSON = function (obj) {
+    try{
+        return `${JSON.stringify(obj, null, 4)}`
     }
-    document.getElementById("mc-person-form").innerHTML = templatePersonForm(obj)
-    return template
-}
-
-function templateName(obj) {
-    let elem;
-    if (obj.familyName && obj.givenName) {
-        let joined = obj.familyName + ", " + obj.givenName;
-        elem = document.createElement("span")
-        elem.textContent = joined
-        elem.className = "mc-name"
+    catch (err){
+        return null
     }
-    return elem || null
 }
 
-function templateProp(obj, prop) {
-    let elem;
-    if (obj[prop]) {
-        elem = document.createElement("div")
-        elem.textContent = prop + ": " + obj[prop]
-        elem.className = "mc-" + prop
-    }
-    return elem || null
-}
-
-function templateGender(obj) {
-    let elem;
-    if (obj.gender) {
-        elem = document.createElement("span")
-        elem.innerHTML = (obj.gender === "male") ? "&male;" : "&female;"
-        elem.className = "mc-gender"
-    }
-    return elem || null
-}
-
-function templateJSON(obj) {
-    return document.createElement("span").textContent = JSON.stringify(obj, null, 4)
-}
-
-function templateLocation() {
-    let template = document.createElement("div")
+template.location = function () {
     let cemetery = expand(JSON.parse(localStorage.getItem("l001")))
-    template.innerHTML = "<h2>" + cemetery.label + "</h2>"
-    let ref = document.createElement("a")
-    ref.setAttribute("href", cemetery.seeAlso)
-    ref.setAttribute("target", "_blank")
-    ref.className = "seeAlso"
-    ref.textContent = cemetery.seeAlso
-    template.append(ref)
-    return template
+    if(!cemetery) {return null}
+    return `<h2>${cemetery.label}</h2>
+    <a href="${cemetery.seeAlso}" target="_blank" class="mc-see-also">${cemetery.seeAlso}</a>`
 }
 
-function renderElement(elem,template){
-    while (elem.firstChild){
-        elem.removeChild(elem.firstChild)
-    }
-    if(template) {
-        elem.append(template)
-    }
+template.personForm = function (person) {
+    return `<form>
+    <label for="mc-label">Label: <input id="mc-label" type="text" placeholder="simple name" value="${ person.label }" ></label>
+    </form>`
 }
 
-function setClass(className){
-    mc.focusObject.classList.remove("Event","Person","Location","List","Thing")
-    mc.focusObject.classList.add(className)
-}
-
-function loadLists(locationId) {
-    // find references to location
-    // parse list for people
-}
-
-function renderResidents(list) {
-    // create links for each person in the location
-    // render on click
-}
-
-function templateList(obj, elem) {
+template.list = function (obj, elem) {
     if (typeof obj.resources === "string") {
-        get(obj.resources).then(function(ls) {
+        get(obj.resources).then(function (ls) {
             obj.resources = ls
-            return templateList(obj, elem)
+            return template.list(obj, elem)
         })
     }
-    let ul = document.createElement("ul")
-    for (item of obj.resources) {
-        let li = document.createElement("li")
-        let alink = document.createElement("a")
-        alink.innerText = item.label || "unlabeled"
-        alink.setAttribute("href", "javascript:void")
-        alink.setAttribute("onclick", ("focusOn('" + item['@id'] + "')"))
-        li.append(alink)
-        ul.append(li)
+    let ul = `<ul class="mc-list">`
+    for (var item of obj.resources) {
+        ul += `<li><a href="#" onclick="mc.focusOn('${item['@id']}')">${item.label || "unlabeled"}</a></li>`
     }
-    return ul
+    return ul += `</ul>`
+}
+
+template.byObjectType = function (obj) {
+    let templateFunction = function () {}
+    switch (obj["@type"]) {
+        case "Person":
+            templateFunction = template.person
+            break
+        case "List":
+            templateFunction = template.list
+            break
+        case "Location":
+            templateFunction = template.location
+            break
+        case "Event":
+            templateFunction = template.event
+            break
+        default:
+            return null
+    }
+    setClass(obj["@type"])
+    return templateFunction(obj)
+}
+
+template.person = function (obj) {
+    let elem = `<h3>${obj.label || "unlabeled"}</h3>`
+    let tmp = [
+        template.fullName(obj),
+        template.gender(obj),
+        template.prop(obj, "birthDate"),
+        template.prop(obj, "deathDate"),
+        template.evidence(obj)
+    ]
+    elem += tmp.join("\n")
+    document.getElementById("mc-person-form").innerHTML = template.personForm(obj)
+    return elem
+}
+
+function renderElement(elem, tmp) {
+    while (elem.firstChild) {
+        elem.removeChild(elem.firstChild)
+    }
+    if (tmp) {
+        elem.innerHTML = tmp
+    }
+}
+
+function setClass(className) {
+    mc.focusObject.classList.remove("Event", "Person", "Location", "List", "Thing")
+    mc.focusObject.classList.add(className)
 }
 
 function observerCallback(mutationsList) {
@@ -184,32 +173,10 @@ function observerCallback(mutationsList) {
         if (mutation.attributeName === "mc-object") {
             let id = mc.focusObject.getAttribute("mc-object")
             let data = expand(JSON.parse(localStorage.getItem(id)))
-            renderElement(mc.focusObject, templateByObjectType(data))
-            renderElement(document.getElementById("obj-viewer"),templateJSON(data))
+            renderElement(mc.focusObject, template.byObjectType(data))
+            renderElement(document.getElementById("obj-viewer"), template.JSON(data))
         }
-        console.log(mutation)
     }
-}
-
-function templateByObjectType(obj) {
-    let templateFunction = function() {}
-    switch (obj["@type"]) {
-        case "Person":
-            templateFunction = templatePerson
-            break
-        case "List":
-            templateFunction = templateList
-            break
-        case "Location":
-            templateFunction = templateLocation
-            break
-        case "Event":
-            templateFunction = templateEvent
-            break
-        default: return null
-    }
-    setClass(obj["@type"])
-    return templateFunction(obj)
 }
 
 mc.renderObserver = new MutationObserver(observerCallback)
@@ -219,13 +186,13 @@ mc.renderObserver.observe(mc.focusObject, {
 
 
 // load defaulty bits
-renderElement(document.getElementById("mc-location"),templateLocation())
+renderElement(document.getElementById("mc-location"), template.location())
 mc.focusObject.setAttribute("mc-object", "li01")
 
 const CREATE_URL = "http://tiny.rerum.io/app/create"
 
-function createPerson(){
-    const callback = function(error,result){
+function createPerson() {
+    const callback = function (error, result) {
         // create, rewrite id
     }
     let form = document.getElementById("mc-person-form")
@@ -241,13 +208,7 @@ function createPerson(){
     }
 }
 
-function templatePersonForm(person) {
-    return `<form>
-    <label for="mc-label">Label: <input id="mc-label" type="text" placeholder="simple name" value="${ person.label }" ></label>
-    </form>`
-}
-
-function post (callback, url, obj) {
+function post(callback, url, obj) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, false);
     xhr.setRequestHeader("Content-Type", "application/json");
