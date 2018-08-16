@@ -70,7 +70,7 @@ template.evidence = function(obj) {
 
 template.fullName = function(obj) {
     if (!obj || !(obj.givenName || obj.familyName)) { return null }
-    return `<span class="mc-name">${obj.familyName||"[ unknown ]"}, ${obj.givenName}</span>`
+    return `<div class="mc-name">${obj.familyName||"[ unknown ]"}, ${obj.givenName}</div>`
 }
 
 template.prop = function(obj, prop) {
@@ -97,18 +97,20 @@ template.location = function() {
     <a href="${cemetery.seeAlso}" target="_blank" class="mc-see-also">${cemetery.seeAlso}</a>`
 }
 
-template.list = function(obj, elem) {
+template.list = function(obj) {
     if (typeof obj.resources === "string") {
         get(obj.resources).then(function(ls) {
             obj.resources = ls
-            return template.list(obj, elem)
+            return template.list(obj)
         })
     }
     let ul = `<ul class="mc-list">`
     for (var item of obj.resources) {
         ul += `<li><a href="#" onclick="mc.focusOn('${item['@id']}')">${item.label || "unlabeled"}</a></li>`
     }
-    return ul += `</ul>`
+    ul += `</ul>
+    <button type="role" onclick="renderElement(mc.focusObject,template.person({}))">+</button>`
+    return ul
 }
 
 template.byObjectType = function(obj) {
@@ -134,6 +136,7 @@ template.byObjectType = function(obj) {
 }
 
 template.person = function(obj, hideEditForm) {
+    setClass("Person")
     let elem = `<h3>${obj.label || "unlabeled"}</h3>`
     let tmp = [
         template.fullName(obj),
