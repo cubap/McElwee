@@ -144,7 +144,7 @@ template.person = function(obj, hideEditForm) {
     ]
     elem += tmp.join("\n")
     if (!hideEditForm) {
-        let pForm = document.getElementById("mc-person-form")
+        let pForm = document.getElementById("mc-edit-form")
         pForm.innerHTML = template.personForm(obj)
         for (el of pForm.getElementsByTagName("input")) {
             el.onchange = function(event) {
