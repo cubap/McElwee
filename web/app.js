@@ -104,7 +104,8 @@ template.list = function(obj) {
             return template.list(obj)
         })
     }
-    let ul = `<ul class="mc-list">`
+    let ul = `<p>${obj.label||"[ unlabeled ]"}</p>
+    <ul class="mc-list">`
     for (var item of obj.resources) {
         ul += `<li><a href="#" onclick="mc.focusOn('${item['@id']}')">${item.label || "unlabeled"}</a></li>`
     }
@@ -149,12 +150,15 @@ template.person = function(obj, hideEditForm) {
     if (!hideEditForm) {
         let pForm = document.getElementById("mc-edit-form")
         pForm.innerHTML = template.personForm(obj)
-        for (el of pForm.getElementsByTagName("input")) {
+        for (var el of pForm.getElementsByTagName("input")) {
             el.onchange = function(event) {
                 let prop = event.target.getAttribute("id").substr(3).replace(/(\-\w)/g, function(m) { return m[1].toUpperCase(); })
                 obj[prop] = event.target.value
                 renderElement(mc.focusObject, template.person(obj, true))
                 renderElement(document.getElementById("obj-viewer"), template.JSON(obj))
+                obj.$isDirty = true
+                document.getElementById("mc-edit-form").getElementsByTagName("button")[0].style = "display:block;"
+                document.getElementById("mc-edit-form").getElementsByTagName("button")[0].onclick = person["@id"]?'editPerson("update")':'editPerson("create")'
             }
             el.addEventListener('input', el.onchange)
         }
@@ -184,8 +188,12 @@ template.personForm = function(person) {
         <input id="mc-maiden-name" type="text" placeholder="former name" value="${ person.maidenName || "" }" >
     </label>
     <label for="mc-evidence">Evidence: 
-        <input id="mc-evidence" type="url" placeholder="just urls for now" value="${ (person.evidence&&person.evidence['@id']) || person.evidence || "" }" >
+    <input id="mc-evidence" type="url" placeholder="just urls for now" value="${ (person.evidence&&person.evidence['@id']) || person.evidence || "" }" >
     </label>
+    <label for="mc-transcription">Catalog Entry: 
+        <textarea id="mc-transcription" type="text" >${ person.transcription || "" }</textarea>
+    </label>
+    <button role="button" onclick="editPerson(${person["@id"]?"update":"create"})" style="display:${person.$isDirty?"block":"none"};">${person["@id"]?"Update":"Create"}</button>
     </form>`
 }
 
@@ -225,48 +233,88 @@ renderElement(document.getElementById("mc-location"), template.location())
 mc.focusObject.setAttribute("mc-object", "li01")
 
 const CREATE_URL = "http://tiny.rerum.io/app/create"
+const UPDATE_URL = "http://tiny.rerum.io/app/update"
 
-function createPerson() {
-    const callback = function(error, result) {
+function editPerson(action) {
+    const callback = function(error, response) {
         // create, rewrite id
+        obj["@id"] = response.getHeader("Location")
+        let values = [
+            { "label": form.getElementById("mc-label") },
+            { "transcription": form.getElementById("mc-transcription") },
+            { "givenName": form.getElementById("mc-givenname") },
+            { "familyName": form.getElementById("mc-familyname") },
+            { "maidenName": form.getElementById("mc-maidenname") },
+            { "gender": form.getElementById("mc-gender") },
+            { "evidence": "d001" }
+        ]
+        let annos = {
+            "@context": "",
+            "@type": "Annotation",
+            "motivation": "describing",
+            "target": obj["@id"],
+            "body": []
+        }
+        for(var o of values) {
+            if(o[Object.keys(o)[0]].length > 0) {
+                annos.body.push()
+            }
+        }
+        let list = JSON.parse(localStorage.getItem("li01"))
+        list.resources.push({
+            "@id": obj["@id"],
+            "label": obj.label
+        })
+        put(function(err){
+            if(err){
+                throw new Error(err)
+            }
+        },UPDATE_URL,list)
     }
     let form = document.getElementById("mc-person-form")
         // TODO: Make this make sense
-    let obj = {
+    var obj = {
         "@type": "Person",
-        "label": form.getElementById("mc-label"),
-        "transcription": form.getElementById("mc-transcription"),
         "@context": "",
-        "givenName": form.getElementById("mc-givenname"),
-        "familyName": form.getElementById("mc-familyname"),
-        "gender": form.getElementById("mc-gender")
+        "label": form.getElementById("mc-label") || "[ unlabeled ]",
     }
+    switch (action) {
+        case "update": put(callback,UPDATE_URL,obj)
+        break
+        case "create": post(callback,CREATE_URL,obj)
+        break
+        default: return false
+    }
+    return obj
 }
 
 function post(callback, url, obj) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", url, false);
-    xhr.setRequestHeader("Content-Type", "application/json");
+    // TODO "async" and "await" this perhaps
+    let xhr = new XMLHttpRequest()
+    xhr.open("POST", url, false)
+    xhr.setRequestHeader("Content-Type", "application/json")
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             let res, err;
             if (xhr.status === 201) {
                 try {
-                    res = JSON.parse(xhr.response);
+                    res = JSON.parse(xhr.response)
                 } catch (error) {
-                    err = error;
+                    err = error
                 }
             } else {
-                err = new Error(xhr.statusText || "Create failed.");
+                err = new Error(xhr.statusText || "Create failed.")
             }
             if (typeof callback === "function") {
-                return callback(err, res);
+                return callback(err, res)
+            } else {
+                return res
             }
-            return err;
+            return err
         }
-    };
+    }
     if (typeof obj !== "string") {
-        obj = JSON.stringify(obj);
+        obj = JSON.stringify(obj)
     }
     xhr.send(obj);
 }

@@ -79,13 +79,13 @@ div#mc-view {
     padding: 2rem;
     margin: 4rem;
     transition: all 100ms;
+    color: #060606;
 }
 
 div#mc-view.Person {
     background: #d6d6d6;
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
-    color: #060606;
     text-align: center;
 }
 
