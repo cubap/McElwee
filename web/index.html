@@ -7,24 +7,24 @@
 </head>
 
 <body>
-    <div id="mc-location" mc-location="l001">
+    <mc-location id="mc-location" mc-location="l001">
         <h1>McElwee Cemetery</h1>
         <p>
             Some such.
         </p>
-    </div>
+    </mc-location>
 
-    <button role="button" type="button" onclick="mc.focusOn('li01');return false;">Index</button>
+    <button role="button" type="button" onclick="mc.focusOn('li01');return false;">All Markers</button>
 
-    <div id="flash-message">
+    <mc-flash-message id="flash-message">
         This &lt;div> should be invisible until a message appears.
-    </div>
+    </mc-flash-message>
 
-    <div id="mc-view" mc-object="li01">
-    </div>
+    <mc-view is="mc-view" id="mc-view" mc-object="li01">
+    </mc-view>
 
-    <div id="obj-viewer">
-    </div>
+    <mc-obj-viewer id="obj-viewer">
+    </mc-obj-viewer>
 
     <div id="mc-edit-form"></div>
 

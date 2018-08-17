@@ -9,7 +9,8 @@ h4,
 h5,
 h6,
 button,
-input {
+input,
+textarea {
     color: #a3d1ff;
 }
 
@@ -48,7 +49,7 @@ form {
     margin: .5rem 0;
 }
 
-div#flash-message {
+mc-flash-message {
     display: none;
     background-color: #d6d6d6;
     color: #111111;
@@ -56,40 +57,42 @@ div#flash-message {
     font-size: 1.2rem;
 }
 
-div#flash-message.error {
+mc-flash-message.error {
     display: block;
     background-color: #ff6666;
 }
 
-div#flash-message.success {
+mc-flash-message.success {
     display: block;
     background-color: #66ff66;
 }
 
-div#obj-viewer {
+mc-obj-viewer {
     white-space: pre;
     font-family: monospace;
     font-size: .8rem;
     max-height: 12rem;
     overflow: auto;
+    display: block;
 }
 
-div#mc-view {
+mc-view {
     background: #c0c0c0;
     padding: 2rem;
     margin: 4rem;
     transition: all 100ms;
     color: #060606;
+    display:block;
 }
 
-div#mc-view.Person {
+mc-view.Person {
     background: #d6d6d6;
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     text-align: center;
 }
 
-div#mc-view.Person h3 {
+mc-view.Person h3 {
     text-shadow: 0 -1px 0 rgba(0, 0, 0, .5);
     color: #b1b1b1;
     font-size: 400%;
@@ -108,4 +111,7 @@ div#mc-view.Person h3 {
 
 form label[for^="mc-"] {
     display: inline-grid;
+}
+[for="mc-transcription"] {
+    width: 100%;
 }

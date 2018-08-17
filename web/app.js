@@ -1,3 +1,10 @@
+// TODO: custom elements when behaviors are needed.
+// class McView extends HTMLDivElement {
+//     constructor() {
+//         super()
+//     }
+// }
+// customElements.define("mc-view",McView,{extends:"div"})
 var mc = {}
 mc.focusObject = document.getElementById("mc-view")
 
@@ -150,7 +157,9 @@ template.person = function(obj, hideEditForm) {
     if (!hideEditForm) {
         let pForm = document.getElementById("mc-edit-form")
         pForm.innerHTML = template.personForm(obj)
-        for (var el of pForm.getElementsByTagName("input")) {
+        let elements = [].concat.apply([], pForm.getElementsByTagName("input"))
+        elements = Array.prototype.concat.apply(elements, pForm.getElementsByTagName("textarea"))
+        for (var el of elements) {
             el.onchange = function(event) {
                 let prop = event.target.getAttribute("id").substr(3).replace(/(\-\w)/g, function(m) { return m[1].toUpperCase(); })
                 obj[prop] = event.target.value
@@ -158,7 +167,7 @@ template.person = function(obj, hideEditForm) {
                 renderElement(document.getElementById("obj-viewer"), template.JSON(obj))
                 obj.$isDirty = true
                 document.getElementById("mc-edit-form").getElementsByTagName("button")[0].style = "display:block;"
-                document.getElementById("mc-edit-form").getElementsByTagName("button")[0].onclick = person["@id"]?'editPerson("update")':'editPerson("create")'
+                document.getElementById("mc-edit-form").getElementsByTagName("button")[0].onclick = obj["@id"]?'editPerson("update")':'editPerson("create")'
             }
             el.addEventListener('input', el.onchange)
         }
@@ -232,8 +241,8 @@ mc.renderObserver.observe(mc.focusObject, {
 renderElement(document.getElementById("mc-location"), template.location())
 mc.focusObject.setAttribute("mc-object", "li01")
 
-const CREATE_URL = "http://tiny.rerum.io/app/create"
-const UPDATE_URL = "http://tiny.rerum.io/app/update"
+const CREATE_URL = "http://tinydev.rerum.io/app/create"
+const UPDATE_URL = "http://tinydev.rerum.io/app/update"
 
 function editPerson(action) {
     const callback = function(error, response) {

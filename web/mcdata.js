@@ -72,7 +72,7 @@
     }
     datar.documentCatalog = {
         "@context": "",
-        "@id": "d001",
+        "@id" : "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68",
         "@type": "Document",
         "label": "McElwee Cemetery Catalog"
     }
@@ -107,7 +107,7 @@
             { "deathDate": "1883-12-12" },
             { "Birth": { "@id": "e001" } },
             { "Death": { "@id": "e002" } },
-            { "evidence": { "@id": "d001" } }
+            { "evidence": { "@id": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" } }
         ]
     }
     datar.annoP2 = {
@@ -121,7 +121,7 @@
             { "givenName": "J." },
             { "familyName": "Bland" },
             { "name": "J. H. Bland" },
-            { "evidence": { "@id": "d001" } }
+            { "evidence": { "@id": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" } }
         ]
     }
     datar.annoP3 = {
@@ -135,7 +135,7 @@
             { "givenName": "J." },
             { "familyName": "Bland" },
             { "name": "J. J. Bland" },
-            { "evidence": { "@id": "d001" } }
+            { "evidence": { "@id": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" } }
         ]
     }
     datar.annoE1 = {
@@ -184,7 +184,7 @@
         "body": [
             { "label": "McElwee Cemetery" },
             { "seeAlso": "http://gnis-ld.org/lod/gnis/feature/722098" },
-            { "evidence": { "@id": "d001", "@type": "Document" } }
+            { "evidence": { "@id": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68", "@type": "Document" } }
         ]
     }
     datar.annoD1 = {
@@ -192,7 +192,7 @@
         "@id": "anD1",
         "@type": "Annotation",
         "motivation": "describing",
-        "target": "d001",
+        "target": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68",
         "body": [
             { "label": "McElwee Cemetery Catalog" },
             { "describes": { "@id": "l001", "@type": "Location" } },
