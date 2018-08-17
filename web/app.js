@@ -244,9 +244,32 @@ mc.focusObject.setAttribute("mc-object", "li01")
 const CREATE_URL = "http://tinydev.rerum.io/app/create"
 const UPDATE_URL = "http://tinydev.rerum.io/app/update"
 
-function editPerson(action) {
-    const callback = function(error, response) {
-        // create, rewrite id
+async function editPerson(action) {
+    let form = document.getElementById("mc-person-form")
+    var obj = {
+        "@type": "Person",
+        "@context": "",
+        "label": form.getElementById("mc-label") || "[ unlabeled ]",
+    }
+    let params = [];
+    switch (action) {
+        case "update": params = [CREATE_URL, {
+            method: "PUT",
+            body: JSON.stringify(obj),
+            headers: { "Content-Type": "application/json" }
+        }]
+        break
+        case "create": params = [CREATE_URL, {
+            method: "POST",
+            body: JSON.stringify(obj),
+            headers: { "Content-Type": "application/json" }
+        }]
+        break
+        default: return false
+    }
+    return fetch(...params).catch(error => console.error('Error:', error))
+    .then(function(response){
+        let oldId = obj["@id"]
         obj["@id"] = response.getHeader("Location")
         let values = [
             { "label": form.getElementById("mc-label") },
@@ -270,34 +293,31 @@ function editPerson(action) {
             }
         }
         let list = JSON.parse(localStorage.getItem("li01"))
-        list.resources.push({
-            "@id": obj["@id"],
-            "label": obj.label
-        })
-        put(function(err){
-            if(err){
-                throw new Error(err)
-            }
-        },UPDATE_URL,list)
-    }
-    let form = document.getElementById("mc-person-form")
-        // TODO: Make this make sense
-    var obj = {
-        "@type": "Person",
-        "@context": "",
-        "label": form.getElementById("mc-label") || "[ unlabeled ]",
-    }
-    switch (action) {
-        case "update": put(callback,UPDATE_URL,obj)
-        break
-        case "create": post(callback,CREATE_URL,obj)
-        break
-        default: return false
-    }
-    return obj
+        if(oldId){
+            list.resources.forEach(function(item,i){
+                if((item["@id"]||item)===oldId){
+                    list.resources[i] = {
+                        "@id": obj["@id"],
+                        "label": obj.label
+                    }
+                }
+            })
+        } else {
+            list.resources.push({
+                "@id": obj["@id"],
+                "label": obj.label
+            })
+        }
+        // return fetch(UPDATE_URL)
+        localStorage.setItem("li01",list)
+    })
 }
 
-function post(callback, url, obj) {
+const callback = function(error, response) {
+}
+
+async function post(callback, url, data) {
+
     // TODO "async" and "await" this perhaps
     let xhr = new XMLHttpRequest()
     xhr.open("POST", url, false)
@@ -322,12 +342,12 @@ function post(callback, url, obj) {
             return err
         }
     }
-    if (typeof obj !== "string") {
-        obj = JSON.stringify(obj)
+    if (typeof data !== "string") {
+        data = JSON.stringify(data)
     }
-    xhr.send(obj);
+    xhr.send(data);
 }
-function put(callback, url, obj) {
+async function put(url, obj) {
     // TODO "async" and "await" this perhaps
     let xhr = new XMLHttpRequest()
     xhr.open("PUT", url, false)
