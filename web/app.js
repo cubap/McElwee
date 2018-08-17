@@ -42,10 +42,10 @@ function get(url) {
     xhr.send();
 }
 
-function expand(obj) {
+async function expand(obj) {
     let toRender = {}
     let findId = obj["@id"]
-    let annos = findById(findId)
+    let annos = await findById(findId)
         // TODO: attach evidence to each property value
         // add each value in a predictable way
         // type properties for possible rendering?
@@ -62,7 +62,7 @@ function expand(obj) {
     return obj
 }
 
-function findById(id) {
+async function findById(id) {
     let everything = Object.keys(localStorage).map(k => (k && k.length === 4) && JSON.parse(localStorage.getItem(k)))
     let matches = everything.filter(o => o.target === id)
     return matches
@@ -97,8 +97,8 @@ template.JSON = function(obj) {
     }
 }
 
-template.location = function() {
-    let cemetery = expand(JSON.parse(localStorage.getItem("l001")))
+template.location = async function() {
+    let cemetery = await expand(JSON.parse(localStorage.getItem("l001")))
     if (!cemetery) { return null }
     return `<h2>${cemetery.label}</h2>
     <a href="${cemetery.seeAlso}" target="_blank" class="mc-see-also">${cemetery.seeAlso}</a>`
@@ -121,20 +121,20 @@ template.list = function(obj) {
     return ul
 }
 
-template.byObjectType = function(obj) {
+template.byObjectType = async function(obj) {
     let templateFunction = function() {}
     switch (obj["@type"]) {
         case "Person":
-            templateFunction = template.person
+            templateFunction = await template.person
             break
         case "List":
-            templateFunction = template.list
+            templateFunction = await template.list
             break
         case "Location":
-            templateFunction = template.location
+            templateFunction = await template.location
             break
         case "Event":
-            templateFunction = template.event
+            templateFunction = await template.event
             break
         default:
             return null
@@ -206,12 +206,12 @@ template.personForm = function(person) {
     </form>`
 }
 
-function renderElement(elem, tmp) {
+async function renderElement(elem, tmp) {
     while (elem.firstChild) {
         elem.removeChild(elem.firstChild)
     }
     if (tmp) {
-        elem.innerHTML = tmp
+        elem.innerHTML = await tmp
     }
 }
 
@@ -220,11 +220,11 @@ function setClass(className) {
     mc.focusObject.classList.add(className)
 }
 
-function observerCallback(mutationsList) {
+async function observerCallback(mutationsList) {
     for (var mutation of mutationsList) {
         if (mutation.attributeName === "mc-object") {
             let id = mc.focusObject.getAttribute("mc-object")
-            let data = expand(JSON.parse(localStorage.getItem(id)))
+            let data = await expand(JSON.parse(localStorage.getItem(id)))
             renderElement(mc.focusObject, template.byObjectType(data))
             renderElement(document.getElementById("obj-viewer"), template.JSON(data))
         }
