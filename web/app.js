@@ -318,3 +318,33 @@ function post(callback, url, obj) {
     }
     xhr.send(obj);
 }
+function put(callback, url, obj) {
+    // TODO "async" and "await" this perhaps
+    let xhr = new XMLHttpRequest()
+    xhr.open("PUT", url, false)
+    xhr.setRequestHeader("Content-Type", "application/json")
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            let res, err;
+            if (xhr.status === 201) {
+                try {
+                    res = JSON.parse(xhr.response)
+                } catch (error) {
+                    err = error
+                }
+            } else {
+                err = new Error(xhr.statusText || "Update failed.")
+            }
+            if (typeof callback === "function") {
+                return callback(err, res)
+            } else {
+                return res
+            }
+            return err
+        }
+    }
+    if (typeof obj !== "string") {
+        obj = JSON.stringify(obj)
+    }
+    xhr.send(obj);
+}

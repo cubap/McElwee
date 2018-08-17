@@ -202,6 +202,7 @@
     }
 
     for (e in datar) {
+        if(!localStorage.getItem(datar[e]['@id']))
         localStorage.setItem(datar[e]["@id"], JSON.stringify(datar[e]))
     }
 })()
