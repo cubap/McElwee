@@ -197,7 +197,7 @@ template.personForm = function(person) {
         <input id="mc-maiden-name" type="text" placeholder="former name" value="${ person.maidenName || "" }" >
     </label>
     <label for="mc-evidence">Evidence: 
-    <input id="mc-evidence" type="url" placeholder="just urls for now" value="${ (person.evidence&&person.evidence['@id']) || person.evidence || "" }" >
+    <input id="mc-evidence" type="url" placeholder="just urls for now" value="http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" >
     </label>
     <label for="mc-transcription">Catalog Entry: 
         <textarea id="mc-transcription" type="text" >${ person.transcription || "" }</textarea>
@@ -255,7 +255,7 @@ function editPerson(action) {
             { "familyName": form.getElementById("mc-familyname") },
             { "maidenName": form.getElementById("mc-maidenname") },
             { "gender": form.getElementById("mc-gender") },
-            { "evidence": "d001" }
+            { "evidence": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" }
         ]
         let annos = {
             "@context": "",
