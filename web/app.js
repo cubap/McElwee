@@ -12,40 +12,22 @@ mc.focusOn = function(id) {
     mc.focusObject.setAttribute('mc-object', id)
 }
 
-function get(url) {
+async function get(url) {
 
     // shortcut
     if (url.length < 6) {
         return JSON.parse(localStorage.getItem(url))
     }
 
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", url);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            let obj, err;
-            if (xhr.status === 200) {
-                try {
-                    obj = JSON.parse(xhr.response);
-                } catch (error) {
-                    err = error;
-                }
-            } else {
-                err = new Error(xhr.statusText || "GET failed.");
-            }
-            if (typeof callback === "function") {
-                return callback(err, obj);
-            }
-            return obj;
-        }
-    };
-    xhr.send();
+    const response = await fetch(url)
+    const json = await response.json()
+    return response.ok ? json : Promise.reject(json)
 }
 
 async function expand(obj) {
     let toRender = {}
     let findId = obj["@id"]
-    let annos = await findById(findId)
+    let annos = await findByTargetId(findId)
         // TODO: attach evidence to each property value
         // add each value in a predictable way
         // type properties for possible rendering?
@@ -53,7 +35,7 @@ async function expand(obj) {
         for (let j = 0; j < annos[i].body.length; j++) {
             if (annos[i].body[j].evidence) {
                 let evId = (typeof annos[i].body[j].evidence === "object") ? annos[i].body[j].evidence["@id"] : annos[i].body[j].evidence
-                obj.evidence = JSON.parse(localStorage.getItem(evId))
+                obj.evidence = await get(evId)
             } else {
                 obj = Object.assign(annos[i].body[j], obj)
             }
@@ -62,9 +44,17 @@ async function expand(obj) {
     return obj
 }
 
-async function findById(id) {
-    let everything = Object.keys(localStorage).map(k => (k && k.length === 4) && JSON.parse(localStorage.getItem(k)))
-    let matches = everything.filter(o => o.target === id)
+async function findByTargetId(id) {
+    let obj = {
+        target: id
+    }
+    let matches = await fetch("http://tinydev.rerum.io/app/query",{
+        method: "POST",
+        body: JSON.stringify(obj),
+        headers: { "Content-Type": "application/json" }
+    })
+    // let everything = Object.keys(localStorage).map(k => (k && k.length === 4) && JSON.parse(localStorage.getItem(k)))
+    // let matches = everything.filter(o => o.target === id)
     return matches
 }
 
@@ -98,7 +88,7 @@ template.JSON = function(obj) {
 }
 
 template.location = async function() {
-    let cemetery = await expand(JSON.parse(localStorage.getItem("l001")))
+    let cemetery = await expand(get("l001"))
     if (!cemetery) { return null }
     return `<h2>${cemetery.label}</h2>
     <a href="${cemetery.seeAlso}" target="_blank" class="mc-see-also">${cemetery.seeAlso}</a>`
@@ -224,7 +214,7 @@ async function observerCallback(mutationsList) {
     for (var mutation of mutationsList) {
         if (mutation.attributeName === "mc-object") {
             let id = mc.focusObject.getAttribute("mc-object")
-            let data = await expand(JSON.parse(localStorage.getItem(id)))
+            let data = await expand(get(id))
             renderElement(mc.focusObject, template.byObjectType(data))
             renderElement(document.getElementById("obj-viewer"), template.JSON(data))
         }
@@ -292,7 +282,7 @@ async function editPerson(action) {
                 annos.body.push()
             }
         }
-        let list = JSON.parse(localStorage.getItem("li01"))
+        let list = get("li01")
         if(oldId){
             list.resources.forEach(function(item,i){
                 if((item["@id"]||item)===oldId){
