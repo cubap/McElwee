@@ -45,16 +45,17 @@ async function expand(obj) {
 }
 
 async function findByTargetId(id) {
+    let everything = Object.keys(localStorage).map(k => (k && k.length === 4) && JSON.parse(localStorage.getItem(k)))
+    let matches = everything.filter(o => o.target === id)
+    if (matches) return matches
     let obj = {
         target: id
     }
-    let matches = await fetch("http://tinydev.rerum.io/app/query",{
+    matches = await fetch("http://tinydev.rerum.io/app/query",{
         method: "POST",
         body: JSON.stringify(obj),
         headers: { "Content-Type": "application/json" }
     })
-    // let everything = Object.keys(localStorage).map(k => (k && k.length === 4) && JSON.parse(localStorage.getItem(k)))
-    // let matches = everything.filter(o => o.target === id)
     return matches
 }
 
@@ -88,7 +89,7 @@ template.JSON = function(obj) {
 }
 
 template.location = async function() {
-    let cemetery = await expand(get("l001"))
+    let cemetery = await expand(await get("l001"))
     if (!cemetery) { return null }
     return `<h2>${cemetery.label}</h2>
     <a href="${cemetery.seeAlso}" target="_blank" class="mc-see-also">${cemetery.seeAlso}</a>`
@@ -214,7 +215,7 @@ async function observerCallback(mutationsList) {
     for (var mutation of mutationsList) {
         if (mutation.attributeName === "mc-object") {
             let id = mc.focusObject.getAttribute("mc-object")
-            let data = await expand(get(id))
+            let data = await expand(await get(id))
             renderElement(mc.focusObject, template.byObjectType(data))
             renderElement(document.getElementById("obj-viewer"), template.JSON(data))
         }
