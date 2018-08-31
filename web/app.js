@@ -158,7 +158,7 @@ template.person = function(obj, hideEditForm) {
                 renderElement(document.getElementById("obj-viewer"), template.JSON(obj))
                 obj.$isDirty = true
                 document.getElementById("mc-edit-form").getElementsByTagName("button")[0].style = "display:block;"
-                document.getElementById("mc-edit-form").getElementsByTagName("button")[0].onclick = obj["@id"]?'editPerson("update")':'editPerson("create")'
+                document.getElementById("mc-edit-form").onsubmit = obj["@id"]?'editPerson("update")':'editPerson("create")'
             }
             el.addEventListener('input', el.onchange)
         }
@@ -167,8 +167,9 @@ template.person = function(obj, hideEditForm) {
 }
 
 template.personForm = function(person) {
-    return `<form class="mc-person-edit">
-    <input type="hidden" value="Person" id="type" >
+    return `<form class="mc-person-edit" onsubmit="editPerson(${person["@id"]?"'update'":"'create'"})">
+    <input type="hidden" value="Person" id="mc-type" >
+    <input type="hidden" value="${person["@id"]}" id="mc-at-id" >
     <label for="mc-label">Full Name: 
         <input id="mc-label" type="text" placeholder="full name" value="${ person.label || person.name || "" }" >
     </label>
@@ -193,7 +194,7 @@ template.personForm = function(person) {
     <label for="mc-transcription">Catalog Entry: 
         <textarea id="mc-transcription" type="text" >${ person.transcription || "" }</textarea>
     </label>
-    <button role="button" onclick="editPerson(${person["@id"]?"update":"create"})" style="display:${person.$isDirty?"block":"none"};">${person["@id"]?"Update":"Create"}</button>
+    <button type="submit" style="display:${person.$isDirty?"block":"none"};">${person["@id"]?"Update":"Create"}</button>
     </form>`
 }
 
@@ -236,15 +237,14 @@ const CREATE_URL = "http://tinydev.rerum.io/app/create"
 const UPDATE_URL = "http://tinydev.rerum.io/app/update"
 
 async function editPerson(action) {
-    let form = document.getElementById("mc-person-form")
     var obj = {
         "@type": "Person",
         "@context": "",
-        "label": form.getElementById("mc-label") || "[ unlabeled ]",
+        "label": document.getElementById("mc-label") || "[ unlabeled ]",
     }
     let params = [];
     switch (action) {
-        case "update": params = [CREATE_URL, {
+        case "update": params = [UPDATE_URL, {
             method: "PUT",
             body: JSON.stringify(obj),
             headers: { "Content-Type": "application/json" }
@@ -263,14 +263,15 @@ async function editPerson(action) {
         let oldId = obj["@id"]
         obj["@id"] = response.getHeader("Location")
         let values = [
-            { "label": form.getElementById("mc-label") },
-            { "transcription": form.getElementById("mc-transcription") },
-            { "givenName": form.getElementById("mc-givenname") },
-            { "familyName": form.getElementById("mc-familyname") },
-            { "maidenName": form.getElementById("mc-maidenname") },
-            { "gender": form.getElementById("mc-gender") },
+            { "label": document.getElementById("mc-label").value },
+            { "transcription": document.getElementById("mc-transcription").value },
+            { "givenName": document.getElementById("mc-givenname").value },
+            { "familyName": document.getElementById("mc-familyname").value },
+            { "maidenName": document.getElementById("mc-maidenname").value },
+            { "gender": fdocumentodocumentrm.getElementById("mc-gender").value },
             { "evidence": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" }
         ]
+        if(action==="update") {values.push({"@id":window["mc-at-id"].value})}
         let annos = {
             "@context": "",
             "@type": "Annotation",
