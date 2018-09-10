@@ -38,12 +38,12 @@ async function expand(obj) {
                 let evId = (typeof annos[i].body[j].evidence === "object") ? annos[i].body[j].evidence["@id"] : annos[i].body[j].evidence
                 obj.evidence = await get(evId)
             } else {
-                    let val = annos[i].body[j]
-                    let k = Object.keys(val)[0]
-                    if(!val["mc:source"]){
-                        val[k] = {value:val[k],"mc:source": annos[i]["@id"]}
-                    }
-                    sourced.push(val)
+                let val = annos[i].body[j]
+                let k = Object.keys(val)[0]
+                if (!val["mc:source"]) {
+                    val[k] = { value: val[k], "mc:source": annos[i]["@id"] }
+                }
+                sourced.push(val)
             }
         }
         obj = Object.assign(obj, ...sourced)
@@ -58,7 +58,7 @@ async function findByTargetId(id) {
     let obj = {
         target: id
     }
-    matches = await fetch("http://tinydev.rerum.io/app/query",{
+    matches = await fetch("http://tinydev.rerum.io/app/query", {
         method: "POST",
         body: JSON.stringify(obj),
         headers: { "Content-Type": "application/json" }
@@ -69,22 +69,35 @@ async function findByTargetId(id) {
 var template = {}
 
 template.evidence = function(obj) {
-    if (!obj.evidence) { return null }
-    return `<a class="mc-evidence" href="${(typeof obj.evidence === "object") ? obj.evidence["@id"] : obj.evidence}" target="_blank">${obj.evidence.label || "View evidence"}</a>`
+    try {
+        return `<a class="mc-evidence" href="${(typeof obj.evidence === "object") ? obj.evidence["@id"] : obj.evidence}" target="_blank">${obj.evidence.label || "View evidence"}</a>`
+    } catch (err) {
+        return null
+    }
 }
 
 template.fullName = function(obj) {
-    if (!obj || !(obj.givenName || obj.familyName)) { return null }
-    return `<div class="mc-name">${obj.familyName.value||"[ unknown ]"}, ${obj.givenName.value}</div>`
+    try {
+        return `<div class="mc-name">${obj.familyName.value||"[ unknown ]"}, ${obj.givenName.value}</div>`
+    } catch (err) {
+        return null
+    }
 }
 
 template.prop = function(obj, prop) {
-    if (!obj.hasOwnProperty(prop)) { return `` }
-    return `<span class="mc-${prop.trim().replace(/\s+/g,"-").normalize("NFC").toLowerCase()}">${prop}: ${obj[prop].value || "[ undefined ]"}</span>`
+    try {
+        return `<span class="mc-${prop.trim().replace(/\s+/g,"-").normalize("NFC").toLowerCase()}">${prop}: ${obj[prop].value || "[ undefined ]"}</span>`
+    } catch (err) {
+        return null
+    }
 }
 
 template.gender = function(obj) {
-    return `<span class="mc-gender">${(obj.gender.value === "male") ? "&male;" : "&female;"}</span>`
+    try {
+        return `<span class="mc-gender">${(obj.gender.value === "male") ? "&male;" : "&female;"}</span>`
+    } catch (err) {
+        return null
+    }
 }
 
 template.JSON = function(obj) {
@@ -143,7 +156,7 @@ template.byObjectType = async function(obj) {
 
 template.person = function(obj, hideEditForm) {
     setClass("Person")
-    let elem = `<h3>${obj.label.value || "unlabeled"}</h3>`
+    let elem = `<h3>${obj.label.value || obj.label || "unlabeled"}</h3>`
     let tmp = [
         template.fullName(obj),
         template.gender(obj),
@@ -165,7 +178,7 @@ template.person = function(obj, hideEditForm) {
                 renderElement(document.getElementById("obj-viewer"), template.JSON(obj))
                 el.$isDirty = true
                 document.getElementById("mc-edit-form").getElementsByTagName("button")[0].style = "display:block;"
-                document.getElementById("mc-edit-form").onsubmit = obj["@id"]?'editPerson("update")':'editPerson("create")'
+                document.getElementById("mc-edit-form").onsubmit = obj["@id"] ? 'editPerson("update")' : 'editPerson("create")'
             }
             el.addEventListener('input', el.onchange)
         }
@@ -178,7 +191,7 @@ template.personForm = function(person) {
     <input type="hidden" value="Person" id="mc-type" >
     <input type="hidden" value="${person["@id"]}" id="mc-at-id" >
     <label for="mc-label">Full Name: 
-        <input id="mc-label" type="text" class="mc-data-entry" placeholder="full name" value="${ person.label.value || person.name.value || "" }" >
+        <input id="mc-label" type="text" class="mc-data-entry" placeholder="full name" value="${ (person.label&&person.label.value) || (person.name&&person.name.value) || (person.label) || "" }" >
     </label>
     <label for="mc-birth-date">Birth Date: 
         <input id="mc-birth-date" mc-source="${ person.birthDate&&person.birthDate.source }" type="date" class="mc-data-entry" placeholder="YYYY-MM-DD" value="${ person.birthDate&&person.birthDate.value || "" }" >
@@ -247,15 +260,15 @@ async function editPerson(action) {
 
     let params = [];
     switch (action) {
-        case "update": 
+        case "update":
             let dirtyFields = []
-            for(elem in document.getElementsByClassName("mc-data-entry")){
-                if(elem.$isDirty){
+            for (elem in document.getElementsByClassName("mc-data-entry")) {
+                if (elem.$isDirty) {
                     dirtyFields.push(elem)
-                    fetch(UPDATE_URL,{
-                        method:"PUT",
+                    fetch(UPDATE_URL, {
+                        method: "PUT",
                         body: JSON.stringify({
-// BLAH... TODO: This update should just save or create if there is an mc-source value... then fetch.
+                            // BLAH... TODO: This update should just save or create if there is an mc-source value... then fetch.
                         })
                     })
                 }
@@ -265,64 +278,66 @@ async function editPerson(action) {
                 body: JSON.stringify(obj),
                 headers: { "Content-Type": "application/json" }
             }]
-        break
-        case "create": params = [CREATE_URL, {
-            method: "POST",
-            body: JSON.stringify({
-                "@type": "Person",
-                "@context": "",
-                "label": document.getElementById("mc-label").value || "[ unlabeled ]",
-            }),
-            headers: { "Content-Type": "application/json" }
-        }]
-        break
-        default: return false
+            break
+        case "create":
+            params = [CREATE_URL, {
+                method: "POST",
+                body: JSON.stringify({
+                    "@type": "Person",
+                    "@context": "",
+                    "label": document.getElementById("mc-label").value || "[ unlabeled ]",
+                }),
+                headers: { "Content-Type": "application/json" }
+            }]
+            break
+        default:
+            return false
     }
     return fetch(...params).catch(error => console.error('Error:', error))
-    .then(function(response){
-        let oldId = obj["@id"]
-        obj["@id"] = response.getHeader("Location")
-        let values = [
-            { "label": document.getElementById("mc-label").value },
-            { "transcription": document.getElementById("mc-transcription").value },
-            { "givenName": document.getElementById("mc-givenname").value },
-            { "familyName": document.getElementById("mc-familyname").value },
-            { "maidenName": document.getElementById("mc-maidenname").value },
-            { "gender": fdocumentodocumentrm.getElementById("mc-gender").value },
-            { "evidence": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" }
-        ]
-        if(action==="update") {values.push({"@id":window["mc-at-id"].value})}
-        let annos = {
-            "@context": "",
-            "@type": "Annotation",
-            "motivation": "describing",
-            "target": obj["@id"],
-            "body": []
-        }
-        for(var o of values) {
-            if(o[Object.keys(o)[0]].length > 0) {
-                annos.body.push()
+        .then(function(response) {
+            let oldId = obj["@id"]
+            obj["@id"] = response.getHeader("Location")
+            let values = [
+                { "label": document.getElementById("mc-label").value },
+                { "transcription": document.getElementById("mc-transcription").value },
+                { "givenName": document.getElementById("mc-givenname").value },
+                { "familyName": document.getElementById("mc-familyname").value },
+                { "maidenName": document.getElementById("mc-maidenname").value },
+                { "gender": fdocumentodocumentrm.getElementById("mc-gender").value },
+                { "evidence": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" }
+            ]
+            if (action === "update") { values.push({ "@id": window["mc-at-id"].value }) }
+            let annos = {
+                "@context": "",
+                "@type": "Annotation",
+                "motivation": "describing",
+                "target": obj["@id"],
+                "body": []
             }
-        }
-        let list = get("li01")
-        if(oldId){
-            list.resources.forEach(function(item,i){
-                if((item["@id"]||item)===oldId){
-                    list.resources[i] = {
-                        "@id": obj["@id"],
-                        "label": obj.label
-                    }
+            for (var o of values) {
+                if (o[Object.keys(o)[0]].length > 0) {
+                    annos.body.push()
                 }
-            })
-        } else {
-            list.resources.push({
-                "@id": obj["@id"],
-                "label": obj.label
-            })
-        }
-        // return fetch(UPDATE_URL)
-        localStorage.setItem("li01",list)
-    })
+            }
+            let list = get("li01")
+            if (oldId) {
+                list.resources.forEach(function(item, i) {
+                    if ((item["@id"] || item) === oldId) {
+                        list.resources[i] = {
+                            "@id": obj["@id"],
+                            "label": obj.label
+                        }
+                    }
+                })
+            } else {
+                list.resources.push({
+                    "@id": obj["@id"],
+                    "label": obj.label
+                })
+            }
+            // return fetch(UPDATE_URL)
+            localStorage.setItem("li01", list)
+        })
 }
 
 async function updatePerson(person) {
@@ -334,7 +349,7 @@ async function updatePerson(person) {
     }]
     const stored = await findByTargetId(findId)
 
-    for(k of person){
+    for (k of person) {
         let updateDetected = {
             key: false,
             value: ""
@@ -359,8 +374,7 @@ async function createPerson(person) {
 
 }
 
-const callback = function(error, response) {
-}
+const callback = function(error, response) {}
 
 async function post(callback, url, data) {
 
