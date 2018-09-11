@@ -33,15 +33,20 @@ async function expand(obj) {
         // type properties for possible rendering?
     for (let i = 0; i < annos.length; i++) {
         let sourced = []
-        for (let j = 0; j < annos[i].body.length; j++) {
-            if (annos[i].body[j].evidence) {
-                let evId = (typeof annos[i].body[j].evidence === "object") ? annos[i].body[j].evidence["@id"] : annos[i].body[j].evidence
+        let body = annos[i].body
+        if(!Array.isArray(body)) {
+            body = [body]
+        }
+        for (let j = 0; j < body.length; j++) {
+            if (body[j].evidence) {
+                let evId = (typeof body[j].evidence === "object") ? body[j].evidence["@id"] : body[j].evidence
                 obj.evidence = await get(evId)
             } else {
-                let val = annos[i].body[j]
+                let val = body[j]
                 let k = Object.keys(val)[0]
                 if (!val["mc:source"]) {
-                    val[k] = { value: val[k], "mc:source": annos[i]["@id"] }
+                    let aVal = val[k].value || val[k]
+                    val[k] = { value: aVal, "mc:source": annos[i]["@id"] }
                 }
                 sourced.push(val)
             }
@@ -53,8 +58,7 @@ async function expand(obj) {
 
 async function findByTargetId(id) {
     let everything = Object.keys(localStorage).map(k => (k && k.length === 4) && JSON.parse(localStorage.getItem(k)))
-    let matches = everything.filter(o => o.target === id)
-    if (matches) return matches
+    let local_matches,matches
     let obj = {
         target: id
     }
@@ -62,8 +66,9 @@ async function findByTargetId(id) {
         method: "POST",
         body: JSON.stringify(obj),
         headers: { "Content-Type": "application/json" }
-    })
-    return matches
+    }).then(response=>response.json())
+    local_matches = everything.filter(o => o.target === id)
+    return local_matches.concat(matches)
 }
 
 var template = {}
@@ -78,7 +83,7 @@ template.evidence = function(obj) {
 
 template.fullName = function(obj) {
     try {
-        return `<div class="mc-name">${obj.familyName.value||"[ unknown ]"}, ${obj.givenName.value}</div>`
+        return `<div class="mc-name">${obj.familyName.value||obj.familyName||"[ unknown ]"}, ${obj.givenName.value||obj.givenName||""}</div>`
     } catch (err) {
         return null
     }
@@ -94,7 +99,7 @@ template.prop = function(obj, prop) {
 
 template.gender = function(obj) {
     try {
-        return `<span class="mc-gender">${(obj.gender.value === "male") ? "&male;" : "&female;"}</span>`
+        return `<span class="mc-gender">${((obj.gender.value||obj.gender) === "male") ? "&male;" : "&female;"}</span>`
     } catch (err) {
         return null
     }
@@ -176,9 +181,9 @@ template.person = function(obj, hideEditForm) {
                 obj[prop] = event.target.value
                 renderElement(mc.focusObject, template.person(obj, true))
                 renderElement(document.getElementById("obj-viewer"), template.JSON(obj))
-                el.$isDirty = true
+                event.target.$isDirty = true
                 document.getElementById("mc-edit-form").getElementsByTagName("button")[0].style = "display:block;"
-                document.getElementById("mc-edit-form").onsubmit = obj["@id"] ? 'editPerson("update")' : 'editPerson("create")'
+                event.stopPropagation()
             }
             el.addEventListener('input', el.onchange)
         }
@@ -187,32 +192,32 @@ template.person = function(obj, hideEditForm) {
 }
 
 template.personForm = function(person) {
-    return `<form class="mc-person-edit" onsubmit="editPerson(${person["@id"]?"'update'":"'create'"})">
+    return `<form class="mc-person-edit" onsubmit="editPerson()">
     <input type="hidden" value="Person" id="mc-type" >
     <input type="hidden" value="${person["@id"]}" id="mc-at-id" >
     <label for="mc-label">Full Name: 
-        <input id="mc-label" type="text" class="mc-data-entry" placeholder="full name" value="${ (person.label&&person.label.value) || (person.name&&person.name.value) || (person.label) || "" }" >
+        <input id="mc-label" type="text" mc-key="label" class="mc-data-entry" placeholder="full name" value="${ (person.label&&person.label.value) || (person.name&&person.name.value) || (person.label) || "" }" >
     </label>
     <label for="mc-birth-date">Birth Date: 
-        <input id="mc-birth-date" mc-source="${ person.birthDate&&person.birthDate.source }" type="date" class="mc-data-entry" placeholder="YYYY-MM-DD" value="${ person.birthDate&&person.birthDate.value || "" }" >
+        <input id="mc-birth-date" mc-key="mc:birthDate" mc-source="${ person['mc:birthDate']&&person['mc:birthDate']['mc:source'] ||  person.birthDate&&person.birthDate['mc:source'] }" type="date" class="mc-data-entry" placeholder="YYYY-MM-DD" value="${ person['mc:birthDate']&&person['mc:birthDate'].value || person.birthDate&&person.birthDate.value || "" }" >
     </label>
     <label for="mc-death-date">Death Date: 
-        <input id="mc-death-date" mc-source="${ person.deathDate&&person.deathDate.source }" type="date" class="mc-data-entry" placeholder="simple name" value="${ person.deathDate&&person.deathDate.value || "" }" >
+        <input id="mc-death-date" mc-key="mc:deathDate" mc-source="${ person['mc:deathDate']&&person['mc:deathDate']['mc:source'] ||  person.deathDate&&person.deathDate['mc:source'] }" type="date" class="mc-data-entry" placeholder="simple name" value="${ person['mc:deathDate']&&person['mc:deathDate'].value || person.deathDate&&person.deathDate.value || "" }" >
     </label>
     <label for="mc-given-name">Given Name: 
-        <input id="mc-given-name" mc-source="${ person.givenName&&person.givenName.source }" type="text" class="mc-data-entry" placeholder="first name" value="${ person.givenName&&person.givenName.value || "" }" >
+        <input id="mc-given-name" mc-key="mc:givenName" mc-source="${ person['mc:givenName']&&person['mc:givenName']['mc:source'] ||  person.givenName&&person.givenName['mc:source'] }" type="text" class="mc-data-entry" placeholder="first name" value="${ person['mc:givenName']&&person['mc:givenName'].value || person.givenName&&person.givenName.value || "" }" >
     </label>
     <label for="mc-family-name">Family Name: 
-        <input id="mc-family-name" mc-source="${ person.familyName&&person.familyName.source }" type="text" class="mc-data-entry" placeholder="last name" value="${ person.familyName&&person.familyName.value || "" }" >
+        <input id="mc-family-name" mc-key="mc:familyName" mc-source="${ person['mc:familyName']&&person['mc:familyName']['mc:source'] ||  person.familyName&&person.familyName['mc:source'] }" type="text" class="mc-data-entry" placeholder="last name" value="${ person['mc:familyName']&&person['mc:familyName'].value || person.familyName&&person.familyName.value || "" }" >
     </label>
     <label for="mc-maiden-name">Maiden Name: 
-        <input id="mc-maiden-name" mc-source="${ person.maidenName&&person.maidenName.source }" type="text" class="mc-data-entry" placeholder="former name" value="${ person.maidenName&&person.maidenName.value || "" }" >
+        <input id="mc-maiden-name" mc-key="mc:maidenName" mc-source="${ person['mc:maidenName']&&person['mc:maidenName']['mc:source'] || person.maidenName&&person.maidenName['mc:source'] }" type="text" class="mc-data-entry" placeholder="former name" value="${ person['mc:maidenName']&&person['mc:maidenName'].value || person.maidenName&&person.maidenName.value || "" }" >
     </label>
     <label for="mc-evidence">Evidence: 
-    <input id="mc-evidence" type="url" class="mc-data-entry" placeholder="just urls for now" value="http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" >
+    <input id="mc-evidence" mc-key="mc:evidence" type="url" class="mc-data-entry" placeholder="just urls for now" value="http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" >
     </label>
     <label for="mc-transcription">Catalog Entry: 
-        <textarea id="mc-transcription" mc-source="${ person.transcription&&person.transcription.source }" type="text" class="mc-data-entry" >${ person.transcription&&person.transcription.value || "" }</textarea>
+        <textarea id="mc-transcription" mc-key="mc:transcription" mc-source="${ person['mc:transcription']&&person['mc:transcription']['mc:source'] }" type="text" class="mc-data-entry" >${ person['mc:transcription']&&person['mc:transcription'].value || "" }</textarea>
     </label>
     <button type="submit" style="display:${person.$isDirty?"block":"none"};">${person["@id"]?"Update":"Create"}</button>
     </form>`
@@ -256,88 +261,89 @@ mc.focusObject.setAttribute("mc-object", "li01")
 const CREATE_URL = "http://tinydev.rerum.io/app/create"
 const UPDATE_URL = "http://tinydev.rerum.io/app/update"
 
-async function editPerson(action) {
+async function editPerson() {
 
     let params = [];
-    switch (action) {
-        case "update":
-            let dirtyFields = []
-            for (elem in document.getElementsByClassName("mc-data-entry")) {
-                if (elem.$isDirty) {
-                    dirtyFields.push(elem)
-                    fetch(UPDATE_URL, {
-                        method: "PUT",
-                        body: JSON.stringify({
-                            // BLAH... TODO: This update should just save or create if there is an mc-source value... then fetch.
-                        })
-                    })
-                }
-            }
-            params = [UPDATE_URL, {
-                method: "PUT",
-                body: JSON.stringify(obj),
-                headers: { "Content-Type": "application/json" }
-            }]
-            break
-        case "create":
-            params = [CREATE_URL, {
-                method: "POST",
-                body: JSON.stringify({
-                    "@type": "Person",
-                    "@context": "",
-                    "label": document.getElementById("mc-label").value || "[ unlabeled ]",
-                }),
-                headers: { "Content-Type": "application/json" }
-            }]
-            break
-        default:
-            return false
+
+    let dirtyFields = []
+    for (let elem of document.getElementsByClassName("mc-data-entry")) {
+        if (elem.$isDirty) {
+            dirtyFields.push(elem)
+        }
     }
-    return fetch(...params).catch(error => console.error('Error:', error))
-        .then(function(response) {
-            let oldId = obj["@id"]
-            obj["@id"] = response.getHeader("Location")
-            let values = [
-                { "label": document.getElementById("mc-label").value },
-                { "transcription": document.getElementById("mc-transcription").value },
-                { "givenName": document.getElementById("mc-givenname").value },
-                { "familyName": document.getElementById("mc-familyname").value },
-                { "maidenName": document.getElementById("mc-maidenname").value },
-                { "gender": fdocumentodocumentrm.getElementById("mc-gender").value },
-                { "evidence": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" }
-            ]
-            if (action === "update") { values.push({ "@id": window["mc-at-id"].value }) }
-            let annos = {
+
+    for (elem of dirtyFields) {
+        const annoKey = elem.getAttribute("mc-key")
+        let source = elem.getAttribute("mc-source")
+        if (source==="undefined") { source = false }
+        let config = {
+            url: source ? UPDATE_URL : CREATE_URL,
+            method: source ? "PUT" : "POST",
+            body: {
                 "@context": "",
                 "@type": "Annotation",
                 "motivation": "describing",
-                "target": obj["@id"],
-                "body": []
+                "target": document.getElementById("mc-at-id").value,
+                "body": {}
             }
-            for (var o of values) {
-                if (o[Object.keys(o)[0]].length > 0) {
-                    annos.body.push()
-                }
-            }
-            let list = get("li01")
-            if (oldId) {
-                list.resources.forEach(function(item, i) {
-                    if ((item["@id"] || item) === oldId) {
-                        list.resources[i] = {
-                            "@id": obj["@id"],
-                            "label": obj.label
-                        }
-                    }
-                })
-            } else {
-                list.resources.push({
-                    "@id": obj["@id"],
-                    "label": obj.label
-                })
-            }
-            // return fetch(UPDATE_URL)
-            localStorage.setItem("li01", list)
+        }
+        config.body.body[annoKey] = { value: elem.value, evidence: document.getElementById("mc-evidence").value }
+        if(source) { config.body["@id"] = elem.getAttribute("mc-source") }
+        fetch(config.url, {
+            method: config.method,
+            body: JSON.stringify(config.body)
+        }).catch(error => console.error('Error:', error))
+        .then(response=>response.json())
+        .then(function(newState){
+            localStorage.setItem(newState["@id"],newState.new_obj_state)
+            mc.focusOn(newState.new_obj_state.target)
         })
+    }
+    // return fetch(...params)
+    //     .then(function(response) {
+    //         let oldId = obj["@id"]
+    //         obj["@id"] = response.getHeader("Location")
+    //         let values = [
+    //             { "label": document.getElementById("mc-label").value },
+    //             { "transcription": document.getElementById("mc-transcription").value },
+    //             { "givenName": document.getElementById("mc-givenname").value },
+    //             { "familyName": document.getElementById("mc-familyname").value },
+    //             { "maidenName": document.getElementById("mc-maidenname").value },
+    //             { "gender": fdocumentodocumentrm.getElementById("mc-gender").value },
+    //             { "evidence": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" }
+    //         ]
+    //         if (action === "update") { values.push({ "@id": window["mc-at-id"].value }) }
+    //         let annos = {
+    //             "@context": "",
+    //             "@type": "Annotation",
+    //             "motivation": "describing",
+    //             "target": obj["@id"],
+    //             "body": []
+    //         }
+    //         for (var o of values) {
+    //             if (o[Object.keys(o)[0]].length > 0) {
+    //                 annos.body.push()
+    //             }
+    //         }
+    //         let list = get("li01")
+    //         if (oldId) {
+    //             list.resources.forEach(function(item, i) {
+    //                 if ((item["@id"] || item) === oldId) {
+    //                     list.resources[i] = {
+    //                         "@id": obj["@id"],
+    //                         "label": obj.label
+    //                     }
+    //                 }
+    //             })
+    //         } else {
+    //             list.resources.push({
+    //                 "@id": obj["@id"],
+    //                 "label": obj.label
+    //             })
+    //         }
+    //         // return fetch(UPDATE_URL)
+    //         localStorage.setItem("li01", list)
+    //     })
 }
 
 async function updatePerson(person) {
