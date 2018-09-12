@@ -8,7 +8,7 @@
 var mc = {}
 mc.focusObject = document.getElementById("mc-view")
 
-mc.focusOn = function(id) {
+mc.focusOn = function (id) {
     mc.focusObject.setAttribute('mc-object', id)
 }
 
@@ -28,16 +28,15 @@ async function expand(obj) {
     let toRender = {}
     let findId = obj["@id"]
     let annos = await findByTargetId(findId)
-        // TODO: attach evidence to each property value
-        // add each value in a predictable way
-        // type properties for possible rendering?
+    // TODO: attach evidence to each property value
+    // add each value in a predictable way
+    // type properties for possible rendering?
     for (let i = 0; i < annos.length; i++) {
-        let sourced = []
         let body = annos[i].body
-        if(!Array.isArray(body)) {
+        if (!Array.isArray(body)) {
             body = [body]
         }
-        for (let j = 0; j < body.length; j++) {
+        Leaf: for (let j = 0; j < body.length; j++) {
             if (body[j].evidence) {
                 let evId = (typeof body[j].evidence === "object") ? body[j].evidence["@id"] : body[j].evidence
                 obj.evidence = await get(evId)
@@ -46,34 +45,44 @@ async function expand(obj) {
                 let k = Object.keys(val)[0]
                 if (!val["mc:source"]) {
                     let aVal = val[k].value || val[k]
-                    val[k] = { value: aVal, "mc:source": annos[i]["@id"] }
+                    val[k] = {
+                        value: aVal,
+                        "mc:source": annos[i]["@id"]
+                    }
                 }
-                sourced.push(val)
+                if (obj[k] !== undefined && annos[i].__rerum&&annos[i].__rerum.history.next.length) {
+                    // this is not the most recent available
+                    // TODO: maybe check generator, etc.
+                    continue Leaf
+                } else {
+                    obj = Object.assign(obj, val)
+                }
             }
         }
-        obj = Object.assign(obj, ...sourced)
     }
     return obj
 }
 
 async function findByTargetId(id) {
     let everything = Object.keys(localStorage).map(k => (k && k.length === 4) && JSON.parse(localStorage.getItem(k)))
-    let local_matches,matches
+    let local_matches, matches
     let obj = {
         target: id
     }
     matches = await fetch("http://tinydev.rerum.io/app/query", {
         method: "POST",
         body: JSON.stringify(obj),
-        headers: { "Content-Type": "application/json" }
-    }).then(response=>response.json())
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(response => response.json())
     local_matches = everything.filter(o => o.target === id)
     return local_matches.concat(matches)
 }
 
 var template = {}
 
-template.evidence = function(obj) {
+template.evidence = function (obj) {
     try {
         return `<a class="mc-evidence" href="${(typeof obj.evidence === "object") ? obj.evidence["@id"] : obj.evidence}" target="_blank">${obj.evidence.label || "View evidence"}</a>`
     } catch (err) {
@@ -81,7 +90,7 @@ template.evidence = function(obj) {
     }
 }
 
-template.fullName = function(obj) {
+template.fullName = function (obj) {
     try {
         return `<div class="mc-name">${obj.familyName.value||obj.familyName||"[ unknown ]"}, ${obj.givenName.value||obj.givenName||""}</div>`
     } catch (err) {
@@ -89,23 +98,25 @@ template.fullName = function(obj) {
     }
 }
 
-template.prop = function(obj, prop) {
+template.prop = function (obj, prop, altLabel) {
     try {
-        return `<span class="mc-${prop.trim().replace(/\s+/g,"-").normalize("NFC").toLowerCase()}">${prop}: ${obj[prop].value || "[ undefined ]"}</span>`
+        return `<span class="mc-${prop.trim().replace(/\s+/g,"-").replace(/:/g,"-").replace(/(mc-)+/g,"mc-").normalize("NFC").toLowerCase()}">${altLabel || prop}: ${obj[prop].value || "[ undefined ]"}</span>`
     } catch (err) {
         return null
     }
 }
 
-template.gender = function(obj) {
+template.gender = function (obj) {
     try {
-        return `<span class="mc-gender">${((obj.gender.value||obj.gender) === "male") ? "&male;" : "&female;"}</span>`
+        let gender = ((obj.gender && obj.gender.value) || obj.gender)
+        if (!gender) { throw "No gender." }
+        return `<span class="mc-gender">${ gender }</span>`
     } catch (err) {
         return null
     }
 }
 
-template.JSON = function(obj) {
+template.JSON = function (obj) {
     try {
         return `${JSON.stringify(obj, null, 4)}`
     } catch (err) {
@@ -113,16 +124,18 @@ template.JSON = function(obj) {
     }
 }
 
-template.location = async function() {
+template.location = async function () {
     let cemetery = await expand(await get("l001"))
-    if (!cemetery) { return null }
+    if (!cemetery) {
+        return null
+    }
     return `<h2>${cemetery.label.value}</h2>
     <a href="${cemetery.seeAlso.value}" target="_blank" class="mc-see-also">${cemetery.seeAlso.value}</a>`
 }
 
-template.list = function(obj) {
+template.list = function (obj) {
     if (typeof obj.resources === "string") {
-        get(obj.resources).then(function(ls) {
+        get(obj.resources).then(function (ls) {
             obj.resources = ls
             return template.list(obj)
         })
@@ -137,8 +150,8 @@ template.list = function(obj) {
     return ul
 }
 
-template.byObjectType = async function(obj) {
-    let templateFunction = function() {}
+template.byObjectType = async function (obj) {
+    let templateFunction = function () {}
     switch (obj["@type"]) {
         case "Person":
             templateFunction = await template.person
@@ -159,14 +172,14 @@ template.byObjectType = async function(obj) {
     return templateFunction(obj)
 }
 
-template.person = function(obj, hideEditForm) {
+template.person = function (obj, hideEditForm) {
     setClass("Person")
-    let elem = `<h3>${obj.label.value || obj.label || "unlabeled"}</h3>`
+    let elem = `<h3>${(obj.label && obj.label.value) || obj.label || "unlabeled"}</h3>`
     let tmp = [
         template.fullName(obj),
         template.gender(obj),
-        template.prop(obj, "birthDate"),
-        template.prop(obj, "deathDate"),
+        template.prop(obj, "mc:birthDate", "Birth Date"),
+        template.prop(obj, "mc:deathDate", "Death Date"),
         template.evidence(obj)
     ]
     elem += tmp.join("\n")
@@ -176,8 +189,10 @@ template.person = function(obj, hideEditForm) {
         let elements = [].concat.apply([], pForm.getElementsByTagName("input"))
         elements = Array.prototype.concat.apply(elements, pForm.getElementsByTagName("textarea"))
         for (var el of elements) {
-            el.onchange = function(event) {
-                let prop = event.target.getAttribute("id").substr(3).replace(/(\-\w)/g, function(m) { return m[1].toUpperCase(); })
+            el.onchange = function (event) {
+                let prop = event.target.getAttribute("id").substr(3).replace(/(\-\w)/g, function (m) {
+                    return m[1].toUpperCase();
+                })
                 obj[prop] = event.target.value
                 renderElement(mc.focusObject, template.person(obj, true))
                 renderElement(document.getElementById("obj-viewer"), template.JSON(obj))
@@ -191,10 +206,11 @@ template.person = function(obj, hideEditForm) {
     return elem
 }
 
-template.personForm = function(person) {
-    return `<form class="mc-person-edit" onsubmit="editPerson()">
-    <input type="hidden" value="Person" id="mc-type" >
-    <input type="hidden" value="${person["@id"]}" id="mc-at-id" >
+template.personForm = function (person) {
+    return `<form class="mc-person-edit" onsubmit="${ person["@id"] && "editPerson()" || "createPerson()" }">
+    <input type="hidden" mc-key="@type" value="Person" id="mc-type" >
+    <input type="hidden" mc-key="@id" value="${person["@id"]}" id="mc-at-id" >
+    <input id="mc-evidence" mc-key="mc:evidence" type="hidden" class="mc-data-entry" value="http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" >
     <label for="mc-label">Full Name: 
         <input id="mc-label" type="text" mc-key="label" class="mc-data-entry" placeholder="full name" value="${ (person.label&&person.label.value) || (person.name&&person.name.value) || (person.label) || "" }" >
     </label>
@@ -212,9 +228,6 @@ template.personForm = function(person) {
     </label>
     <label for="mc-maiden-name">Maiden Name: 
         <input id="mc-maiden-name" mc-key="mc:maidenName" mc-source="${ person['mc:maidenName']&&person['mc:maidenName']['mc:source'] || person.maidenName&&person.maidenName['mc:source'] }" type="text" class="mc-data-entry" placeholder="former name" value="${ person['mc:maidenName']&&person['mc:maidenName'].value || person.maidenName&&person.maidenName.value || "" }" >
-    </label>
-    <label for="mc-evidence">Evidence: 
-    <input id="mc-evidence" mc-key="mc:evidence" type="url" class="mc-data-entry" placeholder="just urls for now" value="http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" >
     </label>
     <label for="mc-transcription">Catalog Entry: 
         <textarea id="mc-transcription" mc-key="mc:transcription" mc-source="${ person['mc:transcription']&&person['mc:transcription']['mc:source'] }" type="text" class="mc-data-entry" >${ person['mc:transcription']&&person['mc:transcription'].value || "" }</textarea>
@@ -275,7 +288,9 @@ async function editPerson() {
     for (elem of dirtyFields) {
         const annoKey = elem.getAttribute("mc-key")
         let source = elem.getAttribute("mc-source")
-        if (source==="undefined") { source = false }
+        if (source === "undefined") {
+            source = false
+        }
         let config = {
             url: source ? UPDATE_URL : CREATE_URL,
             method: source ? "PUT" : "POST",
@@ -287,63 +302,26 @@ async function editPerson() {
                 "body": {}
             }
         }
-        config.body.body[annoKey] = { value: elem.value, evidence: document.getElementById("mc-evidence").value }
-        if(source) { config.body["@id"] = elem.getAttribute("mc-source") }
+        config.body.body[annoKey] = {
+            value: elem.value,
+            evidence: document.getElementById("mc-evidence").value
+        }
+        if (source) {
+            config.body["@id"] = elem.getAttribute("mc-source")
+        }
         fetch(config.url, {
-            method: config.method,
-            body: JSON.stringify(config.body)
-        }).catch(error => console.error('Error:', error))
-        .then(response=>response.json())
-        .then(function(newState){
-            localStorage.setItem(newState["@id"],newState.new_obj_state)
-            mc.focusOn(newState.new_obj_state.target)
-        })
+                method: config.method,
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                body: JSON.stringify(config.body)
+            }).catch(error => console.error('Error:', error))
+            .then(response => response.json())
+            .then(function (newState) {
+                localStorage.setItem(newState["@id"], JSON.stringify(newState.new_obj_state))
+                mc.focusOn(newState.new_obj_state.target)
+            })
     }
-    // return fetch(...params)
-    //     .then(function(response) {
-    //         let oldId = obj["@id"]
-    //         obj["@id"] = response.getHeader("Location")
-    //         let values = [
-    //             { "label": document.getElementById("mc-label").value },
-    //             { "transcription": document.getElementById("mc-transcription").value },
-    //             { "givenName": document.getElementById("mc-givenname").value },
-    //             { "familyName": document.getElementById("mc-familyname").value },
-    //             { "maidenName": document.getElementById("mc-maidenname").value },
-    //             { "gender": fdocumentodocumentrm.getElementById("mc-gender").value },
-    //             { "evidence": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" }
-    //         ]
-    //         if (action === "update") { values.push({ "@id": window["mc-at-id"].value }) }
-    //         let annos = {
-    //             "@context": "",
-    //             "@type": "Annotation",
-    //             "motivation": "describing",
-    //             "target": obj["@id"],
-    //             "body": []
-    //         }
-    //         for (var o of values) {
-    //             if (o[Object.keys(o)[0]].length > 0) {
-    //                 annos.body.push()
-    //             }
-    //         }
-    //         let list = get("li01")
-    //         if (oldId) {
-    //             list.resources.forEach(function(item, i) {
-    //                 if ((item["@id"] || item) === oldId) {
-    //                     list.resources[i] = {
-    //                         "@id": obj["@id"],
-    //                         "label": obj.label
-    //                     }
-    //                 }
-    //             })
-    //         } else {
-    //             list.resources.push({
-    //                 "@id": obj["@id"],
-    //                 "label": obj.label
-    //             })
-    //         }
-    //         // return fetch(UPDATE_URL)
-    //         localStorage.setItem("li01", list)
-    //     })
 }
 
 async function updatePerson(person) {
@@ -351,7 +329,9 @@ async function updatePerson(person) {
     let params = [UPDATE_URL, {
         method: "PUT",
         body: JSON.stringify(person),
-        headers: { "Content-Type": "application/json" }
+        headers: {
+            "Content-Type": "application/json"
+        }
     }]
     const stored = await findByTargetId(findId)
 
@@ -376,11 +356,31 @@ async function updatePerson(person) {
     }
 }
 
-async function createPerson(person) {
-
+async function createPerson() {
+    let newPerson = {
+        label: document.getElementById("mc-label").value,
+        "@type": document.getElementById("mc-type").value,
+        "@context": ""
+    }
+    const res = await fetch(CREATE_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            },
+            body: JSON.stringify(newPerson)
+        })
+        .then(response => response.json())
+    document.getElementById("mc-at-id").value = res.new_obj_state["@id"]
+    let list = await get("li01")
+    list.resources.push({
+        "@id": res.new_obj_state["@id"],
+        "label": document.getElementById("mc-label").value
+    })
+    localStorage.setItem("li01", JSON.stringify(list))
+    return editPerson()
 }
 
-const callback = function(error, response) {}
+const callback = function (error, response) {}
 
 async function post(callback, url, data) {
 
@@ -388,7 +388,7 @@ async function post(callback, url, data) {
     let xhr = new XMLHttpRequest()
     xhr.open("POST", url, false)
     xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             let res, err;
             if (xhr.status === 201) {
@@ -418,7 +418,7 @@ async function put(url, obj) {
     let xhr = new XMLHttpRequest()
     xhr.open("PUT", url, false)
     xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             let res, err;
             if (xhr.status === 201) {
