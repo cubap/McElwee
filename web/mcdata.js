@@ -78,7 +78,7 @@
     }
     datar.catalogList = {
         "@context": "",
-        "@id": "li01",
+        "@id": "http://devstore.rerum.io/v1/id/5b998c95e4b09992fca21fd0",
         "@type": "List",
         "label": "Cemetery Residents",
         "resources": [

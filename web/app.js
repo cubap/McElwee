@@ -6,22 +6,68 @@
 // }
 // customElements.define("mc-view",McView,{extends:"div"})
 var mc = {}
+const DEFAULT_LIST_ID = "li01"
+const BASE_ID = "http://devstore.rerum.io/v1"
+const CREATE_URL = "http://tinydev.rerum.io/app/create"
+const UPDATE_URL = "http://tinydev.rerum.io/app/update"
+
 mc.focusObject = document.getElementById("mc-view")
 
 mc.focusOn = function (id) {
     mc.focusObject.setAttribute('mc-object', id)
 }
-
-async function get(url) {
-
-    // shortcut
-    if (url.length < 6) {
-        return JSON.parse(localStorage.getItem(url))
+async function checkForUpdates(id, isFresh) {
+    let obj = localStorage.getItem(id)
+    try {      
+        if (id.startsWith(BASE_ID)) {
+            if (!isFresh) { 
+                let response = await fetch(id)
+                obj = await response.json()
+            }
+            if (obj.__rerum.history.next.length > 0){
+                obj = await fetch(obj.__rerum.history.next[0]).then(response=>response.json()).then(json=>json.new_obj_state)
+                // TODO: only the first is selected and that's not necessarily right.
+                localStorage.removeItem("id")
+                localStorage.setItem(obj["@id"],obj)
+                if (obj["@type"]==="List") {
+                    localStorage.setItem("CURRENT_LIST_ID",obj["@id"])
+                }
+                return checkForUpdates(obj["@id"],true)
+            }
+            return obj
+        }
+    } catch (err) {
+        // It's not important what happened; let the finally remove the button
+    } finally {
+        for(elem of document.getElementsByClassName("mc-update-button")){
+            if (elem.getAttribute("mc-update-target") ===id) {
+                elem.parentElement.remove()
+            }
+        }
+        return obj
     }
+}
 
-    const response = await fetch(url)
-    const json = await response.json()
-    return response.ok ? json : Promise.reject(json)
+async function get(url, exact) {
+    let obj
+    try {
+        obj = JSON.parse(localStorage.getItem(url))
+        if (obj['@id'].startsWith(BASE_ID)) {
+            // TODO: technically, this won't check for updates...
+            let btn = document.createElement("span")
+            btn.innerHTML = `<button role="button" onclick="checkForUpdates('${obj['@id']}')">Check for Updates on ${obj.label}</button>`
+            btn.setAttribute("mc-update-target",obj['@id'])
+            btn.setClass("mc-update-button")
+            let msg = document.getElementById("flash-message")
+            msg.after(btn)
+        }
+        return obj
+    } catch (err) {
+        // nothing useful in localStorage
+        const response = await fetch(url)
+        const json = await response.json()
+        return response.ok ? json : Promise.reject(json)
+    }
 }
 
 async function expand(obj) {
@@ -269,10 +315,7 @@ mc.renderObserver.observe(mc.focusObject, {
 
 // load defaulty bits
 renderElement(document.getElementById("mc-location"), template.location())
-mc.focusObject.setAttribute("mc-object", "li01")
-
-const CREATE_URL = "http://tinydev.rerum.io/app/create"
-const UPDATE_URL = "http://tinydev.rerum.io/app/update"
+mc.focusObject.setAttribute("mc-object", "http://devstore.rerum.io/v1/id/5b998c95e4b09992fca21fd0")
 
 async function editPerson() {
 
@@ -371,7 +414,8 @@ async function createPerson() {
         })
         .then(response => response.json())
     document.getElementById("mc-at-id").value = res.new_obj_state["@id"]
-    let list = await get("li01")
+    const listID = localStorage.getItem("CURRENT_LIST_ID") || DEFAULT_LIST_ID
+    let list = await get(listID)
     list.resources.push({
         "@id": res.new_obj_state["@id"],
         "label": document.getElementById("mc-label").value
