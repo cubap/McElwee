@@ -138,7 +138,7 @@ template.evidence = function (obj) {
 
 template.fullName = function (obj) {
     try {
-        return `<div class="mc-name">${obj.familyName.value||obj.familyName||"[ unknown ]"}, ${obj.givenName.value||obj.givenName||""}</div>`
+        return `<div class="mc-name">${obj['mc:familyName']&&obj['mc:familyName'].value||obj['mc:familyName']||"[ unknown ]"}, ${obj['mc:givenName']&&obj['mc:givenName'].value||obj['mc:givenName']||""}</div>`
     } catch (err) {
         return null
     }
