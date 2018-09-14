@@ -41,7 +41,7 @@ async function checkForUpdates(id, isFresh) {
     } finally {
         for(elem of document.getElementsByClassName("mc-update-button")){
             if (elem.getAttribute("mc-update-target") ===id) {
-                elem.parentElement.remove()
+                elem.remove()
             }
         }
         return obj
