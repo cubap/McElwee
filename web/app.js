@@ -32,9 +32,8 @@ async function checkForUpdates(id, isFresh) {
                 if (obj["@type"]==="List") {
                     localStorage.setItem("CURRENT_LIST_ID",obj["@id"])
                 }
-                return checkForUpdates(obj["@id"],true)
+                checkForUpdates(obj["@id"],true)
             }
-            return obj
         }
     } catch (err) {
         // It's not important what happened; let the finally remove the button
@@ -44,6 +43,7 @@ async function checkForUpdates(id, isFresh) {
                 elem.remove()
             }
         }
+        localStorage.setItem(obj["@id"],obj)
         return obj
     }
 }

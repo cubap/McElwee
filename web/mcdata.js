@@ -1,4 +1,4 @@
-(function() {
+(function () {
     // hand-done data for McElwee
     // foaf, cidoc, bio not really preferenced yet...
 
@@ -72,7 +72,7 @@
     }
     datar.documentCatalog = {
         "@context": "",
-        "@id" : "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68",
+        "@id": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68",
         "@type": "Document",
         "label": "McElwee Cemetery Catalog"
     }
@@ -81,12 +81,11 @@
         "@id": "http://devstore.rerum.io/v1/id/5b998c95e4b09992fca21fd0",
         "@type": "List",
         "label": "Cemetery Residents",
-        "resources": [
-            { "@id": "p001", "label": "BLAND, Claud H." },
-            { "@id": "p004", "label": "BLAND, Minnie Lee" },
-            { "@id": "p005", "label": "BEVARD, Sarah I. Howell" },
-            { "@id": "p006", "label": "BRUNAUGH, W." },
-            { "@id": "p007", "label": "CARR, Elizabeth C." },
+        "resources": [{ "@id": "p001", "label": "Claud H. Bland" },
+            { "@id": "p004", "label": "Minnie Lee Bland" },
+            { "@id": "p005", "label": "Sarah I. Howell Bevard" },
+            { "@id": "p006", "label": "W. Brunaugh" },
+            { "@id": "p007", "label": "Elizabeth C. Carr" }
         ]
     }
 
@@ -144,12 +143,27 @@
         "@type": "Annotation",
         "motivation": "describing",
         "target": "e001",
-        "body": [
-            { "label": "The birth of Claud H. Bland" },
-            { "principal": { "@id": "p001" } },
-            { "parent": { "@id": "p002" } },
-            { "parent": { "@id": "p003" } },
-            { "date": "1882-03-25" }
+        "body": [{
+                "label": "The birth of Claud H. Bland"
+            },
+            {
+                "principal": {
+                    "@id": "p001"
+                }
+            },
+            {
+                "parent": {
+                    "@id": "p002"
+                }
+            },
+            {
+                "parent": {
+                    "@id": "p003"
+                }
+            },
+            {
+                "date": "1882-03-25"
+            }
         ]
     }
     datar.annoE2 = {
@@ -158,10 +172,17 @@
         "@type": "Annotation",
         "motivation": "describing",
         "target": "e002",
-        "body": [
-            { "label": "The death of Claud H. Bland" },
-            { "principal": { "@id": "p001" } },
-            { "date": "1883-12-12" }
+        "body": [{
+                "label": "The death of Claud H. Bland"
+            },
+            {
+                "principal": {
+                    "@id": "p001"
+                }
+            },
+            {
+                "date": "1883-12-12"
+            }
         ]
     }
     datar.annoT1 = {
@@ -170,9 +191,12 @@
         "@type": "Annotation",
         "motivation": "describing",
         "target": "t001",
-        "body": [
-            { "seeAlso": "https://www.findagrave.com/memorial/5440149/claud-bland" },
-            { "evidence": "https://images.findagrave.com/photos/2013/93/5440149_136510870831.jpg" }
+        "body": [{
+                "seeAlso": "https://www.findagrave.com/memorial/5440149/claud-bland"
+            },
+            {
+                "evidence": "https://images.findagrave.com/photos/2013/93/5440149_136510870831.jpg"
+            }
         ]
     }
     datar.annoL1 = {
@@ -181,10 +205,18 @@
         "@type": "Annotation",
         "motivation": "describing",
         "target": "l001",
-        "body": [
-            { "label": "McElwee Cemetery" },
-            { "seeAlso": "http://gnis-ld.org/lod/gnis/feature/722098" },
-            { "evidence": { "@id": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68", "@type": "Document" } }
+        "body": [{
+                "label": "McElwee Cemetery"
+            },
+            {
+                "seeAlso": "http://gnis-ld.org/lod/gnis/feature/722098"
+            },
+            {
+                "evidence": {
+                    "@id": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68",
+                    "@type": "Document"
+                }
+            }
         ]
     }
     datar.annoD1 = {
@@ -193,16 +225,26 @@
         "@type": "Annotation",
         "motivation": "describing",
         "target": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68",
-        "body": [
-            { "label": "McElwee Cemetery Catalog" },
-            { "describes": { "@id": "l001", "@type": "Location" } },
-            { "evidence": "http://public.fotki.com/iowaz/pike-co-missouri/mcelwee-cem-pike-co/burials-mcelwee-cem/" },
-            { "description": "Printed catalog of grave markers available at some date." }
+        "body": [{
+                "label": "McElwee Cemetery Catalog"
+            },
+            {
+                "describes": {
+                    "@id": "l001",
+                    "@type": "Location"
+                }
+            },
+            {
+                "evidence": "http://public.fotki.com/iowaz/pike-co-missouri/mcelwee-cem-pike-co/burials-mcelwee-cem/"
+            },
+            {
+                "description": "Printed catalog of grave markers available at some date."
+            }
         ]
     }
 
     for (e in datar) {
-        if(!localStorage.getItem(datar[e]['@id']))
-        localStorage.setItem(datar[e]["@id"], JSON.stringify(datar[e]))
+        if (!localStorage.getItem(datar[e]['@id']))
+            localStorage.setItem(datar[e]["@id"], JSON.stringify(datar[e]))
     }
 })()
