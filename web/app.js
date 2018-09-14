@@ -57,7 +57,7 @@ async function get(url, exact) {
             let btn = document.createElement("span")
             btn.innerHTML = `<button role="button" onclick="checkForUpdates('${obj['@id']}')">Check for Updates on ${obj.label}</button>`
             btn.setAttribute("mc-update-target",obj['@id'])
-            btn.setClass("mc-update-button")
+            btn.classList.add("mc-update-button")
             let msg = document.getElementById("flash-message")
             msg.after(btn)
         }
