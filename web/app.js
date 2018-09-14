@@ -17,7 +17,7 @@ mc.focusOn = function (id) {
     mc.focusObject.setAttribute('mc-object', id)
 }
 async function checkForUpdates(id, isFresh) {
-    let obj = localStorage.getItem(id)
+    let obj = JSON.parse(localStorage.getItem(id))
     try {      
         if (id.startsWith(BASE_ID)) {
             if (!isFresh) { 
