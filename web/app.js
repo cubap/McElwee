@@ -25,7 +25,7 @@ async function checkForUpdates(id, isFresh) {
                 obj = await response.json()
             }
             if (obj.__rerum.history.next.length > 0){
-                obj = await fetch(obj.__rerum.history.next[0]).then(response=>response.json()).then(json=>json.new_obj_state)
+                obj = await fetch(obj.__rerum.history.next[0]).then(response=>response.json())
                 // TODO: only the first is selected and that's not necessarily right.
                 localStorage.removeItem("id")
                 localStorage.setItem(obj["@id"],obj)
@@ -162,6 +162,24 @@ template.gender = function (obj) {
     }
 }
 
+template.depiction = async function (obj) {
+    try {
+        let depiction = ((obj['mc:depiction'] && obj['mc:depiction'].value) || obj['mc:depiction'])
+        if (!depiction) { throw "No depiction." }
+        let loaded = () => new Promise((resolve, reject) => {
+            let img = new Image()
+            img.onload = resolve
+            img.onerror = reject
+            img.src = depiction
+        })
+        await loaded().then(() => {
+            return `<img alt="${obj.label} depiction" src="${depiction}">`
+        })
+    } catch (err) {
+        return null
+    }
+}
+
 template.JSON = function (obj) {
     try {
         return `${JSON.stringify(obj, null, 4)}`
@@ -226,7 +244,8 @@ template.person = function (obj, hideEditForm) {
         template.gender(obj),
         template.prop(obj, "mc:birthDate", "Birth Date"),
         template.prop(obj, "mc:deathDate", "Death Date"),
-        template.evidence(obj)
+        template.evidence(obj),
+        template.depiction(obj)
     ]
     elem += tmp.join("\n")
     if (!hideEditForm) {
@@ -274,6 +293,9 @@ template.personForm = function (person) {
     </label>
     <label for="mc-maiden-name">Maiden Name: 
         <input id="mc-maiden-name" mc-key="mc:maidenName" mc-source="${ person['mc:maidenName']&&person['mc:maidenName']['mc:source'] || person.maidenName&&person.maidenName['mc:source'] }" type="text" class="mc-data-entry" placeholder="former name" value="${ person['mc:maidenName']&&person['mc:maidenName'].value || person.maidenName&&person.maidenName.value || "" }" >
+    </label>
+    <label for="mc-depiction">Depiction: 
+        <input id="mc-depiction" mc-key="mc:depiction" mc-source="${ person['mc:depiction']&&person['mc:depiction']['mc:source'] }" type="text" class="mc-data-entry" placeholder="headstone depiction" value="${ person['mc:depiction']&&person['mc:depiction'].value || "" }" >
     </label>
     <label for="mc-transcription">Catalog Entry: 
         <textarea id="mc-transcription" mc-key="mc:transcription" mc-source="${ person['mc:transcription']&&person['mc:transcription']['mc:source'] }" type="text" class="mc-data-entry" >${ person['mc:transcription']&&person['mc:transcription'].value || "" }</textarea>
