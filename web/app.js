@@ -23,6 +23,7 @@ async function checkForUpdates(id, isFresh) {
             if (!isFresh) {
                 let response = await fetch(id)
                 obj = await response.json()
+                // TODO: handle failure
             }
             if (obj.__rerum.history.next.length > 0) {
                 obj = await fetch(obj.__rerum.history.next[0]).then(response => response.json())
@@ -176,8 +177,8 @@ template.JSON = function (obj) {
 }
 
 template.location = async function () {
-    let cemetery = await expand(await get("l001"))
-    cemetery = await checkForUpdates(cemetery["@id"])
+    let cemetery = await checkForUpdates("l001")
+    cemetery = await expand(await get(cemetery["@id"]))
     if (!cemetery) {
         return null
     }
