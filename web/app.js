@@ -27,7 +27,7 @@ async function checkForUpdates(id, isFresh) {
             if (obj.__rerum.history.next.length > 0) {
                 obj = await fetch(obj.__rerum.history.next[0]).then(response => response.json())
                 // TODO: only the first is selected and that's not necessarily right.
-                localStorage.removeItem("id")
+                localStorage.removeItem(id)
                 localStorage.setItem(obj["@id"], JSON.stringify(obj))
                 if (obj["@type"] === "List") {
                     localStorage.setItem("CURRENT_LIST_ID", obj["@id"])
@@ -176,13 +176,16 @@ template.JSON = function (obj) {
 }
 
 template.location = async function () {
-    let cemetery = await expand(await get(localStorage.getItem("CURRENT_LIST_ID") || "l001"))
+    let cemetery = await expand(await get("l001"))
     cemetery = await checkForUpdates(cemetery["@id"])
     if (!cemetery) {
         return null
     }
-    return `<h2>${cemetery.label.value}</h2>
-    <a href="${cemetery.seeAlso.value}" target="_blank" class="mc-see-also">${cemetery.seeAlso.value}</a>`
+    let tmpl = `<h2>${cemetery.label&&cemetery.label.value||cemetery.label||"[ unlabeled ]"}</h2>`
+    if(cemetery.seeAlso) {
+        tmpl += `<a href="${cemetery.seeAlso&&cemetery.seeAlso.value||cemetery.seeAlso||null}" target="_blank" class="mc-see-also">${cemetery.seeAlso&&cemetery.seeAlso.value||cemetery.seeAlso}</a>`
+    }
+    return tmpl
 }
 
 template.list = function (obj) {
@@ -440,68 +443,4 @@ async function createPerson() {
     localStorage.setItem(listID, JSON.stringify(list))
     localStorage.setItem("CURRENT_LIST_ID", listID)
     return editPerson()
-}
-
-const callback = function (error, response) {}
-
-async function post(callback, url, data) {
-
-    // TODO "async" and "await" this perhaps
-    let xhr = new XMLHttpRequest()
-    xhr.open("POST", url, false)
-    xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            let res, err;
-            if (xhr.status === 201) {
-                try {
-                    res = JSON.parse(xhr.response)
-                } catch (error) {
-                    err = error
-                }
-            } else {
-                err = new Error(xhr.statusText || "Create failed.")
-            }
-            if (typeof callback === "function") {
-                return callback(err, res)
-            } else {
-                return res
-            }
-            return err
-        }
-    }
-    if (typeof data !== "string") {
-        data = JSON.stringify(data)
-    }
-    xhr.send(data);
-}
-async function put(url, obj) {
-    // TODO "async" and "await" this perhaps
-    let xhr = new XMLHttpRequest()
-    xhr.open("PUT", url, false)
-    xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            let res, err;
-            if (xhr.status === 201) {
-                try {
-                    res = JSON.parse(xhr.response)
-                } catch (error) {
-                    err = error
-                }
-            } else {
-                err = new Error(xhr.statusText || "Update failed.")
-            }
-            if (typeof callback === "function") {
-                return callback(err, res)
-            } else {
-                return res
-            }
-            return err
-        }
-    }
-    if (typeof obj !== "string") {
-        obj = JSON.stringify(obj)
-    }
-    xhr.send(obj);
 }

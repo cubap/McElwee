@@ -76,67 +76,6 @@
         "@type": "Document",
         "label": "McElwee Cemetery Catalog"
     }
-    // datar.catalogList = {
-    //     "@context": "",
-    //     "@id": "http://devstore.rerum.io/v1/id/5b998c95e4b09992fca21fd0",
-    //     "@type": "List",
-    //     "label": "Cemetery Residents",
-    //     "resources": [{ "@id": "p001", "label": "Claud H. Bland" },
-    //         { "@id": "p004", "label": "Minnie Lee Bland" },
-    //         { "@id": "p005", "label": "Sarah I. Howell Bevard" },
-    //         { "@id": "p006", "label": "W. Brunaugh" },
-    //         { "@id": "p007", "label": "Elizabeth C. Carr" }
-    //     ]
-    // }
-
-    // // The Annotations
-    // datar.annoP1 = {
-    //     "@context": "",
-    //     "@id": "anP1",
-    //     "@type": "Annotation",
-    //     "motivation": "describing",
-    //     "target": "p001",
-    //     "body": [
-    //         { "givenName": "Claud" },
-    //         { "familyName": "Bland" },
-    //         { "gender": "male" },
-    //         { "label": "Claud H. Bland" },
-    //         { "name": "Claud H. Bland" },
-    //         { "birthDate": "1882-03-25" },
-    //         { "deathDate": "1883-12-12" },
-    //         { "Birth": { "@id": "e001" } },
-    //         { "Death": { "@id": "e002" } },
-    //         { "evidence": { "@id": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" } }
-    //     ]
-    // }
-    // datar.annoP2 = {
-    //     "@context": "",
-    //     "@id": "anP2",
-    //     "@type": "Annotation",
-    //     "motivation": "describing",
-    //     "target": "p002",
-    //     "body": [
-    //         { "label": "J. H. Bland" },
-    //         { "givenName": "J." },
-    //         { "familyName": "Bland" },
-    //         { "name": "J. H. Bland" },
-    //         { "evidence": { "@id": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" } }
-    //     ]
-    // }
-    // datar.annoP3 = {
-    //     "@context": "",
-    //     "@id": "anP3",
-    //     "@type": "Annotation",
-    //     "motivation": "describing",
-    //     "target": "p003",
-    //     "body": [
-    //         { "label": "J. J. Bland" },
-    //         { "givenName": "J." },
-    //         { "familyName": "Bland" },
-    //         { "name": "J. J. Bland" },
-    //         { "evidence": { "@id": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" } }
-    //     ]
-    // }
     datar.annoE1 = {
         "@context": "",
         "@id": "anE1",
