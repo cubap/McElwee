@@ -14,7 +14,7 @@
         </p>
     </mc-location>
 
-    <button role="button" type="button" onclick="mc.focusOn('CURRENT_LIST_ID');return false;">All Markers</button>
+    <button role="button" type="button" onclick="mc.focusOn(localStorage.getItem('CURRENT_LIST_ID'));return false;">All Markers</button>
 
     <mc-flash-message id="flash-message">
         This &lt;div> should be invisible until a message appears.

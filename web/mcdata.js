@@ -76,18 +76,18 @@
         "@type": "Document",
         "label": "McElwee Cemetery Catalog"
     }
-    datar.catalogList = {
-        "@context": "",
-        "@id": "http://devstore.rerum.io/v1/id/5b998c95e4b09992fca21fd0",
-        "@type": "List",
-        "label": "Cemetery Residents",
-        "resources": [{ "@id": "p001", "label": "Claud H. Bland" },
-            { "@id": "p004", "label": "Minnie Lee Bland" },
-            { "@id": "p005", "label": "Sarah I. Howell Bevard" },
-            { "@id": "p006", "label": "W. Brunaugh" },
-            { "@id": "p007", "label": "Elizabeth C. Carr" }
-        ]
-    }
+    // datar.catalogList = {
+    //     "@context": "",
+    //     "@id": "http://devstore.rerum.io/v1/id/5b998c95e4b09992fca21fd0",
+    //     "@type": "List",
+    //     "label": "Cemetery Residents",
+    //     "resources": [{ "@id": "p001", "label": "Claud H. Bland" },
+    //         { "@id": "p004", "label": "Minnie Lee Bland" },
+    //         { "@id": "p005", "label": "Sarah I. Howell Bevard" },
+    //         { "@id": "p006", "label": "W. Brunaugh" },
+    //         { "@id": "p007", "label": "Elizabeth C. Carr" }
+    //     ]
+    // }
 
     // // The Annotations
     // datar.annoP1 = {
@@ -247,4 +247,6 @@
         if (!localStorage.getItem(datar[e]['@id']))
             localStorage.setItem(datar[e]["@id"], JSON.stringify(datar[e]))
     }
+    if(!localStorage.getItem("CURRENT_LIST_ID"))localStorage.setItem("CURRENT_LIST_ID","http://devstore.rerum.io/v1/id/5b998c95e4b09992fca21fd0")
+
 })()

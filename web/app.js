@@ -18,32 +18,35 @@ mc.focusOn = function (id) {
 }
 async function checkForUpdates(id, isFresh) {
     let obj = JSON.parse(localStorage.getItem(id))
-    try {      
+    try {
         if (id.startsWith(BASE_ID)) {
-            if (!isFresh) { 
+            if (!isFresh) {
                 let response = await fetch(id)
                 obj = await response.json()
             }
-            if (obj.__rerum.history.next.length > 0){
-                obj = await fetch(obj.__rerum.history.next[0]).then(response=>response.json()).then(json=>json.new_obj_state)
+            if (obj.__rerum.history.next.length > 0) {
+                obj = await fetch(obj.__rerum.history.next[0]).then(response => response.json())
                 // TODO: only the first is selected and that's not necessarily right.
                 localStorage.removeItem("id")
-                localStorage.setItem(obj["@id"],obj)
-                if (obj["@type"]==="List") {
-                    localStorage.setItem("CURRENT_LIST_ID",obj["@id"])
+                localStorage.setItem(obj["@id"], JSON.stringify(obj))
+                if (obj["@type"] === "List") {
+                    localStorage.setItem("CURRENT_LIST_ID", obj["@id"])
                 }
-                checkForUpdates(obj["@id"],true)
+                checkForUpdates(obj["@id"], true)
             }
         }
     } catch (err) {
         // It's not important what happened; let the finally remove the button
     } finally {
-        for(elem of document.getElementsByClassName("mc-update-button")){
-            if (elem.getAttribute("mc-update-target") ===id) {
+        for (elem of document.getElementsByClassName("mc-update-button")) {
+            if (elem.getAttribute("mc-update-target") === id) {
                 elem.remove()
             }
         }
-        localStorage.setItem(obj["@id"],obj)
+        if (obj["@type"] === "List") {
+            localStorage.setItem("CURRENT_LIST_ID", obj["@id"])
+        }
+        localStorage.setItem(obj["@id"], JSON.stringify(obj))
         return obj
     }
 }
@@ -56,7 +59,7 @@ async function get(url, exact) {
             // TODO: technically, this won't check for updates...
             let btn = document.createElement("span")
             btn.innerHTML = `<button role="button" onclick="checkForUpdates('${obj['@id']}')">Check for Updates on ${obj.label}</button>`
-            btn.setAttribute("mc-update-target",obj['@id'])
+            btn.setAttribute("mc-update-target", obj['@id'])
             btn.classList.add("mc-update-button")
             let msg = document.getElementById("flash-message")
             msg.after(btn)
@@ -96,7 +99,7 @@ async function expand(obj) {
                         "mc:source": annos[i]["@id"]
                     }
                 }
-                if (obj[k] !== undefined && annos[i].__rerum&&annos[i].__rerum.history.next.length) {
+                if (obj[k] !== undefined && annos[i].__rerum && annos[i].__rerum.history.next.length) {
                     // this is not the most recent available
                     // TODO: maybe check generator, etc.
                     continue Leaf
@@ -155,7 +158,9 @@ template.prop = function (obj, prop, altLabel) {
 template.gender = function (obj) {
     try {
         let gender = ((obj.gender && obj.gender.value) || obj.gender)
-        if (!gender) { throw "No gender." }
+        if (!gender) {
+            throw "No gender."
+        }
         return `<span class="mc-gender">${ gender }</span>`
     } catch (err) {
         return null
@@ -171,7 +176,8 @@ template.JSON = function (obj) {
 }
 
 template.location = async function () {
-    let cemetery = await expand(await get("l001"))
+    let cemetery = await expand(await get(localStorage.getItem("CURRENT_LIST_ID") || "l001"))
+    cemetery = await checkForUpdates(cemetery["@id"])
     if (!cemetery) {
         return null
     }
@@ -420,7 +426,19 @@ async function createPerson() {
         "@id": res.new_obj_state["@id"],
         "label": document.getElementById("mc-label").value
     })
-    localStorage.setItem("li01", JSON.stringify(list))
+    try {
+        list = await fetch(UPDATE_URL, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                body: JSON.stringify(list)
+            })
+            .then(response => response.json().new_obj_state)
+            .catch(err => Promise.reject(err))
+    } catch (err) {}
+    localStorage.setItem(listID, JSON.stringify(list))
+    localStorage.setItem("CURRENT_LIST_ID", listID)
     return editPerson()
 }
 
