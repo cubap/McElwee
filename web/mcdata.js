@@ -186,6 +186,7 @@
         if (!localStorage.getItem(datar[e]['@id']))
             localStorage.setItem(datar[e]["@id"], JSON.stringify(datar[e]))
     }
-    if(!localStorage.getItem("CURRENT_LIST_ID"))localStorage.setItem("CURRENT_LIST_ID","http://devstore.rerum.io/v1/id/5b998c95e4b09992fca21fd0")
-
+    if(!localStorage.getItem("CURRENT_LIST_ID")){
+        localStorage.setItem("CURRENT_LIST_ID","http://devstore.rerum.io/v1/id/5b9bd781e4b09992fca22008")
+    }
 })()

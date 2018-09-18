@@ -68,9 +68,9 @@ async function get(url, exact) {
         return obj
     } catch (err) {
         // nothing useful in localStorage
-        const response = await fetch(url)
-        const json = await response.json()
-        return response.ok ? json : Promise.reject(json)
+        const obj = await fetch(url).then(response=>response.json())
+        localStorage.setItem(obj["@id"],JSON.stringify(obj))
+        return response.ok ? obj : Promise.reject(obj)
     }
 }
 
@@ -195,8 +195,8 @@ template.JSON = function (obj) {
 }
 
 template.location = async function () {
-    let cemetery = await checkForUpdates("l001")
-    cemetery = await expand(await get(cemetery["@id"]))
+    // let cemetery = await checkForUpdates("l001")
+    let cemetery = await expand(await get("l001"))
     if (!cemetery) {
         return null
     }
@@ -347,7 +347,7 @@ mc.renderObserver.observe(mc.focusObject, {
 
 // load defaulty bits
 renderElement(document.getElementById("mc-location"), template.location())
-mc.focusObject.setAttribute("mc-object", "http://devstore.rerum.io/v1/id/5b998c95e4b09992fca21fd0")
+mc.focusObject.setAttribute("mc-object", localStorage.getItem("CURRENT_LIST_ID") || "http://devstore.rerum.io/v1/id/5b9bd781e4b09992fca22008")
 
 async function editPerson() {
 
