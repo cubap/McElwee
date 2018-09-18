@@ -13,9 +13,21 @@ const UPDATE_URL = "http://tinydev.rerum.io/app/update"
 
 mc.focusObject = document.getElementById("mc-view")
 
+/**
+ * Fires a render call with a new primary item in focus.
+ * This may also be useful as a # or path.
+ * @param {String} id URL or URI that identifies the object
+ */
 mc.focusOn = function (id) {
     mc.focusObject.setAttribute('mc-object', id)
 }
+
+/**
+ * Investigates RERUM for newer versions of the object.
+ * Promise resolves to the object.
+ * @param {String} id URL or URI that identifies the object
+ * @param {Boolean} isFresh escape route for recurrences
+ */
 async function checkForUpdates(id, isFresh) {
     let obj = JSON.parse(localStorage.getItem(id))
     try {
@@ -52,6 +64,13 @@ async function checkForUpdates(id, isFresh) {
     }
 }
 
+/**
+ * Retrieve the object and, if it is not obviously the most recent,
+ * add a button to the interface to checkForUpdates()
+ * @see checkForUpdates()
+ * @param {URL} url Location of initial object to retrieve
+ * @param {Boolean} exact True if only the initial version is wanted
+ */
 async function get(url, exact) {
     let obj
     try {
@@ -75,6 +94,11 @@ async function get(url, exact) {
     }
 }
 
+/**
+ * Take a known object with an id and query for annotations targeting it.
+ * Discovered annotations are attached to the original object and returned.
+ * @param {Object} obj Target object to search for description
+ */
 async function expand(obj) {
     let toRender = {}
     let findId = obj["@id"]
@@ -114,6 +138,11 @@ async function expand(obj) {
     return obj
 }
 
+/**
+ * Execute query for any annotations in RERUM which target the
+ * id passed in. Promise resolves to an array of annotations.
+ * @param {String} id URI for the targeted entity
+ */
 async function findByTargetId(id) {
     let everything = Object.keys(localStorage).map(k => (k && k.length === 4) && JSON.parse(localStorage.getItem(k)))
     let local_matches, matches
@@ -317,6 +346,11 @@ template.personForm = function (person) {
     </form>`
 }
 
+/**
+ * Update the DOM with a template from the application.
+ * @param {HTMLElement} elem The DOM Element in which the template will be placed
+ * @param {function} tmp Function to return Template literal
+ */
 async function renderElement(elem, tmp) {
     while (elem.firstChild) {
         elem.removeChild(elem.firstChild)
