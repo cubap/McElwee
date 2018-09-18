@@ -68,7 +68,8 @@ async function get(url, exact) {
         return obj
     } catch (err) {
         // nothing useful in localStorage
-        const obj = await fetch(url).then(response=>response.json())
+        const response = await fetch(url)
+        const obj = await response.json()
         localStorage.setItem(obj["@id"],JSON.stringify(obj))
         return response.ok ? obj : Promise.reject(obj)
     }
@@ -150,7 +151,7 @@ template.fullName = function (obj) {
 
 template.prop = function (obj, prop, altLabel) {
     try {
-        return `<span class="mc-${prop.trim().replace(/\s+/g,"-").replace(/:/g,"-").replace(/(mc-)+/g,"mc-").normalize("NFC").toLowerCase()}">${altLabel || prop}: ${obj[prop].value || "[ undefined ]"}</span>`
+        return `<span class="${("mc-"+prop).trim().replace(/\s+/g,"-").replace(/:/g,"-").replace(/(mc-)+/g,"mc-").normalize("NFC").toLowerCase()}">${altLabel || prop}: ${obj[prop].value || "[ undefined ]"}</span>`
     } catch (err) {
         return null
     }
@@ -172,15 +173,16 @@ template.depiction = async function (obj) {
     try {
         let depiction = ((obj['mc:depiction'] && obj['mc:depiction'].value) || obj['mc:depiction'])
         if (!depiction) { throw "No depiction." }
+        // return `<img alt="${obj.label} depiction" class="mc-depiction" onclick="this.classList.toggle('clicked')" src="${depiction}">`
+// TODO: figure out how to check for the image without returning a Promise
         let loaded = () => new Promise((resolve, reject) => {
             let img = new Image()
-            img.onload = resolve
+            img.onload = () => resolve()
             img.onerror = reject
             img.src = depiction
         })
-        await loaded().then(() => {
-            return `<img alt="${obj.label} depiction" src="${depiction}">`
-        })
+        let tmp = await loaded().then(() => `<img alt="${obj.label} depiction" class="mc-depiction" onclick="this.classList.toggle('clicked')" src="${depiction}">`)
+        return tmp
     } catch (err) {
         return null
     }
@@ -246,7 +248,7 @@ template.byObjectType = async function (obj) {
     return templateFunction(obj)
 }
 
-template.person = function (obj, hideEditForm) {
+template.person = async function (obj, hideEditForm) {
     setClass("Person")
     let elem = `<h3>${(obj.label && obj.label.value) || obj.label || "unlabeled"}</h3>`
     let tmp = [
@@ -255,7 +257,8 @@ template.person = function (obj, hideEditForm) {
         template.prop(obj, "mc:birthDate", "Birth Date"),
         template.prop(obj, "mc:deathDate", "Death Date"),
         template.evidence(obj),
-        template.depiction(obj)
+        template.prop(obj,"mc:transcription"," "),
+        await template.depiction(obj)
     ]
     elem += tmp.join("\n")
     if (!hideEditForm) {

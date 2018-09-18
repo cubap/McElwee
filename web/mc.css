@@ -82,7 +82,8 @@ mc-view {
     margin: 4rem;
     transition: all 100ms;
     color: #060606;
-    display:block;
+    display: block;
+    position: relative;
 }
 
 mc-view.Person {
@@ -109,9 +110,29 @@ mc-view.Person h3 {
     font-size: 80%;
 }
 
+.mc-depiction {
+    max-width: 200px;
+    max-height: 200px;
+    transition: 1s all;
+    transform: scale(1);
+    display: block;
+    margin: 0 auto;
+}
+
+.mc-depiction.clicked {
+    transform: scale(5);
+}
+
+.mc-transcription {
+    font-family: cursive;
+    display: block;
+    font-size: 1.2rem;
+}
+
 form label[for^="mc-"] {
     display: inline-grid;
 }
+
 [for="mc-transcription"] {
     width: 100%;
 }
