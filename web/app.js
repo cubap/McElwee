@@ -69,8 +69,9 @@ async function get(url, exact) {
     } catch (err) {
         // nothing useful in localStorage
         const response = await fetch(url)
-        const json = await response.json()
-        return response.ok ? json : Promise.reject(json)
+        const obj = await response.json()
+        localStorage.setItem(obj["@id"],JSON.stringify(obj))
+        return response.ok ? obj : Promise.reject(obj)
     }
 }
 
@@ -150,7 +151,7 @@ template.fullName = function (obj) {
 
 template.prop = function (obj, prop, altLabel) {
     try {
-        return `<span class="mc-${prop.trim().replace(/\s+/g,"-").replace(/:/g,"-").replace(/(mc-)+/g,"mc-").normalize("NFC").toLowerCase()}">${altLabel || prop}: ${obj[prop].value || "[ undefined ]"}</span>`
+        return `<span class="${("mc-"+prop).trim().replace(/\s+/g,"-").replace(/:/g,"-").replace(/(mc-)+/g,"mc-").normalize("NFC").toLowerCase()}">${altLabel || prop}: ${obj[prop].value || "[ undefined ]"}</span>`
     } catch (err) {
         return null
     }
@@ -168,6 +169,25 @@ template.gender = function (obj) {
     }
 }
 
+template.depiction = async function (obj) {
+    try {
+        let depiction = ((obj['mc:depiction'] && obj['mc:depiction'].value) || obj['mc:depiction'])
+        if (!depiction) { throw "No depiction." }
+        // return `<img alt="${obj.label} depiction" class="mc-depiction" onclick="this.classList.toggle('clicked')" src="${depiction}">`
+// TODO: figure out how to check for the image without returning a Promise
+        let loaded = () => new Promise((resolve, reject) => {
+            let img = new Image()
+            img.onload = () => resolve()
+            img.onerror = reject
+            img.src = depiction
+        })
+        let tmp = await loaded().then(() => `<img alt="${obj.label} depiction" class="mc-depiction" onclick="this.classList.toggle('clicked')" src="${depiction}">`)
+        return tmp
+    } catch (err) {
+        return null
+    }
+}
+
 template.JSON = function (obj) {
     try {
         return `${JSON.stringify(obj, null, 4)}`
@@ -177,8 +197,8 @@ template.JSON = function (obj) {
 }
 
 template.location = async function () {
-    let cemetery = await checkForUpdates("l001")
-    cemetery = await expand(await get(cemetery["@id"]))
+    // let cemetery = await checkForUpdates("l001")
+    let cemetery = await expand(await get("l001"))
     if (!cemetery) {
         return null
     }
@@ -228,7 +248,7 @@ template.byObjectType = async function (obj) {
     return templateFunction(obj)
 }
 
-template.person = function (obj, hideEditForm) {
+template.person = async function (obj, hideEditForm) {
     setClass("Person")
     let elem = `<h3>${(obj.label && obj.label.value) || obj.label || "unlabeled"}</h3>`
     let tmp = [
@@ -236,7 +256,9 @@ template.person = function (obj, hideEditForm) {
         template.gender(obj),
         template.prop(obj, "mc:birthDate", "Birth Date"),
         template.prop(obj, "mc:deathDate", "Death Date"),
-        template.evidence(obj)
+        template.evidence(obj),
+        template.prop(obj,"mc:transcription"," "),
+        await template.depiction(obj)
     ]
     elem += tmp.join("\n")
     if (!hideEditForm) {
@@ -285,6 +307,9 @@ template.personForm = function (person) {
     <label for="mc-maiden-name">Maiden Name: 
         <input id="mc-maiden-name" mc-key="mc:maidenName" mc-source="${ person['mc:maidenName']&&person['mc:maidenName']['mc:source'] || person.maidenName&&person.maidenName['mc:source'] }" type="text" class="mc-data-entry" placeholder="former name" value="${ person['mc:maidenName']&&person['mc:maidenName'].value || person.maidenName&&person.maidenName.value || "" }" >
     </label>
+    <label for="mc-depiction">Depiction: 
+        <input id="mc-depiction" mc-key="mc:depiction" mc-source="${ person['mc:depiction']&&person['mc:depiction']['mc:source'] }" type="text" class="mc-data-entry" placeholder="headstone depiction" value="${ person['mc:depiction']&&person['mc:depiction'].value || "" }" >
+    </label>
     <label for="mc-transcription">Catalog Entry: 
         <textarea id="mc-transcription" mc-key="mc:transcription" mc-source="${ person['mc:transcription']&&person['mc:transcription']['mc:source'] }" type="text" class="mc-data-entry" >${ person['mc:transcription']&&person['mc:transcription'].value || "" }</textarea>
     </label>
@@ -325,7 +350,7 @@ mc.renderObserver.observe(mc.focusObject, {
 
 // load defaulty bits
 renderElement(document.getElementById("mc-location"), template.location())
-mc.focusObject.setAttribute("mc-object", "http://devstore.rerum.io/v1/id/5b998c95e4b09992fca21fd0")
+mc.focusObject.setAttribute("mc-object", localStorage.getItem("CURRENT_LIST_ID") || "http://devstore.rerum.io/v1/id/5b9bd781e4b09992fca22008")
 
 async function editPerson() {
 
