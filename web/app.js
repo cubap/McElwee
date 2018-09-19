@@ -360,7 +360,13 @@ async function renderElement(elem, tmp) {
     }
 }
 
+/**
+ * Removes known "@type" names and sets the one passed in.
+ * Intended for Elements representing an entity for styling.
+ * @param {String} className to be set
+ */
 function setClass(className) {
+    // TODO: Config a list of these and run remove(...CLASSES) instead
     mc.focusObject.classList.remove("Event", "Person", "Location", "List", "Thing")
     mc.focusObject.classList.add(className)
 }
@@ -386,6 +392,11 @@ mc.renderObserver.observe(mc.focusObject, {
 renderElement(document.getElementById("mc-location"), template.location())
 mc.focusObject.setAttribute("mc-object", localStorage.getItem("CURRENT_LIST_ID") || "http://devstore.rerum.io/v1/id/5b9bd781e4b09992fca22008")
 
+/**
+ * Uses the edit form in the DOM to update or create 
+ * annotations that target the unchanging entity id
+ * for a "Person" in this case.
+ */
 async function editPerson() {
 
     let params = [];
@@ -436,38 +447,10 @@ async function editPerson() {
     }
 }
 
-async function updatePerson(person) {
-    // change only the annotations
-    let params = [UPDATE_URL, {
-        method: "PUT",
-        body: JSON.stringify(person),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }]
-    const stored = await findByTargetId(findId)
-
-    for (k of person) {
-        let updateDetected = {
-            key: false,
-            value: ""
-        }
-        for (let i = 0; i < stored.length; i++) {
-            for (let j = 0; j < stored[i].body.length; j++) {
-                if (stored[i].body[j][k]) {
-                    updateDetected.key = (stored[i].body[j][k].valueOf() !== person[k].valueOf())
-                    let v = {}
-                    v[k] = person[k]
-                    updateDetected.value = JSON.stringify(v)
-                    break
-                } else {
-                    updateDetected.key = false
-                }
-            }
-        }
-    }
-}
-
+/**
+ * Generate a new Person entity for annotation.
+ * Add the person to the list in hand.
+ */
 async function createPerson() {
     let newPerson = {
         label: document.getElementById("mc-label").value,
