@@ -54,8 +54,8 @@ class Deer {
             this.TYPES = ["Event", "Person", "Location", "List", "Thing"]
             this.FOCUS_OBJECT = document.getElementsByTagName("deer-view")[0] || document.getElementById("deer-view")
 
-            this.renderObserver = new MutationObserver(observerCallback)
-            this.renderObserver.observe(this.FOCUS_OBJECT, {
+            this.newObjectLoader = new MutationObserver(newObjectRender)
+            this.newObjectLoader.observe(this.FOCUS_OBJECT, {
                 attributes: true
             })
 
@@ -223,7 +223,7 @@ class Deer {
         this.FOCUS_OBJECT.classList.add(className)
     }
 
-    async observerCallback(mutationsList) {
+    async newObjectRender(mutationsList) {
         for (var mutation of mutationsList) {
             if (mutation.attributeName === "deer-object") {
                 let id = this.FOCUS_OBJECT.getAttribute("deer-object")

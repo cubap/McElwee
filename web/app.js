@@ -371,7 +371,7 @@ function setClass(className) {
     mc.focusObject.classList.add(className)
 }
 
-async function observerCallback(mutationsList) {
+async function loadNewObject(mutationsList) {
     for (var mutation of mutationsList) {
         if (mutation.attributeName === "mc-object") {
             let id = mc.focusObject.getAttribute("mc-object")
@@ -382,7 +382,7 @@ async function observerCallback(mutationsList) {
     }
 }
 
-mc.renderObserver = new MutationObserver(observerCallback)
+mc.renderObserver = new MutationObserver(loadNewObject)
 mc.renderObserver.observe(mc.focusObject, {
     attributes: true
 })
