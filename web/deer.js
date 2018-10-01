@@ -367,8 +367,8 @@ class Deer {
         }
     }
 
-    renderEntity(obj, options) {
-        let elem = `<label>${this.getValue(obj.label)||this.getValue(obj.name)||this.getValue(obj.label)||"[ unlabeled ]"}</label>`
+    renderEntity(obj, options={}) {
+        let elem = `<label>${this.getValue(obj[options.label])||this.getValue(obj.name)||this.getValue(obj.label)||"[ unlabeled ]"}</label>`
         let tmp = []
         for (prop in obj) {
             tmp += renderProp(obj,options)
@@ -376,10 +376,12 @@ class Deer {
         return elem
     }
 
-    renderPerson(obj, options){
+    renderPerson(obj, options={}){
         try {
             let elem = `<label>${this.getValue(obj.label)||this.getValue(obj.name)||this.getValue(obj.label)||"[ unlabeled ]"}</label>`
-            
+            elem += `<div class="mc-name">${this.getValue(obj[options.familyName])||this.getValue(obj.familyName)||"[ unknown ]"}, ${this.getValue(obj[options.givenName])||this.getValue(obj.givenName)||""}</div>`
+            elem += renderProp(obj,options.birthDate||"birthDate", "Birth Date") + renderProp(obj,options.deathDate||"deathDate","Death Date")
+            elem += renderDepiction(obj,options) 
             return elem
         } catch (err) {
             return null
