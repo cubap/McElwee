@@ -51,6 +51,7 @@ class Deer {
             this.BASE_ID = "http://devstore.rerum.io/v1"
             this.CREATE_URL = "http://tinydev.rerum.io/app/create"
             this.UPDATE_URL = "http://tinydev.rerum.io/app/update"
+            this.QUERY_URL = "http://tinydev.rerum.io/app/query"
             this.TYPES = ["Event", "Person", "Location", "List", "Thing"]
             this.FOCUS_OBJECT = document.getElementsByTagName("deer-view")[0] || document.getElementById("deer-view")
 
@@ -260,6 +261,28 @@ async function expand(obj) {
     return obj
 }
 
+/**
+ * Execute query for any annotations in RERUM which target the
+ * id passed in. Promise resolves to an array of annotations.
+ * @param {String} id URI for the targeted entity
+ */
+async findByTargetId(id) {
+    let everything = Object.keys(localStorage).map(JSON.parse(localStorage.getItem(k)))
+    let obj = {
+        target: id
+    }
+    let matches = await fetch(this.QUERY_URL, {
+        method: "POST",
+        body: JSON.stringify(obj),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(response => response.json())
+    let local_matches = everything.filter(o => o.target === id)
+    matches = local_matches.concat(matches)
+    return matches
+}
+
     /**
      * Removes known "@type" names and sets the one passed in.
      * Intended for Elements representing an entity for styling.
@@ -271,6 +294,11 @@ async function expand(obj) {
         this.FOCUS_OBJECT.classList.add(className)
     }
 
+    /**
+     * Observer callback for rendering newly loaded objects. Checks the
+     * mutationsList for "deer-object" attribute changes.
+     * @param {Array} mutationsList of MutationRecord objects
+     */
     async newObjectRender(mutationsList) {
         for (var mutation of mutationsList) {
             if (mutation.attributeName === "deer-object") {
