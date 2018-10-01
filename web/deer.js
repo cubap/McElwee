@@ -38,14 +38,14 @@ class Deer {
             if (!localStorage.getItem("CURRENT_LIST_ID")) {
                 localStorage.setItem("CURRENT_LIST_ID", collectionURL)
             }
-            
+
             this.default = {
                 context: "https:schema.org",
                 type: "Thing",
                 name: "new Entity",
                 creator: "https://undefined.net"
             }
-            
+
             // "Constants"
             this.DEFAULT_LIST_ID = "li01"
             this.BASE_ID = "http://devstore.rerum.io/v1"
@@ -54,6 +54,14 @@ class Deer {
             this.QUERY_URL = "http://tinydev.rerum.io/app/query"
             this.TYPES = ["Event", "Person", "Location", "List", "Thing"]
             this.FOCUS_OBJECT = document.getElementsByTagName("deer-view")[0] || document.getElementById("deer-view")
+
+            this.TEMPLATES = {
+                Person: this.renderPerson,
+                List: this.renderList,
+                Event: this.renderEvent,
+                default: this.renderEntity,
+                json: this.renderJSON
+            }
 
             this.newObjectLoader = new MutationObserver(newObjectRender)
             this.newObjectLoader.observe(this.FOCUS_OBJECT, {
@@ -213,75 +221,75 @@ class Deer {
         }
     }
 
-/**
- * Take a known object with an id and query for annotations targeting it.
- * Discovered annotations are attached to the original object and returned.
- * @param {Object} obj Target object to search for description
- */
-async function expand(obj) {
-    let findId = obj["@id"]
-    let annos = await findByTargetId(findId)
-    // TODO: attach evidence to each property value
-    // add each value in a predictable way
-    // type properties for possible rendering?
-    for (let i = 0; i < annos.length; i++) {
-        let body = annos[i].body
-        if (!Array.isArray(body)) {
-            body = [body]
-        }
-        Leaf: for (let j = 0; j < body.length; j++) {
-            if (body[j].evidence) {
-                let evId = (typeof body[j].evidence === "object") ? body[j].evidence["@id"] : body[j].evidence
-                obj.evidence = await get(evId)
-            } else {
-                let val = body[j]
-                let k = Object.keys(val)[0]
-                if (!val.Source) {
-                    // include an origin for this property, placehold madsrdf:Source
-                    let aVal = val[k].value || val[k]
-                    val[k] = {
-                        value: aVal,
-                        Source: {
-                            citationSource: annos[i]["@id"],
-                            citationNote: annos[i].label || "Composed object from DEER",
-                            comment: "Learn about the assembler for this object at https://github.com/CenterForDigitalHumanities/TinyThings"
+    /**
+     * Take a known object with an id and query for annotations targeting it.
+     * Discovered annotations are attached to the original object and returned.
+     * @param {Object} obj Target object to search for description
+     */
+    async function expand(obj) {
+        let findId = obj["@id"]
+        let annos = await findByTargetId(findId)
+            // TODO: attach evidence to each property value
+            // add each value in a predictable way
+            // type properties for possible rendering?
+        for (let i = 0; i < annos.length; i++) {
+            let body = annos[i].body
+            if (!Array.isArray(body)) {
+                body = [body]
+            }
+            Leaf: for (let j = 0; j < body.length; j++) {
+                if (body[j].evidence) {
+                    let evId = (typeof body[j].evidence === "object") ? body[j].evidence["@id"] : body[j].evidence
+                    obj.evidence = await get(evId)
+                } else {
+                    let val = body[j]
+                    let k = Object.keys(val)[0]
+                    if (!val.Source) {
+                        // include an origin for this property, placehold madsrdf:Source
+                        let aVal = val[k].value || val[k]
+                        val[k] = {
+                            value: aVal,
+                            Source: {
+                                citationSource: annos[i]["@id"],
+                                citationNote: annos[i].label || "Composed object from DEER",
+                                comment: "Learn about the assembler for this object at https://github.com/CenterForDigitalHumanities/TinyThings"
+                            }
                         }
                     }
-                }
-                if (obj[k] !== undefined && annos[i].__rerum && annos[i].__rerum.history.next.length) {
-                    // this is not the most recent available
-                    // TODO: maybe check generator, etc.
-                    continue Leaf
-                } else {
-                    obj = Object.assign(obj, val)
+                    if (obj[k] !== undefined && annos[i].__rerum && annos[i].__rerum.history.next.length) {
+                        // this is not the most recent available
+                        // TODO: maybe check generator, etc.
+                        continue Leaf
+                    } else {
+                        obj = Object.assign(obj, val)
+                    }
                 }
             }
         }
+        return obj
     }
-    return obj
-}
 
-/**
- * Execute query for any annotations in RERUM which target the
- * id passed in. Promise resolves to an array of annotations.
- * @param {String} id URI for the targeted entity
- */
-async findByTargetId(id) {
-    let everything = Object.keys(localStorage).map(JSON.parse(localStorage.getItem(k)))
-    let obj = {
-        target: id
-    }
-    let matches = await fetch(this.QUERY_URL, {
-        method: "POST",
-        body: JSON.stringify(obj),
-        headers: {
-            "Content-Type": "application/json"
+    /**
+     * Execute query for any annotations in RERUM which target the
+     * id passed in. Promise resolves to an array of annotations.
+     * @param {String} id URI for the targeted entity
+     */
+    async findByTargetId(id) {
+        let everything = Object.keys(localStorage).map(JSON.parse(localStorage.getItem(k)))
+        let obj = {
+            target: id
         }
-    }).then(response => response.json())
-    let local_matches = everything.filter(o => o.target === id)
-    matches = local_matches.concat(matches)
-    return matches
-}
+        let matches = await fetch(this.QUERY_URL, {
+            method: "POST",
+            body: JSON.stringify(obj),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(response => response.json())
+        let local_matches = everything.filter(o => o.target === id)
+        matches = local_matches.concat(matches)
+        return matches
+    }
 
     /**
      * Removes known "@type" names and sets the one passed in.
@@ -318,8 +326,84 @@ async findByTargetId(id) {
         this.FOCUS_OBJECT.setAttribute('deer-object', id)
     }
 
+    // Templates
 
+    /**
+     * Return template literal for given object type. DEER ships
+     * with Person, List, Event, JSON, and default.
+     * Extend this.TEMPLATES to add more.
+     * @param {Object} obj to render
+     * @param {String} typeOverride to force a template
+     * @param {any} options specific to the template function
+     */
+    async getTemplate(obj, typeOverride, options) {
+        let templateFunction = function() {}
+        let type = typeOverride || obj["@type"] || "default"
+        templateFunction = this.TEMPLATES[type]
+        setClass(obj["@type"])
+        let tmpl = await templateFunction(obj, options)
+        return tmpl
+    }
 
+    renderProp(obj, options) {
+        let prop = options.prop
+        let altLabel = options.altLabel || prop
+        let prefix = (options.prefix || "deer")+"-"
+        try {
+            let pattern = new RegExp("("+prefix+")+","g")
+            return `<span class="${(prefix+prop).trim().replace(/\s+/g,"-").replace(/:/g,"-").replace(pattern,prefix).normalize("NFC").toLowerCase()}">${altLabel || prop}: ${this.getValue(obj[prop]) || "[ undefined ]"}</span>`
+        } catch (err) {
+            return null
+        }
+    }
+
+    renderJSON(obj, options) {
+        let indent = options.indent || 4
+        let replacer = options.replacer || null
+        try {
+            return `<pre>${JSON.stringify(obj, replacer, indent)}</pre>`
+        } catch (err) {
+            return null
+        }
+    }
+
+    renderEntity(obj, options) {
+        let elem = `<label>${this.getValue(obj.label)||this.getValue(obj.name)||this.getValue(obj.label)||"[ unlabeled ]"}</label>`
+        let tmp = []
+        for (prop in obj) {
+            tmp += renderProp(obj,options)
+        }
+        return elem
+    }
+
+    renderPerson(obj, options){
+        try {
+            let elem = `<label>${this.getValue(obj.label)||this.getValue(obj.name)||this.getValue(obj.label)||"[ unlabeled ]"}</label>`
+            
+            return elem
+        } catch (err) {
+            return null
+        }
+        return null
+    }
+    renderEvent(obj, options){
+        let elem = ``
+        try {
+            return elem
+        } catch (err) {
+            return null
+        }
+        return null
+    }
+    renderList(obj, options){
+        let elem = ``
+        try {
+            return elem
+        } catch (err) {
+            return null
+        }
+        return null
+    }
 }
 
 export default Deer
