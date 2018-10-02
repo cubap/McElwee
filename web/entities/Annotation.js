@@ -32,7 +32,7 @@ class Annotation {
     }
 
     getEntryTemplate() {
-
+        return ``
     }
 
     getValue(property, asType) {
