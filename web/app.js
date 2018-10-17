@@ -13,7 +13,7 @@ const UPDATE_URL = "http://tinydev.rerum.io/app/update"
 
 mc.focusObject = document.getElementById("mc-view")
 
-mc.focusOn = function (id) {
+mc.focusOn = function(id) {
     mc.focusObject.setAttribute('mc-object', id)
 }
 async function checkForUpdates(id, isFresh) {
@@ -23,11 +23,11 @@ async function checkForUpdates(id, isFresh) {
             if (!isFresh) {
                 let response = await fetch(id)
                 obj = await response.json()
-                // TODO: handle failure
+                    // TODO: handle failure
             }
             if (obj.__rerum.history.next.length > 0) {
                 obj = await fetch(obj.__rerum.history.next[0]).then(response => response.json())
-                // TODO: only the first is selected and that's not necessarily right.
+                    // TODO: only the first is selected and that's not necessarily right.
                 localStorage.removeItem(id)
                 localStorage.setItem(obj["@id"], JSON.stringify(obj))
                 if (obj["@type"] === "List") {
@@ -70,7 +70,7 @@ async function get(url, exact) {
         // nothing useful in localStorage
         const response = await fetch(url)
         const obj = await response.json()
-        localStorage.setItem(obj["@id"],JSON.stringify(obj))
+        localStorage.setItem(obj["@id"], JSON.stringify(obj))
         return response.ok ? obj : Promise.reject(obj)
     }
 }
@@ -79,9 +79,9 @@ async function expand(obj) {
     let toRender = {}
     let findId = obj["@id"]
     let annos = await findByTargetId(findId)
-    // TODO: attach evidence to each property value
-    // add each value in a predictable way
-    // type properties for possible rendering?
+        // TODO: attach evidence to each property value
+        // add each value in a predictable way
+        // type properties for possible rendering?
     for (let i = 0; i < annos.length; i++) {
         let body = annos[i].body
         if (!Array.isArray(body)) {
@@ -133,7 +133,7 @@ async function findByTargetId(id) {
 
 var template = {}
 
-template.evidence = function (obj) {
+template.evidence = function(obj) {
     try {
         return `<a class="mc-evidence" href="${(typeof obj.evidence === "object") ? obj.evidence["@id"] : obj.evidence}" target="_blank">${obj.evidence.label || "View evidence"}</a>`
     } catch (err) {
@@ -141,7 +141,7 @@ template.evidence = function (obj) {
     }
 }
 
-template.fullName = function (obj) {
+template.fullName = function(obj) {
     try {
         return `<div class="mc-name">${obj['mc:familyName']&&obj['mc:familyName'].value||obj['mc:familyName']||"[ unknown ]"}, ${obj['mc:givenName']&&obj['mc:givenName'].value||obj['mc:givenName']||""}</div>`
     } catch (err) {
@@ -149,7 +149,7 @@ template.fullName = function (obj) {
     }
 }
 
-template.prop = function (obj, prop, altLabel) {
+template.prop = function(obj, prop, altLabel) {
     try {
         return `<span class="${("mc-"+prop).trim().replace(/\s+/g,"-").replace(/:/g,"-").replace(/(mc-)+/g,"mc-").normalize("NFC").toLowerCase()}">${altLabel || prop}: ${obj[prop].value || "[ undefined ]"}</span>`
     } catch (err) {
@@ -157,7 +157,7 @@ template.prop = function (obj, prop, altLabel) {
     }
 }
 
-template.gender = function (obj) {
+template.gender = function(obj) {
     try {
         let gender = ((obj.gender && obj.gender.value) || obj.gender)
         if (!gender) {
@@ -169,12 +169,12 @@ template.gender = function (obj) {
     }
 }
 
-template.depiction = async function (obj) {
+template.depiction = async function(obj) {
     try {
         let depiction = ((obj['mc:depiction'] && obj['mc:depiction'].value) || obj['mc:depiction'])
         if (!depiction) { throw "No depiction." }
         // return `<img alt="${obj.label} depiction" class="mc-depiction" onclick="this.classList.toggle('clicked')" src="${depiction}">`
-// TODO: figure out how to check for the image without returning a Promise
+        // TODO: figure out how to check for the image without returning a Promise
         let loaded = () => new Promise((resolve, reject) => {
             let img = new Image()
             img.onload = () => resolve()
@@ -188,7 +188,7 @@ template.depiction = async function (obj) {
     }
 }
 
-template.JSON = function (obj) {
+template.JSON = function(obj) {
     try {
         return `${JSON.stringify(obj, null, 4)}`
     } catch (err) {
@@ -196,22 +196,25 @@ template.JSON = function (obj) {
     }
 }
 
-template.location = async function () {
+template.location = async function() {
     // let cemetery = await checkForUpdates("l001")
     let cemetery = await expand(await get("l001"))
     if (!cemetery) {
         return null
     }
     let tmpl = `<h2>${cemetery.label&&cemetery.label.value||cemetery.label||"[ unlabeled ]"}</h2>`
-    if(cemetery.seeAlso) {
+    if (cemetery.seeAlso) {
         tmpl += `<a href="${cemetery.seeAlso&&cemetery.seeAlso.value||cemetery.seeAlso||null}" target="_blank" class="mc-see-also">${cemetery.seeAlso&&cemetery.seeAlso.value||cemetery.seeAlso}</a>`
     }
     return tmpl
 }
 
-template.list = function (obj) {
+/**
+ * http://www.openarchives.org/ore/0.9/jsonld-examples/complete-example.json
+ */
+template.list = function(obj) {
     if (typeof obj.resources === "string") {
-        get(obj.resources).then(function (ls) {
+        get(obj.resources).then(function(ls) {
             obj.resources = ls
             return template.list(obj)
         })
@@ -226,8 +229,8 @@ template.list = function (obj) {
     return ul
 }
 
-template.byObjectType = async function (obj) {
-    let templateFunction = function () {}
+template.byObjectType = async function(obj) {
+    let templateFunction = function() {}
     switch (obj["@type"]) {
         case "Person":
             templateFunction = await template.person
@@ -248,7 +251,7 @@ template.byObjectType = async function (obj) {
     return templateFunction(obj)
 }
 
-template.person = async function (obj, hideEditForm) {
+template.person = async function(obj, hideEditForm) {
     setClass("Person")
     let elem = `<h3>${(obj.label && obj.label.value) || obj.label || "unlabeled"}</h3>`
     let tmp = [
@@ -257,7 +260,7 @@ template.person = async function (obj, hideEditForm) {
         template.prop(obj, "mc:birthDate", "Birth Date"),
         template.prop(obj, "mc:deathDate", "Death Date"),
         template.evidence(obj),
-        template.prop(obj,"mc:transcription"," "),
+        template.prop(obj, "mc:transcription", " "),
         await template.depiction(obj)
     ]
     elem += tmp.join("\n")
@@ -267,8 +270,8 @@ template.person = async function (obj, hideEditForm) {
         let elements = [].concat.apply([], pForm.getElementsByTagName("input"))
         elements = Array.prototype.concat.apply(elements, pForm.getElementsByTagName("textarea"))
         for (var el of elements) {
-            el.onchange = function (event) {
-                let prop = event.target.getAttribute("id").substr(3).replace(/(\-\w)/g, function (m) {
+            el.onchange = function(event) {
+                let prop = event.target.getAttribute("id").substr(3).replace(/(\-\w)/g, function(m) {
                     return m[1].toUpperCase();
                 })
                 obj[prop] = event.target.value
@@ -284,7 +287,7 @@ template.person = async function (obj, hideEditForm) {
     return elem
 }
 
-template.personForm = function (person) {
+template.personForm = function(person) {
     return `<form class="mc-person-edit" onsubmit="${ person["@id"] && "editPerson()" || "createPerson()" }">
     <input type="hidden" mc-key="@type" value="Person" id="mc-type" >
     <input type="hidden" mc-key="@id" value="${person["@id"]}" id="mc-at-id" >
@@ -395,7 +398,7 @@ async function editPerson() {
                 body: JSON.stringify(config.body)
             }).catch(error => console.error('Error:', error))
             .then(response => response.json())
-            .then(function (newState) {
+            .then(function(newState) {
                 localStorage.setItem(newState["@id"], JSON.stringify(newState.new_obj_state))
                 mc.focusOn(newState.new_obj_state.target)
             })
