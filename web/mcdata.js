@@ -1,4 +1,4 @@
-(function () {
+(function() {
     // hand-done data for McElwee
     // foaf, cidoc, bio not really preferenced yet...
 
@@ -8,73 +8,73 @@
         "@context": "",
         "@id": "p001",
         "@type": "Person",
-        "label": "Claud H. Bland"
+        "name": "Claud H. Bland"
     }
     datar.personJHB = {
         "@context": "",
         "@id": "p002",
         "@type": "Person",
-        "label": "JH Bland"
+        "name": "JH Bland"
     }
     datar.personJJB = {
         "@context": "",
         "@id": "p003",
         "@type": "Person",
-        "label": "JJ Bland"
+        "name": "JJ Bland"
     }
     datar.personMLB = {
         "@context": "",
         "@id": "p004",
         "@type": "Person",
-        "label": "Minnie Lee Bland"
+        "name": "Minnie Lee Bland"
     }
     datar.personSIHB = {
         "@context": "",
         "@id": "p005",
         "@type": "Person",
-        "label": "Sarah I. Howell Bevard"
+        "name": "Sarah I. Howell Bevard"
     }
     datar.personWB = {
         "@context": "",
         "@id": "p006",
         "@type": "Person",
-        "label": "W.Brunaugh"
+        "name": "W.Brunaugh"
     }
     datar.personECC = {
         "@context": "",
         "@id": "p007",
         "@type": "Person",
-        "label": "Elizabeth C. Carr"
+        "name": "Elizabeth C. Carr"
     }
     datar.eventCBb = {
         "@context": "",
         "@id": "e001",
         "@type": "Event",
-        "label": "Birth of Claud Bland"
+        "name": "Birth of Claud Bland"
     }
     datar.eventCBd = {
         "@context": "",
         "@id": "e002",
         "@type": "Event",
-        "label": "Death of Claud Bland"
+        "name": "Death of Claud Bland"
     }
     datar.itemMarker = {
         "@context": "",
         "@id": "t001",
         "@type": "Thing",
-        "label": "Grave marker for Bland, Claud H."
+        "name": "Grave marker for Bland, Claud H."
     }
     datar.locationCemetery = {
         "@context": "",
         "@id": "l001",
         "@type": "Location",
-        "label": "McElwee Cemetery"
+        "name": "McElwee Cemetery"
     }
     datar.documentCatalog = {
         "@context": "",
         "@id": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68",
         "@type": "Document",
-        "label": "McElwee Cemetery Catalog"
+        "name": "McElwee Cemetery Catalog"
     }
     datar.annoE1 = {
         "@context": "",
@@ -83,7 +83,7 @@
         "motivation": "describing",
         "target": "e001",
         "body": [{
-                "label": "The birth of Claud H. Bland"
+                "name": "The birth of Claud H. Bland"
             },
             {
                 "principal": {
@@ -112,7 +112,7 @@
         "motivation": "describing",
         "target": "e002",
         "body": [{
-                "label": "The death of Claud H. Bland"
+                "name": "The death of Claud H. Bland"
             },
             {
                 "principal": {
@@ -145,7 +145,7 @@
         "motivation": "describing",
         "target": "l001",
         "body": [{
-                "label": "McElwee Cemetery"
+                "name": "McElwee Cemetery"
             },
             {
                 "seeAlso": "http://gnis-ld.org/lod/gnis/feature/722098"
@@ -165,7 +165,7 @@
         "motivation": "describing",
         "target": "http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68",
         "body": [{
-                "label": "McElwee Cemetery Catalog"
+                "name": "McElwee Cemetery Catalog"
             },
             {
                 "describes": {
@@ -182,11 +182,20 @@
         ]
     }
 
+    datar.list = {
+        "@context": "http://schema.org",
+        "@type": ["ItemList", "http://www.w3.org/2000/01/rdf-schema#Bag"],
+        "@id": "residents",
+        "name": "Cemetery Population",
+        "numberOfItems": "0",
+        "itemListElement": []
+    }
+
     for (e in datar) {
         if (!localStorage.getItem(datar[e]['@id']))
             localStorage.setItem(datar[e]["@id"], JSON.stringify(datar[e]))
     }
-    if(!localStorage.getItem("CURRENT_LIST_ID")){
-        localStorage.setItem("CURRENT_LIST_ID","http://devstore.rerum.io/v1/id/5b9bd781e4b09992fca22008")
+    if (!localStorage.getItem("CURRENT_LIST_ID")) {
+        localStorage.setItem("CURRENT_LIST_ID", "residents")
     }
 })()
