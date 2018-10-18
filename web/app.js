@@ -6,7 +6,7 @@
 // }
 // customElements.define("mc-view",McView,{extends:"div"})
 var mc = {}
-const DEFAULT_LIST_ID = "li01"
+const DEFAULT_LIST_ID = "http://devstore.rerum.io/v1/id/5bc8089ce4b09992fca2222c"
 const BASE_ID = "http://devstore.rerum.io/v1"
 const CREATE_URL = "http://tinydev.rerum.io/app/create"
 const UPDATE_URL = "http://tinydev.rerum.io/app/update"
@@ -30,7 +30,7 @@ async function checkForUpdates(id, isFresh) {
                     // TODO: only the first is selected and that's not necessarily right.
                 localStorage.removeItem(id)
                 localStorage.setItem(obj["@id"], JSON.stringify(obj))
-                if (obj["@type"] === "List") {
+                if (obj["@type"].indexOf("ItemList") > -1) {
                     localStorage.setItem("CURRENT_LIST_ID", obj["@id"])
                 }
                 checkForUpdates(obj["@id"], true)
@@ -44,7 +44,7 @@ async function checkForUpdates(id, isFresh) {
                 elem.remove()
             }
         }
-        if (obj["@type"] === "List") {
+        if (obj["@type"].indexOf("ItemList") > -1) {
             localStorage.setItem("CURRENT_LIST_ID", obj["@id"])
         }
         localStorage.setItem(obj["@id"], JSON.stringify(obj))
@@ -59,7 +59,7 @@ async function get(url, exact) {
         if (obj['@id'].startsWith(BASE_ID)) {
             // TODO: technically, this won't check for updates...
             let btn = document.createElement("span")
-            btn.innerHTML = `<button role="button" onclick="checkForUpdates('${obj['@id']}')">Check for Updates on ${obj.label}</button>`
+            btn.innerHTML = `<button role="button" onclick="checkForUpdates('${obj['@id']}')">Check for Updates on ${obj.name||obj.label}</button>`
             btn.setAttribute("mc-update-target", obj['@id'])
             btn.classList.add("mc-update-button")
             let msg = document.getElementById("flash-message")
@@ -151,7 +151,7 @@ template.fullName = function(obj) {
 
 template.prop = function(obj, prop, altLabel) {
     try {
-        return `<span class="${("mc-"+prop).trim().replace(/\s+/g,"-").replace(/:/g,"-").replace(/(mc-)+/g,"mc-").normalize("NFC").toLowerCase()}">${altLabel || prop}: ${obj[prop].value || "[ undefined ]"}</span>`
+        return `<span class="${("mc-"+prop).trim().replace(/\s+/g,"-").replace(/:/g,"-").replace(/(mc-)+/g,"mc-").normalize("NFC").toLowerCase()}">${altLabel || prop}: ${obj[prop].value || obj[prop] || "[ undefined ]"}</span>`
     } catch (err) {
         return null
     }
@@ -202,7 +202,7 @@ template.location = async function() {
     if (!cemetery) {
         return null
     }
-    let tmpl = `<h2>${cemetery.label&&cemetery.label.value||cemetery.label||"[ unlabeled ]"}</h2>`
+    let tmpl = `<h2>${cemetery.name&&cemetery.name.value||cemetery.name||"[ unlabeled ]"}</h2>`
     if (cemetery.seeAlso) {
         tmpl += `<a href="${cemetery.seeAlso&&cemetery.seeAlso.value||cemetery.seeAlso||null}" target="_blank" class="mc-see-also">${cemetery.seeAlso&&cemetery.seeAlso.value||cemetery.seeAlso}</a>`
     }
@@ -214,15 +214,15 @@ template.location = async function() {
  * https://schema.org/ItemList
  */
 template.list = function(ItemList) {
-    if (typeof ItemList.ItemListElement === "string") {
-        get(ItemList.ItemListElement).then(function(ls) {
-            ItemList.ItemListElement = ls
+    if (typeof ItemList.itemListElement === "string") {
+        get(ItemList.itemListElement).then(function(ls) {
+            ItemList.itemListElement = ls
             return template.list(ItemList)
         })
     }
     let ul = `<p>${ItemList.name||"[ unlabeled ]"}</p>
     <ul class="mc-list">`
-    for (var item of ItemList.ItemListElement) {
+    for (var item of ItemList.itemListElement) {
         ul += `<li><a href="#" onclick="mc.focusOn('${item['@id']}')">${item.name || "unrecorded"}</a></li>`
     }
     ul += `</ul>
@@ -232,11 +232,12 @@ template.list = function(ItemList) {
 
 template.byObjectType = async function(obj) {
     let templateFunction = function() {}
-    switch (obj["@type"]) {
+    let type = (Array.isArray(obj["@type"])) ? obj["@type"][0] : obj["@type"]
+    switch (type) {
         case "Person":
             templateFunction = await template.person
             break
-        case "List":
+        case "ItemList":
             templateFunction = await template.list
             break
         case "Location":
@@ -248,7 +249,7 @@ template.byObjectType = async function(obj) {
         default:
             return null
     }
-    setClass(obj["@type"])
+    setClass(type)
     return templateFunction(obj)
 }
 
@@ -272,9 +273,7 @@ template.person = async function(obj, hideEditForm) {
         elements = Array.prototype.concat.apply(elements, pForm.getElementsByTagName("textarea"))
         for (var el of elements) {
             el.onchange = function(event) {
-                let prop = event.target.getAttribute("id").substr(3).replace(/(\-\w)/g, function(m) {
-                    return m[1].toUpperCase();
-                })
+                let prop = event.target.getAttribute("mc-key")
                 obj[prop] = event.target.value
                 renderElement(mc.focusObject, template.person(obj, true))
                 renderElement(document.getElementById("obj-viewer"), template.JSON(obj))
@@ -289,7 +288,7 @@ template.person = async function(obj, hideEditForm) {
 }
 
 template.personForm = function(person) {
-    return `<form class="mc-person-edit" onsubmit="${ person["@id"] && "editPerson()" || "createPerson()" }">
+    return `<form class="mc-person-edit" onsubmit="${ person["@id"] && "editPerson(event)" || "createPerson(event)" }">
     <input type="hidden" mc-key="@type" value="Person" id="mc-type" >
     <input type="hidden" mc-key="@context" value="http://schema.org" id="mc-context" >
     <input type="hidden" mc-key="@id" value="${person["@id"]}" id="mc-at-id" >
@@ -332,7 +331,7 @@ async function renderElement(elem, tmp) {
 }
 
 function setClass(className) {
-    mc.focusObject.classList.remove("Event", "Person", "Location", "List", "Thing")
+    mc.focusObject.classList.remove("Event", "Person", "Location", "ItemList", "Thing")
     mc.focusObject.classList.add(className)
 }
 
@@ -355,10 +354,10 @@ mc.renderObserver.observe(mc.focusObject, {
 
 // load defaulty bits
 renderElement(document.getElementById("mc-location"), template.location())
-mc.focusObject.setAttribute("mc-object", localStorage.getItem("CURRENT_LIST_ID") || "http://devstore.rerum.io/v1/id/5b9bd781e4b09992fca22008")
+mc.focusObject.setAttribute("mc-object", localStorage.getItem("CURRENT_LIST_ID") || DEFAULT_LIST_ID)
 
-async function editPerson() {
-
+async function editPerson(event) {
+    event.preventDefault()
     let params = [];
 
     let dirtyFields = []
@@ -407,7 +406,8 @@ async function editPerson() {
     }
 }
 
-async function createPerson() {
+async function createPerson(event) {
+    event.preventDefault()
     let labelElem = document.getElementById("mc-label")
     let contextElem = document.getElementById("mc-context")
     let typeElem = document.getElementById("mc-type")
@@ -429,8 +429,8 @@ async function createPerson() {
     newPerson["@id"] = res.new_obj_state["@id"]
         // the @context is redundant with the container here
     delete newPerson[contextElem.getAttribute("mc-key")]
-    list.ItemListElement.push(newPerson)
-    list.numberOfItems = list.ItemListElement.length
+    list.itemListElement.push(newPerson)
+    list.numberOfItems = list.itemListElement.length
     try {
         list = await fetch(UPDATE_URL, {
                 method: "PUT",
@@ -444,5 +444,5 @@ async function createPerson() {
     } catch (err) {}
     localStorage.setItem(listID, JSON.stringify(list))
     localStorage.setItem("CURRENT_LIST_ID", listID)
-    return editPerson()
+    return editPerson(event)
 }

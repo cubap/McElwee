@@ -182,20 +182,11 @@
         ]
     }
 
-    datar.list = {
-        "@context": "http://schema.org",
-        "@type": ["ItemList", "http://www.w3.org/2000/01/rdf-schema#Bag"],
-        "@id": "residents",
-        "name": "Cemetery Population",
-        "numberOfItems": "0",
-        "itemListElement": []
-    }
-
     for (e in datar) {
         if (!localStorage.getItem(datar[e]['@id']))
             localStorage.setItem(datar[e]["@id"], JSON.stringify(datar[e]))
     }
     if (!localStorage.getItem("CURRENT_LIST_ID")) {
-        localStorage.setItem("CURRENT_LIST_ID", "residents")
+        localStorage.setItem("CURRENT_LIST_ID", "http://devstore.rerum.io/v1/id/5bc8089ce4b09992fca2222c")
     }
 })()
