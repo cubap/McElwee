@@ -1,6 +1,6 @@
 {
     "@context": "http://www.shared-canvas.org/ns/context.json",
-    "@id": "https://cubap.github.io/McElwee/web/manifest/mcelwee.json",
+    "@id": "https://cubap.github.io/McElwee/web/manifest/fotki.json",
     "@type": "sc:Manifest",
     "label": "McElwee Cemetery Catalog",
     "description": "McElwee Cem, Pike Co, Missouri. Burials listings, maps, info. iowaz@swbell.net",
@@ -11,17 +11,17 @@
         "profile": "text/html"
     },
     "sequences": [{
-        "@id": "tag://mcelwee/manifest/sequence/01/normal",
+        "@id": "tag://mcelwee-fotki/manifest/sequence/01/normal",
         "@type": "sc:Sequence",
         "label": "Current album order",
         "canvases": [{
-            "@id": "tag://mcelwee/manifest/canvas/1",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/1",
             "@type": "sc:Canvas",
             "label": "cover",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/1",
+                "@id": "tag://mcelwee-fotki/manifest/images/1",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -34,10 +34,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/1"
+                "on": "tag://mcelwee-fotki/manifest/canvas/1"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/1",
+                "@id": "tag://mcelwee-fotki/manifest/images/1",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -50,16 +50,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/1"
+                "on": "tag://mcelwee-fotki/manifest/canvas/1"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/2",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/2",
             "@type": "sc:Canvas",
             "label": "p1",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/2",
+                "@id": "tag://mcelwee-fotki/manifest/images/2",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -72,10 +72,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/2"
+                "on": "tag://mcelwee-fotki/manifest/canvas/2"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/2",
+                "@id": "tag://mcelwee-fotki/manifest/images/2",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -88,16 +88,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/2"
+                "on": "tag://mcelwee-fotki/manifest/canvas/2"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/3",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/3",
             "@type": "sc:Canvas",
             "label": "p2",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/3",
+                "@id": "tag://mcelwee-fotki/manifest/images/3",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -110,10 +110,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/3"
+                "on": "tag://mcelwee-fotki/manifest/canvas/3"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/3",
+                "@id": "tag://mcelwee-fotki/manifest/images/3",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -126,16 +126,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/3"
+                "on": "tag://mcelwee-fotki/manifest/canvas/3"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/4",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/4",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p3",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/4",
+                "@id": "tag://mcelwee-fotki/manifest/images/4",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -148,10 +148,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/4"
+                "on": "tag://mcelwee-fotki/manifest/canvas/4"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/4",
+                "@id": "tag://mcelwee-fotki/manifest/images/4",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -164,16 +164,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/4"
+                "on": "tag://mcelwee-fotki/manifest/canvas/4"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/5",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/5",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p4",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/5",
+                "@id": "tag://mcelwee-fotki/manifest/images/5",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -186,10 +186,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/5"
+                "on": "tag://mcelwee-fotki/manifest/canvas/5"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/5",
+                "@id": "tag://mcelwee-fotki/manifest/images/5",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -202,16 +202,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/5"
+                "on": "tag://mcelwee-fotki/manifest/canvas/5"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/6",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/6",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p5",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/6",
+                "@id": "tag://mcelwee-fotki/manifest/images/6",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -224,10 +224,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/6"
+                "on": "tag://mcelwee-fotki/manifest/canvas/6"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/6",
+                "@id": "tag://mcelwee-fotki/manifest/images/6",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -240,16 +240,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/6"
+                "on": "tag://mcelwee-fotki/manifest/canvas/6"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/7",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/7",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p6",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/7",
+                "@id": "tag://mcelwee-fotki/manifest/images/7",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -262,10 +262,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/7"
+                "on": "tag://mcelwee-fotki/manifest/canvas/7"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/7",
+                "@id": "tag://mcelwee-fotki/manifest/images/7",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -278,16 +278,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/7"
+                "on": "tag://mcelwee-fotki/manifest/canvas/7"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/8",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/8",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p7",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/8",
+                "@id": "tag://mcelwee-fotki/manifest/images/8",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -300,10 +300,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/8"
+                "on": "tag://mcelwee-fotki/manifest/canvas/8"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/8",
+                "@id": "tag://mcelwee-fotki/manifest/images/8",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -316,16 +316,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/8"
+                "on": "tag://mcelwee-fotki/manifest/canvas/8"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/9",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/9",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p8",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/9",
+                "@id": "tag://mcelwee-fotki/manifest/images/9",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -338,10 +338,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/9"
+                "on": "tag://mcelwee-fotki/manifest/canvas/9"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/9",
+                "@id": "tag://mcelwee-fotki/manifest/images/9",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -354,16 +354,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/9"
+                "on": "tag://mcelwee-fotki/manifest/canvas/9"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/10",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/10",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p9",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/10",
+                "@id": "tag://mcelwee-fotki/manifest/images/10",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -376,10 +376,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/10"
+                "on": "tag://mcelwee-fotki/manifest/canvas/10"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/10",
+                "@id": "tag://mcelwee-fotki/manifest/images/10",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -392,16 +392,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/10"
+                "on": "tag://mcelwee-fotki/manifest/canvas/10"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/11",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/11",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p10",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/11",
+                "@id": "tag://mcelwee-fotki/manifest/images/11",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -414,10 +414,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/11"
+                "on": "tag://mcelwee-fotki/manifest/canvas/11"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/11",
+                "@id": "tag://mcelwee-fotki/manifest/images/11",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -430,16 +430,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/11"
+                "on": "tag://mcelwee-fotki/manifest/canvas/11"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/12",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/12",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p11",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/12",
+                "@id": "tag://mcelwee-fotki/manifest/images/12",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -452,10 +452,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/12"
+                "on": "tag://mcelwee-fotki/manifest/canvas/12"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/12",
+                "@id": "tag://mcelwee-fotki/manifest/images/12",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -468,16 +468,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/12"
+                "on": "tag://mcelwee-fotki/manifest/canvas/12"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/13",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/13",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p12",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/13",
+                "@id": "tag://mcelwee-fotki/manifest/images/13",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -490,10 +490,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/13"
+                "on": "tag://mcelwee-fotki/manifest/canvas/13"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/13",
+                "@id": "tag://mcelwee-fotki/manifest/images/13",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -506,16 +506,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/13"
+                "on": "tag://mcelwee-fotki/manifest/canvas/13"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/14",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/14",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p13",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/14",
+                "@id": "tag://mcelwee-fotki/manifest/images/14",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -528,10 +528,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/14"
+                "on": "tag://mcelwee-fotki/manifest/canvas/14"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/14",
+                "@id": "tag://mcelwee-fotki/manifest/images/14",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -544,16 +544,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/14"
+                "on": "tag://mcelwee-fotki/manifest/canvas/14"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/15",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/15",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p14",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/15",
+                "@id": "tag://mcelwee-fotki/manifest/images/15",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -566,10 +566,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/15"
+                "on": "tag://mcelwee-fotki/manifest/canvas/15"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/15",
+                "@id": "tag://mcelwee-fotki/manifest/images/15",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -582,16 +582,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/15"
+                "on": "tag://mcelwee-fotki/manifest/canvas/15"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/16",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/16",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p15",
             "height": 800,
             "width": 600,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/16",
+                "@id": "tag://mcelwee-fotki/manifest/images/16",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -604,10 +604,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/16"
+                "on": "tag://mcelwee-fotki/manifest/canvas/16"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/16",
+                "@id": "tag://mcelwee-fotki/manifest/images/16",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -620,16 +620,16 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/16"
+                "on": "tag://mcelwee-fotki/manifest/canvas/16"
             }]
         }, {
-            "@id": "tag://mcelwee/manifest/canvas/17",
+            "@id": "tag://mcelwee-fotki/manifest/canvas/17",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p16",
             "height": 600,
             "width": 800,
             "resources": [{
-                "@id": "tag://mcelwee/manifest/images/17",
+                "@id": "tag://mcelwee-fotki/manifest/images/17",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -642,10 +642,10 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/17"
+                "on": "tag://mcelwee-fotki/manifest/canvas/17"
             }],
             "images": [{
-                "@id": "tag://mcelwee/manifest/images/17",
+                "@id": "tag://mcelwee-fotki/manifest/images/17",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
                 "resource": {
@@ -658,7 +658,7 @@
                         "profile": "http://iiif.io/api/image/2/level0.json"
                     }
                 },
-                "on": "tag://mcelwee/manifest/canvas/17"
+                "on": "tag://mcelwee-fotki/manifest/canvas/17"
             }]
         }]
     }]

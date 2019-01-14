@@ -131,7 +131,7 @@
         }, {
             "@id": "tag://mcelwee/manifest/canvas/4",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p3",
             "height": 2187,
             "width": 1686,
             "resources": [{
@@ -169,7 +169,7 @@
         }, {
             "@id": "tag://mcelwee/manifest/canvas/5",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p4",
             "height": 2188,
             "width": 1678,
             "resources": [{
@@ -207,7 +207,7 @@
         }, {
             "@id": "tag://mcelwee/manifest/canvas/6",
             "@type": "sc:Canvas",
-            "label": "cover",
+            "label": "p5",
             "height": 2178,
             "width": 1683,
             "resources": [{
