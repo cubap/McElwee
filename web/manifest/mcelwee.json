@@ -35,6 +35,22 @@
                     }
                 },
                 "on": "tag://mcelwee/manifest/canvas/1"
+            }],
+            "images": [{
+                "@id": "tag://mcelwee/manifest/images/1",
+                "@type": "oa:Annotation",
+                "motivation": "sc:painting",
+                "resource": {
+                    "@id": "https://cubap.github.io/McElwee/web/manifest/cover.jpg",
+                    "@type": "dctypes:Image",
+                    "height": 2187,
+                    "width": 1686,
+                    "service": {
+                        "@id": "http://iiif.io/api/image/2/context.json",
+                        "profile": "http://iiif.io/api/image/2/level0.json"
+                    }
+                },
+                "on": "tag://mcelwee/manifest/canvas/1"
             }]
         }, {
             "@id": "tag://mcelwee/manifest/canvas/2",
@@ -43,6 +59,22 @@
             "height": 2222,
             "width": 1716,
             "resources": [{
+                "@id": "tag://mcelwee/manifest/images/2",
+                "@type": "oa:Annotation",
+                "motivation": "sc:painting",
+                "resource": {
+                    "@id": "https://cubap.github.io/McElwee/web/manifest/bland-givens.jpg",
+                    "@type": "dctypes:Image",
+                    "height": 2222,
+                    "width": 1716,
+                    "service": {
+                        "@id": "http://iiif.io/api/image/2/context.json",
+                        "profile": "http://iiif.io/api/image/2/level0.json"
+                    }
+                },
+                "on": "tag://mcelwee/manifest/canvas/2"
+            }],
+            "images": [{
                 "@id": "tag://mcelwee/manifest/images/2",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
@@ -79,6 +111,22 @@
                     }
                 },
                 "on": "tag://mcelwee/manifest/canvas/3"
+            }],
+            "images": [{
+                "@id": "tag://mcelwee/manifest/images/3",
+                "@type": "oa:Annotation",
+                "motivation": "sc:painting",
+                "resource": {
+                    "@id": "https://cubap.github.io/McElwee/web/manifest/givens-houchins.jpg",
+                    "@type": "dctypes:Image",
+                    "height": 2214,
+                    "width": 1740,
+                    "service": {
+                        "@id": "http://iiif.io/api/image/2/context.json",
+                        "profile": "http://iiif.io/api/image/2/level0.json"
+                    }
+                },
+                "on": "tag://mcelwee/manifest/canvas/3"
             }]
         }, {
             "@id": "tag://mcelwee/manifest/canvas/4",
@@ -87,6 +135,22 @@
             "height": 2187,
             "width": 1686,
             "resources": [{
+                "@id": "tag://mcelwee/manifest/images/4",
+                "@type": "oa:Annotation",
+                "motivation": "sc:painting",
+                "resource": {
+                    "@id": "https://cubap.github.io/McElwee/web/manifest/mcelwee-rowley.jpg",
+                    "@type": "dctypes:Image",
+                    "height": 2187,
+                    "width": 1686,
+                    "service": {
+                        "@id": "http://iiif.io/api/image/2/context.json",
+                        "profile": "http://iiif.io/api/image/2/level0.json"
+                    }
+                },
+                "on": "tag://mcelwee/manifest/canvas/4"
+            }],
+            "images": [{
                 "@id": "tag://mcelwee/manifest/images/4",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
@@ -123,6 +187,22 @@
                     }
                 },
                 "on": "tag://mcelwee/manifest/canvas/5"
+            }],
+            "images": [{
+                "@id": "tag://mcelwee/manifest/images/5",
+                "@type": "oa:Annotation",
+                "motivation": "sc:painting",
+                "resource": {
+                    "@id": "https://cubap.github.io/McElwee/web/manifest/rowley-wilsnack.jpg",
+                    "@type": "dctypes:Image",
+                    "height": 2188,
+                    "width": 1678,
+                    "service": {
+                        "@id": "http://iiif.io/api/image/2/context.json",
+                        "profile": "http://iiif.io/api/image/2/level0.json"
+                    }
+                },
+                "on": "tag://mcelwee/manifest/canvas/5"
             }]
         }, {
             "@id": "tag://mcelwee/manifest/canvas/6",
@@ -131,6 +211,22 @@
             "height": 2178,
             "width": 1683,
             "resources": [{
+                "@id": "tag://mcelwee/manifest/images/6",
+                "@type": "oa:Annotation",
+                "motivation": "sc:painting",
+                "resource": {
+                    "@id": "https://cubap.github.io/McElwee/web/manifest/appendix.jpg",
+                    "@type": "dctypes:Image",
+                    "height": 2178,
+                    "width": 1683,
+                    "service": {
+                        "@id": "http://iiif.io/api/image/2/context.json",
+                        "profile": "http://iiif.io/api/image/2/level0.json"
+                    }
+                },
+                "on": "tag://mcelwee/manifest/canvas/6"
+            }],
+            "images": [{
                 "@id": "tag://mcelwee/manifest/images/6",
                 "@type": "oa:Annotation",
                 "motivation": "sc:painting",
