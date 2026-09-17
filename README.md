@@ -9,3 +9,8 @@ The developers at the Walter J. Ong, <sub><sup>S.J.</sup></sub> Center for Digit
 in connection with the RERUM service.
 Neither specific warranty or rights are associated with RERUM; registering and contributing implies only those rights 
 each object asserts about itself. We welcome sister instances of RERUM, ports to other languages, package managers, builds, etc.
+
+## Contribution notes
+- No placeholder text ships. Anything a visitor can see must be final copy; scaffolding notes
+  ("some such", "this should be invisible", lorem ipsum) belong in code comments, never in rendered output.
+  Data-fallback strings for genuinely missing values (e.g. `[ unknown ]`) are the only exception.

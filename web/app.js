@@ -203,6 +203,10 @@ template.location = async function() {
         return null
     }
     let tmpl = `<h2>${cemetery.name&&cemetery.name.value||cemetery.name||"[ unlabeled ]"}</h2>`
+    let description = (cemetery.description && cemetery.description.value) || cemetery.description
+    if (description) {
+        tmpl += `<p class="mc-location-description">${description}</p>`
+    }
     if (cemetery.seeAlso) {
         tmpl += `<a href="${cemetery.seeAlso&&cemetery.seeAlso.value||cemetery.seeAlso||null}" target="_blank" class="mc-see-also">${cemetery.seeAlso&&cemetery.seeAlso.value||cemetery.seeAlso}</a>`
     }
@@ -322,11 +326,13 @@ template.personForm = function(person) {
 }
 
 async function renderElement(elem, tmp) {
+    // Await first so a rejected render leaves existing (static fallback) content intact.
+    let html = await tmp
     while (elem.firstChild) {
         elem.removeChild(elem.firstChild)
     }
-    if (tmp) {
-        elem.innerHTML = await tmp
+    if (html) {
+        elem.innerHTML = html
     }
 }
 
