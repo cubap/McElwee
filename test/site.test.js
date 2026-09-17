@@ -110,6 +110,38 @@ test("annotation lookups try every id spelling", () => {
   assert.match(read("entry", "entry.js"), /CFG\.idVariants\(/)
 })
 
+test("annotation identity survives RERUM answering with id instead of @id", () => {
+  // Verified against the live store: POST /query returns `{"@context":..., "id": ...}`
+  // while GET /id/<x> returns `@id`. A dedupe keyed only on @id discards every annotation
+  // and renders every specimen sheet empty, which is the same failure as issue #13
+  // wearing a different hat.
+  const app = read("web", "app.js")
+  assert.match(app, /obj\["@id"\]\s*\|\|\s*obj\.id/, "recordId() must accept both spellings")
+  assert.doesNotMatch(
+    app,
+    /if \(!match \|\| !match\["@id"\] \|\| seen\[match\["@id"\]\]\) return/,
+    "the annotation dedupe must not key on @id alone"
+  )
+})
+
+test("the reader repairs the control character the old servlet wrote for an em dash", () => {
+  // Issue #8: character 8212 came back as 20. U+2014 truncated to a single byte is 0x14,
+  // which is what the 2018 Java app wrote. The rebuild fixes the write path, but the
+  // damaged records are still in the store, so the exhibit repairs them on the way out.
+  const app = read("web", "app.js")
+  const start = app.indexOf("function clean(text)")
+  assert.notEqual(start, -1, "clean() must exist in the exhibit renderer")
+  const end = app.indexOf("\n}", start)
+  const src = app.slice(start, end + 2)
+  const sandbox = { console }
+  vm.createContext(sandbox)
+  const clean = new vm.Script(`(${src})`).runInContext(sandbox)
+  assert.equal(clean("died Dec. 2, 1883\u0014aged 1 Y."), "died Dec. 2, 1883\u2014aged 1 Y.")
+  assert.equal(clean("already \u2014 fine"), "already \u2014 fine")
+  assert.equal(clean("bell\u0007curve\u001f"), "bellcurve")
+  assert.equal(clean(null), "")
+})
+
 test("no insecure RERUM URL survives anywhere in the site or the subsite", () => {
   const offenders = []
   for (const dir of ["web", "entry"]) {

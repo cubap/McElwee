@@ -148,7 +148,7 @@
                 "name": "McElwee Cemetery"
             },
             {
-                "description": "McElwee Cemetery is a small rural cemetery in Pike County, Missouri, near the town of Louisiana. It is named for the McElwee family, and the plot maps in the surviving catalog trace the families connected to it by kinship and neighborhood: Bland, Givens, Houchins, Rowley, and Wilsnack. The source for this exhibit is a hand-made catalog of the cemetery's headstones, digitized page by page; the catalog's own origin is unrecorded, which is exactly the problem the exhibit is built to address. Every name, date, and marker shown here is stored as a linked-data annotation pointing back to the record that asserts it, so each claim about this one small cemetery can be checked against its evidence."
+                "description": "A small rural cemetery in Pike County, Missouri, near the town of Louisiana, named for the McElwee family. The source of this exhibit is a hand-made catalog of the cemetery's markers, digitized page by page; the catalog's own origin is unrecorded. The plot and parcel outlines associated with the site were drawn from modern county assessor records, not from the catalog, and show present landholding rather than the position of any grave. Families connected to the ground by kinship and neighborhood include Bland, Givens, Houchins, Rowley, and Wilsnack."
             },
             {
                 "seeAlso": "http://gnis-ld.org/lod/gnis/feature/722098"
