@@ -6,73 +6,58 @@
 // }
 // customElements.define("mc-view",McView,{extends:"div"})
 var mc = {}
-const DEFAULT_LIST_ID = "http://devstore.rerum.io/v1/id/5bc8089ce4b09992fca2222c"
-const BASE_ID = "http://devstore.rerum.io/v1"
-const CREATE_URL = "http://tinydev.rerum.io/app/create"
-const UPDATE_URL = "http://tinydev.rerum.io/app/update"
+const CFG = window.McElweeConfig
+const DEFAULT_LIST_ID = CFG.DEFAULT_LIST_ID
 
 mc.focusObject = document.getElementById("mc-view")
 
 mc.focusOn = function(id) {
-    mc.focusObject.setAttribute('mc-object', id)
+    mc.focusObject.setAttribute('mc-object', CFG.normalizeId(id))
 }
-async function checkForUpdates(id, isFresh) {
-    let obj = JSON.parse(localStorage.getItem(id))
+function readCache(id) {
     try {
-        if (id.startsWith(BASE_ID)) {
-            if (!isFresh) {
-                let response = await fetch(id)
-                obj = await response.json()
-                    // TODO: handle failure
-            }
-            if (obj.__rerum.history.next.length > 0) {
-                obj = await fetch(obj.__rerum.history.next[0]).then(response => response.json())
-                    // TODO: only the first is selected and that's not necessarily right.
-                localStorage.removeItem(id)
-                localStorage.setItem(obj["@id"], JSON.stringify(obj))
-                if (obj["@type"].indexOf("ItemList") > -1) {
-                    localStorage.setItem("CURRENT_LIST_ID", obj["@id"])
-                }
-                checkForUpdates(obj["@id"], true)
-            }
-        }
+        return JSON.parse(localStorage.getItem(CFG.normalizeId(id)))
     } catch (err) {
-        // It's not important what happened; let the finally remove the button
-    } finally {
-        for (elem of document.getElementsByClassName("mc-update-button")) {
-            if (elem.getAttribute("mc-update-target") === id) {
-                elem.remove()
-            }
-        }
-        if (obj["@type"].indexOf("ItemList") > -1) {
-            localStorage.setItem("CURRENT_LIST_ID", obj["@id"])
-        }
-        localStorage.setItem(obj["@id"], JSON.stringify(obj))
-        return obj
+        return null
     }
 }
 
-async function get(url, exact) {
-    let obj
-    try {
-        obj = JSON.parse(localStorage.getItem(url))
-        if (obj['@id'].startsWith(BASE_ID)) {
-            // TODO: technically, this won't check for updates...
-            let btn = document.createElement("span")
-            btn.innerHTML = `<button role="button" onclick="checkForUpdates('${obj['@id']}')">Check for Updates on ${obj.name||obj.label}</button>`
-            btn.setAttribute("mc-update-target", obj['@id'])
-            btn.classList.add("mc-update-button")
-            let msg = document.getElementById("flash-message")
-            msg.after(btn)
-        }
-        return obj
-    } catch (err) {
-        // nothing useful in localStorage
-        const response = await fetch(url)
-        const obj = await response.json()
-        localStorage.setItem(obj["@id"], JSON.stringify(obj))
-        return response.ok ? obj : Promise.reject(obj)
+function writeCache(obj) {
+    const id = CFG.normalizeId(obj && obj["@id"])
+    if (!id) return obj
+    localStorage.setItem(id, JSON.stringify(obj))
+    if (String(obj["@type"] || "").indexOf("ItemList") > -1) {
+        localStorage.setItem("CURRENT_LIST_ID", id)
     }
+    return obj
+}
+
+/**
+ * Read one entity.
+ *
+ * RERUM IRIs are fetched live so the exhibit always shows the current version of a
+ * record; the copy seeded by mcdata.js is the fallback when the store or the network is
+ * unavailable. Short local ids (p001, l001, ...) only ever exist in localStorage, so
+ * they are read straight from the cache.
+ */
+async function get(url) {
+    const id = CFG.normalizeId(url)
+    if (CFG.isRerumId(id)) {
+        try {
+            const response = await fetch(id)
+            if (!response.ok) {
+                throw new Error(`RERUM answered ${response.status} for ${id}`)
+            }
+            return writeCache(await response.json())
+        } catch (err) {
+            console.warn(`Using the bundled copy of ${id}. ${err.message}`)
+        }
+    }
+    const cached = readCache(id)
+    if (!cached) {
+        return Promise.reject(new Error(`No data available for ${id}.`))
+    }
+    return cached
 }
 
 async function expand(obj) {
@@ -116,18 +101,23 @@ async function expand(obj) {
 
 async function findByTargetId(id) {
     let everything = Object.keys(localStorage).map(k => (k && k.length === 4) && JSON.parse(localStorage.getItem(k)))
-    let local_matches, matches
-    let obj = {
-        target: id
-    }
-    matches = await fetch("http://tinydev.rerum.io/app/query", {
+    let targets = CFG.idVariants(id)
+    let canonical = CFG.normalizeId(id)
+    let responses = await Promise.all(targets.map(target => fetch(CFG.QUERY_URL, {
         method: "POST",
-        body: JSON.stringify(obj),
+        body: JSON.stringify({ target: target }),
         headers: {
             "Content-Type": "application/json"
         }
-    }).then(response => response.json())
-    local_matches = everything.filter(o => o.target === id)
+    }).then(response => response.ok ? response.json() : []).catch(() => [])))
+    let matches = []
+    let seen = {}
+    responses.flat().forEach(match => {
+        if (!match || !match["@id"] || seen[match["@id"]]) return
+        seen[match["@id"]] = true
+        matches.push(match)
+    })
+    let local_matches = everything.filter(o => o && CFG.normalizeId(o.target) === canonical)
     return local_matches.concat(matches)
 }
 
@@ -135,7 +125,8 @@ var template = {}
 
 template.evidence = function(obj) {
     try {
-        return `<a class="mc-evidence" href="${(typeof obj.evidence === "object") ? obj.evidence["@id"] : obj.evidence}" target="_blank">${obj.evidence.label || "View evidence"}</a>`
+        let evidenceId = CFG.normalizeId((typeof obj.evidence === "object") ? obj.evidence["@id"] : obj.evidence)
+        return `<a class="mc-evidence" href="${evidenceId}" target="_blank">${obj.evidence.label || "View evidence"}</a>`
     } catch (err) {
         return null
     }
@@ -227,10 +218,12 @@ template.list = function(ItemList) {
     let ul = `<p>${ItemList.name||"[ unlabeled ]"}</p>
     <ul class="mc-list">`
     for (var item of ItemList.itemListElement) {
-        ul += `<li><a href="#" onclick="mc.focusOn('${item['@id']}')">${item.name || "unrecorded"}</a></li>`
+        // RERUM hands back http:// IRIs inside the list; normalizeId keeps the link
+        // from being blocked as mixed content on the https site.
+        let itemId = CFG.normalizeId(item["@id"])
+        ul += `<li><a href="#" onclick="mc.focusOn('${itemId}')">${item.name || "unrecorded"}</a></li>`
     }
-    ul += `</ul>
-    <button type="role" onclick="renderElement(mc.focusObject,template.person({}))">+</button>`
+    ul += `</ul>`
     return ul
 }
 
@@ -257,7 +250,7 @@ template.byObjectType = async function(obj) {
     return templateFunction(obj)
 }
 
-template.person = async function(obj, hideEditForm) {
+template.person = async function(obj) {
     setClass("Person")
     let elem = `<h3>${(obj.name && obj.name.value) || obj.name || "name unavailable"}</h3>`
     let tmp = [
@@ -269,60 +262,10 @@ template.person = async function(obj, hideEditForm) {
         template.prop(obj, "description", " "),
         await template.depiction(obj)
     ]
+    // Data entry lives in the local-only /entry/ subsite now; the published exhibit
+    // renders records and never edits them.
     elem += tmp.join("\n")
-    if (!hideEditForm) {
-        let pForm = document.getElementById("mc-edit-form")
-        pForm.innerHTML = template.personForm(obj)
-        let elements = [].concat.apply([], pForm.getElementsByTagName("input"))
-        elements = Array.prototype.concat.apply(elements, pForm.getElementsByTagName("textarea"))
-        for (var el of elements) {
-            el.onchange = function(event) {
-                let prop = event.target.getAttribute("mc-key")
-                obj[prop] = event.target.value
-                renderElement(mc.focusObject, template.person(obj, true))
-                renderElement(document.getElementById("obj-viewer"), template.JSON(obj))
-                event.target.$isDirty = true
-                document.getElementById("mc-edit-form").getElementsByTagName("button")[0].style = "display:block;"
-                event.stopPropagation()
-            }
-            el.addEventListener('input', el.onchange)
-        }
-    }
     return elem
-}
-
-template.personForm = function(person) {
-    return `<form class="mc-person-edit" onsubmit="${ person["@id"] && "editPerson(event)" || "createPerson(event)" }">
-    <input type="hidden" mc-key="@type" value="Person" id="mc-type" >
-    <input type="hidden" mc-key="@context" value="http://schema.org" id="mc-context" >
-    <input type="hidden" mc-key="@id" value="${person["@id"]}" id="mc-at-id" >
-    <input id="mc-evidence" mc-key="evidence" type="hidden" class="mc-data-entry" value="http://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68" >
-    <label for="mc-label">Full Name: 
-        <input id="mc-label" type="text" mc-key="name" class="mc-data-entry" placeholder="full name" value="${ (person.name&&person.name.value) || (person.name) || "" }" >
-    </label>
-    <label for="mc-birth-date">Birth Date: 
-        <input id="mc-birth-date" mc-key="birthDate" oa-source="${ person.birthDate&&person.birthDate.source }" type="date" class="mc-data-entry" placeholder="YYYY-MM-DD" value="${ person.birthDate&&person.birthDate.value || "" }" >
-    </label>
-    <label for="mc-death-date">Death Date: 
-        <input id="mc-death-date" mc-key="deathDate" oa-source="${ person.deathDate&&person.deathDate.source }" type="date" class="mc-data-entry" value="${ person.deathDate&&person.deathDate.value || "" }" >
-    </label>
-    <label for="mc-given-name">Given Name: 
-        <input id="mc-given-name" mc-key="givenName" oa-source="${ person.givenName&&person.givenName.source }" type="text" class="mc-data-entry" value="${ person.givenName&&person.givenName.value || "" }" >
-    </label>
-    <label for="mc-family-name">Family Name: 
-        <input id="mc-family-name" mc-key="familyName" oa-source="${ person.familyName&&person.familyName.source }" type="text" class="mc-data-entry" placeholder="family name" value="${ person.familyName&&person.familyName.value || "" }" >
-    </label>
-    <label for="mc-maiden-name">Maiden Name: 
-        <input id="mc-maiden-name" mc-key="alternateName" oa-source="${ person.alternateName&&person.alternateName.source }" type="text" class="mc-data-entry" placeholder="former name" value="${ person.alternateName&&person.alternateName.value || "" }" >
-    </label>
-    <label for="mc-depiction">Depiction: 
-        <input id="mc-depiction" mc-key="depiction" oa-source="${ person.depiction&&person.depiction.source }" type="text" class="mc-data-entry" placeholder="headstone depiction" value="${ person.depiction&&person.depiction.value || "" }" >
-    </label>
-    <label for="mc-transcription">Catalog Entry: 
-        <textarea id="mc-transcription" mc-key="description" oa-source="${ person.description&&person.description.source }" type="text" class="mc-data-entry" >${ person.description&&person.description.value || "" }</textarea>
-    </label>
-    <button type="submit" style="display:${person.$isDirty?"block":"none"};">${person["@id"]?"Update":"Create"}</button>
-    </form>`
 }
 
 async function renderElement(elem, tmp) {
@@ -344,7 +287,7 @@ function setClass(className) {
 async function observerCallback(mutationsList) {
     for (var mutation of mutationsList) {
         if (mutation.attributeName === "mc-object") {
-            let id = mc.focusObject.getAttribute("mc-object")
+            let id = CFG.normalizeId(mc.focusObject.getAttribute("mc-object"))
             let data = await expand(await get(id))
             renderElement(mc.focusObject, template.byObjectType(data))
             renderElement(document.getElementById("obj-viewer"), template.JSON(data))
@@ -360,95 +303,4 @@ mc.renderObserver.observe(mc.focusObject, {
 
 // load defaulty bits
 renderElement(document.getElementById("mc-location"), template.location())
-mc.focusObject.setAttribute("mc-object", localStorage.getItem("CURRENT_LIST_ID") || DEFAULT_LIST_ID)
-
-async function editPerson(event) {
-    event.preventDefault()
-    let params = [];
-
-    let dirtyFields = []
-    for (let elem of document.getElementsByClassName("mc-data-entry")) {
-        if (elem.$isDirty) {
-            dirtyFields.push(elem)
-        }
-    }
-
-    for (elem of dirtyFields) {
-        const annoKey = elem.getAttribute("mc-key")
-        let source = elem.getAttribute("oa-source")
-        if (source === "undefined") {
-            source = false
-        }
-        let config = {
-            url: source ? UPDATE_URL : CREATE_URL,
-            method: source ? "PUT" : "POST",
-            body: {
-                "@context": "http://www.w3.org/ns/anno.jsonld",
-                "@type": "Annotation",
-                "motivation": "describing",
-                "target": document.getElementById("mc-at-id").value,
-                "body": {}
-            }
-        }
-        config.body.body[annoKey] = {
-            value: elem.value,
-            evidence: document.getElementById("mc-evidence").value
-        }
-        if (source) {
-            config.body["@id"] = elem.getAttribute("oa-source")
-        }
-        fetch(config.url, {
-                method: config.method,
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8"
-                },
-                body: JSON.stringify(config.body)
-            }).catch(error => console.error('Error:', error))
-            .then(response => response.json())
-            .then(function(newState) {
-                localStorage.setItem(newState["@id"], JSON.stringify(newState.new_obj_state))
-                mc.focusOn(newState.new_obj_state.target)
-            })
-    }
-}
-
-async function createPerson(event) {
-    event.preventDefault()
-    let labelElem = document.getElementById("mc-label")
-    let contextElem = document.getElementById("mc-context")
-    let typeElem = document.getElementById("mc-type")
-    let newPerson = {}
-    newPerson[contextElem.getAttribute("mc-key")] = contextElem.value
-    newPerson[labelElem.getAttribute("mc-key")] = labelElem.value
-    newPerson[typeElem.getAttribute("mc-key")] = typeElem.value
-    const res = await fetch(CREATE_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: JSON.stringify(newPerson)
-        })
-        .then(response => response.json())
-    document.getElementById("mc-at-id").value = res.new_obj_state["@id"]
-    const listID = localStorage.getItem("CURRENT_LIST_ID") || DEFAULT_LIST_ID
-    let list = await get(listID)
-    newPerson["@id"] = res.new_obj_state["@id"]
-        // the @context is redundant with the container here
-    delete newPerson[contextElem.getAttribute("mc-key")]
-    list.itemListElement.push(newPerson)
-    list.numberOfItems = list.itemListElement.length
-    try {
-        list = await fetch(UPDATE_URL, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8"
-                },
-                body: JSON.stringify(list)
-            })
-            .then(response => response.json().new_obj_state)
-            .catch(err => Promise.reject(err))
-    } catch (err) {}
-    localStorage.setItem(listID, JSON.stringify(list))
-    localStorage.setItem("CURRENT_LIST_ID", listID)
-    return editPerson(event)
-}
+mc.focusObject.setAttribute("mc-object", CFG.normalizeId(localStorage.getItem("CURRENT_LIST_ID")) || DEFAULT_LIST_ID)
