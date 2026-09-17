@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-17T17:45:26-05:00",
+  "title": "Design System: McElwee Cemetery Exhibit",
+  "extensions": {
+    "colorMeta": {
+      "board": { "role": "neutral", "displayName": "Mounting Board", "canonical": "oklch(90.6% 0.013 130.8)", "tonalRamp": ["#090c07", "#242821", "#454942", "#696d66", "#8f948c", "#b8bcb4", "#d4d9d0", "#ebf0e7"] },
+      "board-deep": { "role": "neutral", "displayName": "Board in Shadow", "canonical": "oklch(85.5% 0.018 131.9)", "tonalRamp": ["#080d06", "#23281f", "#444a40", "#686e63", "#8e9589", "#b6bdb1", "#d3dace", "#eaf1e5"] },
+      "sheet": { "role": "neutral", "displayName": "Specimen Sheet", "canonical": "oklch(97.1% 0.005 117.9)", "tonalRamp": ["#0b0b09", "#262724", "#474845", "#6b6c69", "#92938f", "#babbb7", "#d7d8d4", "#eeefeb"] },
+      "sheet-edge": { "role": "neutral", "displayName": "Sheet Edge", "canonical": "oklch(93.7% 0.010 119.6)", "tonalRamp": ["#0b0c07", "#262722", "#474843", "#6b6d67", "#91938d", "#babbb5", "#d6d8d2", "#edefe8"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(20.9% 0.007 145.3)", "tonalRamp": ["#090c09", "#242724", "#454945", "#696d69", "#8f938f", "#b8bcb8", "#d4d9d4", "#ebf0eb"] },
+      "ink-soft": { "role": "neutral", "displayName": "Ink, Soft", "canonical": "oklch(41.2% 0.015 145.3)", "tonalRamp": ["#070d08", "#222822", "#434a43", "#676e67", "#8d958d", "#b5bdb5", "#d2dad2", "#e9f1e9"] },
+      "ink-faint": { "role": "neutral", "displayName": "Ink, Faint", "canonical": "oklch(59.4% 0.014 149.1)", "tonalRamp": ["#070d08", "#222823", "#434a44", "#666e67", "#8d958e", "#b5bdb6", "#d1dad2", "#e8f1e9"] },
+      "rule": { "role": "neutral", "displayName": "Working Rule", "canonical": "oklch(79.4% 0.021 135.9)", "tonalRamp": ["#070d05", "#22291f", "#434a3f", "#676f63", "#8d9589", "#b5beb1", "#d2dbcd", "#e8f2e4"] },
+      "rule-fine": { "role": "neutral", "displayName": "Fine Rule", "canonical": "oklch(87.5% 0.016 130.4)", "tonalRamp": ["#090d06", "#242820", "#454a40", "#696e64", "#8f948a", "#b7bdb2", "#d4dacf", "#ebf1e6"] },
+      "evidence": { "role": "primary", "displayName": "Determination Green", "canonical": "oklch(42.0% 0.081 158.4)", "tonalRamp": ["#001400", "#003116", "#165537", "#3f7a5a", "#66a180", "#8ecba7", "#aae8c4", "#c1ffda"] },
+      "evidence-wash": { "role": "primary", "displayName": "Evidence Wash", "canonical": "oklch(92.4% 0.016 148.4)", "tonalRamp": ["#070d08", "#212922", "#424a43", "#666e67", "#8c958d", "#b4beb5", "#d1dbd2", "#e8f2e9"] },
+      "evidence-line": { "role": "primary", "displayName": "Evidence Line (green on ink)", "canonical": "oklch(76.6% 0.046 154.3)", "tonalRamp": ["#001003", "#122d1c", "#344f3d", "#577460", "#7d9b86", "#a4c4ae", "#c1e1ca", "#d8f8e1"] },
+      "contested": { "role": "secondary", "displayName": "Contested Rust", "canonical": "oklch(47.8% 0.135 37.3)", "tonalRamp": ["#310000", "#560000", "#802100", "#ab4a2c", "#d77153", "#ff9a7a", "#ffb796", "#ffcead"] },
+      "contested-wash": { "role": "secondary", "displayName": "Contested Wash", "canonical": "oklch(92.2% 0.019 52.0)", "tonalRamp": ["#120905", "#2e241e", "#50453f", "#756962", "#9c8f88", "#c5b7b0", "#e2d4cc", "#f9ebe3"] },
+      "reversed": { "role": "neutral", "displayName": "Reversed White", "canonical": "oklch(100% 0 0)", "tonalRamp": ["#090909", "#262626", "#454545", "#666666", "#8a8a8a", "#b0b0b0", "#d2d2d2", "#ffffff"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Sheet Title", "purpose": "The cemetery name and each specimen heading. One per sheet. Archivo Narrow 700, uppercase, line-height 1.02, tracking -0.005em." },
+      "headline": { "displayName": "Life Span", "purpose": "The born-died line under a heading. Source Serif 4 with tabular numerals, Ink Soft." },
+      "title": { "displayName": "Claim Value", "purpose": "A value printed on the label. The most-read size in the system; never set in caps." },
+      "body": { "displayName": "Explanatory Prose", "purpose": "Determination statement, how-to-read notes, colophon. Capped near 62ch." },
+      "label": { "displayName": "Institutional Label", "purpose": "Field names, drawer headings, kickers. Archivo Narrow 600, uppercase, 0.14em tracking, Ink Faint." },
+      "mark": { "displayName": "Mark", "purpose": "The smallest band, 0.58 to 0.68rem: seam marks, last-seen flag, captions, chip and toggle text." },
+      "stamp": { "displayName": "Accession Stamp", "purpose": "Courier Prime identifiers: accession numbers, provenance values, the raw record." }
+    },
+    "shadows": [
+      { "name": "sheet-contact", "value": "0 1px 0 #cbd2c6, 0 10px 24px -18px rgba(20, 26, 20, .55), inset 0 0 46px -22px rgba(74, 66, 46, .22)", "purpose": "The only structural elevation in the system. Reserved for the specimen sheet: hard contact line, tight drop, warm inset vignette at the paper's edges." },
+      { "name": "slip-offset", "value": "2px 2px 0 rgba(154, 58, 28, .12)", "purpose": "Flat unblurred offset in the contested hue, reading as a pasted slip. Correction slip only." }
+    ],
+    "motion": [
+      { "name": "mc-pin", "value": "220ms ease-out both; opacity 0 to 1 with translateY(4px) to 0", "purpose": "The sheet, provenance panel, and variant splay animate in as if put down. Gated behind prefers-reduced-motion: no-preference." },
+      { "name": "seam-grow", "value": "transition: background-size 160ms ease-out", "purpose": "The rust version-seam is a repeating 6px by 2px gradient so that it can grow on a claim value." },
+      { "name": "smooth-scroll", "value": "scroll-behavior: smooth", "purpose": "Root only, inside prefers-reduced-motion: no-preference." }
+    ],
+    "breakpoints": [
+      { "name": "claim-stack", "value": "34rem" },
+      { "name": "institution-narrow", "value": "44rem" },
+      { "name": "locality-stack", "value": "48rem" },
+      { "name": "cabinet-collapse", "value": "60rem" }
+    ],
+    "material": [
+      { "name": "generated-paper", "value": "Two inline SVG feTurbulence layers on the sheet: fine fibre (baseFrequency .9, 4 octaves, 140px tile, opacity .05) and slow mottle (baseFrequency .006, 3 octaves, seed 7, 620px tile, opacity .055), both desaturated via feColorMatrix saturate 0.", "purpose": "The sheet's material. Never replaced by a flat fill or a bitmap asset." },
+      { "name": "mounting-grid", "value": "body background: two 1px linear-gradients at 2rem intervals, rgba(120, 134, 118, .10)", "purpose": "The faint grid of a mounting sheet on the board, deliberately below the threshold of pattern." },
+      { "name": "mounting-corners", "value": "sheet ::before and ::after, 1.6rem squares, 2px solid #cbd2c6, inset 0.45rem, pointer-events none", "purpose": "Four corners hold the specimen down. Two corners is not the motif; four is." }
+    ],
+    "conventions": [
+      { "name": "most-asserted", "value": "pick(): sort contested claims by assertion count descending, then createdAt descending; blank values excluded unless all are blank.", "purpose": "A contested line leads with the value asserted most often, newest wins a tie. Stated convention, not a verdict; the page says so." },
+      { "name": "stray-slip", "value": "template.stray(): keys outside FIELDS render in the stray variant below the determination, never as catalog claim rows.", "purpose": "Reproduces records the exhibit did not make while keeping them off the label proper." },
+      { "name": "linked-only", "value": "LINKED_ONLY = [\"depiction\"]: depictions render as an empty mounting space plus an attributed outbound link, never as an image element.", "purpose": "The exhibit does not hold the rights and will not mount a meme on a dead child's sheet." },
+      { "name": "deep-link", "value": "#specimen/<encodeURIComponent(normalized IRI)>; localStorage key mc:lastSeen drives the last-seen mark.", "purpose": "A specimen sheet is citable: the address is the record." },
+      { "name": "accession", "value": "shortId(): last path segment of the normalized IRI, truncated to 12 characters with an ellipsis. Drawer rows number 0001 onward by position.", "purpose": "Identifiers are typed stamps, not set type." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Specimen Sheet",
+      "kind": "card",
+      "refersTo": "sheet",
+      "description": "The mounted sheet: the only surface in the system that is a physical object.",
+      "html": "<section class=\"ds-sheet\"><p class=\"ds-kicker\">Specimen &middot; Person</p><h2 class=\"ds-title\">ROWLEY, MARGARET</h2><p class=\"ds-dates\">1841 &ndash; 1903</p><p class=\"ds-stamp\">Accession 5bc7f853e4b0&hellip;</p><hr class=\"ds-rule\" /><div class=\"ds-determination\"><strong>Determination</strong>The catalog this exhibit is built on was made by hand, page by page, and its origin is unrecorded. No claim on this page has been checked against a county, church, or census record.</div></section>",
+      "css": ".ds-sheet { position: relative; background-color: var(--sheet, #f5f6f2); background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23f)' opacity='.05'/%3E%3C/svg%3E\"), url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='620' height='620'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='620' height='620' filter='url(%23m)' opacity='.055'/%3E%3C/svg%3E\"); border: 1px solid var(--rule, #b6bfb2); box-shadow: 0 1px 0 var(--board-deep, #cbd2c6), 0 10px 24px -18px rgba(20, 26, 20, .55), inset 0 0 46px -22px rgba(74, 66, 46, .22); padding: var(--pad, clamp(1rem, 3vw, 2.25rem)); color: var(--ink, #161916); font-family: var(--f-value, 'Source Serif 4', Georgia, serif); font-size: 17px; line-height: 1.55; } .ds-sheet::before, .ds-sheet::after { content: ''; position: absolute; width: 1.6rem; height: 1.6rem; top: .45rem; left: .45rem; border-top: 2px solid var(--board-deep, #cbd2c6); border-left: 2px solid var(--board-deep, #cbd2c6); pointer-events: none; } .ds-sheet::after { top: auto; left: auto; right: .45rem; bottom: .45rem; border-top: 0; border-left: 0; border-bottom: 2px solid var(--board-deep, #cbd2c6); border-right: 2px solid var(--board-deep, #cbd2c6); } .ds-kicker { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-faint, #79817a); margin: 0 0 .35rem; } .ds-title { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-weight: 700; font-size: clamp(1.9rem, 5.5vw, 3.1rem); line-height: 1.02; letter-spacing: -.005em; text-transform: uppercase; margin: 0; } .ds-dates { font-size: clamp(1rem, 2.4vw, 1.2rem); font-variant-numeric: tabular-nums; color: var(--ink-soft, #464d46); margin: .3rem 0 0; } .ds-stamp { font-family: var(--f-stamp, 'Courier Prime', monospace); font-size: .78rem; letter-spacing: .04em; color: var(--ink-faint, #79817a); margin: .3rem 0 0; } .ds-rule { border: 0; border-top: 2px solid var(--ink, #161916); margin: var(--gutter, clamp(.75rem, 2vw, 1.5rem)) 0; } .ds-determination { border-top: 2px solid var(--green, #1d5a3c); border-bottom: 1px solid var(--rule, #b6bfb2); background: var(--green-wash, #dfe9e0); padding: .7rem .9rem; margin: 0 0 var(--gutter, 1rem); font-size: .94rem; color: var(--ink-soft, #464d46); } .ds-determination strong { display: block; font-family: var(--f-label, 'Archivo Narrow', sans-serif); text-transform: uppercase; letter-spacing: .1em; font-size: .74rem; color: var(--green, #1d5a3c); margin-bottom: .2rem; }"
+    },
+    {
+      "name": "Claim Row",
+      "kind": "button",
+      "refersTo": "claim-row",
+      "description": "One line of the label, and a press target that opens the record asserting it.",
+      "html": "<div class=\"ds-claim-row\"><button class=\"ds-claim\" type=\"button\" aria-expanded=\"false\"><span class=\"ds-field\">Born</span><span class=\"ds-value ds-seamed\">1841</span><span class=\"ds-seam-mark\">2 claims</span></button></div>",
+      "css": ".ds-claim-row { border-bottom: 1px solid var(--rule-fine, #d2d8cd); } .ds-claim { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) auto; gap: var(--gutter, clamp(.75rem, 2vw, 1.5rem)); align-items: baseline; width: 100%; text-align: left; padding: .55rem 0; background: none; border: 0; font: inherit; color: inherit; cursor: pointer; } .ds-claim:hover { background: var(--sheet-edge, #e9ebe4); } .ds-claim:focus-visible { outline: 2px solid var(--green, #1d5a3c); outline-offset: 2px; } .ds-claim[aria-expanded='true'] { background: var(--sheet-edge, #e9ebe4); } .ds-field { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint, #79817a); padding-top: .18rem; } .ds-value { font-family: var(--f-value, 'Source Serif 4', Georgia, serif); font-size: 1.06rem; color: var(--ink, #161916); overflow-wrap: anywhere; } .ds-seamed { background-image: linear-gradient(to right, var(--rust, #9a3a1c), var(--rust, #9a3a1c)); background-repeat: repeat-x; background-size: 6px 2px; background-position: 0 100%; padding-bottom: 2px; } .ds-seam-mark { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--rust, #9a3a1c); border: 1px solid var(--rust, #9a3a1c); border-radius: 1px; padding: .05rem .3rem; white-space: nowrap; }"
+    },
+    {
+      "name": "Correction Slip",
+      "kind": "custom",
+      "refersTo": "correction-slip",
+      "description": "What a pressed contested line splays into: every competing value, with the displayed one tagged. Presents the disagreement and stops.",
+      "html": "<div class=\"ds-slip\"><div><span>1841</span><span class=\"ds-shown\">on the line &middot; asserted 3&times;</span></div><div><span class=\"ds-blank\">1843</span><span>1&times; &middot; 2018-10-19</span></div></div>",
+      "css": ".ds-slip { margin: .4rem 0 0; padding: .5rem .75rem; background: var(--rust-wash, #f0e2da); border: 1px solid var(--rust, #9a3a1c); box-shadow: 2px 2px 0 rgba(154, 58, 28, .12); display: grid; gap: .35rem; font-family: var(--f-value, 'Source Serif 4', Georgia, serif); font-size: .92rem; color: var(--ink, #161916); } .ds-slip > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--gutter, 1rem); align-items: baseline; } .ds-shown { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--green, #1d5a3c); } .ds-blank { color: var(--ink-faint, #79817a); font-style: italic; }"
+    },
+    {
+      "name": "Provenance Trace",
+      "kind": "custom",
+      "refersTo": "trace-panel",
+      "description": "Opens under any claim line: the record that asserts it, typed as an archive entry.",
+      "html": "<div class=\"ds-trace\"><h3>Provenance of this line</h3><dl><dt>Field</dt><dd>birthDate</dd><dt>Asserted by</dt><dd>5bc7f853e4b0&hellip;</dd><dt>Written on</dt><dd>2018-10-19</dd></dl><p class=\"ds-caveat\">This is what the store says. The exhibit has not checked it against a county, church, or census record.</p></div>",
+      "css": ".ds-trace { margin-top: var(--gutter, 1rem); border: 1px solid var(--rule, #b6bfb2); border-top: 3px solid var(--green, #1d5a3c); background: var(--sheet-edge, #e9ebe4); padding: .8rem var(--gutter, 1rem); font-family: var(--f-value, 'Source Serif 4', Georgia, serif); font-size: .92rem; color: var(--ink-soft, #464d46); } .ds-trace h3 { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--green, #1d5a3c); margin: 0 0 .5rem; } .ds-trace dl { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: .25rem var(--gutter, 1rem); margin: 0; } .ds-trace dt { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint, #79817a); padding-top: .12rem; } .ds-trace dd { margin: 0; font-family: var(--f-stamp, 'Courier Prime', monospace); font-size: .82rem; overflow-wrap: anywhere; } .ds-caveat { margin: .6rem 0 0; padding-top: .5rem; border-top: 1px solid var(--rule, #b6bfb2); }"
+    },
+    {
+      "name": "Drawer Index Card",
+      "kind": "list-item",
+      "refersTo": "index-card",
+      "description": "A specimen in the drawer: typed accession, condensed name, inset green outline when selected.",
+      "html": "<ul class=\"ds-drawer\"><li><button class=\"ds-card\" type=\"button\" aria-current=\"true\"><span class=\"ds-acc\">0007</span><span class=\"ds-who\">McELWEE, JAMES</span></button></li><li><button class=\"ds-card ds-flagged\" type=\"button\"><span class=\"ds-acc\">0008</span><span class=\"ds-who\">GIVENS, ELIZABETH</span></button></li></ul>",
+      "css": ".ds-drawer { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule-fine, #d2d8cd); } .ds-drawer li { background: var(--sheet, #f5f6f2); } .ds-card { display: grid; grid-template-columns: 1.9rem minmax(0, 1fr); gap: .5rem; align-items: baseline; width: 100%; text-align: left; font: inherit; color: var(--ink, #161916); background: none; border: 0; padding: .45rem .5rem; cursor: pointer; } .ds-card:hover { background: var(--sheet-edge, #e9ebe4); } .ds-card:focus-visible { outline: 2px solid var(--green, #1d5a3c); outline-offset: -2px; } .ds-acc { font-family: var(--f-stamp, 'Courier Prime', monospace); font-size: .72rem; color: var(--ink-faint, #79817a); } .ds-who { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .92rem; letter-spacing: .02em; } .ds-card[aria-current='true'] { box-shadow: inset 0 0 0 1px var(--green, #1d5a3c); background: var(--green-wash, #dfe9e0); } .ds-card[aria-current='true'] .ds-acc { color: var(--green, #1d5a3c); font-weight: 700; } .ds-card.ds-flagged::after { content: 'last seen'; grid-column: 1 / -1; font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: var(--rust, #9a3a1c); }"
+    },
+    {
+      "name": "Divider Chip",
+      "kind": "chip",
+      "refersTo": "divider-chip",
+      "description": "Surname filter in the drawer. The only interactive element allowed to invert to ink.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\" type=\"button\" aria-pressed=\"true\">BLAND (4)</button><button class=\"ds-chip\" type=\"button\" aria-pressed=\"false\">GIVENS (2)</button></div>",
+      "css": ".ds-chips { display: flex; flex-wrap: wrap; gap: .3rem; margin-bottom: .7rem; } .ds-chip { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: .2rem .5rem; border: 1px solid var(--rule, #b6bfb2); background: var(--sheet, #f5f6f2); color: var(--ink-soft, #464d46); cursor: pointer; } .ds-chip:hover { background: var(--sheet-edge, #e9ebe4); } .ds-chip:focus-visible { outline: 2px solid var(--green, #1d5a3c); outline-offset: 2px; } .ds-chip[aria-pressed='true'] { background: var(--ink, #161916); color: #fff; border-color: var(--ink, #161916); }"
+    },
+    {
+      "name": "Empty Mount",
+      "kind": "custom",
+      "refersTo": "mount-empty",
+      "description": "Absence drawn as a legitimate state. Depictions are linked, never mounted, so this is the normal case.",
+      "html": "<figure class=\"ds-specimen\"><div class=\"ds-mount\">Image held elsewhere</div><figcaption><a href=\"#\" rel=\"noopener\">Open the asserted photograph on findagrave.com</a><br />Linked, not copied: the exhibit does not hold the rights to it.</figcaption></figure>",
+      "css": ".ds-specimen { margin: var(--gutter, 1rem) 0 0; display: grid; justify-items: center; gap: .5rem; } .ds-mount { width: min(100%, 26rem); min-height: 11rem; display: grid; place-content: center; gap: .25rem; text-align: center; border: 1px dashed var(--rule, #b6bfb2); padding: 1rem; color: var(--ink-faint, #79817a); font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; } .ds-specimen figcaption { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .68rem; line-height: 1.6; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint, #79817a); text-align: center; max-width: 30rem; } .ds-specimen a { color: var(--green, #1d5a3c); } .ds-specimen a:hover { text-decoration-thickness: 2px; }"
+    },
+    {
+      "name": "Stray Slip",
+      "kind": "custom",
+      "refersTo": "determination",
+      "description": "Out-of-vocabulary keys, reproduced but demoted below the label proper.",
+      "html": "<div class=\"ds-stray\"><h3 class=\"ds-stray-head\">Stray fields in the record</h3><p class=\"ds-stray-note\">These keys are not part of the catalog's vocabulary. They are reproduced because the exhibit does not delete records it did not make.</p><div class=\"ds-stray-row\"><span class=\"ds-field\">bryanTest</span><span class=\"ds-value\">delete me</span></div></div>",
+      "css": ".ds-stray { margin: 1.4rem 0 0; padding-top: .8rem; border-top: 1px dashed var(--rule, #b6bfb2); font-family: var(--f-value, 'Source Serif 4', Georgia, serif); } .ds-stray-head { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint, #79817a); margin: 0 0 .3rem; } .ds-stray-note { font-size: .84rem; line-height: 1.5; color: var(--ink-soft, #464d46); max-width: 62ch; margin: 0 0 .7rem; } .ds-stray-row { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: var(--gutter, 1rem); align-items: baseline; padding: .4rem .75rem; border-bottom: 1px solid var(--rule-fine, #d2d8cd); border-left: 1px solid var(--rule, #b6bfb2); } .ds-field { font-family: var(--f-label, 'Archivo Narrow', sans-serif); font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint, #79817a); } .ds-value { font-size: .9rem; color: var(--ink-soft, #464d46); overflow-wrap: anywhere; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Mounted Sheet",
+    "overview": "The exhibit is a herbarium and museum mounting sheet, not a profile page. A specimen is fixed to a cool grey-green board by four corners, carries a printed label with an accession number and a determination line, and is filed in a drawer with an index. That institutional form was chosen because it is the artifact that already knows how to handle this project's exact situation: a hand-made catalog whose compiler is unrecorded, transcribed page by page into a linked-data store. An institutional sheet does not claim to be the thing it describes. It claims to be a record about it, made by someone, at a date, and it prints that trail. So every value on the page is rendered as a claim with an accession behind it, and a claim is either supported or marked. The aesthetic consequence is restraint with one exception: the sheet is allowed to be physically present. Generated paper fibre, a faint mounting grid on the board, four mounting corners, and a pasted slip that casts a small offset shadow are the entire amount of materiality permitted. Everything else is typography and rules. Colour is never used to decorate, warm, or enliven; there are exactly two accents and each of them is a statement about evidence, so an accent applied for any other reason is a defect, not a style choice. The palette is deliberately cool: a grey-green board and off-white sheet under a single near-black ink. It is emphatically not cream, not sepia, and not parchment. The reading order is also a design constraint. The primary audience is students, possibly as young as secondary school, arriving cold with no context. The sheet must be legible before it is navigable.",
+    "keyCharacteristics": [
+      "A cool grey-green mounting board, an off-white sheet, one ink; no cream, no sepia.",
+      "Two accents with fixed meanings: green is evidence, rust is disagreement. Neither decorates.",
+      "Three faces with fixed jobs: condensed institutional caps for labels, a reading serif for values, monospace for identifiers.",
+      "Surfaces are square-edged and held by hairline rules, never by radius or by accent tabs.",
+      "Absence is a drawn state: an empty dashed mounting space, never a placeholder or a stock image.",
+      "Every claim line is a press target that opens the record asserting it."
+    ],
+    "rules": [
+      { "name": "The Two Accents Rule", "body": "Green means evidence. Rust means disagreement. Neither is decorative, neither is a brand colour, and neither may be used for emphasis, hierarchy, decoration, or because this needs colour. For every green or rust element on a screen, name what it asserts; if you cannot name it, remove it.", "section": "colors" },
+      { "name": "The One Ink Rule", "body": "People who are dead are printed in ink. No accent, tint, wash, or highlight is ever applied to a name, a date of birth, or a date of death.", "section": "colors" },
+      { "name": "The Cool Board Rule", "body": "The paper is cool. Off-white sheet on grey-green board. Cream, parchment, beige, sepia, and warm greys are excluded.", "section": "colors" },
+      { "name": "The Three Jobs Rule", "body": "Archivo Narrow labels, Source Serif 4 states values, Courier Prime identifies. A type role never crosses.", "section": "typography" },
+      { "name": "The Student Floor Rule", "body": "Values stay in the reading serif at 1.06rem or larger and body prose at 17px/1.55. Uppercase and letterspacing are reserved for labels and marks. Density never wins an argument with a fifteen-year-old arriving by accident.", "section": "typography" },
+      { "name": "The Orientation Before Navigation Rule", "body": "On every viewport, including the narrowest where the drawer jumps the queue, the visitor reads what the exhibit is before being asked to choose anything.", "section": "layout" },
+      { "name": "The Paper-Only Depth Rule", "body": "Only the sheet casts a real shadow, and only a pasted slip casts an offset one. A new panel communicates state with the sheet-edge tone and a 1px rule.", "section": "elevation" },
+      { "name": "The Generated Paper Rule", "body": "The sheet's texture is two inline SVG feTurbulence layers. Do not replace them with a flat fill or a downloaded paper JPG.", "section": "elevation" },
+      { "name": "The Press-Any-Line Rule", "body": "Every claim row is a button that opens the record asserting it. A value that cannot be traced must not be printed as a claim row.", "section": "components" },
+      { "name": "The Most-Asserted Rule", "body": "A contested line leads with the value the records assert most often; a tie goes to the more recent claim. It is a stated convention, not a verdict, and the page says so out loud. Never silently re-order contested values by recency, and never resolve a disagreement by dropping a variant.", "section": "components" },
+      { "name": "The Slip Rule", "body": "Keys outside the catalog's vocabulary are reproduced but go on a labelled slip below the determination, never as a claim row on the label proper.", "section": "components" },
+      { "name": "The Linked-Not-Mounted Rule", "body": "Depictions are never rendered as an image element. The exhibit shows an empty mounting space and an attributed outbound link. No future work may mount third-party imagery, fabricate imagery, or fill an empty mount with a stand-in.", "section": "components" }
+    ],
+    "dos": [
+      "Do keep the two accents' meanings intact: evidence green for anything backed by a record, contested rust for anything the records disagree about.",
+      "Do build on the existing surfaces - board ground, sheet paper, sheet-edge for hover/expanded/inset - and stay inside the pad and gutter tokens for gutters.",
+      "Do set labels in Archivo Narrow uppercase with 0.1-0.16em tracking, values in Source Serif 4, identifiers in Courier Prime.",
+      "Do express edges with rules: 1px rule or rule-fine for structure, a 2px or 3px green top rule for authority, a full 1px rust border plus offset shadow for a correction slip, a dashed rule for absence.",
+      "Do mark a selected item with an inset 1px green box-shadow on the evidence wash.",
+      "Do draw empty states as the mounting space with final copy. No placeholder text ships.",
+      "Do keep the sheet's generated feTurbulence paper, its four mounting corners, and the body's 2rem mounting grid.",
+      "Do preserve the deep-link and memory contract: #specimen/<encoded IRI> and the mc:lastSeen key.",
+      "Do keep contrast at WCAG 2.1 AA and the layout usable at 375px, and keep every motion effect inside prefers-reduced-motion: no-preference.",
+      "Do let the institution bar, the raw-record viewer, and the flash bands invert to ink-on-white; those are the world's own reversed materials."
+    ],
+    "donts": [
+      "Don't use a thick coloured border-left accent tab on a card, panel, or list item; this build removed that pattern deliberately. A 1px neutral rule left edge on an indented claim row is not this pattern.",
+      "Don't use cream, parchment, beige, sepia, or any warm paper. The board is cool grey-green.",
+      "Don't use green or rust as decoration, hierarchy, or emphasis, and don't tint a name or a burial date with any accent.",
+      "Don't render a depiction as an image element, link to an image file you do not hold rights to, or fill an empty mount with stock, generated, or folksy local-history photography.",
+      "Don't round corners. The single 1px radius on the seam mark is the whole exception.",
+      "Don't add blurred elevation to claim rows, chips, or trace panels.",
+      "Don't order a contested line by newest claim, and don't hide a variant to make a sheet look tidy.",
+      "Don't promote a stray key into the catalog's claim list, and don't delete one either.",
+      "Don't add a hero image, a search field, or any chrome above the sheet in the first viewport.",
+      "Don't gamify, animate for delight, or apply a playful flourish to a burial record. The tone bar is respect.",
+      "Don't ship placeholder text, and don't invent plot or parcel information - parcel outlines come from modern assessor records and the copy must keep saying so."
+    ]
+  }
+}
