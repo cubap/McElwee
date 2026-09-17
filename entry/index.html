@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>McElwee Data Entry</title>
+    <link rel="stylesheet" href="../web/mc.css">
+    <link rel="stylesheet" href="entry.css">
+</head>
+
+<body class="entry">
+    <header>
+        <h1>McElwee Cemetery &mdash; Data Entry</h1>
+        <p class="notice">
+            This subsite exists only on the development server. It is never copied into the
+            <a href="../web/">published exhibit</a>, which is read-only. Every record you save here is
+            written through the local RERUM proxy, so it is attributed to the agent in <code>.env</code>.
+        </p>
+    </header>
+
+    <section id="agent-status" class="agent-status" aria-live="polite">
+        Checking which RERUM agent this server writes as&hellip;
+    </section>
+
+    <section class="browser">
+        <h2>Records</h2>
+        <p>
+            <label for="record-picker">Edit a person
+                <select id="record-picker">
+                    <option value="">Loading the population list&hellip;</option>
+                </select>
+            </label>
+            <button type="button" id="new-person">Add a person</button>
+        </p>
+    </section>
+
+    <section class="editor">
+        <h2 id="form-heading">Person</h2>
+        <div id="entry-flash" class="entry-flash" hidden></div>
+        <form id="person-form" class="mc-person-edit">
+            <input type="hidden" mc-key="@type" value="Person" id="mc-type">
+            <input type="hidden" mc-key="@context" value="http://schema.org" id="mc-context">
+            <input type="hidden" mc-key="@id" value="" id="mc-at-id">
+            <label for="mc-label">Full Name:
+                <input id="mc-label" type="text" mc-key="name" class="mc-data-entry" placeholder="full name" value="">
+            </label>
+            <label for="mc-given-name">Given Name:
+                <input id="mc-given-name" mc-key="givenName" class="mc-data-entry" value="">
+            </label>
+            <label for="mc-family-name">Family Name:
+                <input id="mc-family-name" mc-key="familyName" class="mc-data-entry" placeholder="family name" value="">
+            </label>
+            <label for="mc-maiden-name">Maiden Name:
+                <input id="mc-maiden-name" mc-key="alternateName" class="mc-data-entry" placeholder="former name" value="">
+            </label>
+            <label for="mc-gender">Gender:
+                <input id="mc-gender" mc-key="gender" class="mc-data-entry" value="">
+            </label>
+            <label for="mc-birth-date">Birth Date:
+                <input id="mc-birth-date" mc-key="birthDate" type="date" class="mc-data-entry" placeholder="YYYY-MM-DD" value="">
+            </label>
+            <label for="mc-death-date">Death Date:
+                <input id="mc-death-date" mc-key="deathDate" type="date" class="mc-data-entry" value="">
+            </label>
+            <label for="mc-depiction">Depiction:
+                <input id="mc-depiction" mc-key="depiction" class="mc-data-entry" placeholder="headstone depiction" value="">
+            </label>
+            <label for="mc-transcription">Catalog Entry:
+                <textarea id="mc-transcription" mc-key="description" class="mc-data-entry"></textarea>
+            </label>
+            <p class="actions">
+                <button type="submit" id="save">Create</button>
+                <button type="button" id="delete" hidden>Delete</button>
+            </p>
+        </form>
+    </section>
+
+    <script src="../web/config.js"></script>
+    <script src="entry.js"></script>
+</body>
+
+</html>

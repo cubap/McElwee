@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <title>McElwee Cemetery Exhibit</title>
     <link rel="stylesheet" href="mc.css">
 </head>
@@ -21,7 +22,7 @@
         </p>
     </mc-location>
 
-    <button role="button" type="button" onclick="mc.focusOn(localStorage.getItem('CURRENT_LIST_ID'));return false;">All Markers</button>
+    <button role="button" type="button" onclick="mc.focusOn(localStorage.getItem('CURRENT_LIST_ID') || McElweeConfig.DEFAULT_LIST_ID);return false;">All Markers</button>
 
     <!-- Hidden by default (mc.css); app.js inserts sibling notices after this element. -->
     <mc-flash-message id="flash-message"></mc-flash-message>
@@ -29,12 +30,11 @@
     <mc-view is="mc-view" id="mc-view" mc-object="">
     </mc-view>
 
-    <div id="mc-edit-form"></div>
-
     <mc-obj-viewer id="obj-viewer">
     </mc-obj-viewer>
 
     <script src="mcdata.js"></script>
+    <script src="config.js"></script>
     <script src="app.js"></script>
 
 </body>

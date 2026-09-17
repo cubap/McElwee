@@ -1,0 +1,72 @@
+/* Data entry for the McElwee catalog. Local-only: never copied into the Pages build. */
+
+.entry {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 4rem;
+}
+
+.entry header h1 {
+    font-size: 1.8rem;
+    margin-bottom: .25rem;
+}
+
+.notice {
+    font-size: .9rem;
+    color: #b1b1b1;
+    border-left: .25em solid #666666;
+    padding-left: .75rem;
+}
+
+.agent-status {
+    padding: .75rem;
+    margin: 1rem 0;
+    border-radius: .25em;
+    background: #262626;
+    font-size: .9rem;
+    word-break: break-all;
+}
+
+.agent-status.ok {
+    border-left: .5em solid #66ff66;
+}
+
+.agent-status.bad {
+    border-left: .5em solid #ff6666;
+}
+
+.agent-status code {
+    color: #a3d1ff;
+}
+
+#record-picker {
+    min-width: 18rem;
+    margin-right: .5rem;
+}
+
+.entry-flash {
+    padding: .6rem .75rem;
+    margin-bottom: .75rem;
+    border-radius: .25em;
+    font-size: .9rem;
+    white-space: pre-wrap;
+}
+
+.entry-flash.error {
+    background: #ff6666;
+    color: #111111;
+}
+
+.entry-flash.success {
+    background: #66ff66;
+    color: #111111;
+}
+
+.actions {
+    display: flex;
+    gap: .75rem;
+}
+
+#delete {
+    border-color: #ff6666;
+}
