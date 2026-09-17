@@ -244,6 +244,21 @@ test("an unreachable store becomes 502 rather than a hung request", async () => 
   h.restore()
 })
 
+test("non-ASCII text survives the proxy byte for byte", async () => {
+  // Issue #8's root cause was the 2018 servlet reading the request body as a single-byte
+  // charset, so U+2014 arrived as 0x14. express.json() decodes UTF-8, and the body is
+  // re-serialised from the parsed object, so the em dash must reach upstream intact.
+  const h = harness()
+  await request(h.app)
+    .post("/create")
+    .set("Content-Type", "application/json; charset=utf-8")
+    .send(JSON.stringify({ "@type": "Person", description: "S/O J. H. BLAND\u2014died 1883" }))
+    .expect(200)
+  const sent = String(h.last().options.body)
+  assert.match(sent, /\u2014/, "the em dash must not be escaped away or truncated")
+  assert.deepEqual(JSON.parse(sent), { "@type": "Person", description: "S/O J. H. BLAND\u2014died 1883" })
+  h.restore()
+})
 test("unknown routes 404 instead of falling through to the static site", async () => {
   const h = harness()
   const res = await request(h.app).get("/nope").expect(404)

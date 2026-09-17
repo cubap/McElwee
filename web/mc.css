@@ -1,138 +1,813 @@
-form[data-hidden] {
-    display: none;
+/* ==========================================================================
+   McElwee Cemetery — the herbarium world.
+
+   Everything the exhibit shows was transcribed by someone, from a catalog whose
+   origin is unrecorded. The visual system is the artifact that handles exactly
+   that situation: a mounted specimen sheet with a printed label, an accession
+   number, and a determination line. It is an institutional form, so it has an
+   institutional honesty: a claim is either supported, or it is marked.
+
+   Roles are strict. Green is evidence. Rust is disagreement. Ink is the dead.
+   Nothing decorative is allowed into either accent.
+   ========================================================================== */
+
+:root {
+    /* mounting board, specimen sheet, and the ink that goes on them */
+    --board: #dde2d9;
+    --board-deep: #cbd2c6;
+    --sheet: #f5f6f2;
+    --sheet-edge: #e9ebe4;
+    --ink: #161916;
+    --ink-soft: #464d46;
+    --ink-faint: #79817a;
+    --rule: #b6bfb2;
+    --rule-fine: #d2d8cd;
+
+    /* evidence */
+    --green: #1d5a3c;
+    --green-wash: #dfe9e0;
+    --green-line: #9dbca6;
+
+    /* contested */
+    --rust: #9a3a1c;
+    --rust-wash: #f0e2da;
+
+    --f-label: "Archivo Narrow", "Arial Narrow", "Liberation Sans Narrow", sans-serif;
+    --f-value: "Source Serif 4", "Source Serif Pro", Georgia, "Liberation Serif", serif;
+    --f-stamp: "Courier Prime", "Courier New", monospace;
+
+    --pad: clamp(1rem, 3vw, 2.25rem);
+    --gutter: clamp(.75rem, 2vw, 1.5rem);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-button,
-input,
-textarea {
-    color: #a3d1ff;
+* { box-sizing: border-box; }
+
+html {
+    background: var(--board);
+    color: var(--ink);
+    -webkit-text-size-adjust: 100%;
 }
 
-button,
-input,
-textarea {
-    background: #262626;
-    border-color: #666666;
-    border-radius: .25em;
-    padding: .2em;
-    font-size: 1.2rem;
+body {
+    margin: 0;
+    font-family: var(--f-value);
+    font-size: 17px;
+    line-height: 1.55;
+    /* the faint grid of a mounting sheet, never loud enough to read as pattern */
+    background-image:
+        linear-gradient(to bottom, rgba(120, 134, 118, .10) 1px, transparent 1px),
+        linear-gradient(to right, rgba(120, 134, 118, .10) 1px, transparent 1px);
+    background-size: 100% 2rem, 2rem 100%;
+    min-height: 100vh;
 }
 
-button[type="submit"] {
-    display: block;
+/* --- shared type roles ---------------------------------------------------- */
+
+.mc-label,
+label {
+    font-family: var(--f-label);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 600;
+}
+
+.mc-stamp {
+    font-family: var(--f-stamp);
+    font-size: .78rem;
+    letter-spacing: .04em;
+    color: var(--ink-faint);
+}
+
+a { color: var(--green); }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 2px;
+}
+
+[hidden] { display: none !important; }
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--ink);
+    color: var(--sheet);
+    padding: .5rem 1rem;
+    z-index: 20;
+}
+.skip-link:focus { left: .5rem; top: .5rem; }
+
+/* --- institution bar ------------------------------------------------------ */
+
+.mc-institution {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .15rem var(--gutter);
+    padding: .6rem var(--pad);
+    background: var(--ink);
+    color: var(--sheet);
+    font-family: var(--f-label);
+    font-size: .74rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.mc-institution .mc-here {
+    color: #fff;
+    font-weight: 700;
+}
+
+.mc-institution .mc-counts {
+    margin-left: auto;
+    color: var(--green-line);
+    letter-spacing: .1em;
+    text-align: right;
+}
+
+@media (max-width: 44rem) {
+    .mc-institution { font-size: .66rem; letter-spacing: .1em; }
+    .mc-institution .mc-counts { margin-left: 0; flex-basis: 100%; text-align: left; }
+}
+
+/* --- cabinet: sheet + index ----------------------------------------------- */
+
+.mc-cabinet {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    gap: var(--pad);
+    align-items: start;
+    padding: var(--pad);
+    max-width: 84rem;
     margin: 0 auto;
-    padding: .5rem 1.5rem;
 }
 
-button[type="submit"]::before {
+@media (max-width: 60rem) {
+    .mc-cabinet { grid-template-columns: minmax(0, 1fr); }
+    .mc-cabinet > .mc-index { order: -1; }
+}
+
+/* --- the sheet ------------------------------------------------------------ */
+
+.mc-sheet {
+    position: relative;
+    background-color: var(--sheet);
+    /* Two layers of generated paper: a fine fibre that catches the light, and a slow
+       mottle so a large sheet never reads as a flat fill. Both are neutral and both sit
+       far enough under the ink that contrast is unaffected. */
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23f)' opacity='.05'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='620' height='620'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='620' height='620' filter='url(%23m)' opacity='.055'/%3E%3C/svg%3E");
+    border: 1px solid var(--rule);
+    box-shadow:
+        0 1px 0 var(--board-deep),
+        0 10px 24px -18px rgba(20, 26, 20, .55),
+        inset 0 0 46px -22px rgba(74, 66, 46, .22);
+    padding: var(--pad);
+}
+
+/* mounting corners: the sheet is held down at four points, like a specimen */
+.mc-sheet::before,
+.mc-sheet::after {
     content: "";
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-top: 2px solid var(--board-deep);
+    border-left: 2px solid var(--board-deep);
+    top: .45rem;
+    left: .45rem;
+    pointer-events: none;
+}
+.mc-sheet::after {
+    border-top: 0;
+    border-left: 0;
+    border-bottom: 2px solid var(--board-deep);
+    border-right: 2px solid var(--board-deep);
+    top: auto;
+    left: auto;
+    right: .45rem;
+    bottom: .45rem;
+}
+
+.mc-kicker {
+    font-family: var(--f-label);
+    font-size: .72rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 .35rem;
+}
+
+.mc-title {
+    font-family: var(--f-label);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 5.5vw, 3.1rem);
+    line-height: 1.02;
+    letter-spacing: -.005em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--ink);
+}
+
+.mc-dates {
+    font-family: var(--f-value);
+    font-size: clamp(1rem, 2.4vw, 1.2rem);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+    margin: .3rem 0 0;
+    letter-spacing: .01em;
+}
+
+.mc-rule {
+    border: 0;
+    border-top: 2px solid var(--ink);
+    margin: var(--gutter) 0;
+}
+
+.mc-rule--fine { border-top-width: 1px; border-top-color: var(--rule); }
+
+/* --- determination block: the honest part --------------------------------- */
+
+.mc-determination {
+    border-top: 2px solid var(--green);
+    border-bottom: 1px solid var(--rule);
+    background: var(--green-wash);
+    padding: .7rem .9rem;
+    margin: 0 0 var(--gutter);
+    font-size: .94rem;
+    color: var(--ink-soft);
+}
+
+.mc-determination strong {
+    font-family: var(--f-label);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-size: .74rem;
+    color: var(--green);
+    display: block;
+    margin-bottom: .2rem;
+}
+
+/* --- claim rows ----------------------------------------------------------- */
+
+.mc-claims {
+    border-top: 1px solid var(--rule);
+}
+
+.mc-stamp--authority {
+    color: var(--ink-faint);
+    letter-spacing: .06em;
+}
+
+.mc-stamp--authority a { color: var(--green); }
+
+.mc-claim-row {
+    border-bottom: 1px solid var(--rule-fine);
+}
+
+.mc-claim {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr) auto;
+    gap: var(--gutter);
+    align-items: baseline;
+    padding: .55rem 0;
+    background: none;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+.mc-claim:hover { background: var(--sheet-edge); }
+.mc-claim[disabled] { cursor: default; }
+.mc-claim[disabled]:hover { background: none; }
+
+@media (max-width: 34rem) {
+    .mc-claim { grid-template-columns: minmax(0, 1fr) auto; }
+    .mc-claim .mc-field { grid-column: 1 / -1; }
+    .mc-variants > div { grid-template-columns: minmax(0, 1fr); }
+}
+
+.mc-field {
+    font-family: var(--f-label);
+    font-size: .72rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-top: .18rem;
+}
+
+.mc-value {
+    font-family: var(--f-value);
+    font-size: 1.06rem;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+}
+
+.mc-value--absent {
+    color: var(--ink-faint);
+    font-style: italic;
+}
+
+/* the seam: a hairline of rust under a value that more than one record denies */
+.mc-value--seamed {
+    background-image: linear-gradient(to right, var(--rust), var(--rust));
+    background-repeat: repeat-x;
+    background-size: 6px 2px;
+    background-position: 0 100%;
+    padding-bottom: 2px;
+}
+
+.mc-seam-mark {
+    font-family: var(--f-label);
+    font-size: .64rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--rust);
+    border: 1px solid var(--rust);
+    border-radius: 1px;
+    padding: .05rem .3rem;
+    white-space: nowrap;
+}
+
+.mc-trace-mark {
+    font-family: var(--f-stamp);
+    font-size: .7rem;
+    color: var(--ink-faint);
+    white-space: nowrap;
+}
+
+.mc-claim[aria-expanded="true"] { background: var(--sheet-edge); }
+
+/* --- splayed variants ----------------------------------------------------- */
+
+/* Stray fields are the store's own dirt, not a determination. They are set on a slip
+   pasted to the reverse of the sheet: smaller, greyer, ruled apart from the label. */
+.mc-stray {
+    margin: 1.4rem 0 0;
+    padding-top: .8rem;
+    border-top: 1px dashed var(--rule);
+}
+
+.mc-stray-head {
+    font-family: var(--f-label);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 .3rem;
+}
+
+.mc-stray-note {
+    font-size: .84rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0 0 .7rem;
+}
+
+.mc-claims--stray .mc-field { color: var(--ink-faint); font-size: .68rem; }
+.mc-claims--stray .mc-value { font-size: .9rem; color: var(--ink-soft); }
+.mc-claims--stray .mc-stamp--authority {
+    color: var(--ink-faint);
+    letter-spacing: .06em;
+}
+
+.mc-stamp--authority a { color: var(--green); }
+
+.mc-claim-row { padding-left: .75rem; border-left: 1px solid var(--rule); }
+
+.mc-claim-detail {
+    padding: 0 0 .75rem;
+}
+
+.mc-variants {
+    margin: .4rem 0 0;
+    padding: .5rem .75rem;
+    background: var(--rust-wash);
+    border: 1px solid var(--rust);
+    box-shadow: 2px 2px 0 rgba(154, 58, 28, .12);
+    display: grid;
+    gap: .35rem;
+    font-size: .92rem;
+}
+
+.mc-variants > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--gutter);
+    align-items: baseline;
+}
+
+.mc-variants .mc-shown {
+    font-family: var(--f-label);
+    font-size: .62rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--green);
+}
+
+/* --- specimen image ------------------------------------------------------- */
+
+.mc-specimen {
+    margin: var(--gutter) 0 0;
+    display: grid;
+    justify-items: center;
+    gap: .5rem;
+}
+
+.mc-specimen img {
+    max-width: min(100%, 26rem);
+    max-height: 22rem;
+    border: 1px solid var(--rule);
+    background: var(--sheet-edge);
+    padding: .35rem;
+    cursor: zoom-in;
+}
+
+.mc-specimen img.mc-open { cursor: zoom-out; max-width: 100%; max-height: none; }
+
+.mc-specimen figcaption {
+    font-family: var(--f-label);
+    font-size: .68rem;
+    line-height: 1.6;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: center;
+    max-width: 30rem;
+}
+
+/* absence is a legitimate state, drawn as an empty mounting space */
+.mc-mount-empty {
+    width: min(100%, 26rem);
+    min-height: 11rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--rule);
+    display: grid;
+    place-content: center;
+    gap: .25rem;
+    text-align: center;
+    color: var(--ink-faint);
+    font-family: var(--f-label);
+    font-size: .7rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 1rem;
+}
+
+/* --- index drawer --------------------------------------------------------- */
+
+.mc-index {
+    background: var(--sheet);
+    border: 1px solid var(--rule);
+    padding: 1rem var(--gutter);
+    position: sticky;
+    top: var(--pad);
+}
+
+@media (max-width: 60rem) {
+    .mc-index { position: static; }
+}
+
+.mc-index h2 {
+    font-family: var(--f-label);
+    font-size: .74rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 .6rem;
+}
+
+.mc-dividers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .3rem;
+    margin-bottom: .7rem;
+}
+
+.mc-divider {
+    font-family: var(--f-label);
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .2rem .5rem;
+    border: 1px solid var(--rule);
+    background: var(--sheet);
+    color: var(--ink-soft);
+    cursor: pointer;
+}
+
+.mc-divider[aria-pressed="true"] {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+}
+
+.mc-index ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: acc;
+    display: grid;
+    gap: 1px;
+    background: var(--rule-fine);
+}
+
+@media (max-width: 60rem) {
+    .mc-index ol {
+        grid-auto-flow: column;
+        grid-auto-columns: 11rem;
+        overflow-x: auto;
+        background: none;
+        gap: .4rem;
+        padding-bottom: .5rem;
+        scroll-snap-type: x mandatory;
+    }
+    .mc-index li { scroll-snap-align: start; }
+    .mc-index button {
+        grid-template-columns: minmax(0, 1fr);
+        gap: .05rem;
+        border: 1px solid var(--rule);
+        height: 100%;
+    }
+}
+
+.mc-index li {
+    background: var(--sheet);
+    counter-increment: acc;
+}
+
+@media (max-width: 60rem) {
+    .mc-index li { background: none; }
+}
+
+.mc-index button {
+    display: grid;
+    grid-template-columns: 1.9rem minmax(0, 1fr);
+    gap: .5rem;
+    align-items: baseline;
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: .45rem .5rem;
+    cursor: pointer;
+}
+
+.mc-index button:hover { background: var(--sheet-edge); }
+
+.mc-index button .mc-acc {
+    font-family: var(--f-stamp);
+    font-size: .72rem;
+    color: var(--ink-faint);
+}
+
+.mc-index button .mc-who {
+    font-family: var(--f-label);
+    font-size: .92rem;
+    letter-spacing: .02em;
+}
+
+.mc-index button[aria-current="true"] {
+    box-shadow: inset 0 0 0 1px var(--green);
+    background: var(--green-wash);
+}
+
+.mc-index button[aria-current="true"] .mc-acc { color: var(--green); font-weight: 700; }
+
+/* the flag from the cutting bench: where the visitor stopped */
+.mc-index button.mc-flagged::after {
+    content: "last seen";
+    font-family: var(--f-label);
+    font-size: .58rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--rust);
+    grid-column: 1 / -1;
+}
+
+.mc-index .mc-empty {
+    font-family: var(--f-label);
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: .5rem 0;
+}
+
+/* --- provenance trace ----------------------------------------------------- */
+
+.mc-trace {
+    margin-top: var(--gutter);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--green);
+    background: var(--sheet-edge);
+    padding: .8rem var(--gutter);
+    font-size: .92rem;
+}
+
+.mc-trace h3 {
+    font-family: var(--f-label);
+    font-size: .72rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin: 0 0 .5rem;
+}
+
+.mc-trace dl {
+    display: grid;
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    gap: .25rem var(--gutter);
+    margin: 0;
+}
+
+.mc-trace dt {
+    font-family: var(--f-label);
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-top: .12rem;
+}
+
+.mc-trace dd {
+    margin: 0;
+    font-family: var(--f-stamp);
+    font-size: .82rem;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 34rem) {
+    .mc-trace dl { grid-template-columns: minmax(0, 1fr); }
+    .mc-trace dt { margin-top: .4rem; }
+}
+
+.mc-trace .mc-caveat {
+    margin: .6rem 0 0;
+    padding-top: .5rem;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-soft);
+}
+
+/* --- locality inset ------------------------------------------------------- */
+
+.mc-locality {
+    margin-top: 0;
+    padding: 0 var(--pad);
+    max-width: 84rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--pad);
+    align-items: start;
+}
+
+@media (max-width: 48rem) {
+    .mc-locality { grid-template-columns: minmax(0, 1fr); }
+}
+
+.mc-map {
+    border: 1px solid var(--rule);
+    padding: .35rem;
+    background: var(--sheet);
+}
+
+.mc-map iframe {
     display: block;
     width: 100%;
+    height: 15rem;
+    border: 0;
 }
 
-html,
-body {
-    background: #060606;
-    color: #d6d6d6;
-    font-family: sans-serif;
+.mc-note {
+    font-size: .95rem;
+    color: var(--ink-soft);
+    background: var(--sheet);
+    border: 1px solid var(--rule);
+    padding: var(--gutter) var(--pad);
 }
 
-form {
-    border: thin solid #a3d1ff;
-    padding: .5rem;
-    margin: .5rem 0;
+.mc-note h2 {
+    font-family: var(--f-label);
+    font-size: .78rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0 0 .4rem;
 }
+
+/* --- footer --------------------------------------------------------------- */
+
+.mc-colophon {
+    padding: var(--pad);
+    max-width: 84rem;
+    margin: 0 auto;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--pad);
+    font-size: .9rem;
+    color: var(--ink-soft);
+}
+
+.mc-colophon h3 {
+    font-family: var(--f-label);
+    font-size: .68rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 .3rem;
+}
+
+.mc-colophon a { color: var(--green); }
+
+/* --- states the data layer reports ---------------------------------------- */
 
 mc-flash-message {
     display: none;
-    background-color: #d6d6d6;
-    color: #111111;
-    padding: .5em;
-    font-size: 1.2rem;
+}
+
+mc-flash-message.error,
+mc-flash-message.success {
+    display: block;
+    margin: 0;
+    padding: .5rem var(--pad);
+    font-family: var(--f-label);
+    font-size: .8rem;
+    letter-spacing: .08em;
 }
 
 mc-flash-message.error {
-    display: block;
-    background-color: #ff6666;
+    background: var(--rust);
+    color: #fff;
 }
 
 mc-flash-message.success {
-    display: block;
-    background-color: #66ff66;
+    background: var(--green);
+    color: #fff;
 }
 
+/* The raw record stays available, but it is a tool, not the exhibit. */
 mc-obj-viewer {
+    display: block;
     white-space: pre;
-    font-family: monospace;
-    font-size: .8rem;
-    max-height: 12rem;
+    font-family: var(--f-stamp);
+    font-size: .74rem;
+    line-height: 1.45;
+    max-height: 20rem;
     overflow: auto;
+    background: var(--ink);
+    color: #cfd8cf;
+    padding: var(--gutter) var(--pad);
+}
+
+.mc-raw-toggle {
     display: block;
-}
-
-mc-view {
-    background: #c0c0c0;
-    padding: 2rem;
-    margin: 4rem;
-    transition: all 100ms;
-    color: #060606;
-    display: block;
-    position: relative;
-}
-
-mc-view.Person {
-    background: #d6d6d6;
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
-    text-align: center;
-}
-
-mc-view.Person h3 {
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, .5);
-    color: #b1b1b1;
-    font-size: 400%;
-    margin-bottom: 0;
-}
-
-.mc-gender {
-    float: right;
-    font-weight: bold;
-}
-
-.mc-evidence {
-    display: block;
-    font-size: 80%;
-}
-
-.mc-depiction {
-    max-width: 200px;
-    max-height: 200px;
-    transition: 1s all;
-    transform: scale(1);
-    display: block;
-    margin: 0 auto;
-}
-
-.mc-depiction.clicked {
-    transform: scale(5);
-}
-
-.mc-description {
-    font-family: cursive;
-    display: block;
-    font-size: 1.2rem;
-}
-
-form label[for^="mc-"] {
-    display: inline-grid;
-}
-
-[for="mc-transcription"] {
     width: 100%;
+    text-align: left;
+    font-family: var(--f-label);
+    font-size: .7rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--sheet);
+    border: 0;
+    border-top: 1px solid var(--rule);
+    padding: .5rem var(--pad);
+    cursor: pointer;
+}
+
+/* --- motion, as material -------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+    .mc-sheet,
+    .mc-trace,
+    .mc-variants { animation: mc-pin 220ms ease-out both; }
+    .mc-claim .mc-value { transition: background-size 160ms ease-out; }
+}
+
+@keyframes mc-pin {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
+}
+
+@media print {
+    body { background: #fff; }
+    .mc-index, .mc-raw-toggle, mc-obj-viewer, .mc-map { display: none; }
 }

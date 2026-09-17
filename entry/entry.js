@@ -137,7 +137,7 @@
       return
     }
     people = (list.itemListElement || []).map(function (item) {
-      return { id: CFG.normalizeId(item["@id"]), name: item.name || "(unrecorded)" }
+      return { id: recordId(item), name: item.name || "(unrecorded)" }
     })
     people.sort(function (a, b) {
       return a.name.localeCompare(b.name)
@@ -164,7 +164,7 @@
       bodies.forEach(function (body) {
         Object.keys(body || {}).forEach(function (key) {
           var field = fieldFor(key)
-          if (field) field.setAttribute("data-source", CFG.normalizeId(anno["@id"]))
+          if (field) field.setAttribute("data-source", recordId(anno) || "")
         })
       })
     })
@@ -209,7 +209,7 @@
     var list = await api(listId, { method: "GET" })
     var elements = list.itemListElement || []
     var alreadyThere = elements.some(function (item) {
-      return CFG.normalizeId(item["@id"]) === id
+      return recordId(item) === id
     })
     if (alreadyThere) return
     elements.push({ "@id": id, "@type": "Person", name: name })

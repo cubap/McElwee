@@ -1,6 +1,6 @@
 # McElwee Cemetery
 A read-only linked-data exhibit of the catalog of the McElwee cemetery in Pike County, MO.
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3082.741355124313!2d-91.1464455346345!3d39.40735722949519!2m1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3f0!2sMcElwee+Cemetery%2C+Louisiana%2C+MO+63353!5e0!3m2!1sen!1sus!4v1533747654339" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+The ground sits just off Route K outside Louisiana, Missouri: [USGS GNIS feature 722098](https://gnis-ld.org/lod/gnis/feature/722098). Note that the plot and parcel outlines circulating with this cemetery come from modern county assessor records, not the historical catalog, so they show who holds the land now and not where any grave lies.
 
 > Watch it develop online: [https://cubap.github.io/McElwee/web](https://cubap.github.io/McElwee/web)
 
@@ -30,6 +30,30 @@ dist/        build output, what gets deployed to Pages (gitignored)
 
 `web/config.js` is the only file in the front end that names a RERUM instance. Everything
 else reads `window.McElweeConfig`.
+
+## How the exhibit is designed
+
+The exhibit is built as a **herbarium / museum specimen sheet**, and the design system is
+recorded in [DESIGN.md](DESIGN.md). The short version: a person is a specimen, the catalog is
+the collector's determination, and every value on the page is printed as a *claim* with an
+accession trail rather than as a fact.
+
+Three rules hold the whole thing together and should survive any future restyle:
+
+- **Green is evidence, rust is disagreement.** Neither is decorative. A line the records
+  disagree about carries a seam mark; pressing it splays the competing values and opens the
+  provenance of each one.
+- **A contested line leads with the value asserted most often**, newest wins a tie, and the
+  exhibit says so out loud. Newest-first was tried and it put a vandalized test value on a
+  one-year-old's grave, because the most recent assertions in this catalog are practice
+  keystrokes.
+- **Nothing is deleted and nothing is invented.** Keys outside the catalog's vocabulary are
+  reproduced on a labelled slip behind the label. Photographs of markers are *linked and
+  attributed*, never copied, because the exhibit does not hold the rights to them.
+
+The plot and parcel outlines associated with this cemetery come from **modern county assessor
+records, not the historical catalog**, so no map on this site shows where any grave lies. The
+copy says so. The locality's one externally-backed identification is USGS GNIS feature 722098.
 
 ## Running it
 
@@ -135,5 +159,6 @@ It is deleted. In its place:
 | #14 migrate to the production store | **unblocked.** Change `RERUM_BASE` in `web/config.js` and the three URLs in `.env`; nothing else names an instance. |
 | #15 rewrite the front end as components | **unchanged, and now smaller.** The edit UI is out of `app.js`, so the rewrite covers rendering only. The custom-element and localStorage approach is deliberately left alone here. |
 | #17 JSON-LD context on seeded entities | **open.** `web/mcdata.js` still seeds `"@context": ""`. |
-| #19 IIIF manifest work | **open.** `web/manifest/` is untouched and still copied into the build. |
-| #8, #9, #10 data quality | **open, and now visible.** The live list contains test annotations (`bryanTest`, a `Claudia`/`Blandd` pair, an unrelated joke `depiction`) and mojibake. Those are records in the store, not bugs in this code; they need to be corrected through `entry/` once an agent is registered. |
+| #19 design pass | **done in this change.** See "How the exhibit is designed". |
+| #6 Event interface | **partly done.** `template.event` existed in the renderer's dispatch but was never defined, so any Event record crashed the viewer. It renders now. |
+| #8, #9 data quality | **fixed in code, still dirty in the store.** #9's `[object Object]` came from `expand()` stringifying a value object; the claims model cannot. #8 was the old servlet reading the request body as a single-byte charset, so U+2014 arrived as 0x14; the Node proxy decodes UTF-8 (guarded by a test) and the reader repairs the damaged records already in the store. The test annotations themselves are records, not bugs, and stay visible. |

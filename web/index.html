@@ -1,37 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>McElwee Cemetery Exhibit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>McElwee Cemetery — a catalog on trial</title>
+    <meta name="description" content="A small rural cemetery in Pike County, Missouri, shown as its records actually are: transcribed claims, each one traceable to the annotation that asserts it.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&family=Courier+Prime&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
     <link rel="stylesheet" href="mc.css">
 </head>
 
+<!--
+DIRECTION CONTRACT
+THESIS: the exhibit is a specimen sheet, not a profile. Every value shown is a claim
+someone transcribed, so it is printed as a claim with an accession trail. Refuses the
+genealogy-site default (cream paper, sepia photo, search box) and its opposite, the bare table.
+OWN-WORLD: herbarium and museum mounting. Cool grey-green board, ruled mounting grid, off-white
+sheet held by four corners, one ink. Green is evidence; rust is disagreement; neither is decoration.
+Labels in a condensed institutional grotesk, values in a reading serif, identifiers as typed stamps.
+STORY: a student arrives, reads what is known and what is unverified, picks a specimen from the
+drawer index, reads its label, and presses any line to see the record that asserts it.
+FIRST VIEWPORT: the sheet itself - locality, accession counts, the determination statement, and the
+index of specimens beside it. No hero image, no search field.
+FORM: seed 275e135d, assigned index 3 (specimen sheet); staging fused from version-seams (contested
+values carry a seam that splays into competing claims) and full-state-trace (a provenance panel per
+claim). Two rules the build added and the copy states out loud: a contested line leads with the value
+asserted most often rather than the newest, because the newest assertions about this catalog are
+practice keystrokes; and keys outside the catalog's vocabulary are folded onto a separate slip behind
+the label, reproduced but kept off the determination.
+-->
+
 <body>
-    <mc-location id="mc-location" mc-location="l001">
-        <h1>McElwee Cemetery</h1>
-        <p>
-            McElwee Cemetery is a small rural cemetery in Pike County, Missouri, near the town of Louisiana.
-            It is named for the McElwee family, and the plot maps in the surviving catalog trace the families
-            connected to it by kinship and neighborhood: Bland, Givens, Houchins, Rowley, and Wilsnack.
-            The source for this exhibit is a hand-made catalog of the cemetery's headstones, digitized page by
-            page; the catalog's own origin is unrecorded, which is exactly the problem the exhibit is built to
-            address. Every name, date, and marker shown here is stored as a linked-data annotation pointing
-            back to the record that asserts it, so each claim about this one small cemetery can be checked
-            against its evidence.
-        </p>
-    </mc-location>
+    <a class="skip-link" href="#mc-view">Skip to the records</a>
 
-    <button role="button" type="button" onclick="mc.focusOn(localStorage.getItem('CURRENT_LIST_ID') || McElweeConfig.DEFAULT_LIST_ID);return false;">All Markers</button>
+    <header class="mc-institution">
+        <span class="mc-here">McElwee Cemetery</span>
+        <span>Pike County &middot; Missouri</span>
+        <span class="mc-counts" id="mc-counts">Linked-data catalog</span>
+    </header>
 
-    <!-- Hidden by default (mc.css); app.js inserts sibling notices after this element. -->
-    <mc-flash-message id="flash-message"></mc-flash-message>
+    <main>
+        <div class="mc-cabinet">
 
-    <mc-view is="mc-view" id="mc-view" mc-object="">
-    </mc-view>
+            <div class="mc-sheet">
+                <mc-location id="mc-location" mc-location="l001">
+                    <p class="mc-kicker">Locality</p>
+                    <h1 class="mc-title">McElwee Cemetery</h1>
+                    <p class="mc-dates">Pike County, Missouri, near Louisiana</p>
+                </mc-location>
 
-    <mc-obj-viewer id="obj-viewer">
-    </mc-obj-viewer>
+                <div class="mc-determination">
+                    <strong>Determination</strong>
+                    The catalog this exhibit is built on was made by hand, page by page, and its origin is
+                    unrecorded. No claim on this page has been checked against a county, church, or census
+                    record. What the exhibit can do is show you who asserted each one and when, so the
+                    uncertainty is visible instead of hidden.
+                </div>
+
+                <mc-view is="mc-view" id="mc-view" mc-object=""></mc-view>
+            </div>
+
+            <aside class="mc-index" id="mc-index" aria-labelledby="mc-index-h">
+                <h2 id="mc-index-h">Drawer index</h2>
+                <div class="mc-dividers" id="mc-dividers" hidden></div>
+                <ol id="mc-roster"></ol>
+                <p class="mc-empty" id="mc-index-empty" hidden>Nothing in this drawer yet.</p>
+            </aside>
+        </div>
+
+        <div class="mc-locality" id="mc-how-to-read">
+            <section class="mc-note">
+                <h2>How to read a sheet</h2>
+                <p>
+                    Each line under a name is a <em>claim</em>, not a fact. The line is printed with the
+                    record that asserts it. Press any line and the exhibit opens that record: its
+                    identifier, who generated it, and the date it was written.
+                </p>
+                <p>
+                    A line with a <span class="mc-seam-mark">2 claims</span> mark is one where the records
+                    disagree. Press it and the competing values splay out side by side. The exhibit does not
+                    decide between them.
+                </p>
+                <p>
+                    A block headed <em>Stray fields in the record</em> holds keys that were never part of the
+                    catalog's vocabulary — keystrokes left in the store while the old entry form was
+                    being tested. The exhibit reproduces them because it does not delete records it did not
+                    make, and keeps them off the label proper because they say nothing about the person.
+                </p>
+                <p>
+                    An empty mounting space means no image is held. Photographs of the markers exist out on
+                    the record, but they are other people's work and are not copied here; the exhibit links
+                    to them instead.
+                </p>
+            </section>
+
+            <section class="mc-note">
+                <h2>What the map is not</h2>
+                <p>
+                    The plot and parcel outlines associated with this cemetery were drawn from
+                    <strong>modern county assessor records</strong>, not from the historical catalog. They
+                    show who holds the ground now. They do not show where any grave lies, and no plot plan
+                    from the catalog is held here.
+                </p>
+                <p id="mc-gnis">
+                    The locality itself is registered with the U.S. Geological Survey as
+                    <a href="https://gnis-ld.org/lod/gnis/feature/722098" rel="noopener">GNIS feature 722098</a>,
+                    which is the one identification on this page backed by an outside authority.
+                </p>
+            </section>
+        </div>
+
+        <!-- Hidden by default (mc.css); app.js inserts sibling notices after this element. -->
+        <mc-flash-message id="flash-message"></mc-flash-message>
+    </main>
+
+    <button class="mc-raw-toggle" type="button" id="mc-raw-toggle" aria-expanded="false" aria-controls="obj-viewer">
+        Raw record &mdash; what the store actually returns
+    </button>
+    <mc-obj-viewer id="obj-viewer" hidden></mc-obj-viewer>
+
+    <footer class="mc-colophon">
+        <section>
+            <h3>The catalog</h3>
+            <p>
+                A hand-made inventory of the cemetery's markers, digitized page by page and loaded into a
+                RERUM linked-data store in 2018. The person who compiled it is not recorded.
+            </p>
+        </section>
+        <section>
+            <h3>The data</h3>
+            <p>
+                Records live on <a href="https://devstore.rerum.io/v1/id/5bc8089ce4b09992fca2222c" rel="noopener">devstore.rerum.io</a>
+                and are read directly by your browser. Nothing here is editable; the exhibit has no write
+                credentials of its own.
+            </p>
+        </section>
+        <section>
+            <h3>This exhibit</h3>
+            <p>
+                Built by students and maintainers of the McElwee project. Corrections are welcome and are
+                made against the records, not the page:
+                <a href="https://github.com/cubap/McElwee/issues" rel="noopener">open an issue</a>.
+            </p>
+        </section>
+    </footer>
 
     <script src="mcdata.js"></script>
     <script src="config.js"></script>
