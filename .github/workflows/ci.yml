@@ -46,7 +46,9 @@ jobs:
 
   deploy:
     needs: build
-    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    # Master gets deployed automatically; workflow_dispatch is the manual redeploy and
+    # the way to prove the pipeline before anything lands on master.
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     environment:
       name: github-pages

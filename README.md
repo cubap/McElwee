@@ -93,6 +93,8 @@ Pages must be set to **Build and deployment: GitHub Actions** (the "workflow" so
 the deploy job to take effect; while it is still on the legacy "deploy from a branch"
 setting the workflow tests and builds but the branch contents are what get served.
 
+Run the workflow manually (`gh workflow run CI`) to redeploy without waiting for a merge.
+
 ## Who is to blame?
 The developers at the Walter J. Ong, <sub><sup>S.J.</sup></sub> Center for Digital Humanities authored and maintain this template
 in connection with the RERUM service.
