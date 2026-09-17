@@ -55,3 +55,6 @@ npm-debug.log*
 .env
 
 dist/
+
+# Impeccable design-detector scratch cache; PRODUCT.md and DESIGN.md are committed, this is not.
+.impeccable/hook.cache.json

@@ -298,7 +298,7 @@ template.claim = function(key, list) {
     html += `<span class="mc-field">${esc(humanize(key))}</span>`
     html += `<span class="mc-value${contested ? " mc-value--seamed" : ""}">${display}</span>`
     if (contested) {
-        html += `<span class="mc-seam-mark">${list.length} claims</span>`
+        html += `<span class="mc-seam-mark">${list.length} variants</span>`
     } else {
         html += `<span class="mc-trace-mark">trace</span>`
     }
@@ -454,7 +454,7 @@ template.person = async function(obj) {
     if (claims.depiction) elem += template.depiction(claims.depiction)
     if (stray.length) elem += template.stray(stray, claims)
 
-    mc.setCounts(catalog.length + stray.length, contestedCount)
+    mc.setCounts(catalog.length, contestedCount)
     return elem
 }
 
@@ -627,7 +627,7 @@ function markLastSeen() {
 
 mc.setCounts = function(claims, contested) {
     if (!mc.counts) return
-    let text = `${claims} claims on this sheet`
+    let text = `${claims} properties on this sheet`
     if (contested) text += ` \u00b7 ${contested} contested`
     mc.counts.textContent = text
 }

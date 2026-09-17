@@ -19,7 +19,7 @@
     --sheet-edge: #e9ebe4;
     --ink: #161916;
     --ink-soft: #464d46;
-    --ink-faint: #79817a;
+    --ink-faint: #666e67;
     --rule: #b6bfb2;
     --rule-fine: #d2d8cd;
 
@@ -332,7 +332,7 @@ a:hover { text-decoration-thickness: 2px; }
     text-transform: uppercase;
     color: var(--rust);
     border: 1px solid var(--rust);
-    border-radius: 1px;
+    border-radius: 0;
     padding: .05rem .3rem;
     white-space: nowrap;
 }
@@ -376,14 +376,6 @@ a:hover { text-decoration-thickness: 2px; }
 
 .mc-claims--stray .mc-field { color: var(--ink-faint); font-size: .68rem; }
 .mc-claims--stray .mc-value { font-size: .9rem; color: var(--ink-soft); }
-.mc-claims--stray .mc-stamp--authority {
-    color: var(--ink-faint);
-    letter-spacing: .06em;
-}
-
-.mc-stamp--authority a { color: var(--green); }
-
-.mc-claim-row { padding-left: .75rem; border-left: 1px solid var(--rule); }
 
 .mc-claim-detail {
     padding: 0 0 .75rem;
