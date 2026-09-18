@@ -58,3 +58,7 @@ dist/
 
 # Impeccable design-detector scratch cache; PRODUCT.md and DESIGN.md are committed, this is not.
 .impeccable/hook.cache.json
+
+# Regenerable with: node source/burials-index/derive-fields.mjs
+source/burials-index/burials-derived.json
+source/burials-index/burials-derived.csv
