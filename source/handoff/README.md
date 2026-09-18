@@ -29,13 +29,31 @@ numbered set of strips. So the reader is *not* trusted to find rows — the numb
 — and the checker polices **coverage**: all 367 strips answered, exactly once each, with the
 kind we said it was.
 
+## Two ways to run the burial pass
+
+| | `HANDOFF.md` — independent | `REVIEW.md` — adjudication |
+|---|---|---|
+| the reader sees | the sheets | the sheets **and** our machine read |
+| asked for | a fresh transcription | a verdict per strip: `confirm` / `correct` / `unreadable` / `blank` / `split` |
+| costs | more reading per page | much less, but risks anchoring |
+| gives us | a genuinely second opinion | a queue of disagreements a human can work through |
+
+`npm run handoff:zip` builds the adjudication bundle (`handoff-review.zip`); pass
+`-Mode transcribe` for the independent one. Both write to the same output file and validate
+with the same command — a verdict is an optional extra field, so an independent transcription
+is not rejected for lacking one.
+
+Use adjudication when the goal is throughput into a moderation queue. Use the independent
+brief when you need a second witness.
+
 ## Files, in each bundle
 
 | File | What it is |
 |---|---|
 | `HANDOFF.md` | The brief. Self-contained: it names the images, states the output format, and forbids interpretation. |
 | `*-lines.json` | Every OCR line with its `x`/`y`, per page. Lets the checker test whether transcribed text exists on the page at all. |
-| `machine-baseline.jsonl` | **Optical character recognition, not a transcription.** What a machine read, in the handoff format. A diff target only, deliberately not given to the reader. |
+| `machine-baseline.jsonl` | **Optical character recognition, not a transcription.** What a machine read, in the handoff format. A diff target only, deliberately not given to the independent reader. |
+| `REVIEW.md`, `review-batch.jsonl` | Burials only. The alternate brief and the scaffold of 367 strips that carries our read into it. |
 | `*-output.jsonl` | The model's transcription, when it arrives. Validated before anything downstream reads it. |
 
 `catalog/pages.json` is the catalog's image inventory. `burials/rows.json` is the burial
@@ -50,9 +68,19 @@ npm run handoff:sheets          # render the reading sheets (needs .NET Add-Type
 npm run handoff:ocr             # OCR the sheets -> sheet-ocr.json
 npm run handoff:lines           # sheet-ocr.json -> sheet-lines.json, the reference corpus
 npm run handoff:baseline        # rebuild the burial machine baseline from the worksheet
-npm run handoff:zip -- burials  # bundle a brief + its images for another model
+npm run handoff:review          # build review-batch.jsonl and zip the adjudication bundle
+npm run handoff:zip -- -Mode transcribe   # the independent bundle: sheets, no machine read
+npm run handoff:zip -- -Doc catalog       # the catalog bundle
 npm run check:handoff -- catalog [file.jsonl]
 npm run check:handoff -- burials [file.jsonl]
+```
+
+`check:handoff` takes the document as its first argument and the file to validate as its
+second. With no file it looks for the transcription where the brief tells the reader to save
+it, so to check our own machine read instead, pass it explicitly:
+
+```powershell
+npm run check:handoff -- burials source/handoff/burials/machine-baseline.jsonl
 ```
 
 The catalog's `machine-baseline.jsonl` came from the original segmentation run and has no

@@ -45,6 +45,9 @@ const doc = DOCS[docName]
 const target = path.resolve(root, argv[0] || path.join(doc.dir, doc.output))
 
 const CONFIDENCE = new Set(["high", "medium", "low"])
+// The adjudication pass (burials/REVIEW.md) returns these alongside the record. Optional:
+// an independent transcription carries no verdict and the checker does not ask for one.
+const VERDICTS = new Set(["confirm", "correct", "unreadable", "blank", "split"])
 // A transcription that normalised a date has interpreted it, which both briefs forbid.
 const ISO_DATE = /\b\d{4}-\d{2}-\d{2}\b/
 // Fields that would mean the reader did our job instead of its own.
@@ -92,6 +95,7 @@ const seen = new Map()
 const headers = new Map()
 const order = []
 const stats = new Map()
+const verdicts = new Map()
 let records = 0
 
 const bump = (id, conf) => {
@@ -99,6 +103,12 @@ const bump = (id, conf) => {
   const s = stats.get(id)
   if (conf === "unreadable") s.unreadable++
   else s[conf] = (s[conf] || 0) + 1
+}
+
+const tallyVerdict = (id, v) => {
+  if (!verdicts.has(id)) verdicts.set(id, {})
+  const t = verdicts.get(id)
+  t[v] = (t[v] || 0) + 1
 }
 
 const raw = fs.readFileSync(target, "utf8").replace(/^\uFEFF/, "")
@@ -166,6 +176,13 @@ raw.split(/\r?\n/).forEach((text, i) => {
   if (headers.has(obj.page)) headers.get(obj.page).emitted++
   else err(line, `${obj.kind} for "${obj.page}" appears before its page header`)
   bump(obj.page, obj.entry === null || obj.unreadable === true ? "unreadable" : obj.confidence)
+  if ("verdict" in obj) {
+    if (!VERDICTS.has(obj.verdict)) {
+      err(line, `verdict "${obj.verdict}" must be confirm, correct, unreadable, blank or split`)
+    } else {
+      tallyVerdict(obj.page, obj.verdict)
+    }
+  }
 
   if (want.size) {
     const expected = want.get(key)
@@ -232,6 +249,25 @@ for (const [id, h] of headers) {
   if (h.declared !== h.emitted) err(h.line, `page "${id}" declares ${h.declared} items but ${h.emitted} follow`)
 }
 
+// Verdicts, if this is an adjudication pass (burials/REVIEW.md) rather than an independent one.
+let verdictLine = ""
+const flags = []
+if (verdicts.size) {
+  const totals = {}
+  for (const t of verdicts.values()) {
+    for (const [v, n] of Object.entries(t)) totals[v] = (totals[v] || 0) + n
+  }
+  verdictLine = "  verdicts  " + Object.entries(totals).sort().map(([v, n]) => `${v} ${n}`).join("   ")
+  // A page returned entirely "confirm" is the anchoring failure mode, not a good result: the
+  // reader copied the machine read instead of reading the sheet. Worth a human looking.
+  for (const [id, t] of [...verdicts.entries()].sort()) {
+    const n = Object.values(t).reduce((a, b) => a + b, 0)
+    if (n >= 10 && (t.confirm || 0) === n) {
+      flags.push(`page ${id}: all ${n} verdicts are "confirm" - the reader probably copied the machine read rather than the sheet`)
+    }
+  }
+}
+
 const rel = path.relative(root, target)
 console.log(`${docName}: ${rel}`)
 console.log(`${records} lines, ${seen.size} unique rows, ${headers.size} page headers`)
@@ -242,14 +278,20 @@ for (const id of order) {
     `  ${id.padEnd(16)} ${String(h.emitted).padStart(3)}/${String(h.declared).padStart(3)}  high ${String(s.high).padStart(3)}  med ${String(s.medium).padStart(3)}  low ${String(s.low).padStart(3)}  blank ${String(s.unreadable).padStart(3)}`
   )
 }
+if (verdictLine) console.log(verdictLine)
+for (const f of flags) console.log(`  flag: ${f}`)
+// The containment warnings are the noisiest group and are expected on a degraded source, so
+// they go last - otherwise they fill the slice and hide the ones a reviewer can act on.
+const noisy = (f) => (/match the machine read/.test(f.msg) ? 1 : 0)
 const show = (list, label) => {
   if (!list.length) return
+  const sorted = [...list].sort((a, b) => noisy(a) - noisy(b) || a.line - b.line)
   console.log(`\n${label} (${list.length})`)
-  for (const f of list.slice(0, 40)) console.log(`  ${f.line ? `line ${f.line}: ` : ""}${f.msg}`)
+  for (const f of sorted.slice(0, 40)) console.log(`  ${f.line ? `line ${f.line}: ` : ""}${f.msg}`)
   if (list.length > 40) console.log(`  ... and ${list.length - 40} more`)
 }
 show(warnings, "warnings")
 show(errors, "errors")
-if (!errors.length && !warnings.length) console.log("\nclean")
+if (!errors.length && !warnings.length && !flags.length) console.log("\nclean")
 console.log(errors.length ? `\nREJECTED: ${errors.length} error(s)` : "\nACCEPTED")
 process.exit(errors.length ? 1 : 0)

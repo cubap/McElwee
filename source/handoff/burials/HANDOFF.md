@@ -1,5 +1,11 @@
 # Handoff: transcribe the McElwee Cemetery burial index
 
+> **Two passes are possible with these sheets.** This brief asks for an **independent**
+> transcription and deliberately gives you no machine read to copy. If you were handed
+> `review-batch.jsonl`, stop and read the **adjudication** brief instead — `REVIEW.md` here,
+> which arrives as `HANDOFF.md` in that bundle and renames this file to `RULES.md`. Same
+> sheets, same output file, different instructions.
+
 You are transcribing a typescript index of burials. There are 16 pages, 367 numbered items,
 and the photographs are bad enough that previous automated attempts produced unusable text.
 

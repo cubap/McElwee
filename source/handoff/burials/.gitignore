@@ -6,6 +6,6 @@ sheets/
 # which the validator actually reads, is committed.
 sheet-ocr.json
 
-# The transcription, when it arrives, is committed. handoff.zip is a convenience copy of the
+# The transcription, when it arrives, is committed. handoff*.zip is a convenience copy of a
 # brief plus its images, produced by tool/zip.ps1.
-handoff.zip
+handoff*.zip
