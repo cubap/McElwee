@@ -195,11 +195,47 @@ let ROWS = [], state = { i: 0, zoom: 3, filter: "all", page: "" };
 let edits = {};   // index -> { surname, entry, born, died, aged, relationship, status }
 
 const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
-const persist = () => { localStorage.setItem(KEY, JSON.stringify(edits)); stamp(); };
-const stamp = () => {
+const persist = () => { localStorage.setItem(KEY, JSON.stringify(edits)); stamp("local"); push(); };
+const stamp = (where, extra) => {
   const el = document.getElementById("saved");
-  el.textContent = "saved " + new Date().toLocaleTimeString();
+  el.textContent = (extra || ("saved to " + where + " " + new Date().toLocaleTimeString()));
 };
+/*
+ * localStorage alone is one browser profile deep, and hand transcription of a cemetery
+ * index is weeks of work. Mirror every save to the tool server so it becomes a file that
+ * can be committed. Debounced because typing fires persist() on each keystroke.
+ */
+let pushTimer = null, pushed = false;
+function push() {
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(async () => {
+    try {
+      const r = await fetch("/save-edits", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(edits) });
+      const j = await r.json();
+      if (!j.ok) throw new Error(j.error || "rejected");
+      pushed = true;
+      stamp("disk");
+    } catch (e) {
+      stamp("local only — disk mirror failed: " + e.message);
+    }
+  }, 700);
+}
+async function restoreFromDisk() {
+  if (Object.keys(edits).length) return false;
+  try {
+    const r = await fetch("proof-edits.json?_=" + Date.now());
+    if (!r.ok) return false;
+    const j = await r.json();
+    if (!j || typeof j.edits !== "object" || j.edits === null) return false;
+    const n = Object.keys(j.edits).length;
+    if (!n) return false;
+    const at = j.savedAt ? new Date(j.savedAt).toLocaleString() : "an earlier session";
+    if (!confirm("This browser has no saved edits, but the server has " + n + " from " + at + ".\n\nLoad them?")) return false;
+    edits = j.edits;
+    localStorage.setItem(KEY, JSON.stringify(edits));
+    return true;
+  } catch { return false; }
+}
 const e_of = (i) => (edits[i] ||= {});
 const status_of = (i) => edits[i]?.status || "";
 
@@ -215,6 +251,8 @@ async function boot() {
     ...(w.prose || []).map((p) => ({ ...p, kind: "prose", y0: Math.max(0, p.y - 15), y1: p.y + 15, entry: p.text })),
   ];
   edits = load();
+  await restoreFromDisk();
+  stamp(Object.keys(edits).length ? "disk" : "nothing saved yet");
   const pages = [...new Set(ROWS.map((r) => r.page))];
   const sel = document.getElementById("pageSel");
   sel.innerHTML = pages.map((p) => `<option value="${p}">${PAGE_LABEL[p] || p}</option>`).join("");

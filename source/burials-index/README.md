@@ -153,7 +153,11 @@ panning sideways. Zoom is 2×–6×; the strips always tile the full line width,
 falls in a gap.
 
 Keys: `Enter` verified · `F` flag · `X` not a record · `↑`/`↓` move · `←`/`→` page ·
-`Esc` undo. Decisions autosave to `localStorage`, so a long session survives a reload.
+`Esc` undo. Decisions autosave to `localStorage` **and are mirrored to
+`proof-edits.json` in this directory** by the tool server, so the work survives a cleared
+profile, a browser update, or a different machine — commit that file. On a profile with no
+edits, the page offers to restore from it. The status line says `saved to disk`; if it ever
+says `local only`, the mirror is broken and the work is one browser cache deep again.
 **Export** writes `burials-verified.csv` and `.json` with a `status` column; those are
 the files to bring back here.
 
@@ -225,7 +229,8 @@ rows that yield nothing at all because their entry is still raw OCR.
 |---|---|
 | `burials-worksheet.csv` | **The deliverable.** 330 rows + confidence grades, for human verification |
 | `burials-worksheet.json` | Same, plus the 37 prose lines from the cover page and `Family001` |
-| `proof.html` | Proofreading tool — magnified row crops, keyboard triage, autosave, export |
+| `proof.html` | Proofreading tool — magnified row crops, keyboard triage, autosave to disk, export |
+| `proof-edits.json` | Mirror of the proofreader's edits, written by the tool server. **Real transcription work — commit it.** |
 | `parse-fields.mjs` | Entry line → born / born place / died / died place / aged / relationship / parents |
 | `derive-fields.mjs` | Batch re-derive over a worksheet or a proofreader export |
 | `../test/burials-fields.test.js` | The contract the parser must not break (`npm test`) |
