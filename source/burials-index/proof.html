@@ -190,12 +190,18 @@ const PAGE_LABEL = {
   Family001: "Family narrative",
 };
 const KEY = "mcelwee-proof-v1";
+const AT = KEY + "-at";
 
 let ROWS = [], state = { i: 0, zoom: 3, filter: "all", page: "" };
 let edits = {};   // index -> { surname, entry, born, died, aged, relationship, status }
 
 const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
-const persist = () => { localStorage.setItem(KEY, JSON.stringify(edits)); stamp("local"); push(); };
+const persist = () => {
+  localStorage.setItem(KEY, JSON.stringify(edits));
+  localStorage.setItem(AT, new Date().toISOString());
+  stamp("local");
+  push();
+};
 const stamp = (where, extra) => {
   const el = document.getElementById("saved");
   el.textContent = (extra || ("saved to " + where + " " + new Date().toLocaleTimeString()));
@@ -205,36 +211,72 @@ const stamp = (where, extra) => {
  * index is weeks of work. Mirror every save to the tool server so it becomes a file that
  * can be committed. Debounced because typing fires persist() on each keystroke.
  */
-let pushTimer = null, pushed = false;
-function push() {
+let pushTimer = null;
+function push(now) {
   clearTimeout(pushTimer);
-  pushTimer = setTimeout(async () => {
+  const send = async () => {
     try {
       const r = await fetch("/save-edits", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(edits) });
       const j = await r.json();
       if (!j.ok) throw new Error(j.error || "rejected");
-      pushed = true;
+      localStorage.setItem(AT, new Date().toISOString());
       stamp("disk");
     } catch (e) {
       stamp("local only — disk mirror failed: " + e.message);
     }
-  }, 700);
+  };
+  if (now) send(); else pushTimer = setTimeout(send, 700);
 }
-async function restoreFromDisk() {
-  if (Object.keys(edits).length) return false;
+const count = (o) => Object.keys(o || {}).length;
+
+/**
+ * Reconciles this browser's copy with the file on disk. Three cases matter and only one
+ * is safe to decide silently: work that exists in one place and not the other. When both
+ * have work and the disk is newer, something happened in another profile or on another
+ * machine, and guessing which side wins would destroy transcription. So it asks.
+ */
+async function syncWithDisk() {
+  let disk = null;
   try {
     const r = await fetch("proof-edits.json?_=" + Date.now());
-    if (!r.ok) return false;
-    const j = await r.json();
-    if (!j || typeof j.edits !== "object" || j.edits === null) return false;
-    const n = Object.keys(j.edits).length;
-    if (!n) return false;
-    const at = j.savedAt ? new Date(j.savedAt).toLocaleString() : "an earlier session";
-    if (!confirm("This browser has no saved edits, but the server has " + n + " from " + at + ".\n\nLoad them?")) return false;
-    edits = j.edits;
-    localStorage.setItem(KEY, JSON.stringify(edits));
-    return true;
-  } catch { return false; }
+    if (r.ok) {
+      const j = await r.json();
+      if (j && typeof j.edits === "object" && j.edits !== null) disk = j;
+    }
+  } catch { /* no server mirror yet */ }
+
+  const localN = count(edits), diskN = count(disk && disk.edits);
+  if (!localN && diskN) {
+    const at = disk.savedAt ? new Date(disk.savedAt).toLocaleString() : "an earlier session";
+    if (confirm("This browser has no saved edits, but the file on disk has " + diskN + " from " + at + ".\n\nLoad them?")) {
+      edits = disk.edits;
+      localStorage.setItem(KEY, JSON.stringify(edits));
+      localStorage.setItem(AT, disk.savedAt || new Date().toISOString());
+      stamp("disk (restored " + diskN + " edits)");
+      return;
+    }
+  }
+  if (!localN) { stamp("nothing saved yet"); return; }
+
+  const localAt = Date.parse(localStorage.getItem(AT) || "");
+  const diskAt = disk ? Date.parse(disk.savedAt || "") : 0;
+  /*
+   * push() records the local timestamp only after the server has confirmed the write, so
+   * after any normal reload local is never older than disk. If it is, some other profile
+   * or machine wrote that file, and which copy wins is not a call to make silently.
+   */
+  if (disk && diskAt > (isNaN(localAt) ? 0 : localAt)) {
+    const when = new Date(diskAt).toLocaleString();
+    if (confirm("The file on disk was written more recently (" + when + ", " + diskN + " edits) than this browser (" + localN + " edits).\n\nOK = load the disk copy.  Cancel = keep this browser's copy and overwrite the file.")) {
+      edits = disk.edits;
+      localStorage.setItem(KEY, JSON.stringify(edits));
+      localStorage.setItem(AT, disk.savedAt);
+      stamp("disk (restored " + diskN + " edits)");
+      return;
+    }
+  }
+  /* Back up work that predates the mirror, so reopening the page is enough to save it. */
+  push(true);
 }
 const e_of = (i) => (edits[i] ||= {});
 const status_of = (i) => edits[i]?.status || "";
@@ -251,8 +293,7 @@ async function boot() {
     ...(w.prose || []).map((p) => ({ ...p, kind: "prose", y0: Math.max(0, p.y - 15), y1: p.y + 15, entry: p.text })),
   ];
   edits = load();
-  await restoreFromDisk();
-  stamp(Object.keys(edits).length ? "disk" : "nothing saved yet");
+  await syncWithDisk();
   const pages = [...new Set(ROWS.map((r) => r.page))];
   const sel = document.getElementById("pageSel");
   sel.innerHTML = pages.map((p) => `<option value="${p}">${PAGE_LABEL[p] || p}</option>`).join("");
