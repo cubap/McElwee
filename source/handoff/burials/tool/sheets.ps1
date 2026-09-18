@@ -26,9 +26,11 @@ if (-not (Test-Path $tmp)) { New-Item -ItemType Directory -Force $tmp | Out-Null
 $tsv = Join-Path $tmp 'handoff-rows.tsv'
 
 $data = Get-Content $rowsJson -Raw | ConvertFrom-Json
+$repo = (Resolve-Path (Join-Path $bundle '..\..\..')).Path
 $lines = foreach ($p in $data.pages) {
+    $img = Join-Path $repo ($p.image -replace '/', '\')
     foreach ($it in $p.items) {
-        "{0}`t{1}`t{2}`t{3}`t{4}`t{5}`t{6}`t{7}`t{8}" -f $p.id, $p.image, $p.skew, $p.width, $p.height, $it.seq, $it.y0, $it.y1, $it.kind
+        "{0}`t{1}`t{2}`t{3}`t{4}`t{5}`t{6}`t{7}`t{8}" -f $p.id, $img, $p.skew, $p.width, $p.height, $it.seq, $it.y0, $it.y1, $it.kind
     }
 }
 Set-Content -LiteralPath $tsv -Value $lines -Encoding UTF8

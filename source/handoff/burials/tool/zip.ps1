@@ -25,10 +25,9 @@ if ($Doc -eq 'burials') {
     Copy-Item (Join-Path $bundle 'HANDOFF.md') $stage
     Copy-Item (Join-Path $bundle 'rows.json') $stage
     Copy-Item (Join-Path $bundle 'sheets') (Join-Path $stage 'sheets') -Recurse
-    # rows.json names the mirror by absolute path; the zip must not carry that around.
-    $rows = Get-Content (Join-Path $stage 'rows.json') -Raw
-    $rows = $rows -replace '"image":\s*"[^"]*[\\/](\.jpg|\.png)"', '"image": "$1"'
-    Set-Content -Path (Join-Path $stage 'rows.json') -Value $rows -NoNewline -Encoding UTF8
+    # sheets/sheets.json maps every sheet to the seq numbers it carries, which is how a
+    # reader checks it has seen all of them. rows.json names the source photograph by a
+    # repo-relative path only for provenance; the photographs are not in the zip.
 }
 else {
     $cat = Join-Path $root 'source\handoff\catalog'

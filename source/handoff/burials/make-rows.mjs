@@ -85,11 +85,11 @@ for (const [id, list] of byPage) {
   list.sort((a, b) => a.y0 - b.y0)
   const full = SKEW_PAGES[id]
   const d = dims.get(full) || { width: 600, height: 800 }
-  const img = path.join(root, "web/manifest/fotki", IMAGES[id])
+  const rel = "web/manifest/fotki/" + IMAGES[id]
+  if (!fs.existsSync(path.join(root, rel))) console.warn(`warning: ${id} has no mirrored photograph at ${rel}`)
   pages.push({
     id,
-    image: img.replace(/\\/g, "/"),
-    mirror: "web/manifest/fotki/" + IMAGES[id],
+    image: rel,
     width: d.width,
     height: d.height,
     skew: skew.has(full) ? skew.get(full) : 0,
