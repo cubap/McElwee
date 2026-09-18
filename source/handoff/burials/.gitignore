@@ -1,0 +1,11 @@
+# The reading sheets are 31 PNGs and ~68 MB. Generated, not committed:
+#   npm run handoff:sheets
+sheets/
+
+# Intermediate OCR of those sheets. Regenerate with npm run handoff:ocr; sheet-lines.json,
+# which the validator actually reads, is committed.
+sheet-ocr.json
+
+# The transcription, when it arrives, is committed. handoff.zip is a convenience copy of the
+# brief plus its images, produced by tool/zip.ps1.
+handoff.zip

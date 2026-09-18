@@ -54,7 +54,7 @@ Use these paths verbatim in your output. `absolute_path` is for opening the file
 Absolute prefix: `C:/Users/cubap/copilot-worktrees/McElwee/cubap-supreme-tribble/`
 
 Machine-readable inventory, including the surnames a previous machine read off each
-page: `source/handoff/pages.json`.
+page: `source/handoff/catalog/pages.json`.
 
 ---
 
@@ -104,7 +104,7 @@ stone. Its only job is to catch rows that were skipped or invented. Read the ima
 One file, **JSON Lines**: one JSON object per line, no commas between lines, no
 wrapping array, no markdown fences, no prose. Every line must parse on its own.
 
-Write it to `source/handoff/catalog-output.jsonl`.
+Write it to `source/handoff/catalog/catalog-output.jsonl`.
 
 Three kinds of line.
 
@@ -217,8 +217,8 @@ something genuinely needs flagging, it belongs in a `note` line.
 
 ## What happens next
 
-`node scripts/check-handoff.js source/handoff/catalog-output.jsonl` validates the file
-against `pages.json` — schema, contiguity, declared counts, image paths, and the
+`npm run check:handoff -- catalog` validates the file against `pages.json` — schema,
+contiguity, declared counts, image paths, and the
 surname column. Anything it rejects gets sent back to you. After it passes, the born /
 died / aged / relationship / parents fields are derived from `entry` by
 `source/burials-index/parse-fields.mjs`, and a human checks the result against the
