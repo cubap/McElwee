@@ -245,6 +245,24 @@ pixels**, so a row can always be traced back to the exact pixels it came from. T
 what `proof.html` crops against. `Family001` is landscape 800×600; all other pages are
 600×800.
 
+## The other document: the headstone catalog
+
+While building the handoff brief for `source/handoff/`, a second typed document turned up
+that had been sitting unexamined in `web/manifest/` all along — the six canvases of the
+IIIF manifest in `web/manifest/mcelwee.json` (issue #31). It is the same kind of typescript
+index, in the same two-column surname/entry layout, using the same sentence formula, but
+scanned at roughly **200 DPI instead of 100**, and it is *legible*: a machine read resolves
+about 95 records cleanly where the 16 burial-index pages produced 330 rows of mush.
+
+That changes the plan for this directory in one specific way. The burial index and the
+catalog are two independent transcriptions of the same stones, so the index's damaged rows
+can now be **corroborated** rather than guessed at, and the `corroborated` column in the
+worksheet finally has something to be corroborated against. The catalog is being
+transcribed in `source/handoff/`; this directory keeps the index.
+
+Neither document is the stone. Where they disagree, both are wrong somewhere, and the
+answer is the gravestone photograph or the physical copy — not a merge.
+
 ## To re-run
 
 The pipeline expects local copies of the 16 pages at 600×800 in a `scans/` directory.
@@ -260,6 +278,10 @@ node transcribe.mjs bands.json ocr-rows.json
 1. **Human transcription against the physical desk copy** — the only path to publishable data.
 2. **A second column model for the `Index` and `Page` sections**, which are not the
    surname/entry table the current code assumes.
-3. **Better source images.** If higher-resolution originals exist anywhere — the
-   photographer's own archive, or a fresh 300 DPI scan of the desk copy — re-running
-   this pipeline on them is the single highest-value change available.
+3. **Better source images.** Partly answered: the headstone catalog in `web/manifest/` is
+   the higher-resolution document this pipeline has been asking for, and it is being
+   transcribed in `source/handoff/`. The 16 burial-index pages themselves are still ~100 DPI
+   and would still benefit from a fresh 300 DPI scan of the desk copy.
+4. **Reconcile the catalog against the index.** ~95 catalog records and ~330 index rows
+   cover the same cemetery; nothing yet links them. That link is where the `corroborated`
+   column earns its keep.
