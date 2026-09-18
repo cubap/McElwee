@@ -63,7 +63,7 @@ for (const p of ocr) {
     lines.push(words.map((w) => ({ t: w.t, x: toSrc(w.x) })));
     for (const w of words) xsByPage.get(page).push(toSrc(w.x));
   }
-  if (lines.length) bandsByPage.get(page).push({ y0: info.y0, lines });
+  if (lines.length) bandsByPage.get(page).push({ y0: info.y0, y1: info.y1, lines });
 }
 
 /** Widest gap in word x within the left region is the column boundary. */
@@ -98,7 +98,7 @@ for (const [page, bands] of [...bandsByPage].sort()) {
     const text = [...toks.slice(cut), ...entry.map((w) => w.t)].join(" ").replace(/\s+/g, " ").trim();
     if (!text && !surname) continue;
     if (NON_TABULAR.test(page)) { prose.push({ page, y: b.y0, text: text || toks.join(" ") }); continue; }
-    rows.push({ page, y: b.y0, surname, entry: text });
+    rows.push({ page, y0: b.y0, y1: b.y1, surname, entry: text });
   }
 }
 
@@ -124,7 +124,7 @@ for (const r of rows) {
   }
 
   out.push({
-    page: r.page, surname: r.surname, entry: text,
+    page: r.page, y0: r.y0, y1: r.y1, surname: r.surname, entry: text,
     born, died, aged, relationship: rel, corroborated,
     confidence: corroborated ? "high" : (r.surname && (born || died || aged) ? "medium" : "low"),
   });
@@ -145,7 +145,7 @@ console.log("relationship: ", out.filter((r) => r.relationship).length);
 console.log("prose lines:  ", prose.length);
 
 writeFileSync("burials-worksheet.json", JSON.stringify({ rows: out, prose }, null, 2));
-const head = ["page", "surname", "entry", "born", "died", "aged", "relationship", "corroborated", "confidence"];
+const head = ["page", "y0", "y1", "surname", "entry", "born", "died", "aged", "relationship", "corroborated", "confidence"];
 const esc = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
 writeFileSync("burials-worksheet.csv", "" + [head, ...out.map((r) => head.map((h) => r[h]))].map((c) => c.map(esc).join(",")).join("\r\n") + "\r\n");
 console.log("wrote burials-worksheet.csv / burials-worksheet.json");

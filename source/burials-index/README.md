@@ -136,12 +136,48 @@ be discarded, not merged.
 
 ---
 
+## Proofreading the worksheet
+
+`proof.html` is the review tool. It is a local-only utility: `npm run build` publishes
+`web/` and nothing else, so this never reaches the site.
+
+```powershell
+npm run proof     # http://localhost:3031/source/burials-index/proof.html
+```
+
+Each worksheet line is shown as the **actual pixels of the scan**, cropped to that row's
+`y0`–`y1` and magnified. Because a 600-pixel line at 3× is 1800 pixels wide — far wider
+than any panel — the band is sliced into overlapping horizontal strips stacked
+vertically, so you read one line as two or three strips top to bottom rather than
+panning sideways. Zoom is 2×–6×; the strips always tile the full line width, so nothing
+falls in a gap.
+
+Keys: `Enter` verified · `F` flag · `X` not a record · `↑`/`↓` move · `←`/`→` page ·
+`Esc` undo. Decisions autosave to `localStorage`, so a long session survives a reload.
+**Export** writes `burials-verified.csv` and `.json` with a `status` column; those are
+the files to bring back here.
+
+Two shortcuts worth knowing:
+
+- **Accept the corroborated** marks all 59 rows where the gutter surname also appears
+  inside the entry text. That is real independent evidence, not a guess — but it is
+  evidence, not proof, and the confirmation dialog says so.
+- **Not yet decided** filter, once the above is accepted, leaves roughly 270 rows: the
+  actual working set.
+
+The 37 prose lines are included in the same pass. They cover the cover page and the
+family narrative, including the date range `march 1833 to March 1947`, which is
+**suspect** — the index itself contains births in 1805 and a death in 1999. Do not
+publish that range until it has been read off the physical copy.
+
 ## Files
 
 | File | What it is |
 |---|---|
 | `burials-worksheet.csv` | **The deliverable.** 330 rows + confidence grades, for human verification |
-| `burials-worksheet.json` | Same, plus the 37 prose lines from `Family001` |
+| `burials-worksheet.json` | Same, plus the 37 prose lines from the cover page and `Family001` |
+| `proof.html` | Proofreading tool — magnified row crops, keyboard triage, autosave, export |
+| `../scripts/proof.js` | Local static server for `proof.html` (`npm run proof`, port 3031) |
 | `bands.json` | Row-band manifest: page, y-range, scale, pad |
 | `ocr-rows.json` | OCR word boxes for the 466 bands (current, best) |
 | `transcribe.mjs` | Bands → worksheet |
@@ -151,6 +187,11 @@ be discarded, not merged.
 | `ocr-wordboxes.json` | Superseded: full-page OCR word boxes, native resolution |
 | `reconstruct.mjs` | Superseded: column-split reconstruction |
 | `burials-draft.csv/.json` | Superseded: 483 rows from the column split. More rows, but the split is what produced the interleaving errors — kept for comparison, not for use |
+
+Every worksheet row carries `y0`/`y1`, the band's vertical extent in **source-image
+pixels**, so a row can always be traced back to the exact pixels it came from. That is
+what `proof.html` crops against. `Family001` is landscape 800×600; all other pages are
+600×800.
 
 ## To re-run
 

@@ -15,6 +15,7 @@
     "dev": "node --watch server/index.js",
     "build": "node scripts/build.js",
     "preview": "node scripts/build.js && node scripts/preview.js",
+    "proof": "node scripts/proof.js",
     "whoami": "node scripts/whoami.js",
     "test": "node --test \"test/**/*.test.js\""
   },
