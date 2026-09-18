@@ -1,156 +1,172 @@
-# Burial index — transcription source and working draft
+# The burial index — transcription working papers
 
-Everything in this directory is **input and work-in-progress**. Nothing here is exhibit copy and
-nothing here has been published to a data store. Read the [verification status](#verification-status)
-before using any of it.
+**These are working papers, not data. Nothing here is wired into the exhibit.**
+The machine extraction is good enough to read against the original and speed up a human
+transcription. It is not good enough to publish as genealogy.
 
-## What this is
+---
 
-A typescript index of burials in McElwee Cemetery (Pike County, Missouri), photographed page by page
-and posted in the Fotki album
-[`iowaz/pike-co-missouri/mcelwee-cem-pike-co`](https://public.fotki.com/iowaz/pike-co-missouri/mcelwee-cem-pike-co/).
+## Provenance and permission
 
-**Provenance of the document itself.** A physical copy is held as a desk reference at the Lay Center.
-There is **no attribution anywhere on the document** — no compiler, no date of compilation, no
-transcribing body. It can therefore be cited only by where it is kept, not by who made it. Any record
-we publish that is sourced from it should say so in exactly those terms.
+| | |
+|---|---|
+| **Source** | `https://public.fotki.com/iowaz/pike-co-missouri/mcelwee-cem-pike-co/burials-mcelwee-cem/` |
+| **Photographer** | iowaz — <http://www.iowaz.info/> · `iowaz@swbell.net` |
+| **Permission** | Educational use. The site explicitly encourages people to download and use the images. |
+| **Credit** | <http://www.iowaz.info/> — carried in the exhibit colophon and in `web/manifest/fotki.json` |
+| **The document itself** | Unattributed. A desk copy held at the Lay Center; no compiler, date, or repository is named inside it. |
 
-**Provenance of the photographs.** All images are credited to <http://www.iowaz.info/>, a genealogy
-archive for Fayette County, Iowa and Pike County, Missouri. The site owner permits and encourages
-downloading and reuse for educational purposes. The credit is carried in the exhibit colophon
-(`web/index.html`, "Photographs"). No personal name is published on the site, so the credit names the
-site, not a person — do not invent an author.
+The images are already mirrored in `web/manifest/fotki/` and published. This directory
+holds the transcription attempt, not a second copy of the photographs.
 
-## The album, in full
+---
 
-The album holds 43 images. Only 16 are the burial index; the rest are maps we should not lose track of.
+## What the document actually is
 
-| Group | Files | What it is |
-| --- | --- | --- |
-| `BurialsAlpha000`–`005` | 6 | The alphabetical burial index. `000` is the cover. |
-| `BurialsIndex001`–`003` | 3 | Index pages. |
-| `BurialsPage002`–`007` | 6 | Plot / section pages. |
-| `Family001` | 1 | Landscape orientation, 800×600. |
-| `Map*` | 27 | County atlases 1875 / 1899 / 1916 / 1924 / 1930, topographic sheets 1931–1991 including air photos, Google imagery, and a 2000 plat. |
+Sixteen pages in three different formats, which is the single most important thing to
+know before reading any number below:
 
-## Where the images already live
+| Section | Pages | Format | Machine extraction |
+|---|---|---|---|
+| **Alphabetical index** | `Alpha001`–`Alpha005` | Two columns: surname gutter, free-text entry | **Usable.** 121 rows, 69 with a surname (57%), 53 corroborated (44%) |
+| **Given-name index** | `Index001`–`Index003` | Table keyed on given name | Poor — the column model is wrong, 3 of 87 rows surnamed |
+| **Inscription transcriptions** | `Page002`–`Page007` | Centered blocks of headstone text, not a table | Poor — 22 of 122 rows surnamed |
+| **Family narrative** | `Family001` | Prose | Captured as continuous text (37 lines), not forced into rows |
 
-**All 43 album images are already mirrored in this repository** at `web/manifest/fotki/`, under
-truncated `-vi` filenames (`eCoMoCemMcElweeBurialsAlpha001-vi.jpg` = `...BurialsAlpha001`). They are
-copied verbatim into the published site by `npm run build`, so **they have been publicly served on
-GitHub Pages since commit `f7d0142` ("mirrored images")**. Nothing was downloaded for this directory;
-the mirror predates it.
+`Alpha000` is a cover page. Its stated range "March 1833 to March 1941" is **not
+trustworthy** — the index contains births in 1805 and a death in 1999.
 
-Alongside them is a IIIF Presentation 2.x manifest, `web/manifest/fotki.json`: 17 canvases covering the
-burials pages and the family sheet (not the maps), labelled only `cover`, `p1`…`p16`, with image `@id`s
-hotlinked to `media.fotki.com` rather than to the local mirror. It previously carried
-`attribution: "iowaz@swbell.net"` and `license: "private/educational/personal use only."` — an email
-address where a credit should be, and a licence string stricter than the permission actually granted.
-Both are corrected to credit <http://www.iowaz.info/>.
+---
 
-**No code in the exhibit references `manifest/fotki.json` or `manifest/fotki/`.** The manifest is
-orphaned: the images are published, but nothing renders them or their attribution. That gap — not the
-absence of a credit field — is what <https://github.com/cubap/McElwee/issues/26> is actually about.
-The colophon credit in `web/index.html` covers readers; the manifest covers IIIF clients; neither is
-wired into a viewer.
+## The resolution ceiling, measured
 
-## Resolution is the hard limit
+The public album serves a maximum of **600 × 800 px** (`-vi`). I confirmed this by
+probing every size suffix: `-me`, `-bi`, `-fu` all return 500×500 crops, and the
+unsuffixed original returns 404.
 
-Fotki serves three sizes. Probed directly:
+On a letter-size page that is roughly **100 DPI**. Reliable typescript OCR needs about
+300 DPI. Every limit below follows from that one fact, and no amount of processing
+removes it.
 
-| Suffix | Result |
-| --- | --- |
-| `-th` | 200 — thumbnail, ~4 KB |
-| `-vi` | 200 — **600 × 800**, ~143 KB |
-| `-me`, `-bi`, `-fu` | 500 |
-| (none) | 404 |
+---
 
-**600 × 800 is the largest size available publicly.** That is roughly 100 DPI on a letter-size page,
-which is below the ~300 DPI normally considered the floor for reliable OCR of a typewritten record.
-This is the root cause of every quality problem described below, and it is not fixable in software.
+## Method
 
-## How the draft was made
-
-1. The album's RSS feed (`https://feeds.fotki.com/iowaz/album_sgrgfsktdkgkt.rss?p=1`) lists all 43
-   items with titles and image URLs. The album page itself is JavaScript-rendered; the feed is not.
-2. The 16 burials images were read from the existing mirror in `web/manifest/fotki/` (600 × 800 `-vi`).
-3. `ocr-wordboxes.json` is the output of the Windows built-in OCR engine
-   (`Windows.Media.Ocr.OcrEngine`, en-US) run over the scans at native resolution, with per-word
-   bounding boxes. No external tool was installed.
-4. `reconstruct.mjs` rebuilds the page structure and writes `burials-draft.csv` / `.json`.
-
-Run it yourself:
+Four stages, all reproducible from `tool/`:
 
 ```
-node reconstruct.mjs ocr-wordboxes.json
+segment.ps1  →  ocr.ps1  →  transcribe.mjs
 ```
 
-The index is a two-column table: a sparse surname gutter on the left, one entry per line on the right.
-Windows OCR reports no bounding box for a *line*, only for a *word*, so `reconstruct.mjs` derives line
-geometry from its words, splits columns at x = 145 px, and attaches each entry to the surname whose
-vertical band contains it. Continuation lines (a wrapped entry starting with a bare year or a lowercase
-word) are folded into the entry above.
+**1. Row segmentation** (`tool/segment.cs`, run via `tool/segment.ps1`)
 
-## Verification status — READ THIS
+The critical step, and the one that took the longest to get right. These are
+*photographs*, not flatbed scans: lighting falls off across the page, so a global
+threshold classifies the shaded background as ink. The row-ink profile never dropped
+below ~250 of 600 pixels — there was no gap to cut on, which is why every earlier
+attempt was mediocre.
 
-**This draft is a finding aid. It is not data, and it must not be loaded into a store or rendered in
-the exhibit as it stands.**
+- **Sauvola adaptive local thresholding** (`T = m·(1 + k·(σ/R − 1))`, R=128, k=0.18,
+  window radius 11), computed with integral images so it is O(1) per pixel. After this
+  the profile is clean: gaps ~11, text bands 50–450.
+- **Deskew** by a coarse-to-fine search maximising the sum-of-squares of the row ink
+  profile. Real skew was found (`Page005` +2.7°, `Page003` +1.9°) but the aggregate
+  effect on accuracy was roughly neutral. Kept because it is free and helps the worst pages.
+- **Adaptive band gaps** — floor is `max(12, p10 × 2.2)` of the row profile. A fixed
+  floor either drowns in speckle or eats short lines; a median-based floor overshoots
+  dense pages because most rows *are* text.
+- **`SplitTall`** recursively cuts fused bands at the shallowest trough near one line pitch.
 
-Measured on 16 pages: 697 OCR lines → 483 entry rows, 48 distinct surnames, and **226 of 483 rows
-(47%) with no surname attached**, because the surname gutter is only partially legible at this
-resolution and OCR drops many of its entries.
+Result: **466 single-line bands.** OCR'ing one band at a time is what makes the
+two-column layout survive — the engine returns the gutter and the entry in correct
+reading order instead of interleaving rows across the page.
 
-The text itself is worse than the row count suggests. Representative corruption from a single page:
+**2. OCR** (`tool/ocr.ps1`) — Windows built-in WinRT OCR over the 466 bands, 3,124 words.
 
-| Draft reads | Almost certainly | Why it matters |
-| --- | --- | --- |
-| `died San. 19. 1810` | `died Jan. 19. 1870` | a death year wrong by sixty years |
-| `M&ion D. I died 1939` | name unrecoverable | the person is simply lost |
-| `H. B.s.'0J_ H. andJ. J. died Dec. 2. 1883 . Y.. 8 M.` | unreadable | whole record unusable |
-| `Rob:nE. S/OO.J.ÆNDM.E. EDMONDS. diedNov. 105aged21y.` | `Robt. E. S/O J. AND M. E. EDMONDS, died Nov. 10., aged 21 y.` | `Æ` is a scan artefact; `105` is `10.` |
-| `barn 1866` / `bom Apr. 11. 1820` | `born` | harmless, but it is everywhere |
+**3. Transcription** (`transcribe.mjs`)
 
-Relationship abbreviations (`D/O` daughter of, `S/O` son of, `W/O` wife of) come through as `D,'OJ.`,
-`S.'0`, `ryo J,`. These are the load-bearing tokens in the whole document — they are what makes a
-burial index a genealogical record rather than a list of names.
+- Band word-x is mapped back to **source-page pixels** using the scale and pad recorded
+  in `bands.json`. Band widths vary per page (deskewing grows the canvas), so a fraction
+  of band width is not a stable column test — this was a real bug that silently cost
+  around a third of the surnames.
+- The **column boundary is calibrated per page** as the widest gap in word x-positions
+  in the left region. It drifts from 90 to 133 px across pages.
+- Surnames are the only thing the index writes in full capitals, so the gutter is split
+  on **capital density**, not position. A hard x-cut either swallows the given name
+  (`"DOTY Glenn"`) or drops the surname.
+- **Corroboration:** the entry text restates the surname
+  (`CARR | H. S/O J. W. and E. C. CARR, born …`). Each row is checked against its own
+  entry with Levenshtein distance plus a 4-character prefix match. Agreement is the
+  `high` confidence grade — an independent check, not a guess.
 
-A misread name or date on a cemetery exhibit is not a cosmetic bug. It is a false statement about a
-dead person, published in a project whose stated purpose is to treat them with respect. **The draft is
-therefore kept here, clearly marked, and out of the site.**
+**4. Preprocessing that did *not* help** (recorded so it is not retried):
+deskew (neutral), 3× upscaling (raises word count, not accuracy), binarisation without
+adaptive thresholding (actively harmful).
 
-### What the draft is genuinely good for
+---
 
-- **Search.** It finds surnames and dates well enough to tell you which page and line to look at.
-- **Triage.** It shows where the dense, legible passages are and where a human has to start cold.
-- **Speed.** Checking a correct name against a wrong one is far faster than typing it from a scan.
+## Verification status — read this before using any of it
 
-### What production data requires
+**59 of 330 rows (18%) are machine-corroborated. The other 271 are unverified.**
 
-Human transcription against the physical desk copy, or better scans. Two options, in order of preference:
+The failure mode is not random noise, it is *plausible-looking wrong data*:
 
-1. **Re-scan at 300 DPI or better.** At 300 DPI a letter page is 2550 × 3300 — over 17× the pixels we
-   are currently working from. This is the real fix.
-2. **Transcribe by hand from the physical copy**, using this draft as a checklist. Slower, but the
-   physical copy is the authoritative artefact anyway.
+| In the scan | Almost certainly | Why it matters |
+|---|---|---|
+| `born Jan. 19.1810` | `1870` | a year wrong by sixty |
+| `diedNov. 105aged21y.` | `aged 10 y.` | an age invented out of a missing space |
+| `Mionte D'O J. J. BLAND` | `Mionta D/O J. J. Bland` | relationship token corrupted |
+| `Æ`, `ø`, `191K` | scan artefacts | characters not present in the original |
 
-Either way, every published record needs a field recording **which page it came from**, so a claim can
-be traced back to the document rather than to a model's guess.
+The load-bearing tokens of the whole document — `D/O`, `S/O`, `W/O`, the relationships
+that make this genealogy rather than a list of names — arrive as `D/OJ.`, `S'OJ.`,
+`WIO`, `DIOR`, `sto`.
 
-## Known open questions
+### What this must be used for
 
-- The cover page reads `McElwee Cemetery / March 1833 to March 1941`. The date range is **not
-  trustworthy** — the index plainly contains people born in 1805 and a death in 1999, so the range
-  cannot describe the whole document. Do not publish it until checked against the physical copy.
-- Whether the `BurialsIndex*` and `BurialsPage*` groups overlap `BurialsAlpha*` or add records to it.
-- What the 27 `Map*` images should become. They are a substantial separate asset and are candidates
-  for the exhibit's map section, all under the same iowaz.info credit.
+A **worksheet**: read the scan, use the machine text as a starting guess, correct it
+against the physical desk copy. `burials-worksheet.csv` carries `page`, `surname`,
+`entry`, the extracted fields, and the confidence grade so a reviewer can triage.
 
-## Relationship to the live data
+### What it must not be used for
 
-The exhibit currently reads the 2018 RERUM catalog from `devstore.rerum.io`. That catalog contains
-development test data and at least one unrelated image, and is not derived from this index. The plan
-is for records built from this index to **replace** it rather than merge with it, so nothing from the
-2018 store should be treated as corroboration of anything here.
+Direct import. Production records must be built from verified transcription of this
+document and nothing else — the existing devstore records are 2018 test data and are to
+be discarded, not merged.
 
-Tracked in <https://github.com/cubap/McElwee/issues/26> (photograph licensing) and
-<https://github.com/cubap/McElwee/issues/14> (store migration).
+---
+
+## Files
+
+| File | What it is |
+|---|---|
+| `burials-worksheet.csv` | **The deliverable.** 330 rows + confidence grades, for human verification |
+| `burials-worksheet.json` | Same, plus the 37 prose lines from `Family001` |
+| `bands.json` | Row-band manifest: page, y-range, scale, pad |
+| `ocr-rows.json` | OCR word boxes for the 466 bands (current, best) |
+| `transcribe.mjs` | Bands → worksheet |
+| `tool/segment.cs` | Sauvola thresholding, deskew, row segmentation |
+| `tool/segment.ps1` | Driver: `segment.ps1 -MergeGap 1 -FloorMul 2.2` |
+| `tool/ocr.ps1` | WinRT OCR over a directory of images |
+| `ocr-wordboxes.json` | Superseded: full-page OCR word boxes, native resolution |
+| `reconstruct.mjs` | Superseded: column-split reconstruction |
+| `burials-draft.csv/.json` | Superseded: 483 rows from the column split. More rows, but the split is what produced the interleaving errors — kept for comparison, not for use |
+
+## To re-run
+
+The pipeline expects local copies of the 16 pages at 600×800 in a `scans/` directory.
+
+```powershell
+tool\segment.ps1 -SrcDir scans -OutDir rows -Manifest bands.json -MergeGap 1 -FloorMul 2.2
+tool\ocr.ps1 -Dir rows -OutFile ocr-rows.json
+node transcribe.mjs bands.json ocr-rows.json
+```
+
+## Still needed
+
+1. **Human transcription against the physical desk copy** — the only path to publishable data.
+2. **A second column model for the `Index` and `Page` sections**, which are not the
+   surname/entry table the current code assumes.
+3. **Better source images.** If higher-resolution originals exist anywhere — the
+   photographer's own archive, or a fresh 300 DPI scan of the desk copy — re-running
+   this pipeline on them is the single highest-value change available.

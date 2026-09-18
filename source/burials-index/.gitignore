@@ -1,0 +1,3 @@
+# pipeline scratch: re-generate with tool/segment.ps1 and tool/ocr.ps1
+scans/
+rows/
