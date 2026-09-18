@@ -78,6 +78,17 @@
   textarea.f { resize: vertical; min-height: 62px; font-size: 16px; }
   #surname { font-size: 17px; letter-spacing: .04em; }
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  .grid .wide { grid-column: 1 / -1; }
+
+  /* Born / Died / Aged / Relationship are computed from the entry line rather
+     than typed. They sit recessed and carry a tag, so it is unmistakable at a
+     glance which values a human confirmed and which the parser inferred. */
+  .fld { position: relative; }
+  .pin { position: absolute; top: 12px; right: 0; font: 10px/1 ui-monospace, monospace; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); border: 0; border-bottom: 1px dashed var(--rule); background: none; padding: 2px 0; }
+  button.pin { cursor: pointer; color: var(--accent); border-bottom-color: transparent; }
+  button.pin:hover { border-bottom-color: var(--accent); }
+  .f.derived { background: #efeae0; color: var(--ink-soft); }
+  .hint { font-size: 12px; color: var(--warn); margin: 9px 0 0; }
 
   .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
   .act { border: 1px solid var(--rule); background: var(--card); border-radius: 5px; padding: 8px 12px; cursor: pointer; font-size: 14px; }
@@ -193,6 +204,9 @@ const e_of = (i) => (edits[i] ||= {});
 const status_of = (i) => edits[i]?.status || "";
 
 async function boot() {
+  /* One copy of the field logic, shared with the command-line batch tool. */
+  try { parseEntry = (await import("./parse-fields.mjs")).parseEntry; }
+  catch (err) { console.warn("parse-fields.mjs did not load — fields stay manual", err); }
   const w = await (await fetch("burials-worksheet.json")).json();
   /* The table rows and the loose prose lines (cover page + family narrative) are
      proofread in one pass. Prose carries only a band centre, so widen it. */
@@ -250,6 +264,84 @@ function move(d) {
 
 function val(i, f) { return edits[i]?.[f] ?? ROWS[i][f] ?? ""; }
 
+/* The entry line is the authoritative transcription and these fields are
+   DERIVED from it, so they can always be regenerated from what a human
+   actually read. A field the reviewer types into is pinned and stops being
+   derived — nothing they wrote can be overwritten by a later re-parse. */
+const DERIVED = [
+  { k: "born", l: "Born" },
+  { k: "died", l: "Died" },
+  { k: "aged", l: "Aged" },
+  { k: "relationship", l: "Relationship", ph: "D/O, S/O, W/O" },
+  { k: "bornPlace", l: "Born place" },
+  { k: "diedPlace", l: "Died place" },
+  { k: "parents", l: "Parents or spouse named in the entry", wide: true },
+];
+let parseEntry = null;
+
+const derive = (i) => {
+  const r = ROWS[i];
+  if (!r || r.kind === "prose" || !parseEntry) return {};
+  return parseEntry(val(i, "entry")) || {};
+};
+const isPinned = (i, k) => (edits[i]?.pins || []).includes(k);
+function resolvedFields(i) {
+  const d = derive(i), o = {};
+  for (const { k } of DERIVED) o[k] = isPinned(i, k) ? (edits[i]?.[k] ?? "") : (d[k] || ROWS[i][k] || "");
+  return o;
+}
+function fld(i, spec, d) {
+  const pinned = isPinned(i, spec.k);
+  const v = pinned ? (edits[i]?.[spec.k] ?? "") : (d[spec.k] || ROWS[i][spec.k] || "");
+  const tag = pinned
+    ? `<button class="pin" data-pin="${spec.k}" title="Hand-edited. Click to re-derive this from the entry line.">edited &#8634;</button>`
+    : `<span class="pin">derived</span>`;
+  return `<div class="fld${spec.wide ? " wide" : ""}">
+     <label for="i-${spec.k}">${spec.l}</label>${tag}
+     <input class="f${pinned ? "" : " derived"}" id="i-${spec.k}" value="${esc(v)}"${spec.ph ? ` placeholder="${spec.ph}"` : ""} autocomplete="off" spellcheck="false">
+   </div>`;
+}
+/* Update the derived inputs in place. A full render() here would steal focus
+   from the entry box mid-word, which is the one thing a long transcription
+   session cannot tolerate. */
+function syncDerived(i) {
+  if (ROWS[i]?.kind === "prose") return;
+  const d = derive(i);
+  for (const { k } of DERIVED) {
+    const el = document.getElementById("i-" + k);
+    if (!el || isPinned(i, k)) continue;
+    const v = d[k] || ROWS[i][k] || "";
+    if (el.value !== v) el.value = v;
+  }
+  showHint(i, d);
+}
+/* The warning has to refresh with the entry too. Rendered once at paint time it
+   goes stale and keeps nagging about a line the reviewer has already fixed. */
+function showHint(i, d) {
+  const el = document.getElementById("unparsedHint");
+  if (!el) return;
+  const unp = (d || derive(i)).unparsed || [];
+  el.innerHTML = unp.length
+    ? `The entry says <b>${unp.join("</b> and <b>")}</b> but nothing usable follows &mdash; check the scan, the line is probably still damaged.`
+    : "";
+  el.hidden = !unp.length;
+}
+function markEdited(i, k) {
+  const el = document.getElementById("i-" + k);
+  const box = el?.closest(".fld");
+  if (!box) return;
+  el.classList.remove("derived");
+  box.querySelector(".pin").outerHTML = `<button class="pin" data-pin="${k}" title="Hand-edited. Click to re-derive this from the entry line.">edited &#8634;</button>`;
+  box.querySelector("[data-pin]").onclick = () => unpin(i, k);
+}
+function unpin(i, k) {
+  const e = e_of(i);
+  e.pins = (e.pins || []).filter((x) => x !== k);
+  delete e[k];
+  persist();
+  render();
+}
+
 function render() {
   const rows = LIST.length;
   const i = state.i;
@@ -271,6 +363,8 @@ function render() {
     : `<span class="badge ${r.confidence}">${r.confidence} confidence</span>`;
   const pos = LIST.findIndex((x) => x.i === i) + 1;
 
+  const d = derive(i);
+  const unp = d.unparsed || [];
   const fields = prose
     ? `<label for="i-entry">Line — transcribe what the page actually says</label>
        <textarea class="f" id="i-entry" rows="3">${esc(val(i, "entry"))}</textarea>`
@@ -278,12 +372,8 @@ function render() {
        <input class="f" id="i-surname" value="${esc(val(i, "surname"))}" autocomplete="off" spellcheck="false">
        <label for="i-entry">Entry — transcribe what the stone/index actually says</label>
        <textarea class="f" id="i-entry" rows="3">${esc(val(i, "entry"))}</textarea>
-       <div class="grid">
-         <div><label for="i-born">Born</label><input class="f" id="i-born" value="${esc(val(i, "born"))}"></div>
-         <div><label for="i-died">Died</label><input class="f" id="i-died" value="${esc(val(i, "died"))}"></div>
-         <div><label for="i-aged">Aged</label><input class="f" id="i-aged" value="${esc(val(i, "aged"))}"></div>
-         <div><label for="i-relationship">Relationship</label><input class="f" id="i-relationship" value="${esc(val(i, "relationship"))}" placeholder="D/O, S/O, W/O"></div>
-       </div>`;
+       <div class="grid">${DERIVED.map((s) => fld(i, s, d)).join("")}</div>
+       <p class="hint" id="unparsedHint"${unp.length ? "" : " hidden"}></p>`;
 
   document.getElementById("recBody").innerHTML = `
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
@@ -302,10 +392,22 @@ function render() {
     </div>
     <div class="nav">${LIST.map((x) => `<button class="dot ${status_of(x.i)[0] || ""} ${x.i === i ? "cur" : ""}" data-go="${x.i}" title="${PAGE_LABEL[x.r.page] || x.r.page}"></button>`).join("")}</div>
   `;
-  const editable = prose ? ["entry", "note"] : ["surname", "entry", "born", "died", "aged", "relationship", "note"];
-  for (const f of editable) {
+  for (const f of prose ? ["entry", "note"] : ["surname", "entry", "note"]) {
     const el = document.getElementById("i-" + f);
-    el.oninput = () => { e_of(i)[f] = el.value; persist(); };
+    el.oninput = () => { e_of(i)[f] = el.value; if (f === "entry") syncDerived(i); persist(); };
+  }
+  if (!prose) {
+    showHint(i, d);
+    for (const { k } of DERIVED) {
+      const el = document.getElementById("i-" + k);
+      el.oninput = () => {
+        const e = e_of(i);
+        e[k] = el.value;
+        if (!(e.pins || []).includes(k)) { (e.pins ||= []).push(k); markEdited(i, k); }
+        persist();
+      };
+    }
+    document.getElementById("recBody").querySelectorAll("[data-pin]").forEach((b) => (b.onclick = () => unpin(i, b.dataset.pin)));
   }
   document.getElementById("recBody").querySelectorAll("[data-act]").forEach((b) => (b.onclick = () => act(b.dataset.act)));
   document.getElementById("recBody").querySelectorAll("[data-go]").forEach((b) => (b.onclick = () => { state.i = +b.dataset.go; render(); }));
@@ -369,21 +471,31 @@ function batchAccept() {
 }
 
 function exportAll() {
-  const head = ["kind", "page", "y0", "y1", "surname", "entry", "born", "died", "aged", "relationship", "note", "status", "confidence", "corroborated"];
-  const data = ROWS.map((r, i) => head.map((h) => {
-    if (h === "status") return status_of(i);
-    if (h === "kind") return r.kind;
-    if (h === "corroborated") return r.corroborated ? "yes" : "no";
-    if (h in (edits[i] || {})) return edits[i][h];
-    if (h === "entry" && r.kind === "prose") return r.text;
-    return r[h] ?? "";
-  }));
+  const head = ["kind", "page", "y0", "y1", "surname", "entry", "born", "bornPlace", "died", "diedPlace",
+    "aged", "relationship", "parents", "fieldsEdited", "note", "status", "confidence", "corroborated"];
+  const data = ROWS.map((r, i) => {
+    const res = resolvedFields(i);
+    return head.map((h) => {
+      if (h === "status") return status_of(i);
+      if (h === "kind") return r.kind;
+      if (h === "corroborated") return r.corroborated ? "yes" : "no";
+      if (h === "fieldsEdited") return (edits[i]?.pins || []).join("|");
+      if (res[h] !== undefined) return res[h];
+      if (h in (edits[i] || {})) return edits[i][h];
+      if (h === "entry" && r.kind === "prose") return r.text;
+      return r[h] ?? "";
+    });
+  });
   const csv = "\uFEFF" + [head, ...data].map((c) => c.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\r\n");
   dl("burials-verified.csv", csv, "text/csv");
   dl("burials-verified.json", JSON.stringify({
     exported: new Date().toISOString(),
-    note: "Corrected against the scans by a human reader. status=verified means reviewed and accepted.",
-    rows: ROWS.filter((r) => r.kind === "row").map((r) => ({ ...r, ...edits[ROWS.indexOf(r)], status: status_of(ROWS.indexOf(r)) })),
+    note: "Corrected against the scans by a human reader. status=verified means reviewed and accepted. "
+      + "born/died/aged/relationship/places/parents are DERIVED from the entry line unless named in fieldsEdited.",
+    rows: ROWS.filter((r) => r.kind === "row").map((r) => {
+      const i = ROWS.indexOf(r);
+      return { ...r, ...edits[i], ...resolvedFields(i), fieldsEdited: edits[i]?.pins || [], status: status_of(i) };
+    }),
     prose: ROWS.filter((r) => r.kind === "prose").map((r) => ({ ...r, ...edits[ROWS.indexOf(r)], status: status_of(ROWS.indexOf(r)) })),
   }, null, 2), "application/json");
 }

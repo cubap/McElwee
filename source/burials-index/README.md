@@ -170,6 +170,55 @@ family narrative, including the date range `march 1833 to March 1947`, which is
 **suspect** — the index itself contains births in 1805 and a death in 1999. Do not
 publish that range until it has been read off the physical copy.
 
+## Born / Died / Aged / Relationship are derived, not typed
+
+You only transcribe the **entry**. The structured fields are computed from it by
+`parse-fields.mjs`, live, as you type.
+
+This is a deliberate choice, not a convenience. A hand-entered `died` can silently
+disagree with the prose sitting beside it in the same row, and on an unattributed desk
+copy that disagreement is exactly the error the next researcher repeats. Deriving means
+the fields can always be regenerated from text a human actually read, and the entry
+stays the single authoritative field.
+
+The index writes almost every row to one formula, which is what makes deriving safe:
+
+```
+<given names> <REL/O> <parents>, born <place?> <date>, died <date> — aged 1 Y., 8 M. and 8 D.
+```
+
+In the proofreader, derived inputs are recessed and tagged `derived`. **Type in one and
+it pins**: it becomes a normal field marked `edited ↺`, and re-parsing the entry will
+never overwrite what you wrote. Click `edited ↺` to release it and re-derive. Export
+carries a `fieldsEdited` column so the pin survives the round trip.
+
+Two rules the parser will not break, both learned the hard way:
+
+- **A keyword only sees its own span.** `born Warren Co. MO, died Apr. 19, 1919` used to
+  hand the *death* date to the birth field, because a naive search finds the first date
+  after the word "born" wherever it happens to be. That is a plausible-looking
+  fabrication, and it is the reason this parser exists in tests before it existed in the
+  tool. `test/burials-fields.test.js` guards it.
+- **It does not repair damaged text.** `sto`, `WIO`, `DfO`, `191K`, `t907` are reported
+  as *unparsed* and the row shows a warning, rather than being guessed into shape. On
+  uncorrected OCR the yield is low **by design** — run it against text a human has fixed.
+
+A middle initial is not a keyword either: in `Claud H. B. S/O …` and `Marion D. bom died
+1939`, the `B.` and `D.` look exactly like `b.` and `d.`. An abbreviation only counts
+when a month name or a digit follows it.
+
+To re-derive over a whole file without the browser:
+
+```powershell
+node derive-fields.mjs                       # reads burials-worksheet.json
+node derive-fields.mjs burials-verified.json # reads a proofreader export, honours its pins
+```
+
+It prints a census of what populated and what is still damaged, and writes
+`burials-derived.csv`/`.json` (gitignored — they are regenerable). On the current
+uncorrected worksheet: 96 died, 58 born, 41 relationship, 31 aged, 38 parents, and 176
+rows that yield nothing at all because their entry is still raw OCR.
+
 ## Files
 
 | File | What it is |
@@ -177,6 +226,9 @@ publish that range until it has been read off the physical copy.
 | `burials-worksheet.csv` | **The deliverable.** 330 rows + confidence grades, for human verification |
 | `burials-worksheet.json` | Same, plus the 37 prose lines from the cover page and `Family001` |
 | `proof.html` | Proofreading tool — magnified row crops, keyboard triage, autosave, export |
+| `parse-fields.mjs` | Entry line → born / born place / died / died place / aged / relationship / parents |
+| `derive-fields.mjs` | Batch re-derive over a worksheet or a proofreader export |
+| `../test/burials-fields.test.js` | The contract the parser must not break (`npm test`) |
 | `../scripts/proof.js` | Local static server for `proof.html` (`npm run proof`, port 3031) |
 | `bands.json` | Row-band manifest: page, y-range, scale, pad |
 | `ocr-rows.json` | OCR word boxes for the 466 bands (current, best) |
