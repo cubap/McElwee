@@ -643,6 +643,171 @@ a:hover { text-decoration-thickness: 2px; }
     overflow-wrap: anywhere;
 }
 
+/* Each link in the trace wears a chip marking its kind, so an assertion is
+   distinguishable from its evidence before the label loads. */
+.mc-cite {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+}
+
+.mc-cite:hover {
+    border-bottom-color: var(--green);
+}
+
+.mc-kind {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+    color: var(--ink-faint);
+    border: 1px solid var(--rule);
+}
+
+.mc-kind svg {
+    width: .8rem;
+    height: .8rem;
+    display: block;
+}
+
+.mc-cite--annotation .mc-kind {
+    color: var(--rust);
+    border-color: var(--rust);
+}
+
+.mc-cite--agent .mc-kind {
+    color: var(--green);
+    border-color: var(--green);
+}
+
+.mc-cite--document .mc-kind {
+    color: var(--ink-soft);
+    border-color: var(--rule);
+}
+
+/* --- evidence lightbox ---------------------------------------------------- */
+
+/* The evidence behind a claim, mounted like a specimen: the dialog is a sheet
+   on the board, the image is the specimen, and the citation is its label. */
+.mc-lightbox {
+    border: 2px solid var(--board-deep);
+    background: var(--sheet);
+    color: var(--ink);
+    padding: 0;
+    max-width: min(56rem, 92vw);
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: 0 1rem 3rem rgba(22, 25, 22, .35);
+}
+
+.mc-lightbox::backdrop {
+    background: rgba(22, 25, 22, .55);
+}
+
+.mc-lightbox-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .8rem var(--gutter);
+    border-bottom: 1px solid var(--rule);
+}
+
+.mc-lightbox-head h2 {
+    margin: 0;
+    font-family: var(--f-label);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--green);
+}
+
+.mc-lightbox-close {
+    font-family: var(--f-stamp);
+    font-size: .78rem;
+    line-height: 1;
+    padding: .2rem .45rem;
+    border: 1px solid var(--rule);
+    background: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+}
+
+.mc-lightbox-close:hover {
+    color: var(--rust);
+    border-color: var(--rust);
+}
+
+.mc-lightbox-images {
+    padding: var(--gutter);
+    display: grid;
+    gap: 1.5rem;
+}
+
+.mc-lightbox-figure {
+    margin: 0;
+}
+
+.mc-lightbox-figure img {
+    display: block;
+    max-width: 100%;
+    max-height: 65vh;
+    margin: 0 auto;
+    border: 1px solid var(--rule);
+    background: var(--sheet-edge);
+    padding: .35rem;
+}
+
+.mc-lightbox-figure figcaption {
+    margin-top: .6rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .4rem 1rem;
+    font-family: var(--f-label);
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+}
+
+.mc-lightbox-open {
+    color: var(--green);
+    font-weight: 600;
+}
+
+.mc-lightbox-cite {
+    font-family: var(--f-stamp);
+    font-size: .78rem;
+    letter-spacing: .04em;
+    text-transform: none;
+    color: var(--ink-faint);
+    overflow-wrap: anywhere;
+}
+
+.mc-lightbox-empty {
+    margin: 0;
+    padding: var(--gutter);
+    color: var(--ink-soft);
+    font-size: .92rem;
+}
+
+.mc-lightbox-foot {
+    margin: 0;
+    padding: .6rem var(--gutter) var(--gutter);
+    border-top: 1px solid var(--rule);
+    font-family: var(--f-label);
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
 @media (max-width: 34rem) {
     .mc-trace dl { grid-template-columns: minmax(0, 1fr); }
     .mc-trace dt { margin-top: .4rem; }

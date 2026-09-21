@@ -4,14 +4,12 @@
  *
  * Everything the site needs to know about *where RERUM lives* is in this one file.
  *
- * Today the McElwee records are on the devstore instance. When issue #14 migrates them
- * to the production store, change RERUM_BASE below and nothing else does.
+ * The McElwee records live on the production store (issue #14 migration complete).
  */
 (function (global) {
   "use strict"
 
-  // Switch to "https://store.rerum.io/v1" after the issue #14 migration.
-  var RERUM_BASE = "https://devstore.rerum.io/v1"
+  var RERUM_BASE = "https://store.rerum.io/v1"
 
   // Hosts whose records are the same thing under http and https. RERUM hands back
   // `http://` IRIs inside itemListElement entries even though it serves them over
@@ -65,9 +63,9 @@
     RERUM_BASE: RERUM_BASE,
     RERUM_HOSTS: RERUM_HOSTS,
     // The cemetery population list the exhibit opens on.
-    DEFAULT_LIST_ID: RERUM_BASE + "/id/5bc8089ce4b09992fca2222c",
+    DEFAULT_LIST_ID: RERUM_BASE + "/id/6ab15ef62655eb9310888d22",
     // The catalog document every data-entry annotation cites as its evidence.
-    EVIDENCE_ID: RERUM_BASE + "/id/5b76fc0de4b09992fca21e68",
+    EVIDENCE_ID: RERUM_BASE + "/id/6ab15d292655eb9310888cfd",
     BASE_ID: RERUM_BASE,
     QUERY_URL: API_ROOT + "query",
     CREATE_URL: API_ROOT + "create",

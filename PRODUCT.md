@@ -45,7 +45,7 @@ part of the mechanism, not a disclaimer bolted on.
 
 - Published as static files on GitHub Pages at `https://cubap.github.io/McElwee/web/`.
   There is no server behind the public site.
-- Records live in RERUM on `devstore.rerum.io`; the read-only site queries it directly over
+- Records live in RERUM on `store.rerum.io`; the read-only site queries it directly over
   HTTPS (the endpoint returns `Access-Control-Allow-Origin: *`).
 - Data entry happens only through a local Express proxy (`server/`) and a local-only subsite
   (`entry/`), never on the published site. Writes are refused until a McElwee-specific RERUM
@@ -84,7 +84,6 @@ part of the mechanism, not a disclaimer bolted on.
 **Undecided**
 - Whether to publish a map at all, and from which parcel source, once #20/#21 research lands.
 - Licensing and attribution model for external photographs.
-- Issue #14 will move the records from devstore to the production store.
 
 ## Brand Commitments
 

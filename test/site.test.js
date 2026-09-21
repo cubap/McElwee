@@ -178,9 +178,9 @@ test("the entry subsite is the only place writes are issued from", () => {
   assert.doesNotMatch(entry, /fetch\(["'`]https?:\/\//)
 })
 
-test("the server's default upstream is the devstore instance the records live on", () => {
+test("the server's default upstream is the production store the records live on", () => {
   const config = readConfig({})
-  assert.equal(config.apiAddr, "https://devstore.rerum.io/v1/api/")
+  assert.equal(config.apiAddr, "https://store.rerum.io/v1/api/")
   assert.equal(config.port, 3030)
   assert.match(config.userAgent, /McElwee/)
 })
