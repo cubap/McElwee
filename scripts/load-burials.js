@@ -300,7 +300,11 @@ async function main() {
       }
       list.itemListElement = (list.itemListElement || []).concat(ready)
       list.numberOfItems = list.itemListElement.length
-      await post(args.base, "/update", list, "PUT")
+      const updated = await post(args.base, "/update", list, "PUT")
+      // RERUM versions an update under a new IRI; the ledger must point at the version
+      // that actually carries the members, or the next run reads an empty list.
+      const updatedIri = idFrom(updated)
+      if (updatedIri) ledger.listIri = updatedIri
       // A canary run (--limit) cannot finish the list, so leave it un-marked and let the
       // next run top it up rather than recording a completion that did not happen.
       if (!waiting) ledger.listUpdated = true

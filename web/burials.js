@@ -38,9 +38,9 @@
     }
 
     function grab() {
-        ;["burials", "burials-count", "burials-dividers", "burials-rows", "burials-empty",
-            "burials-clear", "proof", "proof-title", "proof-frame", "proof-line", "proof-credit", "proof-close"]
-            .forEach(function (id) { el[id] = document.getElementById(id) })
+        ;["mc-burials", "mc-burials-count", "mc-burials-dividers", "mc-burials-rows", "mc-burials-empty",
+            "mc-burials-clear", "mc-proof", "mc-proof-title", "mc-proof-frame", "mc-proof-line", "mc-proof-credit", "mc-proof-close"]
+            .forEach(function (id) { el[id.replace(/^mc-/, "")] = document.getElementById(id) })
     }
 
     function url() {
