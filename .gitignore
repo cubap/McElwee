@@ -62,3 +62,6 @@ dist/
 # Regenerable with: node source/burials-index/derive-fields.mjs
 source/burials-index/burials-derived.json
 source/burials-index/burials-derived.csv
+
+# Regenerable with: node scripts/load-burials.js   (the dry-run plan; the ledger beside it is the real record)
+source/burials-evidence/burials-plan.json

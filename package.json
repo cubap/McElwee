@@ -25,6 +25,8 @@
     "handoff:review": "node source/handoff/burials/make-review.mjs && powershell -NoProfile -ExecutionPolicy Bypass -File source/handoff/burials/tool/zip.ps1 -Mode review",
     "handoff:zip": "powershell -NoProfile -ExecutionPolicy Bypass -File source/handoff/burials/tool/zip.ps1",
     "whoami": "node scripts/whoami.js",
+    "burials:plan": "node scripts/load-burials.js",
+    "burials:load": "node scripts/load-burials.js --execute",
     "test": "node --test \"test/**/*.test.js\""
   },
   "dependencies": {
