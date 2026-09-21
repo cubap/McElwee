@@ -193,3 +193,39 @@ test("the loader writes, resolves placeholders, and is idempotent", async () => 
 
   await mock.close()
 })
+
+test("preflight refuses a token that names no agent", async () => {
+  // The real failure: an identity-provider JWT in .env instead of the pair RERUM issued.
+  // It decodes cleanly and looks like a credential, but carries no agent claim, so RERUM
+  // would stamp 236 permanent records with nobody. EXPECTED_AGENT_IRI is blank in this
+  // scenario, which is exactly the case where agent.problem stays null and a naive
+  // guard would let the write through.
+  const seen = []
+  const server = http.createServer((req, res) => {
+    seen.push(req.url)
+    res.writeHead(200, { "Content-Type": "application/json" })
+    res.end(
+      JSON.stringify({
+        agentIri: null,
+        registered: true,
+        isSharedSandbox: false,
+        matchesExpected: true,
+        problem: null,
+        accessToken: true,
+        tokenExpiresAt: "2099-01-01T00:00:00.000Z",
+        apiAddr: "https://store.rerum.io/v1/"
+      })
+    )
+  })
+  await new Promise((r) => server.listen(0, "127.0.0.1", r))
+  const base = `http://127.0.0.1:${server.address().port}`
+  try {
+    await assert.rejects(
+      () => run(process.execPath, [path.join(ROOT, "scripts", "load-burials.js"), "--execute", "--base", base], { cwd: ROOT }),
+      /no RERUM agent claim/
+    )
+    assert.deepEqual(seen, ["/agent"], "the refusal happens before any write is attempted")
+  } finally {
+    await new Promise((r) => server.close(r))
+  }
+})

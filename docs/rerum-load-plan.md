@@ -28,6 +28,14 @@ The list's `numberOfItems` is also wrong (1 vs 5). The loader recomputes it on w
 silently repairs this — worth knowing, because it means the first run changes a field nobody
 asked it to change.
 
+**Decision recorded 2026-09:** `.env` is configured against production (`store.rerum.io`), which
+chooses migration over parallel stores. That is the right call, but it has a consequence: the
+catalog and population list do not exist there yet, so a burial load cannot reference them.
+`load-burials.js --new-list` creates the population list on whatever store it is pointed at, so
+the burials can land on production ahead of the migration; the 2018 material still has to be
+moved (issue #14) or the exhibit will show two halves of one cemetery. `web/config.js` still
+hardcodes the devstore IRIs and has to change in the same move.
+
 ## 2. Attribution is not a detail
 
 RERUM stamps `__rerum.generatedBy` from the agent behind the bearer token. There is no way to
@@ -40,6 +48,31 @@ sandbox agent when `REQUIRE_AGENT_IRI=true`. A bulk load should not bypass that 
 
 There is currently **no `.env`** in this checkout (only `sample.env`), so nothing can write at
 all today. That is the correct default state, not an oversight.
+
+### Status of the credentials added 2026-09
+
+A `.env` now exists and names a real, dedicated agent — but the token pair in it is the wrong
+kind, so writes are still refused. Verified against the live store:
+
+| Check | Result |
+|---|---|
+| `GET https://store.rerum.io/v1/id/6aad4b2e91de766f659a3b6d` | **200**, `type: Agent`, `label: "patrick.cuba+mcelwee"` |
+| Agent claim inside `ACCESS_TOKEN` | **none** — `iss: https://myslu.slu.edu`, `sub: cubap@slu.edu` |
+| `ACCESS_TOKEN` expiry | 2026-09-03, already past |
+| `POST /client/request-new-access-token` with `REFRESH_TOKEN` | **HTTP 500** — "Unknown or invalid refresh token" |
+
+The `ACCESS_TOKEN` is a Saint Louis University single-sign-on id_token, not the JWT RERUM
+returns when you register an application. They are easy to confuse because both are JWTs and
+both decode cleanly. RERUM's carries the agent IRI; an SSO token carries your university
+identity, which is a different thing and is useless to the store. The refresh token is not the
+pairing one either, so the set cannot heal itself.
+
+What this means: **the attribution problem is solved, the authentication problem is not.** The
+agent is correct and dedicated to this project. Someone has to re-run registration and paste the
+RERUM-issued access/refresh pair for that agent. `REQUIRE_AGENT_IRI` should also be flipped to
+`true` now that a real agent exists — with it `false` and `EXPECTED_AGENT_IRI` blank, the
+`agent.problem` check alone would let a write through under a token that names nobody, which is
+why `load-burials.js` no longer relies on it.
 
 ## 3. What the loader does
 
