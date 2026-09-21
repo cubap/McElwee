@@ -132,6 +132,7 @@ async function expand(obj) {
             source: recordId(anno),
             evidence: evidence,
             generatedBy: anno && anno.__rerum && anno.__rerum.generatedBy,
+            motivation: anno && anno.motivation,
             createdAt: anno && anno.__rerum && anno.__rerum.createdAt,
             superseded: !!(anno && anno.__rerum && anno.__rerum.history &&
                 (anno.__rerum.history.next || []).length)
@@ -189,7 +190,7 @@ function pick(list) {
     let pool = filled.length ? filled : list
     return pool.slice().sort(function(a, b) {
         if (b.count !== a.count) return b.count - a.count
-        return (b.createdAt || 0) - (a.createdAt || 0)
+        return timeOf(b) - timeOf(a)
     })[0]
 }
 
@@ -267,9 +268,22 @@ function storeUrl(id) {
     return /^https?:\/\//.test(text) ? text : null
 }
 
+/**
+ * The store stamps every record with an ISO 8601 creation time; older records
+ * may carry epoch milliseconds instead. Both are read as a comparable number.
+ */
+function timeOf(anno) {
+    if (!anno || !anno.createdAt) return 0
+    let t = Date.parse(anno.createdAt)
+    if (isNaN(t)) t = Number(anno.createdAt)
+    return isNaN(t) ? 0 : t
+}
+
 function dateOf(anno) {
     if (!anno.createdAt) return "date not recorded"
-    let d = new Date(Number(anno.createdAt))
+    let text = String(anno.createdAt)
+    if (/^\d{4}-\d{2}-\d{2}/.test(text)) return text.slice(0, 10)
+    let d = new Date(Number(text))
     if (isNaN(d.getTime())) return "date not recorded"
     return d.toISOString().slice(0, 10)
 }
@@ -313,7 +327,7 @@ template.claimDetail = function(key, list) {
     let html = ""
     if (list.length > 1) {
         html += `<div class="mc-variants">`
-        list.slice().sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)).forEach(function(c) {
+        list.slice().sort((a, b) => timeOf(b) - timeOf(a)).forEach(function(c) {
             let shown = c === chosen
             html += `<div><span class="mc-value${shown ? "" : " mc-value--absent"}">${esc(clean(c.value)) || "\u2014 left blank \u2014"}</span>`
             html += `<span${shown ? ` class="mc-shown"` : ""}>${shown ? `on the line \u00b7 asserted ${c.count}\u00d7` : `${c.count}\u00d7 \u00b7 ${dateOf(c)}`}</span></div>`
@@ -322,10 +336,10 @@ template.claimDetail = function(key, list) {
     }
     html += `<div class="mc-trace"><h3>Provenance of this line</h3><dl>`
     html += `<dt>Field</dt><dd>${esc(key)}</dd>`
-    html += `<dt>Asserted by</dt><dd>${cite(chosen.source)}</dd>`
-    html += `<dt>Written by</dt><dd>${cite(chosen.generatedBy, "shared transcription agent, sandbox@rerum.io")}</dd>`
+    html += `<dt>Asserted by</dt><dd>${cite(chosen.source, null, "annotation", chosen.motivation)}</dd>`
+    html += `<dt>Written by</dt><dd>${cite(chosen.generatedBy, "shared transcription agent, sandbox@rerum.io", "agent")}</dd>`
     html += `<dt>Written on</dt><dd>${esc(dateOf(chosen))}</dd>`
-    if (chosen.evidence) html += `<dt>Evidence</dt><dd>${cite(chosen.evidence, "catalog page")}</dd>`
+    if (chosen.evidence) html += `<dt>Evidence</dt><dd>${cite(chosen.evidence, "catalog page", "document")}</dd>`
     if (chosen.superseded) html += `<dt>Status</dt><dd>superseded by a later revision</dd>`
     html += `</dl>`
     if (list.length > 1) {
@@ -341,10 +355,211 @@ template.claimDetail = function(key, list) {
     return html
 }
 
-function cite(id, fallback) {
+/**
+ * The marks worn by each kind of record in the provenance trace. Drawn in the
+ * exhibit's line style: 16px grid, 1.5px stroke, currentColor, no fill, so the
+ * chip's colour carries the kind and the mark carries the shape.
+ */
+const KIND_ICONS = {
+    annotation: `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 2.75h5.5L12.5 5.75v7.5H4z"/><path d="M9.5 2.75v3h3"/><path d="M6 8h4"/><path d="M6 10.5h3"/></svg>`,
+    agent: `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 2.5c-3 .3-5.7 2.2-7.2 5.1L4 10.5l2.9-1.3c2.9-1.5 4.8-4.2 5.1-7.2Z"/><path d="M5.2 8.8 7.2 10.8"/><path d="M4 12l3-3"/></svg>`,
+    document: `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 2.75h5.5L12.5 5.75v7.5H4z"/><path d="M9.5 2.75v3h3"/><path d="M6 8h4"/><path d="M6 10h4"/><path d="M6 12h3"/></svg>`
+}
+
+/**
+ * A link in the provenance trace. The kind chip says what sort of record it is
+ * (annotation, agent, document) so a reader can tell an assertion from its evidence
+ * at a glance; the label is filled in from the store when the record has one.
+ */
+function cite(id, fallback, kind, hint) {
     let url = storeUrl(id)
     if (!url) return esc(fallback || id || "not recorded")
-    return `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(shortId(url))}</a>`
+    let kindLabel = kind || "record"
+    let hintAttr = hint ? ` data-hint="${esc(hint)}"` : ""
+    let icon = KIND_ICONS[kindLabel] || ""
+    return `<a class="mc-cite mc-cite--${esc(kindLabel)}" href="${esc(url)}" target="_blank" rel="noopener" title="${esc(kindLabel)} \u00b7 ${esc(url)}" data-kind="${esc(kindLabel)}" data-id="${esc(url)}"${hintAttr}>` +
+        `<span class="mc-kind" role="img" aria-label="${esc(kindLabel)}">${icon}</span><span class="mc-cite-label">${esc(shortId(url))}</span></a>`
+}
+
+let labelCache = new Map()
+
+/**
+ * The human-readable name of a store record, fetched once and remembered. Annotations
+ * carry no label of their own, so the trace uses their motivation instead.
+ */
+function labelFor(id) {
+    let url = storeUrl(id)
+    if (!url) return Promise.resolve(null)
+    if (labelCache.has(url)) return labelCache.get(url)
+    let promise = fetch(url)
+        .then(r => r.ok ? r.json() : null)
+        .then(obj => (obj && (obj.label || obj.name || obj.title)) || null)
+        .catch(() => null)
+    labelCache.set(url, promise)
+    return promise
+}
+
+/**
+ * After the trace is in the DOM, swap the truncated ids for the records' own labels.
+ */
+function decorateTrace(root) {
+    Array.prototype.forEach.call(root.querySelectorAll(".mc-cite[data-kind]"), function(a) {
+        let label = a.querySelector(".mc-cite-label")
+        if (!label) return
+        if (a.dataset.kind === "annotation" && a.dataset.hint) {
+            label.textContent = a.dataset.hint
+            return
+        }
+        labelFor(a.dataset.id).then(function(name) {
+            if (!name) return
+            label.textContent = name
+            a.title = `${name} \u00b7 ${a.dataset.kind} \u00b7 ${a.dataset.id}`
+        })
+    })
+}
+
+/**
+ * The image URLs a record carries, in any of the spellings the store has used:
+ * image, depiction, thumbnail, contentUrl, or a url that is itself an image.
+ * Annotation bodies are searched too, because the catalog's page scans and the
+ * headstone photographs are asserted the same way every other value is.
+ */
+function imageUrls(obj) {
+    let urls = []
+    let seen = {}
+    function push(value, mustBeImage) {
+        if (!value) return
+        if (typeof value === "object") value = value["@id"] || value.url || value.contentUrl || value.id
+        if (typeof value !== "string" || !/^https?:\/\//.test(value)) return
+        if (mustBeImage && !/\.(jpe?g|png|gif|webp|svg)(\?|#|$)/i.test(value)) return
+        if (seen[value]) return
+        seen[value] = true
+        urls.push(value)
+    }
+    if (!obj) return urls
+    ;["image", "depiction", "thumbnail", "contentUrl"].forEach(function(k) {
+        let v = obj[k]
+        if (Array.isArray(v)) v.forEach(x => push(x, false))
+        else push(v, false)
+    })
+    push(obj.url, true)
+    let body = obj.body
+    let bodies = Array.isArray(body) ? body : (body && typeof body === "object" ? [body] : [])
+    bodies.forEach(function(b) {
+        ;["image", "depiction", "thumbnail", "contentUrl"].forEach(function(k) {
+            let v = b[k]
+            if (Array.isArray(v)) v.forEach(x => push(x, false))
+            else push(v, false)
+        })
+        push(b.evidence, true)
+    })
+    return urls
+}
+
+let lightbox = null
+
+function ensureLightbox() {
+    if (lightbox) return lightbox
+    lightbox = document.createElement("dialog")
+    lightbox.id = "mc-lightbox"
+    lightbox.className = "mc-lightbox"
+    document.body.appendChild(lightbox)
+    lightbox.addEventListener("click", function(event) {
+        if (event.target === lightbox) lightbox.close()
+    })
+    return lightbox
+}
+
+/**
+ * The evidence behind a claim, shown as a mounted image instead of a bare link.
+ * The dialog holds every image the evidence record carries, each with a button
+ * that opens the full image in a new tab, and the citation that goes with it.
+ */
+async function openEvidenceLightbox(evidenceId) {
+    let url = storeUrl(evidenceId)
+    let images = []
+    let label = null
+    if (url) {
+        if (/\.(jpe?g|png|gif|webp|svg)(\?|#|$)/i.test(url)) {
+            // The evidence itself is the photograph.
+            images.push({ url: url, source: "headstone photograph" })
+        } else {
+            let record = null
+            try { record = await get(url) } catch (err) { record = null }
+            if (record) {
+                label = record.label || record.name || record.title || null
+                imageUrls(record).forEach(function(img) {
+                    images.push({ url: img, source: label || shortId(url) })
+                })
+            }
+        }
+    }
+    // A headstone photograph asserted as a depiction is the same image the
+    // catalog may cite as evidence, so it belongs in the same lightbox.
+    let person = mc.current
+    if (person && person.__claims && person.__claims.depiction) {
+        person.__claims.depiction.forEach(function(c) {
+            let img = storeUrl(c.value) || (/^https?:\/\//.test(c.value) ? c.value : null)
+            if (img) images.push({ url: img, source: "headstone photograph" })
+        })
+    }
+    let seen = {}
+    images = images.filter(function(img) {
+        if (seen[img.url]) return false
+        seen[img.url] = true
+        return true
+    })
+    let box = ensureLightbox()
+    let title = label || (url && /\.(jpe?g|png|gif|webp|svg)(\?|#|$)/i.test(url) ? "Headstone photograph" : shortId(url)) || "Evidence"
+    let html = `<div class="mc-lightbox-head">
+        <h2>${esc(title)}</h2>
+        <button type="button" class="mc-lightbox-close" aria-label="Close">\u00d7</button>
+    </div>`
+    if (images.length) {
+        html += `<div class="mc-lightbox-images">`
+        images.forEach(function(img) {
+            html += `<figure class="mc-lightbox-figure">
+                <img src="${esc(img.url)}" alt="${esc(img.source)}" loading="lazy">
+                <figcaption>
+                    <a class="mc-lightbox-open" href="${esc(img.url)}" target="_blank" rel="noopener">Full image with citation in new tab</a>
+                    <span class="mc-lightbox-cite">${esc(img.source)} \u00b7 ${esc(img.url)}</span>
+                </figcaption>
+            </figure>`
+        })
+        html += `</div>`
+    } else {
+        html += `<p class="mc-lightbox-empty">No image is held for this evidence yet. The catalog's page
+            scans and the headstone photographs will appear here when they are added to the record.</p>`
+    }
+    if (url) {
+        html += `<p class="mc-lightbox-foot"><a href="${esc(url)}" target="_blank" rel="noopener">Open the record itself</a></p>`
+    }
+    box.innerHTML = html
+    box.querySelector(".mc-lightbox-close").addEventListener("click", function() { box.close() })
+    box.showModal()
+}
+
+/**
+ * The evidence link opens the lightbox instead of the record; the depiction
+ * photograph opens the same lightbox, because it is the same image resource.
+ */
+function wireEvidence(root) {
+    Array.prototype.forEach.call(root.querySelectorAll(".mc-cite--document"), function(a) {
+        if (a.dataset.wired) return
+        a.dataset.wired = "1"
+        a.addEventListener("click", function(event) {
+            event.preventDefault()
+            openEvidenceLightbox(a.dataset.id)
+        })
+    })
+    Array.prototype.forEach.call(root.querySelectorAll(".mc-depiction-link"), function(a) {
+        if (a.dataset.wired) return
+        a.dataset.wired = "1"
+        a.addEventListener("click", function(event) {
+            event.preventDefault()
+            openEvidenceLightbox(a.dataset.id)
+        })
+    })
 }
 
 template.depiction = function(list) {
@@ -359,7 +574,7 @@ template.depiction = function(list) {
     return `<figure class="mc-specimen">
         <div class="mc-mount-empty">Image held elsewhere</div>
         <figcaption>
-            <a href="${esc(url)}" target="_blank" rel="noopener">Open the asserted photograph on ${esc(host)}</a><br>
+            <a class="mc-depiction-link" href="${esc(url)}" target="_blank" rel="noopener" data-id="${esc(url)}">Open the asserted photograph on ${esc(host)}</a><br>
             Linked, not copied: the exhibit does not hold the rights to it, and the record that
             points here was written on ${esc(dateOf(chosen))}.
         </figcaption>
@@ -646,6 +861,8 @@ function wireClaims(root) {
                 let key = row.dataset.key
                 let claims = (mc.current && mc.current.__claims && mc.current.__claims[key]) || []
                 detail.innerHTML = template.claimDetail(key, claims)
+                decorateTrace(detail)
+                wireEvidence(detail)
                 detail.dataset.built = "1"
             }
             detail.classList.add("mc-claim-detail", "mc-open")
@@ -678,6 +895,7 @@ async function observerCallback(mutationsList) {
             await renderElement(mc.focusObject, template.byObjectType(data))
             markCurrent()
             wireClaims(mc.focusObject)
+            wireEvidence(mc.focusObject)
             Array.prototype.forEach.call(mc.focusObject.querySelectorAll(".mc-claim-detail"), function(d) {
                 d.classList.add("mc-claim-detail")
             })

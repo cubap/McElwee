@@ -2,9 +2,9 @@ import "dotenv/config"
 
 const DEFAULTS = {
   PORT: "3030",
-  RERUM_API_ADDR: "https://devstore.rerum.io/v1/api/",
-  RERUM_ID_PATTERN: "https://devstore.rerum.io/v1/id/",
-  RERUM_REGISTRATION_URL: "https://devstore.rerum.io/v1/",
+  RERUM_API_ADDR: "https://store.rerum.io/v1/api/",
+  RERUM_ID_PATTERN: "https://store.rerum.io/v1/id/",
+  RERUM_REGISTRATION_URL: "https://store.rerum.io/v1/",
   RERUM_ACCESS_TOKEN_URL: "https://store.rerum.io/client/request-new-access-token",
   RERUM_FETCH_TIMEOUT_MS: "30000",
   USER_AGENT: "McElwee-TinyNode/1.0"

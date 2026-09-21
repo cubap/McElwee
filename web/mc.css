@@ -643,6 +643,171 @@ a:hover { text-decoration-thickness: 2px; }
     overflow-wrap: anywhere;
 }
 
+/* Each link in the trace wears a chip marking its kind, so an assertion is
+   distinguishable from its evidence before the label loads. */
+.mc-cite {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+}
+
+.mc-cite:hover {
+    border-bottom-color: var(--green);
+}
+
+.mc-kind {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+    color: var(--ink-faint);
+    border: 1px solid var(--rule);
+}
+
+.mc-kind svg {
+    width: .8rem;
+    height: .8rem;
+    display: block;
+}
+
+.mc-cite--annotation .mc-kind {
+    color: var(--rust);
+    border-color: var(--rust);
+}
+
+.mc-cite--agent .mc-kind {
+    color: var(--green);
+    border-color: var(--green);
+}
+
+.mc-cite--document .mc-kind {
+    color: var(--ink-soft);
+    border-color: var(--rule);
+}
+
+/* --- evidence lightbox ---------------------------------------------------- */
+
+/* The evidence behind a claim, mounted like a specimen: the dialog is a sheet
+   on the board, the image is the specimen, and the citation is its label. */
+.mc-lightbox {
+    border: 2px solid var(--board-deep);
+    background: var(--sheet);
+    color: var(--ink);
+    padding: 0;
+    max-width: min(56rem, 92vw);
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: 0 1rem 3rem rgba(22, 25, 22, .35);
+}
+
+.mc-lightbox::backdrop {
+    background: rgba(22, 25, 22, .55);
+}
+
+.mc-lightbox-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .8rem var(--gutter);
+    border-bottom: 1px solid var(--rule);
+}
+
+.mc-lightbox-head h2 {
+    margin: 0;
+    font-family: var(--f-label);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--green);
+}
+
+.mc-lightbox-close {
+    font-family: var(--f-stamp);
+    font-size: .78rem;
+    line-height: 1;
+    padding: .2rem .45rem;
+    border: 1px solid var(--rule);
+    background: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+}
+
+.mc-lightbox-close:hover {
+    color: var(--rust);
+    border-color: var(--rust);
+}
+
+.mc-lightbox-images {
+    padding: var(--gutter);
+    display: grid;
+    gap: 1.5rem;
+}
+
+.mc-lightbox-figure {
+    margin: 0;
+}
+
+.mc-lightbox-figure img {
+    display: block;
+    max-width: 100%;
+    max-height: 65vh;
+    margin: 0 auto;
+    border: 1px solid var(--rule);
+    background: var(--sheet-edge);
+    padding: .35rem;
+}
+
+.mc-lightbox-figure figcaption {
+    margin-top: .6rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .4rem 1rem;
+    font-family: var(--f-label);
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+}
+
+.mc-lightbox-open {
+    color: var(--green);
+    font-weight: 600;
+}
+
+.mc-lightbox-cite {
+    font-family: var(--f-stamp);
+    font-size: .78rem;
+    letter-spacing: .04em;
+    text-transform: none;
+    color: var(--ink-faint);
+    overflow-wrap: anywhere;
+}
+
+.mc-lightbox-empty {
+    margin: 0;
+    padding: var(--gutter);
+    color: var(--ink-soft);
+    font-size: .92rem;
+}
+
+.mc-lightbox-foot {
+    margin: 0;
+    padding: .6rem var(--gutter) var(--gutter);
+    border-top: 1px solid var(--rule);
+    font-family: var(--f-label);
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
 @media (max-width: 34rem) {
     .mc-trace dl { grid-template-columns: minmax(0, 1fr); }
     .mc-trace dt { margin-top: .4rem; }
@@ -902,7 +1067,7 @@ mc-obj-viewer {
 }
 
 .mc-ledger.has-proof .mc-ledger-body {
-    grid-template-columns: minmax(0, 1fr) 24rem;
+    grid-template-columns: minmax(0, 1fr) 36em;
 }
 
 @media (max-width: 72rem) {
@@ -929,7 +1094,7 @@ mc-obj-viewer {
     border: 0;
     font: inherit;
     color: inherit;
-    padding: .55rem .6rem .6rem;
+    padding: .7rem .75rem .75rem;
     cursor: pointer;
     border-left: 2px solid transparent;
 }
@@ -964,7 +1129,7 @@ mc-obj-viewer {
     text-transform: uppercase;
     font-weight: 700;
     color: var(--ink);
-    margin-bottom: .1rem;
+    margin-bottom: .3rem;
 }
 
 /* the surname is the sort key, so it leads in the label face; the given name
@@ -985,6 +1150,7 @@ mc-obj-viewer {
 
 /* verbatim: the reading serif, on the rule, nothing else touching it */
 .mc-b-line {
+    display: block;
     font-family: var(--f-value);
     font-size: 1.06rem;
     line-height: 1.45;
@@ -996,7 +1162,7 @@ mc-obj-viewer {
     display: flex;
     flex-wrap: wrap;
     gap: .1rem .85rem;
-    margin-top: .3rem;
+    margin-top: .5rem;
     font-family: var(--f-label);
     font-size: .64rem;
     letter-spacing: .1em;
@@ -1013,7 +1179,7 @@ mc-obj-viewer {
    own right, so a reader can put the two photographs side by side */
 .mc-b-witness {
     display: block;
-    margin: .3rem 0 .6rem;
+    margin: .5rem 0 .7rem;
     padding: 0 0 .1rem;
     background: none;
     border: 0;
@@ -1042,7 +1208,7 @@ mc-obj-viewer {
 /* navigation, not evidence: the group the compiler placed this line under */
 .mc-b-kin {
     display: block;
-    margin: .2rem 0 .6rem;
+    margin: .4rem 0 .7rem;
     padding: 0 0 .1rem;
     background: none;
     border: 0;
@@ -1154,14 +1320,32 @@ mc-obj-viewer {
 
 .mc-proof-close:hover { background: var(--board-deep); color: var(--ink); }
 
-/* the photograph, mounted; the highlight is measured in source pixels and
-   placed as a percentage so it holds at any width the column settles at */
+.mc-proof-actions {
+    display: flex;
+    gap: .4rem;
+}
+
+.mc-proof-full {
+    font-family: var(--f-label);
+    font-size: .64rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--rule);
+    color: var(--green);
+    padding: .12rem .45rem;
+    cursor: pointer;
+}
+
+.mc-proof-full:hover { background: var(--board-deep); color: var(--ink); }
+
+/* the photograph, mounted; the bench shows the line the reader pressed, cut
+   from the page at source resolution, so the reading can be checked against
+   the exact pixels it was taken from */
 .mc-proof-frame {
     position: relative;
     line-height: 0;
     background: var(--ink);
-    /* the scrim below is drawn 9999px in every direction; without this it would
-       darken the whole page instead of just the page photograph */
     overflow: hidden;
 }
 
@@ -1171,20 +1355,7 @@ mc-obj-viewer {
     display: block;
 }
 
-/* the outer box carries the position and the page's skew; the inner one carries the
-   reveal, because an animated transform would otherwise overwrite the rotation */
-.mc-proof-box {
-    position: absolute;
-    transform-origin: center;
-}
-
-.mc-proof-box-in {
-    display: block;
-    height: 100%;
-    border: 2px solid var(--green);
-    background: rgba(29, 90, 60, .13);
-    box-shadow: 0 0 0 9999px rgba(22, 25, 22, .42);
-    transform-origin: center;
+.mc-proof-crop {
     animation: mc-locate 420ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
@@ -1210,7 +1381,7 @@ mc-obj-viewer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .mc-proof-box { animation: none; }
+    .mc-proof-crop { animation: none; }
 }
 
 @media print {

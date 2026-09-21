@@ -38,9 +38,9 @@
     }
 
     function grab() {
-        ;["burials", "burials-count", "burials-dividers", "burials-rows", "burials-empty",
-            "burials-clear", "proof", "proof-title", "proof-frame", "proof-line", "proof-credit", "proof-close"]
-            .forEach(function (id) { el[id] = document.getElementById(id) })
+        ;["mc-burials", "mc-burials-count", "mc-burials-dividers", "mc-burials-rows", "mc-burials-empty",
+            "mc-burials-clear", "mc-proof", "mc-proof-title", "mc-proof-frame", "mc-proof-line", "mc-proof-credit", "mc-proof-close", "mc-proof-full"]
+            .forEach(function (id) { el[id.replace(/^mc-/, "")] = document.getElementById(id) })
     }
 
     function url() {
@@ -172,20 +172,40 @@
     }
 
     /**
-     * Rectangles were measured in the page's own pixel space, so they are placed as a
-     * percentage of it and stay put at whatever width the column settles at.
+     * Rectangles were measured in the page's own pixel space, and the page photographs are
+     * held at that size, so the crop is drawn at source resolution: the image is rotated
+     * back by the page's skew around the line's center, then the line plus a small margin
+     * is cut out. The full page stays one click away in the lightbox.
      */
-    function boxStyle(rect, page) {
-        var w = page.width || 600
-        var h = page.height || 800
-        var skew = Number(rect.skew) || 0
-        return [
-            "left:" + ((rect.x0 / w) * 100).toFixed(3) + "%",
-            "top:" + ((rect.y0 / h) * 100).toFixed(3) + "%",
-            "width:" + (((rect.x1 - rect.x0) / w) * 100).toFixed(3) + "%",
-            "height:" + (((rect.y1 - rect.y0) / h) * 100).toFixed(3) + "%",
-            "transform:rotate(" + (-skew).toFixed(2) + "deg)"
-        ].join(";")
+    function cropImage(page, rect, done) {
+        var img = new Image()
+        img.onload = function () {
+            var w = page.width || img.naturalWidth
+            var h = page.height || img.naturalHeight
+            var scale = img.naturalWidth / w
+            var rad = (Number(rect.skew) || 0) * Math.PI / 180
+            var rw = rect.x1 - rect.x0
+            var rh = rect.y1 - rect.y0
+            var margin = Math.max(4, Math.min(10, Math.min(rw, rh) * 0.2))
+            var cx = (rect.x0 + rect.x1) / 2
+            var cy = (rect.y0 + rect.y1) / 2
+            var bx0 = Math.max(0, cx - rw / 2 - margin)
+            var by0 = Math.max(0, cy - rh / 2 - margin)
+            var bx1 = Math.min(w, cx + rw / 2 + margin)
+            var by1 = Math.min(h, cy + rh / 2 + margin)
+            var canvas = document.createElement("canvas")
+            canvas.width = Math.max(1, Math.round((bx1 - bx0) * scale))
+            canvas.height = Math.max(1, Math.round((by1 - by0) * scale))
+            var ctx = canvas.getContext("2d")
+            var ccx = (bx0 + bx1) / 2
+            var ccy = (by0 + by1) / 2
+            ctx.translate(canvas.width / 2, canvas.height / 2)
+            ctx.rotate(-rad)
+            ctx.drawImage(img, -ccx * scale, -ccy * scale, w * scale, h * scale)
+            done(canvas.toDataURL("image/jpeg", 0.92))
+        }
+        img.onerror = function () { done(null) }
+        img.src = page.image
     }
 
     /**
@@ -209,29 +229,78 @@
         }
     }
 
+    var proofToken = 0
+    var current = null
+
     function showProof(record, witness) {
         var it = subject(record, witness)
         if (!it.page || !it.page.image) return false
 
         el.burials.classList.add("has-proof")
         el["proof-title"].textContent = it.caption
-        el["proof-frame"].innerHTML =
-            '<img src="' + esc(it.page.image) + '" alt="' + esc(it.caption) + '" loading="lazy">' +
-            (it.rect
-                ? '<span class="mc-proof-box" style="' + boxStyle(it.rect, it.page) + '"><span class="mc-proof-box-in"></span></span>'
-                : "")
         el["proof-line"].textContent = it.line || ""
         el["proof-credit"].textContent = it.page.credit || "Photograph held with this exhibit."
+        current = it
         el.proof.hidden = false
+
+        var token = ++proofToken
+        el["proof-frame"].innerHTML = ""
+        if (it.rect) {
+            cropImage(it.page, it.rect, function (dataUrl) {
+                if (token !== proofToken) return
+                el["proof-frame"].innerHTML = dataUrl
+                    ? '<img class="mc-proof-crop" src="' + dataUrl + '" alt="' + esc(it.caption) + '">'
+                    : '<img src="' + esc(it.page.image) + '" alt="' + esc(it.caption) + '">'
+            })
+        } else {
+            el["proof-frame"].innerHTML = '<img src="' + esc(it.page.image) + '" alt="' + esc(it.caption) + '">'
+        }
         return true
     }
 
     function hideProof() {
+        proofToken++
+        current = null
         el.proof.hidden = true
         el["proof-frame"].innerHTML = ""
         el.burials.classList.remove("has-proof")
         clearPressed()
         open = null
+    }
+
+    /**
+     * The bench shows the line, not the page; the page is one click away. The dialog
+     * reuses the exhibit's lightbox styling so the two read as the same object.
+     */
+    function openPageLightbox() {
+        if (!current || !current.page) return
+        var box = document.getElementById("mc-page-lightbox")
+        if (!box) {
+            box = document.createElement("dialog")
+            box.id = "mc-page-lightbox"
+            box.className = "mc-lightbox"
+            document.body.appendChild(box)
+            box.addEventListener("click", function (event) {
+                if (event.target === box) box.close()
+            })
+        }
+        var page = current.page
+        box.innerHTML =
+            '<div class="mc-lightbox-head">' +
+            '<h2>' + esc(current.caption) + '</h2>' +
+            '<button type="button" class="mc-lightbox-close" aria-label="Close">\u00d7</button>' +
+            '</div>' +
+            '<div class="mc-lightbox-images">' +
+            '<figure class="mc-lightbox-figure">' +
+            '<img src="' + esc(page.image) + '" alt="' + esc(current.caption) + '">' +
+            '<figcaption>' +
+            '<a class="mc-lightbox-open" href="' + esc(page.image) + '" target="_blank" rel="noopener">Full image with citation in new tab</a>' +
+            '<span class="mc-lightbox-cite">' + esc(page.credit || "Photograph held with this exhibit.") + '</span>' +
+            '</figcaption>' +
+            '</figure>' +
+            '</div>'
+        box.querySelector(".mc-lightbox-close").addEventListener("click", function () { box.close() })
+        box.showModal()
     }
 
     function clearPressed() {
@@ -332,6 +401,8 @@
             hideProof()
             if (back) back.focus()
         })
+
+        el["proof-full"].addEventListener("click", openPageLightbox)
 
         document.addEventListener("keydown", function (event) {
             if (event.key === "Escape" && !el.proof.hidden) {

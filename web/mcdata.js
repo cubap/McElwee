@@ -72,7 +72,7 @@
     }
     datar.documentCatalog = {
         "@context": "",
-        "@id": "https://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68",
+        "@id": "https://store.rerum.io/v1/id/6ab15d292655eb9310888cfd",
         "@type": "Document",
         "name": "McElwee Cemetery Catalog"
     }
@@ -155,7 +155,7 @@
             },
             {
                 "evidence": {
-                    "@id": "https://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68",
+                    "@id": "https://store.rerum.io/v1/id/6ab15d292655eb9310888cfd",
                     "@type": "Document"
                 }
             }
@@ -163,10 +163,10 @@
     }
     datar.annoD1 = {
         "@context": "",
-        "@id": "https://devstore.rerum.io/v1/id/5b7705d0e4b09992fca21e9b",
+        "@id": "https://store.rerum.io/v1/id/6ab15d292655eb9310888cfd",
         "@type": "Annotation",
         "motivation": "describing",
-        "target": "https://devstore.rerum.io/v1/id/5b76fc0de4b09992fca21e68",
+        "target": "https://store.rerum.io/v1/id/6ab15d292655eb9310888cfd",
         "body": [{
                 "name": "McElwee Cemetery Catalog"
             },
@@ -190,6 +190,6 @@
             localStorage.setItem(datar[e]["@id"], JSON.stringify(datar[e]))
     }
     if (!localStorage.getItem("CURRENT_LIST_ID")) {
-        localStorage.setItem("CURRENT_LIST_ID", "https://devstore.rerum.io/v1/id/5bc8089ce4b09992fca2222c")
+        localStorage.setItem("CURRENT_LIST_ID", "https://store.rerum.io/v1/id/6ab15ef62655eb9310888d22")
     }
 })()

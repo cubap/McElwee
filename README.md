@@ -156,7 +156,7 @@ It is deleted. In its place:
 | issue | status after this change |
 |---|---|
 | #13 mixed content | **fixed.** No insecure RERUM URL survives in `web/` or `entry/`; `tinydev` and `devstore` both serve valid TLS, and `npm run build` fails if an `http://` RERUM URL is reintroduced. |
-| #14 migrate to the production store | **unblocked.** Change `RERUM_BASE` in `web/config.js` and the three URLs in `.env`; nothing else names an instance. |
+| #14 migrate to the production store | **done.** Records now live on `store.rerum.io`; `web/config.js` and `sample.env` point at production. |
 | #15 rewrite the front end as components | **unchanged, and now smaller.** The edit UI is out of `app.js`, so the rewrite covers rendering only. The custom-element and localStorage approach is deliberately left alone here. |
 | #17 JSON-LD context on seeded entities | **open.** `web/mcdata.js` still seeds `"@context": ""`. |
 | #19 design pass | **done in this change.** See "How the exhibit is designed". |
