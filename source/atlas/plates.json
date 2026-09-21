@@ -1,0 +1,318 @@
+{
+  "source": {
+    "collection": "Plat Maps of Missouri",
+    "title": "Standard atlas of Pike County, Missouri, 1899",
+    "publisher": "Chicago, Ill. : Geo. A. Ogle & Co., 1900",
+    "institution": "The State Historical Society of Missouri",
+    "collectionUrl": "https://digital.shsmo.org/digital/collection/plat",
+    "searchUrl": "https://digital.shsmo.org/digital/collection/plat/search/searchterm/Pike/field/covera/mode/exact/conn/and",
+    "homeUrl": "https://digital.shsmo.org/digital",
+    "rights": "Public domain",
+    "iiifBase": "https://digital.shsmo.org/digital/iiif/plat"
+  },
+  "note": "Each plate is a page in the 1899 Ogle atlas, digitized by SHSMO as a separate CONTENTdm item. The id is the CONTENTdm record number that serves the plate over the IIIF Image API (the compound object pageptr). Township/range and town labels come from the atlas item metadata. Family member lists are derived from the burial index (web/data/burials.json) at render time; the family notes record research associations and any property links that have been verified against a plate.",
+  "plates": [
+    {
+      "id": "3591",
+      "label": "Page 9 - 51N 3W",
+      "page": "9",
+      "township": "51N",
+      "range": "3W",
+      "towns": [],
+      "desc": "Map of Township 51N Range 3W"
+    },
+    {
+      "id": "3593",
+      "label": "Page 11 - 51N 4W and 5W",
+      "page": "11",
+      "township": "51N",
+      "range": "4W; 5W",
+      "towns": [],
+      "desc": "Map of Township 51N Range 4W and 5W"
+    },
+    {
+      "id": "3596",
+      "label": "Page 13 - 52N 4W and 5W",
+      "page": "13",
+      "township": "52N",
+      "range": "4W; 5W",
+      "towns": [],
+      "desc": "Map of Township 52N Range 4W and 5W"
+    },
+    {
+      "id": "3599",
+      "label": "Page 15 - 52N 3W",
+      "page": "15",
+      "township": "52N",
+      "range": "3W",
+      "towns": [],
+      "desc": "Map of Township 52N Range 3W"
+    },
+    {
+      "id": "3601",
+      "label": "Page 17 - 52N 2W",
+      "page": "17",
+      "township": "52N",
+      "range": "2W",
+      "towns": [],
+      "desc": "Map of Township 52N Range 2W"
+    },
+    {
+      "id": "3603",
+      "label": "Page 19 - 52N 1W",
+      "page": "19",
+      "township": "52N",
+      "range": "1W",
+      "towns": [],
+      "desc": "Map of Township 52N Range 1W"
+    },
+    {
+      "id": "3606",
+      "label": "Page 22; 23 - 52N 1E and 2E; New Hartford",
+      "page": "22; 23",
+      "township": "52N",
+      "range": "1E; 2E",
+      "towns": [
+        "New Hartford"
+      ],
+      "desc": "Map of New Hartford"
+    },
+    {
+      "id": "3608",
+      "label": "Page 25 - Spencerburg; 53N 1E and 2E",
+      "page": "25",
+      "township": "53N",
+      "range": "1E; 2E",
+      "towns": [
+        "Spencerburg"
+      ],
+      "desc": "Map of Spencerburg"
+    },
+    {
+      "id": "3612",
+      "label": "Page 27 - 53N 1W",
+      "page": "27",
+      "township": "53N",
+      "range": "1W",
+      "towns": [],
+      "desc": "Map of Township 53N Range 1W"
+    },
+    {
+      "id": "3614",
+      "label": "Page 29 - 53N 2W",
+      "page": "29",
+      "township": "53N",
+      "range": "2W",
+      "towns": [],
+      "desc": "Map of Township 53N Range 2W"
+    },
+    {
+      "id": "3616",
+      "label": "Page 31 - 53N 3W",
+      "page": "31",
+      "township": "53N",
+      "range": "3W",
+      "towns": [],
+      "desc": "Map of Township 53N Range 3W"
+    },
+    {
+      "id": "3619",
+      "label": "Page 34; 35 - Ashburn; Curryville; 53N 4W and 5W",
+      "page": "34; 35",
+      "township": "53N",
+      "range": "4W; 5W",
+      "towns": [
+        "Ashburn",
+        "Curryville"
+      ],
+      "desc": "Map of Ashburn; Curryville"
+    },
+    {
+      "id": "3622",
+      "label": "Page 38; 39 - Paynesville; McCune Station; Sledd P.O.; 54N 4W and 5W",
+      "page": "38; 39",
+      "township": "54N",
+      "range": "4W; 5W",
+      "towns": [
+        "Paynesville",
+        "McCunes Station",
+        "Sledd P.O."
+      ],
+      "desc": "Map of Paynesville"
+    },
+    {
+      "id": "3624",
+      "label": "Page 41 - 54N 3W",
+      "page": "41",
+      "township": "54N",
+      "range": "3W",
+      "towns": [],
+      "desc": "Map of Township 54N Range 3W"
+    },
+    {
+      "id": "3627",
+      "label": "Page 44; 45 - 54N 2W and 1W; Slemmensburg; Cyrene",
+      "page": "44; 45",
+      "township": "54N",
+      "range": "1W; 2W",
+      "towns": [
+        "Slemmensburg",
+        "Cyrene"
+      ],
+      "desc": "Map of Slemmensburg; Cyrene"
+    },
+    {
+      "id": "3629",
+      "label": "Page 47 - Annanda; St. Clement; 55N 2W",
+      "page": "47",
+      "township": "55N",
+      "range": "2W",
+      "towns": [
+        "Annanda",
+        "St. Clement"
+      ],
+      "desc": "Map of Annanda; St. Clement"
+    },
+    {
+      "id": "3634",
+      "label": "Page 50; 51 - Prairieville; Eolia; 53N 2W; Farmer; 55N 3W and 4W",
+      "page": "50; 51",
+      "township": "55N",
+      "range": "3W; 4W",
+      "towns": [
+        "Prairieville",
+        "Eolia",
+        "Farmer"
+      ],
+      "desc": "Map of Prairieville"
+    },
+    {
+      "id": "3637",
+      "label": "Page 54; 55 - Booth; Bowling Green",
+      "page": "54; 55",
+      "township": "53N",
+      "range": "3W",
+      "towns": [
+        "Booth",
+        "Bowling Green"
+      ],
+      "desc": "Map of Booth; Bowling Green"
+    },
+    {
+      "id": "3640",
+      "label": "Page 58; 59 - Louisiana (North Part)",
+      "page": "58; 59",
+      "township": "54N",
+      "range": "1W; 2W",
+      "towns": [
+        "Louisiana"
+      ],
+      "desc": "Map of the North Part of Louisiana"
+    },
+    {
+      "id": "3643",
+      "label": "Page 62; 63 - Louisiana (South Part)",
+      "page": "62; 63",
+      "township": "54N",
+      "range": "1W; 2W",
+      "towns": [
+        "Louisiana"
+      ],
+      "desc": "Map of the South Part of Louisiana"
+    },
+    {
+      "id": "3645",
+      "label": "Page 65 - Clarksville",
+      "page": "65",
+      "township": "53N",
+      "range": "1E",
+      "towns": [
+        "Clarksville"
+      ],
+      "desc": "Map of Clarksville"
+    },
+    {
+      "id": "3648",
+      "label": "Page 68; 69 - Edgewood; Ashley; New Harmony; Frankford",
+      "page": "68; 69",
+      "township": "",
+      "range": "",
+      "towns": [
+        "Edgewood",
+        "Ashley",
+        "New Harmony",
+        "Frankford"
+      ],
+      "desc": "Map of Edgewood; Ashley; New Harmony; Frankford"
+    }
+  ],
+  "families": [
+    {
+      "surname": "McElwee",
+      "note": "The cemetery namesake family. The McElwee burial ground sits off Route K near Louisiana, MO (USGS GNIS feature 722098). The index records two households: James McElwee with Mary Mills and Rhoda Black, and Dan McElwee with Henry S., Alexander B., and Nancy L.",
+      "properties": [
+        {
+          "plateId": "3643",
+          "label": "Page 62; 63 - Louisiana (South Part)",
+          "note": "McElwee land near Louisiana. Association recorded for research; verify the specific parcel against the plate.",
+          "verified": false
+        }
+      ]
+    },
+    {
+      "surname": "Bland",
+      "note": "Claud H. B. and Minnie Lee Bland, children of J. H. and J. J. Bland.",
+      "properties": []
+    },
+    {
+      "surname": "Givens",
+      "note": "The largest family in the index, sixteen entries: Samuel and Elizabeth, John G., Lawson W., and James W. Givens among them.",
+      "properties": []
+    },
+    {
+      "surname": "Houchins",
+      "note": "A. A., S. B., M. H., Henry T., Martha E. F., Charles F., and Susan R. Houchins.",
+      "properties": []
+    },
+    {
+      "surname": "Rowley",
+      "note": "Joel R. Rowley and children James R., Margaret A. J., Samuel L., and Sarah E.",
+      "properties": []
+    },
+    {
+      "surname": "Wilsnack",
+      "note": "Frank L. Wilsnack, recorded in the index.",
+      "properties": []
+    },
+    {
+      "surname": "Carr",
+      "note": "Elizabeth C. Carr and a branch connected to the Brunaugh family; ten entries in the index.",
+      "properties": []
+    },
+    {
+      "surname": "Bevard",
+      "note": "Sarah I. Howell Bevard, born 1867 died 1916.",
+      "properties": []
+    },
+    {
+      "surname": "Howell",
+      "note": "The Howell family, including John G., Edwin W., Silas J., and Annie E. Howell. Sarah I. Howell Bevard is also indexed under Bevard.",
+      "properties": []
+    },
+    {
+      "surname": "Stewart",
+      "note": "Includes James McElwee Stewart and John W. Stewart; a branch connected to the McElwee name.",
+      "properties": []
+    },
+    {
+      "surname": "Rhea",
+      "note": "H. L. Rhea and children Adaline M. and George A.",
+      "properties": []
+    },
+    {
+      "surname": "Patrick",
+      "note": "James W., Emma S., Winifrede B., Ross Arvell, Carl Everett, and Larkin Irvin Patrick.",
+      "properties": []
+    }
+  ]
+}

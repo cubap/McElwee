@@ -66,6 +66,12 @@
     DEFAULT_LIST_ID: RERUM_BASE + "/id/6ab15ef62655eb9310888d22",
     // The catalog document every data-entry annotation cites as its evidence.
     EVIDENCE_ID: RERUM_BASE + "/id/6ab15d292655eb9310888cfd",
+    // The SHSMO IIIF Image API that serves the 1899 atlas plat maps. Kept here so the
+    // viewer (and any future map work) reads the one source of where images live, rather
+    // than scattering the host across the front end.
+    ATLAS_IIIF_BASE: "https://digital.shsmo.org/digital/iiif/plat",
+    // The digitized collection the atlas plates belong to, for attribution and link-back.
+    ATLAS_COLLECTION_URL: "https://digital.shsmo.org/digital/collection/plat",
     BASE_ID: RERUM_BASE,
     QUERY_URL: API_ROOT + "query",
     CREATE_URL: API_ROOT + "create",

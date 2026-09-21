@@ -69,5 +69,8 @@ source/burials-evidence/burials-plan.json
 # Regenerable with: npm run build   (scripts/build-burials.js -> the public burial index)
 web/data/burials.json
 
+# Regenerable with: npm run build   (scripts/build-atlas.js -> the published atlas plate index)
+web/data/atlas.json
+
 # Working download folder; the published plates live flat in web/manifest/fotki/
 web/manifest/fotki/burials/

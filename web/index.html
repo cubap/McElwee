@@ -119,6 +119,50 @@ the label, reproduced but kept off the determination.
             </div>
         </section>
 
+        <!-- ================================================================
+             THE ATLAS. The 1899 plat maps are not the exhibit's transcriptions;
+             they are SHSMO's scans, read live from their IIIF endpoint. The
+             reader is shown as a reference cabinet: a plate rail, a family
+             browse index, and the plate itself, always with SHSMO's name beside
+             it and a link back to the digitized collection. Green marks a
+             property association we could verify on the plate; rust marks a
+             research note that has not been confirmed.
+             ================================================================ -->
+        <section class="mc-atlas" id="mc-atlas" aria-labelledby="mc-atlas-h" hidden>
+            <div class="mc-atlas-head">
+                <div>
+                    <h2 id="mc-atlas-h">The atlas</h2>
+                    <p class="mc-atlas-note">
+                        The 1899 <em>Standard Atlas of Pike County</em> holds the land as it was
+                        laid out then, and it is not our work: the plates are scanned and held by
+                        the <a href="https://shsmo.org/" rel="noopener">State Historical Society of Missouri</a>.
+                        We read them live from their IIIF endpoint, credit them beside each plate,
+                        and link back to the digitized collection. The families below are grouped
+                        from the burial index; where we record a property, it is the association
+                        under research, not a holding.
+                    </p>
+                </div>
+                <span class="mc-atlas-count" id="mc-atlas-count">Loading</span>
+            </div>
+
+            <div class="mc-atlas-layout">
+                <nav class="mc-atlas-families" id="mc-atlas-families" aria-label="Families in the burial index"></nav>
+
+                <div class="mc-atlas-viewer">
+                    <div class="mc-atlas-rail">
+                        <label class="mc-label" for="mc-atlas-plate-select">Plate</label>
+                        <select id="mc-atlas-plate-select"></select>
+                        <button type="button" class="mc-atlas-clear" id="mc-atlas-clear" hidden>Clear family</button>
+                    </div>
+                    <div class="mc-atlas-plate">
+                        <p class="mc-atlas-plate-title" id="mc-atlas-plate-title"></p>
+                        <a class="mc-atlas-plate-link" id="mc-atlas-plate-link" href="#" target="_blank" rel="noopener">Open in the digitized collection</a>
+                        <mc-atlas-viewer id="mc-atlas-viewer"></mc-atlas-viewer>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div class="mc-locality" id="mc-how-to-read">
             <section class="mc-note">
                 <h2>How to read a sheet</h2>
@@ -221,6 +265,8 @@ the label, reproduced but kept off the determination.
     <script src="config.js"></script>
     <script src="app.js"></script>
     <script src="burials.js"></script>
+    <script src="atlas-viewer.js"></script>
+    <script src="atlas.js"></script>
 
 </body>
 

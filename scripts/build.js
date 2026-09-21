@@ -2,6 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { run as buildBurials } from "./build-burials.js"
+import { run as buildAtlas } from "./build-atlas.js"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const dist = path.join(root, "dist")
@@ -97,6 +98,7 @@ fs.rmSync(dist, { recursive: true, force: true })
 // below picks it up and the guard below is able to read it.
 try {
   buildBurials()
+  buildAtlas()
 } catch (e) {
   console.error(`Build refused: ${e.message}`)
   process.exitCode = 1

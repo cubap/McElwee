@@ -55,6 +55,17 @@ The plot and parcel outlines associated with this cemetery come from **modern co
 records, not the historical catalog**, so no map on this site shows where any grave lies. The
 copy says so. The locality's one externally-backed identification is USGS GNIS feature 722098.
 
+## The atlas
+
+The exhibit also mounts the **1899 *Standard Atlas of Pike County*** as a third artifact: the
+plates are SHSMO's scans, read live from their IIIF endpoint, never copied into the
+repository. A plate rail, a family browse index (surnames grouped from the burial index), and
+a pannable/zoomable viewer with SHSMO's name and a link back to the digitized collection
+beside every plate. Where a family's property is recorded, it is the association *under
+research*, not a holding, and the two-accent rule still holds: green marks a verified link,
+rust marks an unconfirmed note. The source of truth is `source/atlas/plates.json`, published
+to `web/data/atlas.json` by the build.
+
 ## Running it
 
 Requires Node 22 or newer.
