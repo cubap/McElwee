@@ -74,8 +74,12 @@ export function inspectAgent({ accessToken, refreshToken, expectedAgentIri }) {
     }
   }
 
+  // A token with no agent claim is normal, not a mismatch: production RERUM accepts the
+  // institution's own access token, which names a person rather than an app. The store
+  // decides attribution when it stamps `__rerum.generatedBy`, so `null` here means
+  // "unknowable from the JWT" and the answer has to come from the store.
   const isSharedSandbox = agentIri === SHARED_SANDBOX_AGENT
-  const matchesExpected = expectedAgentIri ? agentIri === expectedAgentIri : true
+  const matchesExpected = expectedAgentIri && agentIri ? agentIri === expectedAgentIri : true
 
   if (isSharedSandbox) {
     return {

@@ -1,0 +1,5717 @@
+{
+  "@context": "mcelwee-burials-evidence-v1",
+  "note": "Evidence dataset over the McElwee Cemetery burial catalog. Records are the alphabetical-index transcriptions (one per person). Each assertion carries the verbatim index text and the source-image rectangle. Engraving-text transcriptions from the Inscription pages are aligned where a confident same-person match exists. Structured fields (birth, death, age, relationship, parents) are derived from the index text; relationship links resolve to other records in this dataset. Where a detail is missing but inferable (death year minus age), an inferred value with its basis is supplied and flagged. Disagreements between the index and its aligned engraving text are listed separately for human review.",
+  "records": [
+    {
+      "id": "BurialsAlpha001_1",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 1,
+      "surname": "BLAND",
+      "givenName": "Claud H. B.",
+      "entryText": "Claud H. B. S/O J. H. and J. J. BLAND, died Dec. 2, 1883 - aged 1 Y., 8 M. and 8 D.",
+      "evidence": {
+        "text": "Claud H. B. S/O J. H. and J. J. BLAND, died Dec. 2, 1883 - aged 1 Y., 8 M. and 8 D.",
+        "rect": {
+          "x0": 87,
+          "y0": 67,
+          "x1": 495,
+          "y1": 85,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J. H. and J. J. BLAND",
+        "born": null,
+        "died": "Dec. 2, 1883",
+        "aged": "1 Y",
+        "bornYear": null,
+        "diedYear": 1883,
+        "inferredBirthYear": {
+          "lo": 1881,
+          "hi": 1882,
+          "basis": "death 1883 minus age 1 Y"
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_2",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 2,
+      "surname": "BLAND",
+      "givenName": "Minnie Lee",
+      "entryText": "Minnie Lee D/O J. J. BLAND, died Sept. 13, 1880 - aged 2 Y.",
+      "evidence": {
+        "text": "Minnie Lee D/O J. J. BLAND, died Sept. 13, 1880 - aged 2 Y.",
+        "rect": {
+          "x0": 85,
+          "y0": 98,
+          "x1": 436,
+          "y1": 112,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "J. J. BLAND",
+        "born": null,
+        "died": "Sept. 13, 1880",
+        "aged": "2 Y",
+        "bornYear": null,
+        "diedYear": 1880,
+        "inferredBirthYear": {
+          "lo": 1877,
+          "hi": 1878,
+          "basis": "death 1880 minus age 2 Y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage002_3",
+        "sourcePage": "BurialsPage002",
+        "givenName": "Minnie Lee",
+        "surname": "BLAND",
+        "entryText": "Minnie Lee, d/o J.H. & J.J. Bland d. Sep. 13, 1880 aged 2y",
+        "rect": {
+          "x0": 180,
+          "y0": 123,
+          "x1": 466,
+          "y1": 132,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "D/O",
+          "parents": "J.H. & J.J. Bland",
+          "born": null,
+          "died": "Sep. 13, 1880",
+          "aged": "2y",
+          "bornYear": null,
+          "diedYear": 1880
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_3",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 3,
+      "surname": "BEVARD",
+      "givenName": "Sarah I. Howell",
+      "entryText": "Sarah I. Howell born April 13, 1867 died Nov. 20, 1916",
+      "evidence": {
+        "text": "Sarah I. Howell born April 13, 1867 died Nov. 20, 1916",
+        "rect": {
+          "x0": 83,
+          "y0": 118,
+          "x1": 408,
+          "y1": 131,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "April 13, 1867",
+        "died": "Nov. 20, 1916",
+        "aged": null,
+        "bornYear": 1867,
+        "diedYear": 1916
+      },
+      "engraving": {
+        "id": "BurialsPage006_11",
+        "sourcePage": "BurialsPage006",
+        "givenName": "Sarah I. HOWELL",
+        "surname": "BEVARD",
+        "entryText": "Sarah I. HOWELL, b. Apr. 13, 1867 d. Nov. 20, 1916",
+        "rect": {
+          "x0": 161,
+          "y0": 381,
+          "x1": 498,
+          "y1": 416,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Apr. 13, 1867",
+          "died": "Nov. 20, 1916",
+          "aged": null,
+          "bornYear": 1867,
+          "diedYear": 1916
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_4",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 4,
+      "surname": "BRUNAUGH",
+      "givenName": "W. Brunaugh",
+      "entryText": "W. Brunaugh born 1899 died 1902",
+      "evidence": {
+        "text": "W. Brunaugh born 1899 died 1902",
+        "rect": {
+          "x0": 82,
+          "y0": 139,
+          "x1": 315,
+          "y1": 148,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1899,
+        "diedYear": 1902
+      }
+    },
+    {
+      "id": "BurialsAlpha001_5",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 5,
+      "surname": "CARR",
+      "givenName": "Elizabeth C.",
+      "entryText": "Elizabeth C. W/O J. W. CARR, born Oct. 1, 1842, died Aug. 6, 1887",
+      "evidence": {
+        "text": "Elizabeth C. W/O J. W. CARR, born Oct. 1, 1842, died Aug. 6, 1887",
+        "rect": {
+          "x0": 15,
+          "y0": 181,
+          "x1": 469,
+          "y1": 197,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "J. W. CARR",
+        "born": "Oct. 1, 1842",
+        "died": "Aug. 6, 1887",
+        "aged": null,
+        "bornYear": 1842,
+        "diedYear": 1887
+      },
+      "engraving": {
+        "id": "BurialsPage002_4",
+        "sourcePage": "BurialsPage002",
+        "givenName": "Elizabeth C.",
+        "surname": "CARR",
+        "entryText": "Elizabeth C. w/o J.W. Carr b. Oct. 01, 1842 d. Aug. 06, 1887",
+        "rect": {
+          "x0": 180,
+          "y0": 133,
+          "x1": 475,
+          "y1": 153,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "W/O",
+          "parents": "J.W. Carr",
+          "born": "Oct. 01, 1842",
+          "died": "Aug. 06, 1887",
+          "aged": null,
+          "bornYear": 1842,
+          "diedYear": 1887
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_6",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 6,
+      "surname": "CARR",
+      "givenName": "Laura E.",
+      "entryText": "Laura E. D/O J. W. and E. C. CARR, born Feb. 3, 1883, died (no date)",
+      "evidence": {
+        "text": "Laura E. D/O J. W. and E. C. CARR, born Feb. 3, 1883, died (no date)",
+        "rect": {
+          "x0": 6,
+          "y0": 202,
+          "x1": 477,
+          "y1": 218,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "J. W. and E. C. CARR",
+        "born": "Feb. 3, 1883",
+        "died": null,
+        "aged": null,
+        "bornYear": 1883,
+        "diedYear": null
+      },
+      "engraving": {
+        "id": "BurialsPage002_5",
+        "sourcePage": "BurialsPage002",
+        "givenName": "Laura E.",
+        "surname": "CARR",
+        "entryText": "Laura E. d/o J.W. & E.C. Carr b. Feb. 03, 1883 d. (no date)",
+        "rect": {
+          "x0": 179,
+          "y0": 163,
+          "x1": 431,
+          "y1": 174,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "D/O",
+          "parents": "J.W. & E.C. Carr",
+          "born": "Feb. 03, 1883",
+          "died": null,
+          "aged": null,
+          "bornYear": 1883,
+          "diedYear": null
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_7",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 7,
+      "surname": "CARR",
+      "givenName": "James H.",
+      "entryText": "James H. S/O J. W. and E. C. CARR, born Feb. 2, 1878, died Apr. 10, 1878",
+      "evidence": {
+        "text": "James H. S/O J. W. and E. C. CARR, born Feb. 2, 1878, died Apr. 10, 1878",
+        "rect": {
+          "x0": 6,
+          "y0": 224,
+          "x1": 499,
+          "y1": 240,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J. W. and E. C. CARR",
+        "born": "Feb. 2, 1878",
+        "died": "Apr. 10, 1878",
+        "aged": null,
+        "bornYear": 1878,
+        "diedYear": 1878
+      },
+      "engraving": {
+        "id": "BurialsPage002_6",
+        "sourcePage": "BurialsPage002",
+        "givenName": "James H.",
+        "surname": "CARR",
+        "entryText": "James H. s/o J.W. & E.C. Carr b. Feb. 02, 1878 d. Apr. 10, 1878",
+        "rect": {
+          "x0": 178,
+          "y0": 175,
+          "x1": 457,
+          "y1": 195,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "J.W. & E.C. Carr",
+          "born": "Feb. 02, 1878",
+          "died": "Apr. 10, 1878",
+          "aged": null,
+          "bornYear": 1878,
+          "diedYear": 1878
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_8",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 8,
+      "surname": "CARR",
+      "givenName": "Mary L.",
+      "entryText": "Mary L. D/O J. W. and E. C. CARR, born Jan. 4, 1873, died Mar. 29, 1879",
+      "evidence": {
+        "text": "Mary L. D/O J. W. and E. C. CARR, born Jan. 4, 1873, died Mar. 29, 1879",
+        "rect": {
+          "x0": 76,
+          "y0": 246,
+          "x1": 496,
+          "y1": 262,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "J. W. and E. C. CARR",
+        "born": "Jan. 4, 1873",
+        "died": "Mar. 29, 1879",
+        "aged": null,
+        "bornYear": 1873,
+        "diedYear": 1879
+      },
+      "engraving": {
+        "id": "BurialsPage002_7",
+        "sourcePage": "BurialsPage002",
+        "givenName": "Mary L.",
+        "surname": "CARR",
+        "entryText": "Mary L. d/o J.W. & E.C. Carr b. Jan. 04, 1872 d. Mar. 29, 1879",
+        "rect": {
+          "x0": 176,
+          "y0": 211,
+          "x1": 457,
+          "y1": 231,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "D/O",
+          "parents": "J.W. & E.C. Carr",
+          "born": "Jan. 04, 1872",
+          "died": "Mar. 29, 1879",
+          "aged": null,
+          "bornYear": 1872,
+          "diedYear": 1879
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_9",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 9,
+      "surname": "CARR",
+      "givenName": "John E.",
+      "entryText": "John E. S/O J. W. and E. C. CARR, born Jan. 17, 1870, died Jan. 19, 1870",
+      "evidence": {
+        "text": "John E. S/O J. W. and E. C. CARR, born Jan. 17, 1870, died Jan. 19, 1870",
+        "rect": {
+          "x0": 14,
+          "y0": 268,
+          "x1": 494,
+          "y1": 284,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J. W. and E. C. CARR",
+        "born": "Jan. 17, 1870",
+        "died": "Jan. 19, 1870",
+        "aged": null,
+        "bornYear": 1870,
+        "diedYear": 1870
+      },
+      "engraving": {
+        "id": "BurialsPage002_8",
+        "sourcePage": "BurialsPage002",
+        "givenName": "John E.",
+        "surname": "CARR",
+        "entryText": "John E. s/o J.W. & E.C. Carr b. Jan. 17, 1870 d. Jan. 19, 1870",
+        "rect": {
+          "x0": 175,
+          "y0": 250,
+          "x1": 453,
+          "y1": 270,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "J.W. & E.C. Carr",
+          "born": "Jan. 17, 1870",
+          "died": "Jan. 19, 1870",
+          "aged": null,
+          "bornYear": 1870,
+          "diedYear": 1870
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_10",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 10,
+      "surname": "CARR",
+      "givenName": "Permelia J.",
+      "entryText": "Permelia J. D/O J. W. and E. C. CARR, born Feb. 16, 1869, died Mar. 3, 1869",
+      "evidence": {
+        "text": "Permelia J. D/O J. W. and E. C. CARR, born Feb. 16, 1869, died Mar. 3, 1869",
+        "rect": {
+          "x0": 12,
+          "y0": 290,
+          "x1": 508,
+          "y1": 309,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "J. W. and E. C. CARR",
+        "born": "Feb. 16, 1869",
+        "died": "Mar. 3, 1869",
+        "aged": null,
+        "bornYear": 1869,
+        "diedYear": 1869
+      },
+      "engraving": {
+        "id": "BurialsPage002_9",
+        "sourcePage": "BurialsPage002",
+        "givenName": "Permelia J.",
+        "surname": "CARR",
+        "entryText": "Permelia J. d/o J.W & E.C. Carr b. Feb. 16, 1862 d. Mar. 03, 1869",
+        "rect": {
+          "x0": 175,
+          "y0": 271,
+          "x1": 482,
+          "y1": 287,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "D/O",
+          "parents": "J.W & E.C. Carr",
+          "born": "Feb. 16, 1862",
+          "died": "Mar. 03, 1869",
+          "aged": null,
+          "bornYear": 1862,
+          "diedYear": 1869
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_11",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 11,
+      "surname": "CARR",
+      "givenName": "William",
+      "entryText": "William S/O J. W. and E. C. CARR, born Aug. 15, 1867, died Oct. 27, 1867",
+      "evidence": {
+        "text": "William S/O J. W. and E. C. CARR, born Aug. 15, 1867, died Oct. 27, 1867",
+        "rect": {
+          "x0": 10,
+          "y0": 324,
+          "x1": 502,
+          "y1": 339,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J. W. and E. C. CARR",
+        "born": "Aug. 15, 1867",
+        "died": "Oct. 27, 1867",
+        "aged": null,
+        "bornYear": 1867,
+        "diedYear": 1867
+      },
+      "engraving": {
+        "id": "BurialsPage002_10",
+        "sourcePage": "BurialsPage002",
+        "givenName": "William",
+        "surname": "CARR",
+        "entryText": "William, s/o J.W. & E.C. Carr b. Aug. 15, 1867 d. Oct. 27, 1867",
+        "rect": {
+          "x0": 173,
+          "y0": 288,
+          "x1": 429,
+          "y1": 300,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "J.W. & E.C. Carr",
+          "born": "Aug. 15, 1867",
+          "died": "Oct. 27, 1867",
+          "aged": null,
+          "bornYear": 1867,
+          "diedYear": 1867
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_12",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 12,
+      "surname": "CARR",
+      "givenName": "Mehala J.",
+      "entryText": "Mehala J. W/O A. CARR, died 1867 - Stone Broken (re-set in stone)",
+      "evidence": {
+        "text": "Mehala J. W/O A. CARR, died 1867 - Stone Broken (re-set in stone)",
+        "rect": {
+          "x0": 8,
+          "y0": 346,
+          "x1": 469,
+          "y1": 361,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "A. CARR",
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1867
+      }
+    },
+    {
+      "id": "BurialsAlpha001_13",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 13,
+      "surname": "CARR",
+      "givenName": "Marion D.",
+      "entryText": "Marion D. born 1866, died 1939",
+      "evidence": {
+        "text": "Marion D. born 1866, died 1939",
+        "rect": {
+          "x0": 7,
+          "y0": 369,
+          "x1": 297,
+          "y1": 380,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1866,
+        "diedYear": 1866
+      }
+    },
+    {
+      "id": "BurialsAlpha001_14",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 14,
+      "surname": "CARR",
+      "givenName": "Laura T.",
+      "entryText": "Laura T. born 1866, died 1903",
+      "evidence": {
+        "text": "Laura T. born 1866, died 1903",
+        "rect": {
+          "x0": 153,
+          "y0": 383,
+          "x1": 288,
+          "y1": 391,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1866,
+        "diedYear": 1903
+      },
+      "engraving": {
+        "id": "BurialsPage003_5",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Laura T.",
+        "surname": "CARR",
+        "entryText": "Laura T., 1866 - 1903",
+        "rect": {
+          "x0": 32,
+          "y0": 224,
+          "x1": 229,
+          "y1": 244,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": null,
+          "aged": null,
+          "bornYear": 1866,
+          "diedYear": 1903
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_15",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 15,
+      "surname": "CRAFT",
+      "givenName": "Isaac C.",
+      "entryText": "Isaac C. S/O I. C. AND N. CRAFT, born JAN. 13, 1871, died NOV. 12, 1871",
+      "evidence": {
+        "text": "Isaac C. S/O I. C. AND N. CRAFT, born JAN. 13, 1871, died NOV. 12, 1871",
+        "rect": {
+          "x0": 6,
+          "y0": 403,
+          "x1": 487,
+          "y1": 421,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "I. C. AND N. CRAFT",
+        "born": "JAN. 13, 1871",
+        "died": "NOV. 12, 1871",
+        "aged": null,
+        "bornYear": 1871,
+        "diedYear": 1871
+      },
+      "engraving": {
+        "id": "BurialsPage007_13",
+        "sourcePage": "BurialsPage007",
+        "givenName": "Isaac C.",
+        "surname": "CRAFT",
+        "entryText": "Isaac C., s/o I.C. & N. Craft b. Jun. 13, 1871 d. Nov. 12, 1871",
+        "rect": {
+          "x0": 21,
+          "y0": 480,
+          "x1": 414,
+          "y1": 519,
+          "skew": 1.4,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "I.C. & N. Craft",
+          "born": "Jun. 13, 1871",
+          "died": "Nov. 12, 1871",
+          "aged": null,
+          "bornYear": 1871,
+          "diedYear": 1871
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_16",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 16,
+      "surname": "DOTY",
+      "givenName": "Glenn D.",
+      "entryText": "Glenn D. born Jan. 1907, died Feb. 1907",
+      "evidence": {
+        "text": "Glenn D. born Jan. 1907, died Feb. 1907",
+        "rect": {
+          "x0": 67,
+          "y0": 449,
+          "x1": 340,
+          "y1": 462,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1907,
+        "diedYear": 1907
+      },
+      "engraving": {
+        "id": "BurialsPage005_16",
+        "sourcePage": "BurialsPage005",
+        "givenName": "Glenn D.",
+        "surname": "DOTY",
+        "entryText": "Glenn D., b. Jan. 1907 d. Feb. 1907",
+        "rect": {
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": null,
+          "aged": null,
+          "bornYear": 1907,
+          "diedYear": 1907
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_17",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 17,
+      "surname": "DOTY",
+      "givenName": "Sarah E.",
+      "entryText": "Sarah E. D/O J. T. and S. N. DOTY, died Apr. 9, 1884 aged 1m. and 5d.",
+      "evidence": {
+        "text": "Sarah E. D/O J. T. and S. N. DOTY, died Apr. 9, 1884 aged 1m. and 5d.",
+        "rect": {
+          "x0": 67,
+          "y0": 472,
+          "x1": 484,
+          "y1": 487,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "J. T. and S. N. DOTY",
+        "born": null,
+        "died": "Apr. 9, 1884",
+        "aged": "1m",
+        "bornYear": null,
+        "diedYear": 1884
+      },
+      "engraving": {
+        "id": "BurialsPage006_1",
+        "sourcePage": "BurialsPage006",
+        "givenName": "Sarah E.",
+        "surname": "DOTY",
+        "entryText": "Sarah E., d/o J.T. & S.N. Doty d. Apr. 09, 1884 aged 1m 5d",
+        "rect": {
+          "x0": 244,
+          "y0": 92,
+          "x1": 362,
+          "y1": 107,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "D/O",
+          "parents": "J.T. & S.N. Doty",
+          "born": null,
+          "died": "Apr. 09, 1884",
+          "aged": "1m 5d",
+          "bornYear": null,
+          "diedYear": 1884
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_18",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 18,
+      "surname": "EDMONDS",
+      "givenName": "Robert E.",
+      "entryText": "Robert E. S/O O. J. AND M. E. EDMONDS, died Nov. 1876 aged 21y. 11M.",
+      "evidence": {
+        "text": "Robert E. S/O O. J. AND M. E. EDMONDS, died Nov. 1876 aged 21y. 11M.",
+        "rect": {
+          "x0": 66,
+          "y0": 507,
+          "x1": 486,
+          "y1": 523,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "O. J. AND M. E. EDMONDS",
+        "born": null,
+        "died": null,
+        "aged": "21y",
+        "bornYear": null,
+        "diedYear": 1876,
+        "inferredBirthYear": {
+          "lo": 1854,
+          "hi": 1855,
+          "basis": "death 1876 minus age 21y"
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_19",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 19,
+      "surname": "ELLIOTT",
+      "givenName": "Avery D.",
+      "entryText": "Avery D. born Dec. 28, 1921, died Apr. 14, 1999",
+      "evidence": {
+        "text": "Avery D. born Dec. 28, 1921, died Apr. 14, 1999",
+        "rect": {
+          "x0": 65,
+          "y0": 541,
+          "x1": 377,
+          "y1": 555,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Dec. 28, 1921",
+        "died": "Apr. 14, 1999",
+        "aged": null,
+        "bornYear": 1921,
+        "diedYear": 1999
+      }
+    },
+    {
+      "id": "BurialsAlpha001_20",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 20,
+      "surname": "GILMORE",
+      "givenName": "Francis",
+      "entryText": "Francis died Apr. 29, 1841, aged 76y., 4m. and 4d.",
+      "evidence": {
+        "text": "Francis died Apr. 29, 1841, aged 76y., 4m. and 4d.",
+        "rect": {
+          "x0": 64,
+          "y0": 576,
+          "x1": 383,
+          "y1": 590,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Apr. 29, 1841",
+        "aged": "76y",
+        "bornYear": null,
+        "diedYear": 1841,
+        "inferredBirthYear": {
+          "lo": 1764,
+          "hi": 1765,
+          "basis": "death 1841 minus age 76y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage006_2",
+        "sourcePage": "BurialsPage006",
+        "givenName": "Francis",
+        "surname": "GILMORE",
+        "entryText": "Francis, d. Apr. 29, 1841 aged 76y 4m 4d",
+        "rect": {
+          "x0": 171,
+          "y0": 110,
+          "x1": 400,
+          "y1": 143,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": "Apr. 29, 1841",
+          "aged": "76y 4m 4d",
+          "bornYear": null,
+          "diedYear": 1841
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_21",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 21,
+      "surname": "GILMORE",
+      "givenName": "Jemima",
+      "entryText": "Jemima W/O Francis GILMORE, died Aug. 18, 1852, aged 83y.",
+      "evidence": {
+        "text": "Jemima W/O Francis GILMORE, died Aug. 18, 1852, aged 83y.",
+        "rect": {
+          "x0": 64,
+          "y0": 599,
+          "x1": 444,
+          "y1": 613,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Francis GILMORE",
+        "born": null,
+        "died": "Aug. 18, 1852",
+        "aged": "83y",
+        "bornYear": null,
+        "diedYear": 1852,
+        "inferredBirthYear": {
+          "lo": 1768,
+          "hi": 1769,
+          "basis": "death 1852 minus age 83y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage006_3",
+        "sourcePage": "BurialsPage006",
+        "givenName": "Jemima",
+        "surname": "GILMORE",
+        "entryText": "Jemima, w/o Francis Gilmore d. Aug. 18, 1852 aged 83y",
+        "rect": {
+          "x0": 59,
+          "y0": 144,
+          "x1": 385,
+          "y1": 157,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "W/O",
+          "parents": "Francis Gilmore",
+          "born": null,
+          "died": "Aug. 18, 1852",
+          "aged": "83y",
+          "bornYear": null,
+          "diedYear": 1852
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_22",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 22,
+      "surname": "GILMORE",
+      "givenName": "John R.",
+      "entryText": "John R. born Mar. 19, 1805, died Nov. 4, 1864",
+      "evidence": {
+        "text": "John R. born Mar. 19, 1805, died Nov. 4, 1864",
+        "rect": {
+          "x0": 64,
+          "y0": 622,
+          "x1": 362,
+          "y1": 636,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Mar. 19, 1805",
+        "died": "Nov. 4, 1864",
+        "aged": null,
+        "bornYear": 1805,
+        "diedYear": 1864
+      }
+    },
+    {
+      "id": "BurialsAlpha001_23",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 23,
+      "surname": "GIVENS",
+      "givenName": "Elender H.",
+      "entryText": "Elender H. born Apr. 11, 1820, died Aug. 26, 1892",
+      "evidence": {
+        "text": "Elender H. born Apr. 11, 1820, died Aug. 26, 1892",
+        "rect": {
+          "x0": 64,
+          "y0": 647,
+          "x1": 380,
+          "y1": 659,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Apr. 11, 1820",
+        "died": "Aug. 26, 1892",
+        "aged": null,
+        "bornYear": 1820,
+        "diedYear": 1892
+      },
+      "engraving": {
+        "id": "BurialsPage003_16",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Elender H.",
+        "surname": "GIVENS",
+        "entryText": "Elender H., b. Apr. 11, 1820 d. Aug. 26, 1892",
+        "rect": {
+          "x0": 17,
+          "y0": 622,
+          "x1": 355,
+          "y1": 660,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Apr. 11, 1820",
+          "died": "Aug. 26, 1892",
+          "aged": null,
+          "bornYear": 1820,
+          "diedYear": 1892
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_24",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 24,
+      "surname": "GIVENS",
+      "givenName": "Margaret E.",
+      "entryText": "Margaret E. W/O Lawson W. GIVENS, born Jan. 18, 1845, died Oct. 2, 1870",
+      "evidence": {
+        "text": "Margaret E. W/O Lawson W. GIVENS, born Jan. 18, 1845, died Oct. 2, 1870",
+        "rect": {
+          "x0": 64,
+          "y0": 667,
+          "x1": 580,
+          "y1": 682,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Lawson W. GIVENS",
+        "born": "Jan. 18, 1845",
+        "died": "Oct. 2, 1870",
+        "aged": null,
+        "bornYear": 1845,
+        "diedYear": 1870
+      },
+      "engraving": {
+        "id": "BurialsPage003_12",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Margaret E.",
+        "surname": "GIVENS",
+        "entryText": "Margaret E., w/o L. W. Givens b: Jan. 18, 1845 d. Oct. 02, 1870",
+        "rect": {
+          "x0": 20,
+          "y0": 492,
+          "x1": 504,
+          "y1": 527,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": "Oct. 02, 1870",
+          "aged": null,
+          "bornYear": null,
+          "diedYear": 1870
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_25",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 25,
+      "surname": "GIVENS",
+      "givenName": "Lawson W.",
+      "entryText": "Lawson W. born Apr. 25, 1828, died May 5, 1903",
+      "evidence": {
+        "text": "Lawson W. born Apr. 25, 1828, died May 5, 1903",
+        "rect": {
+          "x0": 63,
+          "y0": 690,
+          "x1": 381,
+          "y1": 704,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Apr. 25, 1828",
+        "died": "May 5, 1903",
+        "aged": null,
+        "bornYear": 1828,
+        "diedYear": 1903
+      },
+      "engraving": {
+        "id": "BurialsPage003_13",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Lawson W.",
+        "surname": "GIVENS",
+        "entryText": "Lawson W., b. Apr. 25, 1828 d. May 05, 1903",
+        "rect": {
+          "x0": 135,
+          "y0": 528,
+          "x1": 343,
+          "y1": 555,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Apr. 25, 1828",
+          "died": "May 05, 1903",
+          "aged": null,
+          "bornYear": 1828,
+          "diedYear": 1903
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha001_26",
+      "sourcePage": "BurialsAlpha001",
+      "seq": 26,
+      "surname": "GIVENS",
+      "givenName": "F. J.",
+      "entryText": "F. J. born Sept. 2, 1811, died Aug. 1, 1891",
+      "evidence": {
+        "text": "F. J. born Sept. 2, 1811, died Aug. 1, 1891",
+        "rect": {
+          "x0": 63,
+          "y0": 712,
+          "x1": 345,
+          "y1": 727,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Sept. 2, 1811",
+        "died": "Aug. 1, 1891",
+        "aged": null,
+        "bornYear": 1811,
+        "diedYear": 1891
+      },
+      "engraving": {
+        "id": "BurialsPage004_11",
+        "sourcePage": "BurialsPage004",
+        "givenName": "F. J.",
+        "surname": "GIVENS",
+        "entryText": "F. J., b. Sep. 02, 1811 d. Aug. 01, 1891",
+        "rect": {
+          "x0": 26,
+          "y0": 464,
+          "x1": 361,
+          "y1": 496,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Sep. 02, 1811",
+          "died": "Aug. 01, 1891",
+          "aged": null,
+          "bornYear": 1811,
+          "diedYear": 1891
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_1",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 1,
+      "surname": "GIVENS",
+      "givenName": "Samuel",
+      "entryText": "Samuel, born in York Co. S. Carolina Apr. 8, 1801, died Jan. 16, 1880 One of the first settlers of Pike Co.",
+      "evidence": {
+        "text": "Samuel, born in York Co. S. Carolina Apr. 8, 1801, died Jan. 16, 1880 One of the first settlers of Pike Co.",
+        "rect": {
+          "x0": 76,
+          "y0": 60,
+          "x1": 465,
+          "y1": 81,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Jan. 16, 1880",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1880
+      },
+      "engraving": {
+        "id": "BurialsPage004_12",
+        "sourcePage": "BurialsPage004",
+        "givenName": "Samuel",
+        "surname": "GIVENS",
+        "entryText": "Samuel, born in York Co. S.C. Apr. 08, 1801 d. Jan. 16, 1880",
+        "rect": {
+          "x0": 26,
+          "y0": 502,
+          "x1": 454,
+          "y1": 524,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": "Jan. 16, 1880",
+          "aged": null,
+          "bornYear": null,
+          "diedYear": 1880
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_2",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 2,
+      "surname": "GIVENS",
+      "givenName": "Infant",
+      "entryText": "Infant D/O J. W. and I. J. GIVENS, born Nov. 1, 1867, died Nov. 1, 1867",
+      "evidence": {
+        "text": "Infant D/O J. W. and I. J. GIVENS, born Nov. 1, 1867, died Nov. 1, 1867",
+        "rect": {
+          "x0": 73,
+          "y0": 89,
+          "x1": 430,
+          "y1": 104,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "J. W. and I. J. GIVENS",
+        "born": "Nov. 1, 1867",
+        "died": "Nov. 1, 1867",
+        "aged": null,
+        "bornYear": 1867,
+        "diedYear": 1867
+      },
+      "engraving": {
+        "id": "BurialsPage004_8",
+        "sourcePage": "BurialsPage004",
+        "givenName": "infant",
+        "surname": "GIVENS",
+        "entryText": "infant d/o J.W. & I.J. Givens b. & d. Nov. 01, 1867",
+        "rect": {
+          "x0": 28,
+          "y0": 361,
+          "x1": 495,
+          "y1": 384,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "D/O",
+          "parents": "J.W. & I.J. Givens",
+          "born": null,
+          "died": "Nov. 01, 1867",
+          "aged": null,
+          "bornYear": null,
+          "diedYear": 1867
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_3",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 3,
+      "surname": "GIVENS",
+      "givenName": "Ulyses S.",
+      "entryText": "Ulyses S. S/O J. W. and I. J. GIVENS, born Dec. 10, 1868, died Oct. 9, 1869 aged 9m. and 29d.",
+      "evidence": {
+        "text": "Ulyses S. S/O J. W. and I. J. GIVENS, born Dec. 10, 1868, died Oct. 9, 1869 aged 9m. and 29d.",
+        "rect": {
+          "x0": 71,
+          "y0": 105,
+          "x1": 578,
+          "y1": 132,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J. W. and I. J. GIVENS",
+        "born": "Dec. 10, 1868",
+        "died": "Oct. 9, 1869",
+        "aged": "9m",
+        "bornYear": 1868,
+        "diedYear": 1869
+      }
+    },
+    {
+      "id": "BurialsAlpha002_4",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 4,
+      "surname": "GIVENS",
+      "givenName": "Infant",
+      "entryText": "Infant S/O J. W. and I. J. GIVENS, born May 16, 1874, died June 21, 1874 aged 1m. and 5d.",
+      "evidence": {
+        "text": "Infant S/O J. W. and I. J. GIVENS, born May 16, 1874, died June 21, 1874 aged 1m. and 5d.",
+        "rect": {
+          "x0": 69,
+          "y0": 139,
+          "x1": 482,
+          "y1": 161,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J. W. and I. J. GIVENS",
+        "born": "May 16, 1874",
+        "died": "June 21, 1874",
+        "aged": "1m",
+        "bornYear": 1874,
+        "diedYear": 1874
+      },
+      "engraving": {
+        "id": "BurialsPage004_10",
+        "sourcePage": "BurialsPage004",
+        "givenName": "infant",
+        "surname": "GIVENS",
+        "entryText": "infant s/o J.W. & I.J. Givens d. Jun. 21, 1874 aged 5 days",
+        "rect": {
+          "x0": 27,
+          "y0": 425,
+          "x1": 409,
+          "y1": 458,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "J.W. & I.J. Givens",
+          "born": null,
+          "died": "Jun. 21, 1874",
+          "aged": "5 days",
+          "bornYear": null,
+          "diedYear": 1874
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_5",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 5,
+      "surname": "GIVENS",
+      "givenName": "James W.",
+      "entryText": "James W., born Nov. 12, 1840, died Sept. 17, 1901",
+      "evidence": {
+        "text": "James W., born Nov. 12, 1840, died Sept. 17, 1901",
+        "rect": {
+          "x0": 10,
+          "y0": 171,
+          "x1": 375,
+          "y1": 187,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Nov. 12, 1840",
+        "died": "Sept. 17, 1901",
+        "aged": null,
+        "bornYear": 1840,
+        "diedYear": 1901
+      },
+      "engraving": {
+        "id": "BurialsPage003_14",
+        "sourcePage": "BurialsPage003",
+        "givenName": "James W.",
+        "surname": "GIVENS",
+        "entryText": "James W., b. Nov. 12, 1840 d. Sep. 17, 1901",
+        "rect": {
+          "x0": 134,
+          "y0": 556,
+          "x1": 455,
+          "y1": 584,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Nov. 12, 1840",
+          "died": "Sep. 17, 1901",
+          "aged": null,
+          "bornYear": 1840,
+          "diedYear": 1901
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_6",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 6,
+      "surname": "GIVENS",
+      "givenName": "Isabel J.",
+      "entryText": "Isabel J. W/O J. W. GIVENS, born Mar. 25, 1837, died June 18, 1874 aged 37y., 2m., and 22d. (Second Stone Isabell J. old stone)",
+      "evidence": {
+        "text": "Isabel J. W/O J. W. GIVENS, born Mar. 25, 1837, died June 18, 1874 aged 37y., 2m., and 22d. (Second Stone Isabell J. old stone)",
+        "rect": {
+          "x0": 4,
+          "y0": 193,
+          "x1": 364,
+          "y1": 204,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "J. W. GIVENS",
+        "born": "Mar. 25, 1837",
+        "died": "June 18, 1874",
+        "aged": "37y",
+        "bornYear": 1837,
+        "diedYear": 1874
+      }
+    },
+    {
+      "id": "BurialsAlpha002_7",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 7,
+      "surname": "GIVENS",
+      "givenName": "Sarah",
+      "entryText": "Sarah W/O Samuel GIVENS, born in York Co. S. Carolina Mar. 6, 1798 died Aug. 26, 1863",
+      "evidence": {
+        "text": "Sarah W/O Samuel GIVENS, born in York Co. S. Carolina Mar. 6, 1798 died Aug. 26, 1863",
+        "rect": {
+          "x0": 0,
+          "y0": 205,
+          "x1": 486,
+          "y1": 228,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Samuel GIVENS",
+        "born": null,
+        "died": "Aug. 26, 1863",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1863
+      },
+      "engraving": {
+        "id": "BurialsPage004_13",
+        "sourcePage": "BurialsPage004",
+        "givenName": "Sarah",
+        "surname": "GIVENS",
+        "entryText": "Sarah, w/o Samuel Givens b. in York Co. S.C. Mar 06, 1798 d. Aug. 26, 1863",
+        "rect": {
+          "x0": 26,
+          "y0": 527,
+          "x1": 484,
+          "y1": 557,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "W/O",
+          "parents": "Samuel Givens",
+          "born": null,
+          "died": "Aug. 26, 1863",
+          "aged": null,
+          "bornYear": null,
+          "diedYear": 1863
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_8",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 8,
+      "surname": "GIVENS",
+      "givenName": "Albert R.",
+      "entryText": "Albert R. S/O S. and S. GIVENS, died Aug. 29, 1852 aged 22y., 7m., and 18d.",
+      "evidence": {
+        "text": "Albert R. S/O S. and S. GIVENS, died Aug. 29, 1852 aged 22y., 7m., and 18d.",
+        "rect": {
+          "x0": 0,
+          "y0": 237,
+          "x1": 498,
+          "y1": 261,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "S. and S. GIVENS",
+        "born": null,
+        "died": "Aug. 29, 1852",
+        "aged": "22y",
+        "bornYear": null,
+        "diedYear": 1852,
+        "inferredBirthYear": {
+          "lo": 1829,
+          "hi": 1830,
+          "basis": "death 1852 minus age 22y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage004_14",
+        "sourcePage": "BurialsPage004",
+        "givenName": "Albert R.",
+        "surname": "GIVENS",
+        "entryText": "Albert R., s/o S. & S. Givens d. Aug. 29, 1852 aged 22y 7m 18d",
+        "rect": {
+          "x0": 26,
+          "y0": 565,
+          "x1": 320,
+          "y1": 585,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "S. & S. Givens",
+          "born": null,
+          "died": "Aug. 29, 1852",
+          "aged": "22y 7m 18d",
+          "bornYear": null,
+          "diedYear": 1852
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_9",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 9,
+      "surname": "GIVENS",
+      "givenName": "Elizabeth M.",
+      "entryText": "Elizabeth M. D/O S. and S. GIVENS, born Mar. 30, 1834, died Jul. 8, 1856",
+      "evidence": {
+        "text": "Elizabeth M. D/O S. and S. GIVENS, born Mar. 30, 1834, died Jul. 8, 1856",
+        "rect": {
+          "x0": 0,
+          "y0": 270,
+          "x1": 483,
+          "y1": 294,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "S. and S. GIVENS",
+        "born": "Mar. 30, 1834",
+        "died": "Jul. 8, 1856",
+        "aged": null,
+        "bornYear": 1834,
+        "diedYear": 1856
+      }
+    },
+    {
+      "id": "BurialsAlpha002_10",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 10,
+      "surname": "GIVENS",
+      "givenName": "Elizabeth",
+      "entryText": "Elizabeth W/O Samuel GIVENS, member of Clks. Presb. Ch. died Apr. 2, 1868",
+      "evidence": {
+        "text": "Elizabeth W/O Samuel GIVENS, member of Clks. Presb. Ch. died Apr. 2, 1868",
+        "rect": {
+          "x0": 56,
+          "y0": 304,
+          "x1": 499,
+          "y1": 329,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Samuel GIVENS",
+        "born": null,
+        "died": "Apr. 2, 1868",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1868
+      }
+    },
+    {
+      "id": "BurialsAlpha002_11",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 11,
+      "surname": "GIVENS",
+      "givenName": "Fannie",
+      "entryText": "Fannie D/O S. & E. GIVENS, Married Mar. 24, 1854 Thomas Washington Patton",
+      "evidence": {
+        "text": "Fannie D/O S. & E. GIVENS, Married Mar. 24, 1854 Thomas Washington Patton",
+        "rect": {
+          "x0": 55,
+          "y0": 330,
+          "x1": 466,
+          "y1": 349,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "S. & E. GIVENS",
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": null,
+        "diedYear": null
+      }
+    },
+    {
+      "id": "BurialsAlpha002_12",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 12,
+      "surname": "GIVENS",
+      "givenName": "John G. GIVENS",
+      "entryText": "John G. GIVENS, born in York Co. S. Carolina Sept. 12, 1804 Emigrated to Pike Co., born 1826, died May 21, 1875 aged 70 y., 8m. 9d",
+      "evidence": {
+        "text": "John G. GIVENS, born in York Co. S. Carolina Sept. 12, 1804 Emigrated to Pike Co., born 1826, died May 21, 1875 aged 70 y., 8m. 9d",
+        "rect": {
+          "x0": 53,
+          "y0": 364,
+          "x1": 484,
+          "y1": 385,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "May 21, 1875",
+        "aged": "70 y",
+        "bornYear": 1826,
+        "diedYear": 1875
+      },
+      "engraving": {
+        "id": "BurialsPage006_4",
+        "sourcePage": "BurialsPage006",
+        "givenName": "John G.",
+        "surname": "GIVENS",
+        "entryText": "John G., born York Co. S.C. Emigrated to Pike Co. MO 1826 died May 21, 1875 aged 70y 8m 9d",
+        "rect": {
+          "x0": 57,
+          "y0": 158,
+          "x1": 491,
+          "y1": 185,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": "May 21, 1875",
+          "aged": "70y 8m 9d",
+          "bornYear": null,
+          "diedYear": 1875
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_13",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 13,
+      "surname": "GRIFFITH",
+      "givenName": "Mary Ann GRIFFITH",
+      "entryText": "Mary Ann GRIFFITH F/W 27y., 4m., 15d., born June 28, 1912 (divorced) Fa-ther-George W., Mother-Fanny Carr",
+      "evidence": {
+        "text": "Mary Ann GRIFFITH F/W 27y., 4m., 15d., born June 28, 1912 (divorced) Fa-ther-George W., Mother-Fanny Carr",
+        "rect": {
+          "x0": 51,
+          "y0": 400,
+          "x1": 493,
+          "y1": 428,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "June 28, 1912",
+        "died": null,
+        "aged": null,
+        "bornYear": 1912,
+        "diedYear": null
+      }
+    },
+    {
+      "id": "BurialsAlpha002_14",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 14,
+      "surname": "GRIFFITH",
+      "givenName": "Infant Ray",
+      "entryText": "Infant Ray born 1914, died 1914",
+      "evidence": {
+        "text": "Infant Ray born 1914, died 1914",
+        "rect": {
+          "x0": 49,
+          "y0": 434,
+          "x1": 494,
+          "y1": 458,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1914,
+        "diedYear": 1914
+      }
+    },
+    {
+      "id": "BurialsAlpha002_15",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 15,
+      "surname": "GRIFFITH",
+      "givenName": "Oris B. GRIFFITH",
+      "entryText": "Oris B. GRIFFITH born Nov. 29, 1867, died Mar. 20, 1937",
+      "evidence": {
+        "text": "Oris B. GRIFFITH born Nov. 29, 1867, died Mar. 20, 1937",
+        "rect": {
+          "x0": 47,
+          "y0": 468,
+          "x1": 280,
+          "y1": 481,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Nov. 29, 1867",
+        "died": "Mar. 20, 1937",
+        "aged": null,
+        "bornYear": 1867,
+        "diedYear": 1937
+      },
+      "engraving": {
+        "id": "BurialsPage004_6",
+        "sourcePage": "BurialsPage004",
+        "givenName": "Oris B.",
+        "surname": "GRIFFITH",
+        "entryText": "Oris B., b. Nov. 29, 1867 d. Mar. 20, 1937",
+        "rect": {
+          "x0": 141,
+          "y0": 310,
+          "x1": 465,
+          "y1": 332,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Nov. 29, 1867",
+          "died": "Mar. 20, 1937",
+          "aged": null,
+          "bornYear": 1867,
+          "diedYear": 1937
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_16",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 16,
+      "surname": "GRIFFITH",
+      "givenName": "Louisa GRIFFITH",
+      "entryText": "Louisa GRIFFITH born 1827, died 1888",
+      "evidence": {
+        "text": "Louisa GRIFFITH born 1827, died 1888",
+        "rect": {
+          "x0": 45,
+          "y0": 492,
+          "x1": 407,
+          "y1": 514,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1827,
+        "diedYear": 1888
+      }
+    },
+    {
+      "id": "BurialsAlpha002_17",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 17,
+      "surname": "GORTON",
+      "givenName": "Charles K. GORTON",
+      "entryText": "Charles K. GORTON born May 24, 1854, died July 29, 1931",
+      "evidence": {
+        "text": "Charles K. GORTON born May 24, 1854, died July 29, 1931",
+        "rect": {
+          "x0": 45,
+          "y0": 517,
+          "x1": 320,
+          "y1": 530,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "May 24, 1854",
+        "died": "July 29, 1931",
+        "aged": null,
+        "bornYear": 1854,
+        "diedYear": 1931
+      },
+      "engraving": {
+        "id": "BurialsPage004_7",
+        "sourcePage": "BurialsPage004",
+        "givenName": "Charles K.",
+        "surname": "GORTON",
+        "entryText": "Charles K., b. May 24, 1854 d. Jul. 29, 1931",
+        "rect": {
+          "x0": 29,
+          "y0": 336,
+          "x1": 480,
+          "y1": 357,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "May 24, 1854",
+          "died": "Jul. 29, 1931",
+          "aged": null,
+          "bornYear": 1854,
+          "diedYear": 1931
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_18",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 18,
+      "surname": "HALEY",
+      "givenName": "Martha",
+      "entryText": "Martha W/O J. M. HALEY, born Sept. 20, 1838, died Mar. 27, 1906 (stone with initals M. H.)",
+      "evidence": {
+        "text": "Martha W/O J. M. HALEY, born Sept. 20, 1838, died Mar. 27, 1906 (stone with initals M. H.)",
+        "rect": {
+          "x0": 43,
+          "y0": 538,
+          "x1": 412,
+          "y1": 558,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "J. M. HALEY",
+        "born": "Sept. 20, 1838",
+        "died": "Mar. 27, 1906",
+        "aged": null,
+        "bornYear": 1838,
+        "diedYear": 1906
+      },
+      "engraving": {
+        "id": "BurialsPage006_8",
+        "sourcePage": "BurialsPage006",
+        "givenName": "Martha",
+        "surname": "HALEY",
+        "entryText": "Martha, w/o J. Haley b. Sep. 20, 1838 d. Mar. 27, 1906 stone with initials M.H.",
+        "rect": {
+          "x0": 165,
+          "y0": 262,
+          "x1": 392,
+          "y1": 291,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "W/O",
+          "parents": "J. Haley",
+          "born": "Sep. 20, 1838",
+          "died": "Mar. 27, 1906",
+          "aged": null,
+          "bornYear": 1838,
+          "diedYear": 1906
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_19",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 19,
+      "surname": "HOUCHINS",
+      "givenName": "A. A. HOUCHINS",
+      "entryText": "A. A. HOUCHINS, died Feb. 3, 1844",
+      "evidence": {
+        "text": "A. A. HOUCHINS, died Feb. 3, 1844",
+        "rect": {
+          "x0": 47,
+          "y0": 565,
+          "x1": 478,
+          "y1": 584,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Feb. 3, 1844",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1844
+      },
+      "engraving": {
+        "id": "BurialsPage003_8",
+        "sourcePage": "BurialsPage003",
+        "givenName": "A. A.",
+        "surname": "HOUCHINS",
+        "entryText": "A. A., Feb. 03, 1844 -",
+        "rect": {
+          "x0": 26,
+          "y0": 319,
+          "x1": 477,
+          "y1": 368,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": null,
+          "aged": null,
+          "bornYear": null,
+          "diedYear": null
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_20",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 20,
+      "surname": "HOUCHINS",
+      "givenName": "S. B. HOUCHINS",
+      "entryText": "S. B. HOUCHINS, born June 18, 1849, died May 9, 1874",
+      "evidence": {
+        "text": "S. B. HOUCHINS, born June 18, 1849, died May 9, 1874",
+        "rect": {
+          "x0": 42,
+          "y0": 598,
+          "x1": 300,
+          "y1": 611,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "June 18, 1849",
+        "died": "May 9, 1874",
+        "aged": null,
+        "bornYear": 1849,
+        "diedYear": 1874
+      },
+      "engraving": {
+        "id": "BurialsPage003_9",
+        "sourcePage": "BurialsPage003",
+        "givenName": "S. B.",
+        "surname": "HOUCHINS",
+        "entryText": "S. B., b. Jun 18, 1849 d. May 07 1874",
+        "rect": {
+          "x0": 24,
+          "y0": 369,
+          "x1": 427,
+          "y1": 411,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Jun 18, 1849",
+          "died": "May 07 1874",
+          "aged": null,
+          "bornYear": 1849,
+          "diedYear": 1874
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_21",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 21,
+      "surname": "HOUCHINS",
+      "givenName": "M. H. HOUCHINS",
+      "entryText": "M. H. HOUCHINS, born Dec. 29, 1843, died Apr. 9, 1922",
+      "evidence": {
+        "text": "M. H. HOUCHINS, born Dec. 29, 1843, died Apr. 9, 1922",
+        "rect": {
+          "x0": 41,
+          "y0": 621,
+          "x1": 394,
+          "y1": 639,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Dec. 29, 1843",
+        "died": "Apr. 9, 1922",
+        "aged": null,
+        "bornYear": 1843,
+        "diedYear": 1922
+      },
+      "engraving": {
+        "id": "BurialsPage003_10",
+        "sourcePage": "BurialsPage003",
+        "givenName": "M. H.",
+        "surname": "HOUCHINS",
+        "entryText": "M. H., b. Dec. 29, 1843 d. Apr. 09, 1922",
+        "rect": {
+          "x0": 22,
+          "y0": 412,
+          "x1": 498,
+          "y1": 441,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Dec. 29, 1843",
+          "died": "Apr. 09, 1922",
+          "aged": null,
+          "bornYear": 1843,
+          "diedYear": 1922
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_22",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 22,
+      "surname": "HOUCHINS",
+      "givenName": "Susan R.",
+      "entryText": "Susan R. W/O Abner A. HOUCHINS, born June 18, 1849, died May 7, 1874",
+      "evidence": {
+        "text": "Susan R. W/O Abner A. HOUCHINS, born June 18, 1849, died May 7, 1874",
+        "rect": {
+          "x0": 40,
+          "y0": 641,
+          "x1": 397,
+          "y1": 665,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Abner A. HOUCHINS",
+        "born": "June 18, 1849",
+        "died": "May 7, 1874",
+        "aged": null,
+        "bornYear": 1849,
+        "diedYear": 1874,
+        "refId": "BurialsAlpha002_19",
+        "refName": "A. A. HOUCHINS HOUCHINS",
+        "refCertainty": "high"
+      },
+      "engraving": {
+        "id": "BurialsPage003_11",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Susan R.",
+        "surname": "HOUCHINS",
+        "entryText": "Susan R., w/o Abner A. Houchins b. Jun. 18, 1849 d. May 07, 1874",
+        "rect": {
+          "x0": 21,
+          "y0": 442,
+          "x1": 506,
+          "y1": 491,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "W/O",
+          "parents": "Abner A. Houchins",
+          "born": "Jun. 18, 1849",
+          "died": "May 07, 1874",
+          "aged": null,
+          "bornYear": 1849,
+          "diedYear": 1874
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_23",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 23,
+      "surname": "HOUCHINS",
+      "givenName": "Henry T. HOUCHINS",
+      "entryText": "Henry T. HOUCHINS, born Oct. 4, 1812, died Oct. 3, 1881",
+      "evidence": {
+        "text": "Henry T. HOUCHINS, born Oct. 4, 1812, died Oct. 3, 1881",
+        "rect": {
+          "x0": 39,
+          "y0": 666,
+          "x1": 483,
+          "y1": 690,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Oct. 4, 1812",
+        "died": "Oct. 3, 1881",
+        "aged": null,
+        "bornYear": 1812,
+        "diedYear": 1881
+      },
+      "engraving": {
+        "id": "BurialsPage005_9",
+        "sourcePage": "BurialsPage005",
+        "givenName": "Henry T.",
+        "surname": "HOUCHINS",
+        "entryText": "Henry T., b. Oct. 04, 1812 d. Oct. 03, 1881",
+        "rect": {
+          "x0": 54,
+          "y0": 401,
+          "x1": 465,
+          "y1": 437,
+          "skew": 2.7,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Oct. 04, 1812",
+          "died": "Oct. 03, 1881",
+          "aged": null,
+          "bornYear": 1812,
+          "diedYear": 1881
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_24",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 24,
+      "surname": "HOUCHINS",
+      "givenName": "Martha E. F HOUCHINS",
+      "entryText": "Martha E. F HOUCHINS, died July 31, 1914, aged 75y., 9m. and 18d.",
+      "evidence": {
+        "text": "Martha E. F HOUCHINS, died July 31, 1914, aged 75y., 9m. and 18d.",
+        "rect": {
+          "x0": 38,
+          "y0": 691,
+          "x1": 400,
+          "y1": 712,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "July 31, 1914",
+        "aged": "75y",
+        "bornYear": null,
+        "diedYear": 1914,
+        "inferredBirthYear": {
+          "lo": 1838,
+          "hi": 1839,
+          "basis": "death 1914 minus age 75y"
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha002_25",
+      "sourcePage": "BurialsAlpha002",
+      "seq": 25,
+      "surname": "HOUCHINS",
+      "givenName": "Charles F. HOUCHINS",
+      "entryText": "Charles F. HOUCHINS, M/W died Oct. 26, 1916, aged 39y., 2m. and 25d.",
+      "evidence": {
+        "text": "Charles F. HOUCHINS, M/W died Oct. 26, 1916, aged 39y., 2m. and 25d.",
+        "rect": {
+          "x0": 37,
+          "y0": 713,
+          "x1": 453,
+          "y1": 736,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Oct. 26, 1916",
+        "aged": "39y",
+        "bornYear": null,
+        "diedYear": 1916,
+        "inferredBirthYear": {
+          "lo": 1876,
+          "hi": 1877,
+          "basis": "death 1916 minus age 39y"
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_1",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 1,
+      "surname": "HETTICH",
+      "givenName": "Infant",
+      "entryText": "Infant S/O D. and J. HETTICH, born June 4, 1884, died June 21, 1884",
+      "evidence": {
+        "text": "Infant S/O D. and J. HETTICH, born June 4, 1884, died June 21, 1884",
+        "rect": {
+          "x0": 92,
+          "y0": 56,
+          "x1": 434,
+          "y1": 73,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "D. and J. HETTICH",
+        "born": "June 4, 1884",
+        "died": "June 21, 1884",
+        "aged": null,
+        "bornYear": 1884,
+        "diedYear": 1884
+      },
+      "engraving": {
+        "id": "BurialsPage007_12",
+        "sourcePage": "BurialsPage007",
+        "givenName": "infant",
+        "surname": "HETTICH",
+        "entryText": "infant s/o D. & J. Hettich b. Jun. 04, 1884 d. Jun. 21, 1884",
+        "rect": {
+          "x0": 23,
+          "y0": 437,
+          "x1": 432,
+          "y1": 475,
+          "skew": 1.4,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "D. & J. Hettich",
+          "born": "Jun. 04, 1884",
+          "died": "Jun. 21, 1884",
+          "aged": null,
+          "bornYear": 1884,
+          "diedYear": 1884
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_2",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 2,
+      "surname": "HENRY",
+      "givenName": "Malcolm HENRY",
+      "entryText": "Malcolm HENRY, died Nov. 26, 1854, aged 65y., and 17d. (Org. Territorial Leg. of MO - Lincoln Co. 1820)",
+      "evidence": {
+        "text": "Malcolm HENRY, died Nov. 26, 1854, aged 65y., and 17d. (Org. Territorial Leg. of MO - Lincoln Co. 1820)",
+        "rect": {
+          "x0": 90,
+          "y0": 74,
+          "x1": 519,
+          "y1": 104,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Nov. 26, 1854",
+        "aged": "65y",
+        "bornYear": null,
+        "diedYear": 1854,
+        "inferredBirthYear": {
+          "lo": 1788,
+          "hi": 1789,
+          "basis": "death 1854 minus age 65y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage003_19",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Malcolm",
+        "surname": "HENRY",
+        "entryText": "Malcolm, d. Nov. 26, 1854 aged 65y 17d",
+        "rect": {
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": "Nov. 26, 1854",
+          "aged": "65y 17d",
+          "bornYear": null,
+          "diedYear": 1854
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_3",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 3,
+      "surname": "HENRY",
+      "givenName": "Catherine",
+      "entryText": "Catherine W/O M. HENRY, died Sept. 21, 1867, aged 75y., 4m. and 22d.",
+      "evidence": {
+        "text": "Catherine W/O M. HENRY, died Sept. 21, 1867, aged 75y., 4m. and 22d.",
+        "rect": {
+          "x0": 88,
+          "y0": 111,
+          "x1": 433,
+          "y1": 125,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "M. HENRY",
+        "born": null,
+        "died": "Sept. 21, 1867",
+        "aged": "75y",
+        "bornYear": null,
+        "diedYear": 1867,
+        "refId": "BurialsAlpha003_2",
+        "refName": "Malcolm HENRY HENRY",
+        "refCertainty": "high",
+        "inferredBirthYear": {
+          "lo": 1791,
+          "hi": 1792,
+          "basis": "death 1867 minus age 75y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage003_20",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Catherine",
+        "surname": "HENRY",
+        "entryText": "Catherine, w/o Malcolm Henry d. Sep. 21, 1867 aged 75y 4m 22d",
+        "rect": {
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "W/O",
+          "parents": "Malcolm Henry",
+          "born": null,
+          "died": "Sep. 21, 1867",
+          "aged": "75y 4m 22d",
+          "bornYear": null,
+          "diedYear": 1867
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_4",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 4,
+      "surname": "HOWELL",
+      "givenName": "Beatrice",
+      "entryText": "Beatrice D/O F. and S. A. HOWELL, died Sept. 7, 1848 (or 1818)",
+      "evidence": {
+        "text": "Beatrice D/O F. and S. A. HOWELL, died Sept. 7, 1848 (or 1818)",
+        "rect": {
+          "x0": 40,
+          "y0": 126,
+          "x1": 510,
+          "y1": 153,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "F. and S. A. HOWELL",
+        "born": null,
+        "died": "Sept. 7, 1848",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1848
+      }
+    },
+    {
+      "id": "BurialsAlpha003_5",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 5,
+      "surname": "HOWELL",
+      "givenName": "Isiphina",
+      "entryText": "Isiphina D/O F. and S. A. HOWELL, died Sept. 6, 1848",
+      "evidence": {
+        "text": "Isiphina D/O F. and S. A. HOWELL, died Sept. 6, 1848",
+        "rect": {
+          "x0": 32,
+          "y0": 155,
+          "x1": 471,
+          "y1": 173,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "F. and S. A. HOWELL",
+        "born": null,
+        "died": "Sept. 6, 1848",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1848
+      }
+    },
+    {
+      "id": "BurialsAlpha003_6",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 6,
+      "surname": "HOWELL",
+      "givenName": "Sally A.",
+      "entryText": "Sally A. W/O F. HOWELL, born Jan. 1, 1816, died Sept. 9, 1847",
+      "evidence": {
+        "text": "Sally A. W/O F. HOWELL, born Jan. 1, 1816, died Sept. 9, 1847",
+        "rect": {
+          "x0": 19,
+          "y0": 178,
+          "x1": 469,
+          "y1": 198,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "F. HOWELL",
+        "born": "Jan. 1, 1816",
+        "died": "Sept. 9, 1847",
+        "aged": null,
+        "bornYear": 1816,
+        "diedYear": 1847
+      }
+    },
+    {
+      "id": "BurialsAlpha003_7",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 7,
+      "surname": "HOWELL",
+      "givenName": "John G. HOWELL",
+      "entryText": "John G. HOWELL, born in York Co. S. Carolina June 15, 1792, died Sept. 20, 1870",
+      "evidence": {
+        "text": "John G. HOWELL, born in York Co. S. Carolina June 15, 1792, died Sept. 20, 1870",
+        "rect": {
+          "x0": 18,
+          "y0": 200,
+          "x1": 512,
+          "y1": 224,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Sept. 20, 1870",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1870
+      }
+    },
+    {
+      "id": "BurialsAlpha003_8",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 8,
+      "surname": "HOWELL",
+      "givenName": "Elizabeth",
+      "entryText": "Elizabeth, W/O Samuel HOWELL Born in York Co. S. Carolina June 15, 1792, died Sept. 20, 1870",
+      "evidence": {
+        "text": "Elizabeth, W/O Samuel HOWELL Born in York Co. S. Carolina June 15, 1792, died Sept. 20, 1870",
+        "rect": {
+          "x0": 25,
+          "y0": 234,
+          "x1": 503,
+          "y1": 257,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Samuel HOWELL",
+        "born": null,
+        "died": "Sept. 20, 1870",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1870
+      },
+      "engraving": {
+        "id": "BurialsPage006_9",
+        "sourcePage": "BurialsPage006",
+        "givenName": "Elizabeth",
+        "surname": "HOWELL",
+        "entryText": "Elizabeth, w/o Samuel Howell b. in York Co. S.C. Jun. 15, 1792 d. Sep. 20, 187-",
+        "rect": {
+          "x0": 163,
+          "y0": 301,
+          "x1": 391,
+          "y1": 331,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "W/O",
+          "parents": "Samuel Howell",
+          "born": null,
+          "died": null,
+          "aged": null,
+          "bornYear": null,
+          "diedYear": null
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_9",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 9,
+      "surname": "HOWELL",
+      "givenName": "Edwin W. HOWELL",
+      "entryText": "Edwin W. HOWELL, born 1841, died 1928",
+      "evidence": {
+        "text": "Edwin W. HOWELL, born 1841, died 1928",
+        "rect": {
+          "x0": 24,
+          "y0": 268,
+          "x1": 370,
+          "y1": 282,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1841,
+        "diedYear": 1928
+      }
+    },
+    {
+      "id": "BurialsAlpha003_10",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 10,
+      "surname": "HOWELL",
+      "givenName": "Louisa G.",
+      "entryText": "Louisa G. W/O C. W. HOWELL, born Mar. 3, 1838, died Jan. 4, 1882",
+      "evidence": {
+        "text": "Louisa G. W/O C. W. HOWELL, born Mar. 3, 1838, died Jan. 4, 1882",
+        "rect": {
+          "x0": 23,
+          "y0": 293,
+          "x1": 491,
+          "y1": 312,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "C. W. HOWELL",
+        "born": "Mar. 3, 1838",
+        "died": "Jan. 4, 1882",
+        "aged": null,
+        "bornYear": 1838,
+        "diedYear": 1882
+      }
+    },
+    {
+      "id": "BurialsAlpha003_11",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 11,
+      "surname": "HOWELL",
+      "givenName": "Silas J. HOWELL",
+      "entryText": "Silas J. HOWELL, born Sept. 19, 1847, died Jan. 4, 1882",
+      "evidence": {
+        "text": "Silas J. HOWELL, born Sept. 19, 1847, died Jan. 4, 1882",
+        "rect": {
+          "x0": 23,
+          "y0": 314,
+          "x1": 523,
+          "y1": 332,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Sept. 19, 1847",
+        "died": "Jan. 4, 1882",
+        "aged": null,
+        "bornYear": 1847,
+        "diedYear": 1882
+      }
+    },
+    {
+      "id": "BurialsAlpha003_12",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 12,
+      "surname": "HOWELL",
+      "givenName": "Annie E. HOWELL",
+      "entryText": "Annie E. HOWELL, born Mar. 16, 1872, died Nov. 14, 1881",
+      "evidence": {
+        "text": "Annie E. HOWELL, born Mar. 16, 1872, died Nov. 14, 1881",
+        "rect": {
+          "x0": 21,
+          "y0": 340,
+          "x1": 445,
+          "y1": 356,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Mar. 16, 1872",
+        "died": "Nov. 14, 1881",
+        "aged": null,
+        "bornYear": 1872,
+        "diedYear": 1881
+      }
+    },
+    {
+      "id": "BurialsAlpha003_13",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 13,
+      "surname": "HUMPHREY",
+      "givenName": "Susan HUMPHREY",
+      "entryText": "Susan HUMPHREY, born Warren Co. MO, died Apr. 19, 1919, aged 75y., 8m. and 20d.",
+      "evidence": {
+        "text": "Susan HUMPHREY, born Warren Co. MO, died Apr. 19, 1919, aged 75y., 8m. and 20d.",
+        "rect": {
+          "x0": 19,
+          "y0": 361,
+          "x1": 503,
+          "y1": 383,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Apr. 19, 1919",
+        "aged": "75y",
+        "bornYear": null,
+        "diedYear": 1919,
+        "inferredBirthYear": {
+          "lo": 1843,
+          "hi": 1844,
+          "basis": "death 1919 minus age 75y"
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_14",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 14,
+      "surname": "HUMPHREY",
+      "givenName": "Flavius J.",
+      "entryText": "Flavius J. M/W HUMPHREY, born Dec. 22, 1831, died Mar. 18, 1915, aged 83y., 2m. and 6d.",
+      "evidence": {
+        "text": "Flavius J. M/W HUMPHREY, born Dec. 22, 1831, died Mar. 18, 1915, aged 83y., 2m. and 6d.",
+        "rect": {
+          "x0": 18,
+          "y0": 395,
+          "x1": 517,
+          "y1": 419,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "M/W",
+        "parents": "HUMPHREY",
+        "born": "Dec. 22, 1831",
+        "died": "Mar. 18, 1915",
+        "aged": "83y",
+        "bornYear": 1831,
+        "diedYear": 1915
+      }
+    },
+    {
+      "id": "BurialsAlpha003_15",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 15,
+      "surname": "JENNINGS",
+      "givenName": "Delaney",
+      "entryText": "Delaney W/O E. J. JENNINGS, died Oct. 10, 1856, aged 54y, 2m and 23d.",
+      "evidence": {
+        "text": "Delaney W/O E. J. JENNINGS, died Oct. 10, 1856, aged 54y, 2m and 23d.",
+        "rect": {
+          "x0": 18,
+          "y0": 430,
+          "x1": 504,
+          "y1": 455,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "E. J. JENNINGS",
+        "born": null,
+        "died": "Oct. 10, 1856",
+        "aged": "54y",
+        "bornYear": null,
+        "diedYear": 1856,
+        "inferredBirthYear": {
+          "lo": 1801,
+          "hi": 1802,
+          "basis": "death 1856 minus age 54y"
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_16",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 16,
+      "surname": "JENNINGS",
+      "givenName": "Edmond D. JENNINGS",
+      "entryText": "Edmond D. JENNINGS, born Dec. 21, 1804, died Jan. 3, 1884",
+      "evidence": {
+        "text": "Edmond D. JENNINGS, born Dec. 21, 1804, died Jan. 3, 1884",
+        "rect": {
+          "x0": 72,
+          "y0": 456,
+          "x1": 447,
+          "y1": 474,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Dec. 21, 1804",
+        "died": "Jan. 3, 1884",
+        "aged": null,
+        "bornYear": 1804,
+        "diedYear": 1884
+      }
+    },
+    {
+      "id": "BurialsAlpha003_17",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 17,
+      "surname": "JENNINGS",
+      "givenName": "Jefferson A.",
+      "entryText": "Jefferson A. S/O E. D. and H. E. JENNINGS, born Oct. 29, 1870 died Jan. 24, 1873",
+      "evidence": {
+        "text": "Jefferson A. S/O E. D. and H. E. JENNINGS, born Oct. 29, 1870 died Jan. 24, 1873",
+        "rect": {
+          "x0": 71,
+          "y0": 477,
+          "x1": 516,
+          "y1": 499,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "E",
+        "born": "Oct. 29, 1870",
+        "died": "Jan. 24, 1873",
+        "aged": null,
+        "bornYear": 1870,
+        "diedYear": 1873
+      },
+      "engraving": {
+        "id": "BurialsPage005_4",
+        "sourcePage": "BurialsPage005",
+        "givenName": "Jefferson A.",
+        "surname": "JENNINGS",
+        "entryText": "Jefferson A., s/o E.D. & H.F. Jennings b. Oct. 29, 1870 d. Jan. 24, 1873",
+        "rect": {
+          "x0": 66,
+          "y0": 235,
+          "x1": 471,
+          "y1": 256,
+          "skew": 2.7,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "E.D. & H.F. Jennings",
+          "born": "Oct. 29, 1870",
+          "died": "Jan. 24, 1873",
+          "aged": null,
+          "bornYear": 1870,
+          "diedYear": 1873
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_18",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 18,
+      "surname": "MASSEY",
+      "givenName": "Matilda",
+      "entryText": "Matilda W/O N. M. MASSEY, died Aug. 18, 1833, aged 35y. and 1d.",
+      "evidence": {
+        "text": "Matilda W/O N. M. MASSEY, died Aug. 18, 1833, aged 35y. and 1d.",
+        "rect": {
+          "x0": 70,
+          "y0": 512,
+          "x1": 477,
+          "y1": 536,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "N. M. MASSEY",
+        "born": null,
+        "died": "Aug. 18, 1833",
+        "aged": "35y",
+        "bornYear": null,
+        "diedYear": 1833,
+        "inferredBirthYear": {
+          "lo": 1797,
+          "hi": 1798,
+          "basis": "death 1833 minus age 35y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage003_21",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Matilda",
+        "surname": "MASSEY",
+        "entryText": "Matilda, w/o Nathan Massey d. Aug. 18, 1833 aged 35y 1d",
+        "rect": {
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "W/O",
+          "parents": "Nathan Massey",
+          "born": null,
+          "died": "Aug. 18, 1833",
+          "aged": "35y 1d",
+          "bornYear": null,
+          "diedYear": 1833
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_19",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 19,
+      "surname": "MASSEY",
+      "givenName": "Frances M.",
+      "entryText": "Frances M. D/O N. and M. MASSEY, died Mar. 7, 1833, aged 4m. and 28d.",
+      "evidence": {
+        "text": "Frances M. D/O N. and M. MASSEY, died Mar. 7, 1833, aged 4m. and 28d.",
+        "rect": {
+          "x0": 70,
+          "y0": 537,
+          "x1": 509,
+          "y1": 558,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "N. and M. MASSEY",
+        "born": null,
+        "died": "Mar. 7, 1833",
+        "aged": "4m",
+        "bornYear": null,
+        "diedYear": 1833
+      },
+      "engraving": {
+        "id": "BurialsPage003_22",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Frances M.",
+        "surname": "MASSEY",
+        "entryText": "Frances M., d/o Nathan & Matilda Massey d. Mar. 07, 1833 aged 4m 28d",
+        "rect": {
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "D/O",
+          "parents": "Nathan & Matilda Massey",
+          "born": null,
+          "died": "Mar. 07, 1833",
+          "aged": "4m 28d",
+          "bornYear": null,
+          "diedYear": 1833
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_20",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 20,
+      "surname": "MILLS",
+      "givenName": "Azuban MILLS",
+      "entryText": "Azuban MILLS, born Jan. 11, 1786, died June 18, 1852",
+      "evidence": {
+        "text": "Azuban MILLS, born Jan. 11, 1786, died June 18, 1852",
+        "rect": {
+          "x0": 69,
+          "y0": 560,
+          "x1": 410,
+          "y1": 579,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Jan. 11, 1786",
+        "died": "June 18, 1852",
+        "aged": null,
+        "bornYear": 1786,
+        "diedYear": 1852
+      }
+    },
+    {
+      "id": "BurialsAlpha003_21",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 21,
+      "surname": "McELWEE",
+      "givenName": "James McELWEE",
+      "entryText": "James McELWEE, born Aug. 19, 1758 Greenville Co. Virginia, died June 13, 1834, aged 75y, 1m and 24d. (Rev. War Soldier Monument) (Note: This Revolutionary Soldiers Grave was marked with official ceremony June 6, 1985 by the Am. Daughters of the Am. Pike Co. Chapter)",
+      "evidence": {
+        "text": "James McELWEE, born Aug. 19, 1758 Greenville Co. Virginia, died June 13, 1834, aged 75y, 1m and 24d. (Rev. War Soldier Monument) (Note: This Revolutionary Soldiers Grave was marked with official ceremony June 6, 1985 by the Am. Daughters of the Am. Pike Co. Chapter)",
+        "rect": {
+          "x0": 69,
+          "y0": 580,
+          "x1": 512,
+          "y1": 605,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Aug. 19, 1758",
+        "died": "June 13, 1834",
+        "aged": "75y",
+        "bornYear": 1758,
+        "diedYear": 1834
+      },
+      "engraving": {
+        "id": "BurialsPage004_1",
+        "sourcePage": "BurialsPage004",
+        "givenName": "James",
+        "surname": "McELWEE",
+        "entryText": "James, b. Aug. 19, 1758 Greenville Co. Virginia d. June 13, 1834 aged 75y 1m 24d (Rev. War Monument)",
+        "rect": {
+          "x0": 217,
+          "y0": 103,
+          "x1": 335,
+          "y1": 113,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Aug. 19, 1758",
+          "died": "June 13, 1834",
+          "aged": "75y 1m 24d (Rev",
+          "bornYear": 1758,
+          "diedYear": 1834
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_22",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 22,
+      "surname": "McELWEE",
+      "givenName": "Mary Mills",
+      "entryText": "Mary Mills W/O James D. McELWEE, born Mar. 13, 1809, died Dec. 15, 1894",
+      "evidence": {
+        "text": "Mary Mills W/O James D. McELWEE, born Mar. 13, 1809, died Dec. 15, 1894",
+        "rect": {
+          "x0": 69,
+          "y0": 606,
+          "x1": 512,
+          "y1": 635,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "James",
+        "born": "Mar. 13, 1809",
+        "died": "Dec. 15, 1894",
+        "aged": null,
+        "bornYear": 1809,
+        "diedYear": 1894,
+        "refId": "BurialsAlpha003_21",
+        "refName": "James McELWEE McELWEE",
+        "refCertainty": "high"
+      },
+      "engraving": {
+        "id": "BurialsPage004_2",
+        "sourcePage": "BurialsPage004",
+        "givenName": "Mary Mills",
+        "surname": "McELWEE",
+        "entryText": "Mary Mills, w/o James D. McElwee b. Mar. 13, 1809 d. Dec. 15, 1894",
+        "rect": {
+          "x0": 37,
+          "y0": 134,
+          "x1": 502,
+          "y1": 173,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "W/O",
+          "parents": "James",
+          "born": "Mar. 13, 1809",
+          "died": "Dec. 15, 1894",
+          "aged": null,
+          "bornYear": 1809,
+          "diedYear": 1894
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_23",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 23,
+      "surname": "McELWEE",
+      "givenName": "Rhoda Black",
+      "entryText": "Rhoda Black W/O James McELWEE, born Mar. 4, 1777, died Aug. 22, 1848, Aged 71y, 1m and 21d.",
+      "evidence": {
+        "text": "Rhoda Black W/O James McELWEE, born Mar. 4, 1777, died Aug. 22, 1848, Aged 71y, 1m and 21d.",
+        "rect": {
+          "x0": 68,
+          "y0": 636,
+          "x1": 492,
+          "y1": 660,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "James McELWEE",
+        "born": "Mar. 4, 1777",
+        "died": "Aug. 22, 1848",
+        "aged": "71y",
+        "bornYear": 1777,
+        "diedYear": 1848,
+        "refId": "BurialsAlpha003_21",
+        "refName": "James McELWEE McELWEE",
+        "refCertainty": "high"
+      },
+      "engraving": {
+        "id": "BurialsPage004_3",
+        "sourcePage": "BurialsPage004",
+        "givenName": "Rhoda Black",
+        "surname": "McELWEE",
+        "entryText": "Rhoda Black, w/o James McElwee b. Mar. 04, 1777 d. Aug. 22, 1848 aged 71y 1m 21d",
+        "rect": {
+          "x0": 35,
+          "y0": 184,
+          "x1": 419,
+          "y1": 214,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "W/O",
+          "parents": "James McElwee",
+          "born": "Mar. 04, 1777",
+          "died": "Aug. 22, 1848",
+          "aged": "71y 1m 21d",
+          "bornYear": 1777,
+          "diedYear": 1848
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha003_24",
+      "sourcePage": "BurialsAlpha003",
+      "seq": 24,
+      "surname": "McELWEE",
+      "givenName": "Mary McELWEE",
+      "entryText": "Mary McELWEE, born July 9, 1812, in York Dist. S. Carolina, died July 10, 1890",
+      "evidence": {
+        "text": "Mary McELWEE, born July 9, 1812, in York Dist. S. Carolina, died July 10, 1890",
+        "rect": {
+          "x0": 67,
+          "y0": 669,
+          "x1": 511,
+          "y1": 697,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "July 9, 1812",
+        "died": "July 10, 1890",
+        "aged": null,
+        "bornYear": 1812,
+        "diedYear": 1890
+      },
+      "engraving": {
+        "id": "BurialsPage004_4",
+        "sourcePage": "BurialsPage004",
+        "givenName": "Mary",
+        "surname": "McELWEE",
+        "entryText": "Mary, b. Jul 09, 1812 in York District S. Carolina d. Jul. 10, 1890",
+        "rect": {
+          "x0": 33,
+          "y0": 221,
+          "x1": 419,
+          "y1": 260,
+          "skew": 0.8,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Jul 09, 1812",
+          "died": "Jul. 10, 1890",
+          "aged": null,
+          "bornYear": 1812,
+          "diedYear": 1890
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_1",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 1,
+      "surname": "McELWEE",
+      "givenName": "George E. McELWEE",
+      "entryText": "George E. McELWEE, died Nov. 2, 1883, Aged 27y, 4m and 4d.",
+      "evidence": {
+        "text": "George E. McELWEE, died Nov. 2, 1883, Aged 27y, 4m and 4d.",
+        "rect": {
+          "x0": 49,
+          "y0": 36,
+          "x1": 441,
+          "y1": 55,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Nov. 2, 1883",
+        "aged": "27y",
+        "bornYear": null,
+        "diedYear": 1883,
+        "inferredBirthYear": {
+          "lo": 1855,
+          "hi": 1856,
+          "basis": "death 1883 minus age 27y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage007_1",
+        "sourcePage": "BurialsPage007",
+        "givenName": "George E.",
+        "surname": "McELWEE",
+        "entryText": "George E., d. Nov. 02, 1883 aged 27y 4m 4d",
+        "rect": {
+          "x0": 227,
+          "y0": 147,
+          "x1": 352,
+          "y1": 161,
+          "skew": 1.4,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": "Nov. 02, 1883",
+          "aged": "27y 4m 4d",
+          "bornYear": null,
+          "diedYear": 1883
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_2",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 2,
+      "surname": "McELWEE",
+      "givenName": "Henry S.",
+      "entryText": "Henry S. S/O Dan and N. L. McELWEE, born Sept. 8, 1837, died May 18, 1864",
+      "evidence": {
+        "text": "Henry S. S/O Dan and N. L. McELWEE, born Sept. 8, 1837, died May 18, 1864",
+        "rect": {
+          "x0": 40,
+          "y0": 57,
+          "x1": 486,
+          "y1": 75,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "Dan and N. L. McELWEE",
+        "born": "Sept. 8, 1837",
+        "died": "May 18, 1864",
+        "aged": null,
+        "bornYear": 1837,
+        "diedYear": 1864,
+        "refId": "BurialsAlpha004_4",
+        "refName": "Dan McELWEE McELWEE",
+        "refCertainty": "high"
+      },
+      "engraving": {
+        "id": "BurialsPage007_2",
+        "sourcePage": "BurialsPage007",
+        "givenName": "Henry S.",
+        "surname": "McELWEE",
+        "entryText": "Henry S., s/o Dan & N.L. McElwee b. Sep. 08, 1837 d. May 18, 1864",
+        "rect": {
+          "x0": 37,
+          "y0": 164,
+          "x1": 422,
+          "y1": 186,
+          "skew": 1.4,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "Dan & N.L. McElwee",
+          "born": "Sep. 08, 1837",
+          "died": "May 18, 1864",
+          "aged": null,
+          "bornYear": 1837,
+          "diedYear": 1864
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_3",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 3,
+      "surname": "McELWEE",
+      "givenName": "Alexander B.",
+      "entryText": "Alexander B. S/O Dan and Nancy McELWEE, died Oct. 10, 1849, aged 6m and 20d.",
+      "evidence": {
+        "text": "Alexander B. S/O Dan and Nancy McELWEE, died Oct. 10, 1849, aged 6m and 20d.",
+        "rect": {
+          "x0": 26,
+          "y0": 90,
+          "x1": 495,
+          "y1": 108,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "Dan and Nancy McELWEE",
+        "born": null,
+        "died": "Oct. 10, 1849",
+        "aged": "6m and 20d",
+        "bornYear": null,
+        "diedYear": 1849,
+        "refId": "BurialsAlpha004_4",
+        "refName": "Dan McELWEE McELWEE",
+        "refCertainty": "high"
+      },
+      "engraving": {
+        "id": "BurialsPage007_3",
+        "sourcePage": "BurialsPage007",
+        "givenName": "Alexander B.",
+        "surname": "McELWEE",
+        "entryText": "Alexander B., s/o Dan & Nancy McElwee d. Oct. 10, 1849",
+        "rect": {
+          "x0": 35,
+          "y0": 187,
+          "x1": 501,
+          "y1": 221,
+          "skew": 1.4,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "Dan & Nancy McElwee",
+          "born": null,
+          "died": "Oct. 10, 1849",
+          "aged": null,
+          "bornYear": null,
+          "diedYear": 1849
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_4",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 4,
+      "surname": "McELWEE",
+      "givenName": "Dan McELWEE",
+      "entryText": "Dan McELWEE, died Mar. 7, 1873, aged 66y., 10m. and 5d.",
+      "evidence": {
+        "text": "Dan McELWEE, died Mar. 7, 1873, aged 66y., 10m. and 5d.",
+        "rect": {
+          "x0": 13,
+          "y0": 123,
+          "x1": 424,
+          "y1": 140,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Mar. 7, 1873",
+        "aged": "66y",
+        "bornYear": null,
+        "diedYear": 1873,
+        "inferredBirthYear": {
+          "lo": 1806,
+          "hi": 1807,
+          "basis": "death 1873 minus age 66y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage007_4",
+        "sourcePage": "BurialsPage007",
+        "givenName": "Dan",
+        "surname": "McELWEE",
+        "entryText": "Dan, d. Mar. 07, 1873 aged 66y 10m 5d",
+        "rect": {
+          "x0": 33,
+          "y0": 223,
+          "x1": 448,
+          "y1": 262,
+          "skew": 1.4,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": "Mar. 07, 1873",
+          "aged": "66y 10m 5d",
+          "bornYear": null,
+          "diedYear": 1873
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_5",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 5,
+      "surname": "McELWEE",
+      "givenName": "Nancy L.",
+      "entryText": "Nancy L. W/O Dan McELWEE, died Feb. 9, 1892, aged 77y., 11m. and 1d.",
+      "evidence": {
+        "text": "Nancy L. W/O Dan McELWEE, died Feb. 9, 1892, aged 77y., 11m. and 1d.",
+        "rect": {
+          "x0": 2,
+          "y0": 145,
+          "x1": 490,
+          "y1": 163,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Dan McELWEE",
+        "born": null,
+        "died": "Feb. 9, 1892",
+        "aged": "77y",
+        "bornYear": null,
+        "diedYear": 1892,
+        "refId": "BurialsAlpha004_4",
+        "refName": "Dan McELWEE McELWEE",
+        "refCertainty": "high",
+        "inferredBirthYear": {
+          "lo": 1814,
+          "hi": 1815,
+          "basis": "death 1892 minus age 77y"
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_6",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 6,
+      "surname": "METTICH",
+      "givenName": "Infant",
+      "entryText": "Infant S/O D. AND J. METTICH, born June 14, 1884, died June 21, 1884",
+      "evidence": {
+        "text": "Infant S/O D. AND J. METTICH, born June 14, 1884, died June 21, 1884",
+        "rect": {
+          "x0": 0,
+          "y0": 164,
+          "x1": 490,
+          "y1": 182,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "D. AND J. METTICH",
+        "born": "June 14, 1884",
+        "died": "June 21, 1884",
+        "aged": null,
+        "bornYear": 1884,
+        "diedYear": 1884
+      }
+    },
+    {
+      "id": "BurialsAlpha004_7",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 7,
+      "surname": "OWEN",
+      "givenName": "Joel B. OWEN",
+      "entryText": "Joel B. OWEN, born Sept. 18, 1821, died Sept. 30, 1862",
+      "evidence": {
+        "text": "Joel B. OWEN, born Sept. 18, 1821, died Sept. 30, 1862",
+        "rect": {
+          "x0": 0,
+          "y0": 191,
+          "x1": 408,
+          "y1": 206,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Sept. 18, 1821",
+        "died": "Sept. 30, 1862",
+        "aged": null,
+        "bornYear": 1821,
+        "diedYear": 1862
+      }
+    },
+    {
+      "id": "BurialsAlpha004_8",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 8,
+      "surname": "PERKINS",
+      "givenName": "Albert PERKINS",
+      "entryText": "Albert PERKINS, Co. D 118 Ill., In (Nodate) war",
+      "evidence": {
+        "text": "Albert PERKINS, Co. D 118 Ill., In (Nodate) war",
+        "rect": {
+          "x0": 0,
+          "y0": 214,
+          "x1": 374,
+          "y1": 227,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": null,
+        "diedYear": null
+      },
+      "engraving": {
+        "id": "BurialsPage002_13",
+        "sourcePage": "BurialsPage002",
+        "givenName": "Albert",
+        "surname": "PERKINS",
+        "entryText": "Albert, Co. D 118 ILL. INF",
+        "rect": {
+          "x0": 172,
+          "y0": 330,
+          "x1": 429,
+          "y1": 343,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": null,
+          "aged": null,
+          "bornYear": null,
+          "diedYear": null
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_9",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 9,
+      "surname": "PATRICK",
+      "givenName": "James W. PATRICK",
+      "entryText": "James W. PATRICK, born 1863 died 1926",
+      "evidence": {
+        "text": "James W. PATRICK, born 1863 died 1926",
+        "rect": {
+          "x0": 0,
+          "y0": 237,
+          "x1": 346,
+          "y1": 248,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1863,
+        "diedYear": 1926
+      },
+      "engraving": {
+        "id": "BurialsPage003_17",
+        "sourcePage": "BurialsPage003",
+        "givenName": "James W.",
+        "surname": "PATRICK",
+        "entryText": "James W., 1863 - 1926",
+        "rect": {
+          "x0": 17,
+          "y0": 662,
+          "x1": 435,
+          "y1": 695,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": null,
+          "aged": null,
+          "bornYear": 1863,
+          "diedYear": 1926
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_10",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 10,
+      "surname": "PATRICK",
+      "givenName": "Emma S. PATRICK",
+      "entryText": "Emma S. PATRICK, born 1865 died 1940",
+      "evidence": {
+        "text": "Emma S. PATRICK, born 1865 died 1940",
+        "rect": {
+          "x0": 0,
+          "y0": 261,
+          "x1": 346,
+          "y1": 271,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1865,
+        "diedYear": 1940
+      },
+      "engraving": {
+        "id": "BurialsPage003_18",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Emma S.",
+        "surname": "PATRICK",
+        "entryText": "Emma S., 1865 - 1940",
+        "rect": {
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": null,
+          "aged": null,
+          "bornYear": 1865,
+          "diedYear": 1940
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_11",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 11,
+      "surname": "PATRICK",
+      "givenName": "Winifrede B.",
+      "entryText": "Winifrede B. D/O J. and M. PATRICK, Born Mar. 12, 1914, died Sept. 14, 1915",
+      "evidence": {
+        "text": "Winifrede B. D/O J. and M. PATRICK, Born Mar. 12, 1914, died Sept. 14, 1915",
+        "rect": {
+          "x0": 0,
+          "y0": 284,
+          "x1": 495,
+          "y1": 301,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "J. and M. PATRICK",
+        "born": "Mar. 12, 1914",
+        "died": "Sept. 14, 1915",
+        "aged": null,
+        "bornYear": 1914,
+        "diedYear": 1915
+      }
+    },
+    {
+      "id": "BurialsAlpha004_12",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 12,
+      "surname": "PATRICK",
+      "givenName": "Ross Arvell PATRICK",
+      "entryText": "Ross Arvell PATRICK, Born Jan. 4, 1887, died Jan. 2, 1919",
+      "evidence": {
+        "text": "Ross Arvell PATRICK, Born Jan. 4, 1887, died Jan. 2, 1919",
+        "rect": {
+          "x0": 0,
+          "y0": 320,
+          "x1": 423,
+          "y1": 332,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Jan. 4, 1887",
+        "died": "Jan. 2, 1919",
+        "aged": null,
+        "bornYear": 1887,
+        "diedYear": 1919
+      }
+    },
+    {
+      "id": "BurialsAlpha004_13",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 13,
+      "surname": "PATRICK",
+      "givenName": "Larkin Irvin PATRICK",
+      "entryText": "Larkin Irvin PATRICK, Born Apr. 19, 1898, died May 13, 1918",
+      "evidence": {
+        "text": "Larkin Irvin PATRICK, Born Apr. 19, 1898, died May 13, 1918",
+        "rect": {
+          "x0": 58,
+          "y0": 343,
+          "x1": 442,
+          "y1": 356,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Apr. 19, 1898",
+        "died": "May 13, 1918",
+        "aged": null,
+        "bornYear": 1898,
+        "diedYear": 1918
+      }
+    },
+    {
+      "id": "BurialsAlpha004_14",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 14,
+      "surname": "PATRICK",
+      "givenName": "Carl Everett PATRICK",
+      "entryText": "Carl Everett PATRICK, Born Apr. 2, 1908, died Jan. 29, 1920",
+      "evidence": {
+        "text": "Carl Everett PATRICK, Born Apr. 2, 1908, died Jan. 29, 1920",
+        "rect": {
+          "x0": 57,
+          "y0": 367,
+          "x1": 433,
+          "y1": 379,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Apr. 2, 1908",
+        "died": "Jan. 29, 1920",
+        "aged": null,
+        "bornYear": 1908,
+        "diedYear": 1920
+      }
+    },
+    {
+      "id": "BurialsAlpha004_15",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 15,
+      "surname": "RHEA",
+      "givenName": "H. L. RHEA",
+      "entryText": "H. L. RHEA, born May 21, 1832, died Aug. 20, 1858",
+      "evidence": {
+        "text": "H. L. RHEA, born May 21, 1832, died Aug. 20, 1858",
+        "rect": {
+          "x0": 57,
+          "y0": 390,
+          "x1": 391,
+          "y1": 402,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "May 21, 1832",
+        "died": "Aug. 20, 1858",
+        "aged": null,
+        "bornYear": 1832,
+        "diedYear": 1858
+      }
+    },
+    {
+      "id": "BurialsAlpha004_16",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 16,
+      "surname": "RHEA",
+      "givenName": "Adaline M.",
+      "entryText": "Adaline M. W/O H. L. RHEA, born Mar. 21, 1832, died Aug. 20, 1858",
+      "evidence": {
+        "text": "Adaline M. W/O H. L. RHEA, born Mar. 21, 1832, died Aug. 20, 1858",
+        "rect": {
+          "x0": 57,
+          "y0": 414,
+          "x1": 474,
+          "y1": 426,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "H. L. RHEA",
+        "born": "Mar. 21, 1832",
+        "died": "Aug. 20, 1858",
+        "aged": null,
+        "bornYear": 1832,
+        "diedYear": 1858,
+        "refId": "BurialsAlpha004_15",
+        "refName": "H. L. RHEA RHEA",
+        "refCertainty": "high"
+      }
+    },
+    {
+      "id": "BurialsAlpha004_17",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 17,
+      "surname": "RHEA",
+      "givenName": "George A.",
+      "entryText": "George A. S/O H. L. and A. M. RHEA, died Apr. 30, 1857, aged 1y, 6m, and 6d.",
+      "evidence": {
+        "text": "George A. S/O H. L. and A. M. RHEA, died Apr. 30, 1857, aged 1y, 6m, and 6d.",
+        "rect": {
+          "x0": 56,
+          "y0": 437,
+          "x1": 502,
+          "y1": 451,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "H. L. and A. M. RHEA",
+        "born": null,
+        "died": "Apr. 30, 1857",
+        "aged": "1y",
+        "bornYear": null,
+        "diedYear": 1857,
+        "refId": "BurialsAlpha004_15",
+        "refName": "H. L. RHEA RHEA",
+        "refCertainty": "high",
+        "inferredBirthYear": {
+          "lo": 1855,
+          "hi": 1856,
+          "basis": "death 1857 minus age 1y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage005_11",
+        "sourcePage": "BurialsPage005",
+        "givenName": "George A.",
+        "surname": "RHEA",
+        "entryText": "George A., s/o Hamilton L. & A. Rhea d. Apr. 30, 1857",
+        "rect": {
+          "x0": 164,
+          "y0": 489,
+          "x1": 448,
+          "y1": 527,
+          "skew": 2.7,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "Hamilton L. & A. Rhea",
+          "born": null,
+          "died": "Apr. 30, 1857",
+          "aged": null,
+          "bornYear": null,
+          "diedYear": 1857
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_18",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 18,
+      "surname": "RHEA",
+      "givenName": "Margaret C. RHEA",
+      "entryText": "Margaret C. RHEA, born Aug. 9, 1828, died Dec. 29, 1852",
+      "evidence": {
+        "text": "Margaret C. RHEA, born Aug. 9, 1828, died Dec. 29, 1852",
+        "rect": {
+          "x0": 55,
+          "y0": 476,
+          "x1": 417,
+          "y1": 485,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Aug. 9, 1828",
+        "died": "Dec. 29, 1852",
+        "aged": null,
+        "bornYear": 1828,
+        "diedYear": 1852
+      }
+    },
+    {
+      "id": "BurialsAlpha004_19",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 19,
+      "surname": "RHEA",
+      "givenName": "Messina",
+      "entryText": "Messina W/O Silis RHEA, D/O Francis and Jemema Gilmore born Feb. 5, 1800, died July 19, 1856",
+      "evidence": {
+        "text": "Messina W/O Silis RHEA, D/O Francis and Jemema Gilmore born Feb. 5, 1800, died July 19, 1856",
+        "rect": {
+          "x0": 55,
+          "y0": 499,
+          "x1": 489,
+          "y1": 509,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Silis RHEA",
+        "born": "Feb. 5, 1800",
+        "died": "July 19, 1856",
+        "aged": null,
+        "bornYear": 1800,
+        "diedYear": 1856
+      },
+      "engraving": {
+        "id": "BurialsPage005_13",
+        "sourcePage": "BurialsPage005",
+        "givenName": "Messina",
+        "surname": "RHEA",
+        "entryText": "Messina, w/o Silas Rhea d/o Francis & Jemima Gilmore b. Feb. 05, 1800 d. Jul. 19, 1856",
+        "rect": {
+          "x0": 161,
+          "y0": 587,
+          "x1": 427,
+          "y1": 612,
+          "skew": 2.7,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "D/O",
+          "parents": "Francis & Jemima Gilmore",
+          "born": "Feb. 05, 1800",
+          "died": "Jul. 19, 1856",
+          "aged": null,
+          "bornYear": 1800,
+          "diedYear": 1856
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_20",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 20,
+      "surname": "RHEA",
+      "givenName": "Silis H. RHEA",
+      "entryText": "Silis H. RHEA, born June 5, 1791, died Jan. 11, 1847",
+      "evidence": {
+        "text": "Silis H. RHEA, born June 5, 1791, died Jan. 11, 1847",
+        "rect": {
+          "x0": 141,
+          "y0": 512,
+          "x1": 254,
+          "y1": 520,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "June 5, 1791",
+        "died": "Jan. 11, 1847",
+        "aged": null,
+        "bornYear": 1791,
+        "diedYear": 1847
+      }
+    },
+    {
+      "id": "BurialsAlpha004_21",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 21,
+      "surname": "ROBERTS",
+      "givenName": "Elliott R.",
+      "entryText": "Elliott R. H/O Rebecca ROBERTS, born (broken), died May 2, 1874",
+      "evidence": {
+        "text": "Elliott R. H/O Rebecca ROBERTS, born (broken), died May 2, 1874",
+        "rect": {
+          "x0": 55,
+          "y0": 535,
+          "x1": 389,
+          "y1": 544,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "H/O",
+        "parents": "Rebecca ROBERTS",
+        "born": null,
+        "died": "May 2, 1874",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1874
+      }
+    },
+    {
+      "id": "BurialsAlpha004_22",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 22,
+      "surname": "ROBERTS",
+      "givenName": "James ROBERTS",
+      "entryText": "James ROBERTS, born Jan. 20, 1826, died Nov. 9, 1862, aged 36y, 9m and 19d.",
+      "evidence": {
+        "text": "James ROBERTS, born Jan. 20, 1826, died Nov. 9, 1862, aged 36y, 9m and 19d.",
+        "rect": {
+          "x0": 55,
+          "y0": 555,
+          "x1": 463,
+          "y1": 567,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Jan. 20, 1826",
+        "died": "Nov. 9, 1862",
+        "aged": "36y",
+        "bornYear": 1826,
+        "diedYear": 1862
+      },
+      "engraving": {
+        "id": "BurialsPage002_14",
+        "sourcePage": "BurialsPage002",
+        "givenName": "James",
+        "surname": "ROBERTS",
+        "entryText": "James, b. Jan. 20, 1826 d. Nov. 09, 1862 aged 36y 9m 19d",
+        "rect": {
+          "x0": 172,
+          "y0": 344,
+          "x1": 478,
+          "y1": 357,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Jan. 20, 1826",
+          "died": "Nov. 09, 1862",
+          "aged": "36y 9m 19d",
+          "bornYear": 1826,
+          "diedYear": 1862
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_23",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 23,
+      "surname": "ROWLEY",
+      "givenName": "Rebecca S.",
+      "entryText": "Rebecca S. W/O Elliott R. ROBERTS, born July 30, 1802, died July 7, 1874",
+      "evidence": {
+        "text": "Rebecca S. W/O Elliott R. ROBERTS, born July 30, 1802, died July 7, 1874",
+        "rect": {
+          "x0": 55,
+          "y0": 578,
+          "x1": 498,
+          "y1": 592,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Elliott R. ROBERTS",
+        "born": "July 30, 1802",
+        "died": "July 7, 1874",
+        "aged": null,
+        "bornYear": 1802,
+        "diedYear": 1874
+      }
+    },
+    {
+      "id": "BurialsAlpha004_24",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 24,
+      "surname": "ROWLEY",
+      "givenName": "Sarah E.",
+      "entryText": "Sarah E. D/O Joel R. AND Margaret A. J. ROWLEY, died Aug. 28, 1857",
+      "evidence": {
+        "text": "Sarah E. D/O Joel R. AND Margaret A. J. ROWLEY, died Aug. 28, 1857",
+        "rect": {
+          "x0": 56,
+          "y0": 613,
+          "x1": 498,
+          "y1": 626,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "Joel R. AND Margaret A. J. ROWLEY",
+        "born": null,
+        "died": "Aug. 28, 1857",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1857,
+        "refId": "BurialsAlpha004_26",
+        "refName": "Joel R. ROWLEY ROWLEY",
+        "refCertainty": "high"
+      },
+      "engraving": {
+        "id": "BurialsPage005_5",
+        "sourcePage": "BurialsPage005",
+        "givenName": "Sarah E.",
+        "surname": "ROWLEY",
+        "entryText": "Sarah E., d/o Joel R. & Margaret A. J. Rowley d. Aug 28, 1857 aged 12ys",
+        "rect": {
+          "x0": 53,
+          "y0": 258,
+          "x1": 523,
+          "y1": 292,
+          "skew": 2.7,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "D/O",
+          "parents": "Joel R. & Margaret A. J. Rowley",
+          "born": null,
+          "died": "Aug 28, 1857",
+          "aged": "12ys",
+          "bornYear": null,
+          "diedYear": 1857
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_25",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 25,
+      "surname": "ROWLEY",
+      "givenName": "Samuel L.",
+      "entryText": "Samuel L. S/O Joel R. AND Margaret A. J. ROWLEY , Born Aug. 18, 1863 aged 1y, 10m, and 20d.",
+      "evidence": {
+        "text": "Samuel L. S/O Joel R. AND Margaret A. J. ROWLEY , Born Aug. 18, 1863 aged 1y, 10m, and 20d.",
+        "rect": {
+          "x0": 56,
+          "y0": 636,
+          "x1": 487,
+          "y1": 649,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "Joel R. AND Margaret A. J. ROWLEY",
+        "born": "Aug. 18, 1863",
+        "died": null,
+        "aged": "1y",
+        "bornYear": 1863,
+        "diedYear": null,
+        "refId": "BurialsAlpha004_26",
+        "refName": "Joel R. ROWLEY ROWLEY",
+        "refCertainty": "high"
+      },
+      "engraving": {
+        "id": "BurialsPage005_6",
+        "sourcePage": "BurialsPage005",
+        "givenName": "Samuel L.",
+        "surname": "ROWLEY",
+        "entryText": "Samuel L., s/o J.R. & M.A.J. Rowley d. Aug. 18, 1863 aged 1y 10m 20d",
+        "rect": {
+          "x0": 48,
+          "y0": 298,
+          "x1": 454,
+          "y1": 331,
+          "skew": 2.7,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "J.R. & M.A.J. Rowley",
+          "born": null,
+          "died": "Aug. 18, 1863",
+          "aged": "1y 10m 20d",
+          "bornYear": null,
+          "diedYear": 1863
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha004_26",
+      "sourcePage": "BurialsAlpha004",
+      "seq": 26,
+      "surname": "ROWLEY",
+      "givenName": "Joel R. ROWLEY",
+      "entryText": "Joel R. ROWLEY , born June 25, 1834, died Sept. 15, 1917",
+      "evidence": {
+        "text": "Joel R. ROWLEY , born June 25, 1834, died Sept. 15, 1917",
+        "rect": {
+          "x0": 56,
+          "y0": 659,
+          "x1": 496,
+          "y1": 672,
+          "skew": 0,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "June 25, 1834",
+        "died": "Sept. 15, 1917",
+        "aged": null,
+        "bornYear": 1834,
+        "diedYear": 1917
+      }
+    },
+    {
+      "id": "BurialsAlpha005_1",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 1,
+      "surname": "ROWLEY",
+      "givenName": "Margaret A. J.",
+      "entryText": "Margaret A. J. W/O J. R. ROWLEY, D/O S. and S. Givens, born Nov. 10, 1831 died Nov. 27, 1888",
+      "evidence": {
+        "text": "Margaret A. J. W/O J. R. ROWLEY, D/O S. and S. Givens, born Nov. 10, 1831 died Nov. 27, 1888",
+        "rect": {
+          "x0": 53,
+          "y0": 69,
+          "x1": 471,
+          "y1": 96,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "J. R. ROWLEY",
+        "born": "Nov. 10, 1831",
+        "died": "Nov. 27, 1888",
+        "aged": null,
+        "bornYear": 1831,
+        "diedYear": 1888,
+        "refId": "BurialsAlpha004_26",
+        "refName": "Joel R. ROWLEY ROWLEY",
+        "refCertainty": "high"
+      }
+    },
+    {
+      "id": "BurialsAlpha005_2",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 2,
+      "surname": "ROWLEY",
+      "givenName": "James R.",
+      "entryText": "James R. S/O J. R. and M. A. J. ROWLEY, died Aug. 30, 1863, aged 4y, 3m and 18d.",
+      "evidence": {
+        "text": "James R. S/O J. R. and M. A. J. ROWLEY, died Aug. 30, 1863, aged 4y, 3m and 18d.",
+        "rect": {
+          "x0": 48,
+          "y0": 98,
+          "x1": 505,
+          "y1": 128,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J. R. and M. A. J. ROWLEY",
+        "born": null,
+        "died": "Aug. 30, 1863",
+        "aged": "4y",
+        "bornYear": null,
+        "diedYear": 1863,
+        "refId": "BurialsAlpha004_26",
+        "refName": "Joel R. ROWLEY ROWLEY",
+        "refCertainty": "high",
+        "inferredBirthYear": {
+          "lo": 1858,
+          "hi": 1859,
+          "basis": "death 1863 minus age 4y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage005_8",
+        "sourcePage": "BurialsPage005",
+        "givenName": "James R.",
+        "surname": "ROWLEY",
+        "entryText": "James R., s/o Joel R. & M.A.J. Rowley d. Aug. 30, 1863 aged 4y 3m 18d",
+        "rect": {
+          "x0": 56,
+          "y0": 379,
+          "x1": 436,
+          "y1": 399,
+          "skew": 2.7,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "Joel R. & M.A.J. Rowley",
+          "born": null,
+          "died": "Aug. 30, 1863",
+          "aged": "4y 3m 18d",
+          "bornYear": null,
+          "diedYear": 1863
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha005_3",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 3,
+      "surname": "RUSSELL",
+      "givenName": "Cornie RUSSELL",
+      "entryText": "Cornie RUSSELL, born 1889, died 1897",
+      "evidence": {
+        "text": "Cornie RUSSELL, born 1889, died 1897",
+        "rect": {
+          "x0": 44,
+          "y0": 129,
+          "x1": 516,
+          "y1": 164,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1889,
+        "diedYear": 1897
+      }
+    },
+    {
+      "id": "BurialsAlpha005_4",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 4,
+      "surname": "RUE",
+      "givenName": "Harriett A.",
+      "entryText": "Harriett A. F/W RUE, died Mar. 11, 1914 aged 70y, 11m, 23d.",
+      "evidence": {
+        "text": "Harriett A. F/W RUE, died Mar. 11, 1914 aged 70y, 11m, 23d.",
+        "rect": {
+          "x0": 40,
+          "y0": 167,
+          "x1": 449,
+          "y1": 202,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "F/W",
+        "parents": "RUE",
+        "born": null,
+        "died": "Mar. 11, 1914",
+        "aged": "70y",
+        "bornYear": null,
+        "diedYear": 1914,
+        "inferredBirthYear": {
+          "lo": 1843,
+          "hi": 1844,
+          "basis": "death 1914 minus age 70y"
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha005_5",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 5,
+      "surname": "SCOTT",
+      "givenName": "Catharine",
+      "entryText": "Catharine W/O E. H. SCOTT, born Oct. 18, 1808 Anderson Co. KY, died July 7, 1862 aged 53y, 9m, 15d.",
+      "evidence": {
+        "text": "Catharine W/O E. H. SCOTT, born Oct. 18, 1808 Anderson Co. KY, died July 7, 1862 aged 53y, 9m, 15d.",
+        "rect": {
+          "x0": 137,
+          "y0": 203,
+          "x1": 528,
+          "y1": 228,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "W/O",
+        "parents": "E. H. SCOTT",
+        "born": "Oct. 18, 1808",
+        "died": "July 7, 1862",
+        "aged": "53y",
+        "bornYear": 1808,
+        "diedYear": 1862
+      },
+      "engraving": {
+        "id": "BurialsPage002_1",
+        "sourcePage": "BurialsPage002",
+        "givenName": "Catharine",
+        "surname": "SCOTT",
+        "entryText": "Catharine w/o E.H. Scott born Oct. 18, 1808 Anderson Co. KY died July 07, 1862 aged 53y 9m 15d",
+        "rect": {
+          "x0": 258,
+          "y0": 72,
+          "x1": 390,
+          "y1": 85,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "W/O",
+          "parents": "E.H. Scott",
+          "born": "Oct. 18, 1808",
+          "died": "July 07, 1862",
+          "aged": "53y 9m 15d",
+          "bornYear": 1808,
+          "diedYear": 1862
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha005_6",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 6,
+      "surname": "SCOGGINS",
+      "givenName": "Archibald SCOGGINS",
+      "entryText": "Archibald SCOGGINS, died Jan. 9, 1873 aged 55y, 2m, 26d.",
+      "evidence": {
+        "text": "Archibald SCOGGINS, died Jan. 9, 1873 aged 55y, 2m, 26d.",
+        "rect": {
+          "x0": 36,
+          "y0": 229,
+          "x1": 446,
+          "y1": 263,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Jan. 9, 1873",
+        "aged": "55y",
+        "bornYear": null,
+        "diedYear": 1873,
+        "inferredBirthYear": {
+          "lo": 1817,
+          "hi": 1818,
+          "basis": "death 1873 minus age 55y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage005_15",
+        "sourcePage": "BurialsPage005",
+        "givenName": "Archibald",
+        "surname": "SCOGGINS",
+        "entryText": "Archibald, d. Jan. 09, 1873 aged 55y 2m 26d",
+        "rect": {
+          "x0": 43,
+          "y0": 662,
+          "x1": 509,
+          "y1": 703,
+          "skew": 2.7,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": "Jan. 09, 1873",
+          "aged": "55y 2m 26d",
+          "bornYear": null,
+          "diedYear": 1873
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha005_7",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 7,
+      "surname": "STEWART",
+      "givenName": "James McElwee",
+      "entryText": "James McElwee S/O J. C. and M. E. STEWART, born Sept. 29, 1871, died Dec. 12, 1876",
+      "evidence": {
+        "text": "James McElwee S/O J. C. and M. E. STEWART, born Sept. 29, 1871, died Dec. 12, 1876",
+        "rect": {
+          "x0": 134,
+          "y0": 264,
+          "x1": 514,
+          "y1": 289,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J. C. and M. E. STEWART",
+        "born": "Sept. 29, 1871",
+        "died": "Dec. 12, 1876",
+        "aged": null,
+        "bornYear": 1871,
+        "diedYear": 1876
+      },
+      "engraving": {
+        "id": "BurialsPage007_7",
+        "sourcePage": "BurialsPage007",
+        "givenName": "James McElwee",
+        "surname": "STEWART",
+        "entryText": "James McElwee, s/o J.C. & M.E. Stewart b. Sep. 29, 1871 d. Dec. 12, 1876",
+        "rect": {
+          "x0": 150,
+          "y0": 326,
+          "x1": 432,
+          "y1": 341,
+          "skew": 1.4,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "J.C. & M.E. Stewart",
+          "born": "Sep. 29, 1871",
+          "died": "Dec. 12, 1876",
+          "aged": null,
+          "bornYear": 1871,
+          "diedYear": 1876
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha005_8",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 8,
+      "surname": "STEWART",
+      "givenName": "John W.",
+      "entryText": "John W. S/O J. C. and M. E. STEWART, died Mar. 17, 1879, aged 7m, 7d.",
+      "evidence": {
+        "text": "John W. S/O J. C. and M. E. STEWART, died Mar. 17, 1879, aged 7m, 7d.",
+        "rect": {
+          "x0": 33,
+          "y0": 290,
+          "x1": 514,
+          "y1": 324,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J. C. and M. E. STEWART",
+        "born": null,
+        "died": "Mar. 17, 1879",
+        "aged": "7m",
+        "bornYear": null,
+        "diedYear": 1879
+      }
+    },
+    {
+      "id": "BurialsAlpha005_9",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 9,
+      "surname": "STEWART",
+      "givenName": "Mary E.",
+      "entryText": "Mary E. D/O J. C. and M. E. STEWART, died Dec. 19, 1881, aged 13y, 7m and 20d.",
+      "evidence": {
+        "text": "Mary E. D/O J. C. and M. E. STEWART, died Dec. 19, 1881, aged 13y, 7m and 20d.",
+        "rect": {
+          "x0": 33,
+          "y0": 325,
+          "x1": 518,
+          "y1": 346,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "D/O",
+        "parents": "J. C. and M. E. STEWART",
+        "born": null,
+        "died": "Dec. 19, 1881",
+        "aged": "13y",
+        "bornYear": null,
+        "diedYear": 1881,
+        "inferredBirthYear": {
+          "lo": 1867,
+          "hi": 1868,
+          "basis": "death 1881 minus age 13y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage007_9",
+        "sourcePage": "BurialsPage007",
+        "givenName": "Mary E.",
+        "surname": "STEWART",
+        "entryText": "Mary E., d/o J.C. & M.E. Stewart d. Dec. 19, 1881 aged 13y 7m 20d",
+        "rect": {
+          "x0": 21,
+          "y0": 369,
+          "x1": 423,
+          "y1": 393,
+          "skew": 1.4,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "D/O",
+          "parents": "J.C. & M.E. Stewart",
+          "born": null,
+          "died": "Dec. 19, 1881",
+          "aged": "13y 7m 20d",
+          "bornYear": null,
+          "diedYear": 1881
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha005_10",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 10,
+      "surname": "STEWART",
+      "givenName": "Charles C.",
+      "entryText": "Charles C. S/O J. C. and M. E. STEWART, died Feb. 6, 1882, aged 13y, 7m (broken off)",
+      "evidence": {
+        "text": "Charles C. S/O J. C. and M. E. STEWART, died Feb. 6, 1882, aged 13y, 7m (broken off)",
+        "rect": {
+          "x0": 32,
+          "y0": 352,
+          "x1": 526,
+          "y1": 385,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J. C. and M. E. STEWART",
+        "born": null,
+        "died": "Feb. 6, 1882",
+        "aged": "13y",
+        "bornYear": null,
+        "diedYear": 1882,
+        "inferredBirthYear": {
+          "lo": 1868,
+          "hi": 1869,
+          "basis": "death 1882 minus age 13y"
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha005_11",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 11,
+      "surname": "STEWART",
+      "givenName": "Roy M.",
+      "entryText": "Roy M. S/O J. C. and M. E. STEWART, died Apr. 1, 1888, aged 1y, 3m and 20d.",
+      "evidence": {
+        "text": "Roy M. S/O J. C. and M. E. STEWART, died Apr. 1, 1888, aged 1y, 3m and 20d.",
+        "rect": {
+          "x0": 30,
+          "y0": 391,
+          "x1": 521,
+          "y1": 423,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J. C. and M. E. STEWART",
+        "born": null,
+        "died": "Apr. 1, 1888",
+        "aged": "1y",
+        "bornYear": null,
+        "diedYear": 1888,
+        "inferredBirthYear": {
+          "lo": 1886,
+          "hi": 1887,
+          "basis": "death 1888 minus age 1y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage007_11",
+        "sourcePage": "BurialsPage007",
+        "givenName": "Roy M.",
+        "surname": "STEWART",
+        "entryText": "Roy M., s/o J.C. & M.E. Stewart d. Apr. 01, 1888 aged 1y 3m",
+        "rect": {
+          "x0": 168,
+          "y0": 426,
+          "x1": 440,
+          "y1": 435,
+          "skew": 1.4,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": "S/O",
+          "parents": "J.C. & M.E. Stewart",
+          "born": null,
+          "died": "Apr. 01, 1888",
+          "aged": "1y 3m",
+          "bornYear": null,
+          "diedYear": 1888
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha005_12",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 12,
+      "surname": "STEWART",
+      "givenName": "Theo STEWART",
+      "entryText": "Theo STEWART, born Aug. 12, 1857, died Oct. 28, 1928",
+      "evidence": {
+        "text": "Theo STEWART, born Aug. 12, 1857, died Oct. 28, 1928",
+        "rect": {
+          "x0": 29,
+          "y0": 427,
+          "x1": 425,
+          "y1": 458,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Aug. 12, 1857",
+        "died": "Oct. 28, 1928",
+        "aged": null,
+        "bornYear": 1857,
+        "diedYear": 1928
+      },
+      "engraving": {
+        "id": "BurialsPage003_6",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Theo.",
+        "surname": "STEWART",
+        "entryText": "Theo., b. Aug. 12, 1857 d. Oct. 28, 1928",
+        "rect": {
+          "x0": 29,
+          "y0": 245,
+          "x1": 462,
+          "y1": 280,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "Aug. 12, 1857",
+          "died": "Oct. 28, 1928",
+          "aged": null,
+          "bornYear": 1857,
+          "diedYear": 1928
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha005_13",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 13,
+      "surname": "STEWART",
+      "givenName": "Ellen STEWART",
+      "entryText": "Ellen STEWART, born Aug. 24, 1858, died Dec. 5, 1924",
+      "evidence": {
+        "text": "Ellen STEWART, born Aug. 24, 1858, died Dec. 5, 1924",
+        "rect": {
+          "x0": 29,
+          "y0": 459,
+          "x1": 421,
+          "y1": 482,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Aug. 24, 1858",
+        "died": "Dec. 5, 1924",
+        "aged": null,
+        "bornYear": 1858,
+        "diedYear": 1924
+      },
+      "engraving": {
+        "id": "BurialsPage003_7",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Ellen",
+        "surname": "STEWART",
+        "entryText": "Ellen, b. aug. 24, 1858 d. Dec. 05, 1924",
+        "rect": {
+          "x0": 29,
+          "y0": 281,
+          "x1": 459,
+          "y1": 318,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": "aug. 24, 1858",
+          "died": "Dec. 05, 1924",
+          "aged": null,
+          "bornYear": 1858,
+          "diedYear": 1924
+        }
+      }
+    },
+    {
+      "id": "BurialsAlpha005_14",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 14,
+      "surname": "TAYLOR",
+      "givenName": "Sarah Amanda Perkins TAYLOR",
+      "entryText": "Sarah Amanda Perkins TAYLOR, born Mar. 1861, died Mar. 1941.",
+      "evidence": {
+        "text": "Sarah Amanda Perkins TAYLOR, born Mar. 1861, died Mar. 1941.",
+        "rect": {
+          "x0": 28,
+          "y0": 484,
+          "x1": 472,
+          "y1": 510,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1861,
+        "diedYear": 1941
+      }
+    },
+    {
+      "id": "BurialsAlpha005_15",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 15,
+      "surname": "TURNBAUGH",
+      "givenName": "Melvina N.",
+      "entryText": "Melvina N. F/B TURNBAUGH, born Mar. 11, 1815, died Nov. 11, 1917 fa-ther Jesse Wagoner, mother not shown, aged 102y, 7m and 29d.",
+      "evidence": {
+        "text": "Melvina N. F/B TURNBAUGH, born Mar. 11, 1815, died Nov. 11, 1917 fa-ther Jesse Wagoner, mother not shown, aged 102y, 7m and 29d.",
+        "rect": {
+          "x0": 27,
+          "y0": 511,
+          "x1": 514,
+          "y1": 549,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": "F/B",
+        "parents": "TURNBAUGH",
+        "born": "Mar. 11, 1815",
+        "died": "Nov. 11, 1917",
+        "aged": "102y",
+        "bornYear": 1815,
+        "diedYear": 1917
+      }
+    },
+    {
+      "id": "BurialsAlpha005_16",
+      "sourcePage": "BurialsAlpha005",
+      "seq": 16,
+      "surname": "WILSNACK",
+      "givenName": "Frank L. WILSNACK",
+      "entryText": "Frank L. WILSNACK, died Aug. 2, 1875, aged 19y, 10m and 7d.",
+      "evidence": {
+        "text": "Frank L. WILSNACK, died Aug. 2, 1875, aged 19y, 10m and 7d.",
+        "rect": {
+          "x0": 27,
+          "y0": 550,
+          "x1": 477,
+          "y1": 598,
+          "skew": 1.6,
+          "source": "source-image-pixels-600x800"
+        }
+      },
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Aug. 2, 1875",
+        "aged": "19y",
+        "bornYear": null,
+        "diedYear": 1875,
+        "inferredBirthYear": {
+          "lo": 1855,
+          "hi": 1856,
+          "basis": "death 1875 minus age 19y"
+        }
+      },
+      "engraving": {
+        "id": "BurialsPage003_1",
+        "sourcePage": "BurialsPage003",
+        "givenName": "Frank L.",
+        "surname": "WILSNACK",
+        "entryText": "Frank L., d. Aug. 02, 1875 aged 19y 10m 2d",
+        "rect": {
+          "x0": 39,
+          "y0": 89,
+          "x1": 347,
+          "y1": 114,
+          "skew": 1.9,
+          "source": "source-image-pixels-600x800"
+        },
+        "fields": {
+          "relationship": null,
+          "parents": null,
+          "born": null,
+          "died": "Aug. 02, 1875",
+          "aged": "19y 10m 2d",
+          "bornYear": null,
+          "diedYear": 1875
+        }
+      }
+    }
+  ],
+  "engravingUnmatched": [
+    {
+      "id": "BurialsPage002_2",
+      "sourcePage": "BurialsPage002",
+      "seq": 2,
+      "surname": "BLAND",
+      "givenName": "Claud J.",
+      "entryText": "Claud J. s/o J.H. & J.J. Bland d. Dec. 02, 1883 aged 1y 8m 8d",
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J.H. & J.J. Bland",
+        "born": null,
+        "died": "Dec. 02, 1883",
+        "aged": "1y 8m 8d",
+        "bornYear": null,
+        "diedYear": 1883
+      }
+    },
+    {
+      "id": "BurialsPage002_11",
+      "sourcePage": "BurialsPage002",
+      "seq": 11,
+      "surname": "CARR",
+      "givenName": "Mahala J.",
+      "entryText": "Mahala J., w/o A. Carr d. 1867 stone broken",
+      "fields": {
+        "relationship": "W/O",
+        "parents": "A. Carr",
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1867
+      }
+    },
+    {
+      "id": "BurialsPage002_12",
+      "sourcePage": "BurialsPage002",
+      "seq": 12,
+      "surname": "TAYLOR",
+      "givenName": "Sarah",
+      "entryText": "Sarah, D. Mar. 1861 d. Mar. 1941",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1861
+      }
+    },
+    {
+      "id": "BurialsPage002_15",
+      "sourcePage": "BurialsPage002",
+      "seq": 15,
+      "surname": "ROBERTS",
+      "givenName": "Eliott R.",
+      "entryText": "Eliott R., h/o Rebecca Roberts b. (broken) d. May 02, 1874",
+      "fields": {
+        "relationship": "H/O",
+        "parents": "Rebecca Roberts",
+        "born": null,
+        "died": "May 02, 1874",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1874
+      }
+    },
+    {
+      "id": "BurialsPage003_2",
+      "sourcePage": "BurialsPage003",
+      "seq": 2,
+      "surname": "WILSNACK",
+      "givenName": "Theodore A.",
+      "entryText": "Theodore A., d. Feb. 11, 1886 aged 9y 11m 7d",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": "Feb. 11, 1886",
+        "aged": "9y 11m 7d",
+        "bornYear": null,
+        "diedYear": 1886
+      }
+    },
+    {
+      "id": "BurialsPage003_3",
+      "sourcePage": "BurialsPage003",
+      "seq": 3,
+      "surname": "ROBERTS",
+      "givenName": "Rebecca S.",
+      "entryText": "Rebecca S., w/o Elliott R. Roberts b. Jul. 30, 1802 d. Jul. 07, 1871",
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Elliott R. Roberts",
+        "born": "Jul. 30, 1802",
+        "died": "Jul. 07, 1871",
+        "aged": null,
+        "bornYear": 1802,
+        "diedYear": 1871
+      }
+    },
+    {
+      "id": "BurialsPage003_4",
+      "sourcePage": "BurialsPage003",
+      "seq": 4,
+      "surname": "CARR",
+      "givenName": "Marion D.",
+      "entryText": "Marion D., 1866 - 1939",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1866,
+        "diedYear": 1939
+      }
+    },
+    {
+      "id": "BurialsPage003_15",
+      "sourcePage": "BurialsPage003",
+      "seq": 15,
+      "surname": "GIVENS",
+      "givenName": "Isabel Jane",
+      "entryText": "Isabel Jane, w/o J.W. Givens b. Mar. 25, 1837 d. Jun. 12, 1874",
+      "fields": {
+        "relationship": "W/O",
+        "parents": "J.W. Givens",
+        "born": "Mar. 25, 1837",
+        "died": "Jun. 12, 1874",
+        "aged": null,
+        "bornYear": 1837,
+        "diedYear": 1874
+      }
+    },
+    {
+      "id": "BurialsPage004_5",
+      "sourcePage": "BurialsPage004",
+      "seq": 5,
+      "surname": "MILLS",
+      "givenName": "Azubam",
+      "entryText": "Azubam, b. Jan. 11, 1786 d. Jan. 16, 1852",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Jan. 11, 1786",
+        "died": "Jan. 16, 1852",
+        "aged": null,
+        "bornYear": 1786,
+        "diedYear": 1852
+      }
+    },
+    {
+      "id": "BurialsPage004_9",
+      "sourcePage": "BurialsPage004",
+      "seq": 9,
+      "surname": "GIVENS",
+      "givenName": "Ulyses S.",
+      "entryText": "Ulyses S., s/o J.W. & I.J. Givens d. Oct. 09, 1863 aged 9m 29d",
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J.W. & I.J. Givens",
+        "born": null,
+        "died": "Oct. 09, 1863",
+        "aged": "9m 29d",
+        "bornYear": null,
+        "diedYear": 1863
+      }
+    },
+    {
+      "id": "BurialsPage004_15",
+      "sourcePage": "BurialsPage004",
+      "seq": 15,
+      "surname": "GIVENS",
+      "givenName": "Elizabeth",
+      "entryText": "Elizabeth, d/o S. & S. Givens b. Mar. 30, 1834 d. Jul. 08, 1856",
+      "fields": {
+        "relationship": "D/O",
+        "parents": "S. & S. Givens",
+        "born": "Mar. 30, 1834",
+        "died": "Jul. 08, 1856",
+        "aged": null,
+        "bornYear": 1834,
+        "diedYear": 1856
+      }
+    },
+    {
+      "id": "BurialsPage005_1",
+      "sourcePage": "BurialsPage005",
+      "seq": 1,
+      "surname": "RUSSELL",
+      "givenName": "Cornie 1889 - 1897",
+      "entryText": "Cornie 1889 - 1897",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1889,
+        "diedYear": 1897
+      }
+    },
+    {
+      "id": "BurialsPage005_2",
+      "sourcePage": "BurialsPage005",
+      "seq": 2,
+      "surname": "JENNINGS",
+      "givenName": "Delancy",
+      "entryText": "Delancy, w/o E.D. Jennings d. Oct. 10, 1856 aged 54y 2m 23d",
+      "fields": {
+        "relationship": "W/O",
+        "parents": "E.D. Jennings",
+        "born": null,
+        "died": "Oct. 10, 1856",
+        "aged": "54y 2m 23d",
+        "bornYear": null,
+        "diedYear": 1856
+      }
+    },
+    {
+      "id": "BurialsPage005_3",
+      "sourcePage": "BurialsPage005",
+      "seq": 3,
+      "surname": "JENNINGS",
+      "givenName": "Edward D.",
+      "entryText": "Edward D., b. Dec. 21, 1804 d. Jan. 03, 1884",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Dec. 21, 1804",
+        "died": "Jan. 03, 1884",
+        "aged": null,
+        "bornYear": 1804,
+        "diedYear": 1884
+      }
+    },
+    {
+      "id": "BurialsPage005_7",
+      "sourcePage": "BurialsPage005",
+      "seq": 7,
+      "surname": "ROWLEY",
+      "givenName": "Joel R.",
+      "entryText": "Joel R., b. Jun. 25, 1834 d. Margaret A.J., w/o J. R. Rowley d/o Samuel & Sarah Givens b. Nov. 10, 1831 d. Nov. 27, 1888",
+      "fields": {
+        "relationship": "D/O",
+        "parents": "Samuel & Sarah Givens",
+        "born": "Jun. 25, 1834",
+        "died": "Nov. 27, 1888",
+        "aged": null,
+        "bornYear": 1834,
+        "diedYear": 1888
+      }
+    },
+    {
+      "id": "BurialsPage005_10",
+      "sourcePage": "BurialsPage005",
+      "seq": 10,
+      "surname": "RHEA",
+      "givenName": "Adaline",
+      "entryText": "Adaline, w/o Hamilton L. Rhea b. Mar. 21, 1832 d. Aug. 20, 1858",
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Hamilton L. Rhea",
+        "born": "Mar. 21, 1832",
+        "died": "Aug. 20, 1858",
+        "aged": null,
+        "bornYear": 1832,
+        "diedYear": 1858
+      }
+    },
+    {
+      "id": "BurialsPage005_12",
+      "sourcePage": "BurialsPage005",
+      "seq": 12,
+      "surname": "RHEA",
+      "givenName": "Margaret C.",
+      "entryText": "Margaret C., b. Aug. 09, 1826 d. Dec. 20, 1872",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Aug. 09, 1826",
+        "died": "Dec. 20, 1872",
+        "aged": null,
+        "bornYear": 1826,
+        "diedYear": 1872
+      }
+    },
+    {
+      "id": "BurialsPage005_14",
+      "sourcePage": "BurialsPage005",
+      "seq": 14,
+      "surname": "RHEA",
+      "givenName": "Silas",
+      "entryText": "Silas, b. Jun. 05, 1791 d. Jan. 11, 1847 aged 55y 7m 6d (has Star of David engraved)",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Jun. 05, 1791",
+        "died": "Jan. 11, 1847",
+        "aged": "55y 7m 6d (has Star of David engraved)",
+        "bornYear": 1791,
+        "diedYear": 1847
+      }
+    },
+    {
+      "id": "BurialsPage006_5",
+      "sourcePage": "BurialsPage006",
+      "seq": 5,
+      "surname": "HOWEL",
+      "givenName": "Beatrice",
+      "entryText": "Beatrice, d/o F. & S.A. Howel d. Sep. 07, 1818",
+      "fields": {
+        "relationship": "D/O",
+        "parents": "F. & S.A. Howel",
+        "born": null,
+        "died": "Sep. 07, 1818",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1818
+      }
+    },
+    {
+      "id": "BurialsPage006_6",
+      "sourcePage": "BurialsPage006",
+      "seq": 6,
+      "surname": "HOWEL",
+      "givenName": "Isiphina",
+      "entryText": "Isiphina, d/o F. & S.A. Howel d. Sep. 06, 1848",
+      "fields": {
+        "relationship": "D/O",
+        "parents": "F. & S.A. Howel",
+        "born": null,
+        "died": "Sep. 06, 1848",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1848
+      }
+    },
+    {
+      "id": "BurialsPage006_7",
+      "sourcePage": "BurialsPage006",
+      "seq": 7,
+      "surname": "HOWEL",
+      "givenName": "Sally A.",
+      "entryText": "Sally A., w/o Francis Howel b. Jan. 01, 1816 d. Sep. 09, 1847",
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Francis Howel",
+        "born": "Jan. 01, 1816",
+        "died": "Sep. 09, 1847",
+        "aged": null,
+        "bornYear": 1816,
+        "diedYear": 1847
+      }
+    },
+    {
+      "id": "BurialsPage006_10",
+      "sourcePage": "BurialsPage006",
+      "seq": 10,
+      "surname": "EDMONDS",
+      "givenName": "Robert B.",
+      "entryText": "Robert B., s/o O.J. & M.E. Edmonds d. Nov. 01, 1876 aged 21y 11m",
+      "fields": {
+        "relationship": "S/O",
+        "parents": "O.J. & M.E. Edmonds",
+        "born": null,
+        "died": "Nov. 01, 1876",
+        "aged": "21y 11m",
+        "bornYear": null,
+        "diedYear": 1876
+      }
+    },
+    {
+      "id": "BurialsPage006_12",
+      "sourcePage": "BurialsPage006",
+      "seq": 12,
+      "surname": "HOWELL",
+      "givenName": "Edwin Wilson 1841 - 1928",
+      "entryText": "Edwin Wilson 1841 - 1928",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": null,
+        "died": null,
+        "aged": null,
+        "bornYear": 1841,
+        "diedYear": 1928
+      }
+    },
+    {
+      "id": "BurialsPage006_13",
+      "sourcePage": "BurialsPage006",
+      "seq": 13,
+      "surname": "HOWEL",
+      "givenName": "Louisa G.",
+      "entryText": "Louisa G., w/o C.W. Howel b. Mar. 03, 1838 d. Jan. 06, 1882",
+      "fields": {
+        "relationship": "W/O",
+        "parents": "C.W. Howel",
+        "born": "Mar. 03, 1838",
+        "died": "Jan. 06, 1882",
+        "aged": null,
+        "bornYear": 1838,
+        "diedYear": 1882
+      }
+    },
+    {
+      "id": "BurialsPage006_14",
+      "sourcePage": "BurialsPage006",
+      "seq": 14,
+      "surname": "HOWEL",
+      "givenName": "Silas J.",
+      "entryText": "Silas J., b. Sep. 19, 1847 d. Jan. 04, 1882",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Sep. 19, 1847",
+        "died": "Jan. 04, 1882",
+        "aged": null,
+        "bornYear": 1847,
+        "diedYear": 1882
+      }
+    },
+    {
+      "id": "BurialsPage006_15",
+      "sourcePage": "BurialsPage006",
+      "seq": 15,
+      "surname": "HOWEL",
+      "givenName": "Annie T.",
+      "entryText": "Annie T., b. Mar. 16, 1872 d. Nov. 14, 1880",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Mar. 16, 1872",
+        "died": "Nov. 14, 1880",
+        "aged": null,
+        "bornYear": 1872,
+        "diedYear": 1880
+      }
+    },
+    {
+      "id": "BurialsPage007_5",
+      "sourcePage": "BurialsPage007",
+      "seq": 5,
+      "surname": "McELWEE",
+      "givenName": "Nancy",
+      "entryText": "Nancy, w/o Dan McElwee d. Feb. 09, 1892 aged 77y 11m 1d",
+      "fields": {
+        "relationship": "W/O",
+        "parents": "Dan McElwee",
+        "born": null,
+        "died": "Feb. 09, 1892",
+        "aged": "77y 11m 1d",
+        "bornYear": null,
+        "diedYear": 1892
+      }
+    },
+    {
+      "id": "BurialsPage007_6",
+      "sourcePage": "BurialsPage007",
+      "seq": 6,
+      "surname": "OWEN",
+      "givenName": "Joel",
+      "entryText": "Joel, b. Sep. 18, 1821 d. Sep. 30, 1862",
+      "fields": {
+        "relationship": null,
+        "parents": null,
+        "born": "Sep. 18, 1821",
+        "died": "Sep. 30, 1862",
+        "aged": null,
+        "bornYear": 1821,
+        "diedYear": 1862
+      }
+    },
+    {
+      "id": "BurialsPage007_8",
+      "sourcePage": "BurialsPage007",
+      "seq": 8,
+      "surname": "STEWART",
+      "givenName": "John Wiley",
+      "entryText": "John Wiley, s/o J.C. & M.E. Stewart d. Mar. 17, 1879 aged 7m 7d",
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J.C. & M.E. Stewart",
+        "born": null,
+        "died": "Mar. 17, 1879",
+        "aged": "7m 7d",
+        "bornYear": null,
+        "diedYear": 1879
+      }
+    },
+    {
+      "id": "BurialsPage007_10",
+      "sourcePage": "BurialsPage007",
+      "seq": 10,
+      "surname": "STEWART",
+      "givenName": "Charles",
+      "entryText": "Charles, s/o J.C & Mary E. Stewart d. Feb. 06, 1882",
+      "fields": {
+        "relationship": "S/O",
+        "parents": "J.C & Mary E. Stewart",
+        "born": null,
+        "died": "Feb. 06, 1882",
+        "aged": null,
+        "bornYear": null,
+        "diedYear": 1882
+      }
+    }
+  ],
+  "inferredBirths": [
+    {
+      "id": "BurialsAlpha001_1",
+      "givenName": "Claud H. B.",
+      "surname": "BLAND",
+      "lo": 1881,
+      "hi": 1882,
+      "basis": "death 1883 minus age 1 Y"
+    },
+    {
+      "id": "BurialsAlpha001_2",
+      "givenName": "Minnie Lee",
+      "surname": "BLAND",
+      "lo": 1877,
+      "hi": 1878,
+      "basis": "death 1880 minus age 2 Y"
+    },
+    {
+      "id": "BurialsAlpha001_18",
+      "givenName": "Robert E.",
+      "surname": "EDMONDS",
+      "lo": 1854,
+      "hi": 1855,
+      "basis": "death 1876 minus age 21y"
+    },
+    {
+      "id": "BurialsAlpha001_20",
+      "givenName": "Francis",
+      "surname": "GILMORE",
+      "lo": 1764,
+      "hi": 1765,
+      "basis": "death 1841 minus age 76y"
+    },
+    {
+      "id": "BurialsAlpha001_21",
+      "givenName": "Jemima",
+      "surname": "GILMORE",
+      "lo": 1768,
+      "hi": 1769,
+      "basis": "death 1852 minus age 83y"
+    },
+    {
+      "id": "BurialsAlpha002_8",
+      "givenName": "Albert R.",
+      "surname": "GIVENS",
+      "lo": 1829,
+      "hi": 1830,
+      "basis": "death 1852 minus age 22y"
+    },
+    {
+      "id": "BurialsAlpha002_24",
+      "givenName": "Martha E. F HOUCHINS",
+      "surname": "HOUCHINS",
+      "lo": 1838,
+      "hi": 1839,
+      "basis": "death 1914 minus age 75y"
+    },
+    {
+      "id": "BurialsAlpha002_25",
+      "givenName": "Charles F. HOUCHINS",
+      "surname": "HOUCHINS",
+      "lo": 1876,
+      "hi": 1877,
+      "basis": "death 1916 minus age 39y"
+    },
+    {
+      "id": "BurialsAlpha003_2",
+      "givenName": "Malcolm HENRY",
+      "surname": "HENRY",
+      "lo": 1788,
+      "hi": 1789,
+      "basis": "death 1854 minus age 65y"
+    },
+    {
+      "id": "BurialsAlpha003_3",
+      "givenName": "Catherine",
+      "surname": "HENRY",
+      "lo": 1791,
+      "hi": 1792,
+      "basis": "death 1867 minus age 75y"
+    },
+    {
+      "id": "BurialsAlpha003_13",
+      "givenName": "Susan HUMPHREY",
+      "surname": "HUMPHREY",
+      "lo": 1843,
+      "hi": 1844,
+      "basis": "death 1919 minus age 75y"
+    },
+    {
+      "id": "BurialsAlpha003_15",
+      "givenName": "Delaney",
+      "surname": "JENNINGS",
+      "lo": 1801,
+      "hi": 1802,
+      "basis": "death 1856 minus age 54y"
+    },
+    {
+      "id": "BurialsAlpha003_18",
+      "givenName": "Matilda",
+      "surname": "MASSEY",
+      "lo": 1797,
+      "hi": 1798,
+      "basis": "death 1833 minus age 35y"
+    },
+    {
+      "id": "BurialsAlpha004_1",
+      "givenName": "George E. McELWEE",
+      "surname": "McELWEE",
+      "lo": 1855,
+      "hi": 1856,
+      "basis": "death 1883 minus age 27y"
+    },
+    {
+      "id": "BurialsAlpha004_4",
+      "givenName": "Dan McELWEE",
+      "surname": "McELWEE",
+      "lo": 1806,
+      "hi": 1807,
+      "basis": "death 1873 minus age 66y"
+    },
+    {
+      "id": "BurialsAlpha004_5",
+      "givenName": "Nancy L.",
+      "surname": "McELWEE",
+      "lo": 1814,
+      "hi": 1815,
+      "basis": "death 1892 minus age 77y"
+    },
+    {
+      "id": "BurialsAlpha004_17",
+      "givenName": "George A.",
+      "surname": "RHEA",
+      "lo": 1855,
+      "hi": 1856,
+      "basis": "death 1857 minus age 1y"
+    },
+    {
+      "id": "BurialsAlpha005_2",
+      "givenName": "James R.",
+      "surname": "ROWLEY",
+      "lo": 1858,
+      "hi": 1859,
+      "basis": "death 1863 minus age 4y"
+    },
+    {
+      "id": "BurialsAlpha005_4",
+      "givenName": "Harriett A.",
+      "surname": "RUE",
+      "lo": 1843,
+      "hi": 1844,
+      "basis": "death 1914 minus age 70y"
+    },
+    {
+      "id": "BurialsAlpha005_6",
+      "givenName": "Archibald SCOGGINS",
+      "surname": "SCOGGINS",
+      "lo": 1817,
+      "hi": 1818,
+      "basis": "death 1873 minus age 55y"
+    },
+    {
+      "id": "BurialsAlpha005_9",
+      "givenName": "Mary E.",
+      "surname": "STEWART",
+      "lo": 1867,
+      "hi": 1868,
+      "basis": "death 1881 minus age 13y"
+    },
+    {
+      "id": "BurialsAlpha005_10",
+      "givenName": "Charles C.",
+      "surname": "STEWART",
+      "lo": 1868,
+      "hi": 1869,
+      "basis": "death 1882 minus age 13y"
+    },
+    {
+      "id": "BurialsAlpha005_11",
+      "givenName": "Roy M.",
+      "surname": "STEWART",
+      "lo": 1886,
+      "hi": 1887,
+      "basis": "death 1888 minus age 1y"
+    },
+    {
+      "id": "BurialsAlpha005_16",
+      "givenName": "Frank L. WILSNACK",
+      "surname": "WILSNACK",
+      "lo": 1855,
+      "hi": 1856,
+      "basis": "death 1875 minus age 19y"
+    }
+  ],
+  "disagreements": [
+    {
+      "id": "BurialsAlpha001_8",
+      "name": "Mary L. CARR",
+      "field": "bornYear",
+      "index": 1873,
+      "engraving": 1872
+    },
+    {
+      "id": "BurialsAlpha001_10",
+      "name": "Permelia J. CARR",
+      "field": "bornYear",
+      "index": 1869,
+      "engraving": 1862
+    }
+  ]
+}
