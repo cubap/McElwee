@@ -166,8 +166,9 @@ function startMock() {
   })
 }
 
-test("the loader writes, resolves placeholders, and is idempotent", async () => {
+test("the loader writes, resolves placeholders, and is idempotent", async (t) => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "mcelwee-load-"))
+  t.after(() => fs.rmSync(dir, { recursive: true, force: true }))
   const repo = path.join(dir, "repo")
   fs.mkdirSync(path.join(repo, "source", "burials-evidence"), { recursive: true })
   fs.mkdirSync(path.join(repo, "source", "handoff", "burials"), { recursive: true })
