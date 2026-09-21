@@ -18,6 +18,7 @@
 
     global.mcCropImage = function (page, rect, done) {
         var img = new Image()
+        img.crossOrigin = "anonymous"
         img.onload = function () {
             var w = page.width || img.naturalWidth
             var h = page.height || img.naturalHeight

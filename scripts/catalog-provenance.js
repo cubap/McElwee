@@ -197,6 +197,12 @@ function needsProvenance(annotation) {
   return claimsOf(annotation).some(({ claim }) => !claim.provenance?.sourceImage)
 }
 
+/** RERUM updates create a new version; the old one is superseded and must not be rewritten. */
+function isSuperseded(annotation) {
+  const next = annotation.__rerum?.history?.next
+  return Array.isArray(next) && next.length > 0
+}
+
 async function put(base, payload) {
   const response = await fetch(`${base}/update`, {
     method: "PUT",
@@ -236,7 +242,7 @@ async function main() {
   const unmatched = []
   for (const personIri of people) {
     const annotations = await annotationsFor(personIri)
-    const pending = annotations.filter(needsProvenance)
+    const pending = annotations.filter((a) => !isSuperseded(a) && needsProvenance(a))
     if (!pending.length) continue
 
     // The store writes one claim per annotation, so the person's best match text is

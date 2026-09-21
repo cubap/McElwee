@@ -123,6 +123,18 @@ async function expand(obj) {
         let existing = claims[key].find(c => c.value === text)
         if (existing) {
             existing.count++
+            // RERUM updates create a new version with the same value; keep the
+            // newest version's metadata so the provenance slice and status stay current.
+            let newer = timeOf(anno.__rerum) > timeOf(existing)
+            if (newer || (existing.superseded && !isSuperseded(anno))) {
+                existing.source = recordId(anno)
+                existing.evidence = evidence
+                existing.provenance = provenance || null
+                existing.generatedBy = anno && anno.__rerum && anno.__rerum.generatedBy
+                existing.motivation = anno && anno.motivation
+                existing.createdAt = anno && anno.__rerum && anno.__rerum.createdAt
+                existing.superseded = isSuperseded(anno)
+            }
             return
         }
         claims[key].push({
@@ -135,8 +147,7 @@ async function expand(obj) {
             generatedBy: anno && anno.__rerum && anno.__rerum.generatedBy,
             motivation: anno && anno.motivation,
             createdAt: anno && anno.__rerum && anno.__rerum.createdAt,
-            superseded: !!(anno && anno.__rerum && anno.__rerum.history &&
-                (anno.__rerum.history.next || []).length)
+            superseded: isSuperseded(anno)
         })
     }
 
@@ -279,6 +290,11 @@ function timeOf(anno) {
     let t = Date.parse(anno.createdAt)
     if (isNaN(t)) t = Number(anno.createdAt)
     return isNaN(t) ? 0 : t
+}
+
+function isSuperseded(anno) {
+    return !!(anno && anno.__rerum && anno.__rerum.history &&
+        (anno.__rerum.history.next || []).length)
 }
 
 function dateOf(anno) {
