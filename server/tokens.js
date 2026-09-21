@@ -86,6 +86,16 @@ export function generateNewAccessToken(settings = config, envPath = ENV_PATH) {
     settings.accessToken = fresh
     process.env.ACCESS_TOKEN = fresh
     await writeEnvValue("ACCESS_TOKEN", fresh, envPath).catch(() => false)
+
+    // RERUM can hand back a new refresh token alongside the access token. Keeping only the
+    // access token would leave the retired refresh token in .env, so the credential would
+    // work once and then fail permanently on the next expiry.
+    const rotated = payload.refresh_token ?? payload.refreshToken
+    if (typeof rotated === "string" && rotated && rotated !== settings.refreshToken) {
+      settings.refreshToken = rotated
+      process.env.REFRESH_TOKEN = rotated
+      await writeEnvValue("REFRESH_TOKEN", rotated, envPath).catch(() => false)
+    }
     return fresh
   })().finally(() => {
     refreshing = null

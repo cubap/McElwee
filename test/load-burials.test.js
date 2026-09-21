@@ -8,6 +8,7 @@ import { test } from "node:test"
 import { promisify } from "node:util"
 
 import { buildOperations, pageIndexImages, SITE_BASE } from "../scripts/burials-payloads.js"
+import { SHARED_SANDBOX_AGENT } from "../server/agent.js"
 
 const run = promisify(execFile)
 const ROOT = path.resolve(import.meta.dirname, "..")
@@ -104,13 +105,17 @@ test("carried-down surnames are not doubled and family heads stay linked", () =>
 
 /**
  * A stand-in for the local proxy: /agent, /create, /update. It mints sequential IRIs the
- * way RERUM does so the loader's placeholder resolution and ledger are exercised for real.
+ * way RERUM does so the loader's placeholder resolution and ledger are exercised for real,
+ * and - because that is what the loader now depends on - it stamps `__rerum.generatedBy`
+ * on everything it accepts, the way the store does.
  */
 function startMock() {
   const store = {}
   let n = 0
-  const listId = "http://127.0.0.1:0/id/LIST1"
   const server = http.createServer((req, res) => {
+    const base = `http://127.0.0.1:${server.address().port}`
+    const agentIri = `${base}/id/AGENT`
+    const listId = `${base}/id/LIST1`
     let body = ""
     req.on("data", (c) => (body += c))
     req.on("end", () => {
@@ -119,12 +124,21 @@ function startMock() {
         res.end(JSON.stringify(obj))
       }
       if (req.url === "/agent") {
-        return send(200, { agentIri: "http://store.rerum.io/v1/id/AGENT", problem: null, apiAddr: "mock://", idPattern: "" })
+        return send(200, {
+          agentIri: null,
+          expectedAgentIri: agentIri,
+          problem: null,
+          refreshError: null,
+          isSharedSandbox: false,
+          tokenExpiresAt: null,
+          apiAddr: "mock://",
+          idPattern: `${base}/id/`
+        })
       }
       if (req.url === "/create" && req.method === "POST") {
         const payload = JSON.parse(body)
-        const iri = `http://127.0.0.1:0/id/${++n}`
-        store[iri] = { ...payload, "@id": iri }
+        const iri = `${base}/id/${++n}`
+        store[iri] = { ...payload, "@id": iri, __rerum: { generatedBy: agentIri } }
         return send(200, { "@id": iri })
       }
       if (req.url === "/update" && req.method === "PUT") {
@@ -132,8 +146,14 @@ function startMock() {
         store[payload["@id"]] = payload
         return send(200, { ok: true })
       }
-      if (req.url.endsWith("/id/LIST1")) {
-        return send(200, store[listId] || { "@id": listId, "@type": "ItemList", itemListElement: [], numberOfItems: 0 })
+      if (req.method === "GET" && req.url.startsWith("/id/")) {
+        const iri = `${base}${req.url}`
+        if (store[iri]) return send(200, store[iri])
+        if (req.url === "/id/AGENT") return send(200, { id: agentIri, type: "Agent", label: "mcelwee-test" })
+        if (req.url === "/id/LIST1") {
+          return send(200, store[listId] || { "@id": listId, "@type": "ItemList", itemListElement: [], numberOfItems: 0 })
+        }
+        return send(404, { error: `no record at ${iri}` })
       }
       send(404, { error: `unhandled ${req.method} ${req.url}` })
     })
@@ -152,10 +172,12 @@ test("the loader writes, resolves placeholders, and is idempotent", async () => 
   fs.mkdirSync(path.join(repo, "source", "burials-evidence"), { recursive: true })
   fs.mkdirSync(path.join(repo, "source", "handoff", "burials"), { recursive: true })
   // The loader resolves its sibling import and its data paths relative to cwd, so give the
-  // sandbox a copy of both scripts at its root.
+  // sandbox a copy of both scripts at its root, plus the pure identity module it imports.
   for (const f of ["load-burials.js", "burials-payloads.js"]) {
     fs.copyFileSync(path.join(ROOT, "scripts", f), path.join(repo, f))
   }
+  fs.mkdirSync(path.join(dir, "server"), { recursive: true })
+  fs.copyFileSync(path.join(ROOT, "server", "agent.js"), path.join(dir, "server", "agent.js"))
   fs.writeFileSync(path.join(repo, "source", "burials-evidence", "burials-evidence.json"), JSON.stringify(EVIDENCE))
   fs.writeFileSync(path.join(repo, "source", "handoff", "burials", "rows.json"), JSON.stringify({ pages: [{ id: "BurialsAlpha001", image: "web/manifest/fotki/x.jpg" }] }))
 
@@ -194,39 +216,64 @@ test("the loader writes, resolves placeholders, and is idempotent", async () => 
   await mock.close()
 })
 
-test("preflight refuses a token that names no agent", async () => {
-  // The real failure: an identity-provider JWT in .env instead of the pair RERUM issued.
-  // It decodes cleanly and looks like a credential, but carries no agent claim, so RERUM
-  // would stamp 236 permanent records with nobody. EXPECTED_AGENT_IRI is blank in this
-  // scenario, which is exactly the case where agent.problem stays null and a naive
-  // guard would let the write through.
-  const seen = []
-  const server = http.createServer((req, res) => {
-    seen.push(req.url)
-    res.writeHead(200, { "Content-Type": "application/json" })
-    res.end(
-      JSON.stringify({
-        agentIri: null,
-        registered: true,
-        isSharedSandbox: false,
-        matchesExpected: true,
-        problem: null,
-        accessToken: true,
-        tokenExpiresAt: "2099-01-01T00:00:00.000Z",
-        apiAddr: "https://store.rerum.io/v1/"
-      })
-    )
-  })
-  await new Promise((r) => server.listen(0, "127.0.0.1", r))
-  const base = `http://127.0.0.1:${server.address().port}`
-  try {
-    await assert.rejects(
-      () => run(process.execPath, [path.join(ROOT, "scripts", "load-burials.js"), "--execute", "--base", base], { cwd: ROOT }),
-      /no RERUM agent claim/
-    )
-    assert.deepEqual(seen, ["/agent"], "the refusal happens before any write is attempted")
-  } finally {
-    await new Promise((r) => server.close(r))
+test("preflight refuses to write until the store's identity is established", async () => {
+  // RERUM production credentials are the institution's own OAuth tokens and carry no agent
+  // claim, so "the JWT names no agent" is the normal state of a *good* credential and cannot
+  // be the gate. What can be: a refresh token RERUM rejects, no configured agent, or an agent
+  // that does not exist on the store being written to. Each must fail before any write.
+  const scenarios = [
+    {
+      name: "refresh refused",
+      agent: { refreshError: "RERUM refused to refresh the access token (HTTP 500). Unknown or invalid refresh token." },
+      re: /refused to refresh/
+    },
+    { name: "still expired", agent: { tokenExpiresAt: "2000-01-01T00:00:00.000Z" }, re: /still expired/ },
+    { name: "no configured agent", agent: { expectedAgentIri: null }, re: /EXPECTED_AGENT_IRI is not set/ },
+    { name: "agent missing on store", agent: {}, missingAgentRecord: true, re: /does not resolve on the target store/ },
+    { name: "sandbox agent", agent: {}, sandbox: true, re: /shared TinyThings sandbox/ }
+  ]
+
+  for (const scenario of scenarios) {
+    const seen = []
+    const server = http.createServer((req, res) => {
+      seen.push(req.url)
+      const base = `http://127.0.0.1:${server.address().port}`
+      const send = (code, obj) => {
+        res.writeHead(code, { "Content-Type": "application/json" })
+        res.end(JSON.stringify(obj))
+      }
+      if (req.url === "/agent") {
+        return send(200, {
+          agentIri: null,
+          expectedAgentIri: `${base}/id/AGENT`,
+          problem: null,
+          refreshError: null,
+          isSharedSandbox: false,
+          tokenExpiresAt: null,
+          apiAddr: "https://store.rerum.io/v1/",
+          idPattern: "",
+          ...scenario.agent
+        })
+      }
+      // The agent record the loader dereferences to confirm the identity exists on the store.
+      if (scenario.missingAgentRecord) return send(404, { error: "not found" })
+      send(200, { id: scenario.sandbox ? SHARED_SANDBOX_AGENT : `${base}/id/AGENT`, type: "Agent", label: "mcelwee-test" })
+    })
+    await new Promise((r) => server.listen(0, "127.0.0.1", r))
+    const base = `http://127.0.0.1:${server.address().port}`
+    try {
+      const result = await run(
+        process.execPath,
+        [path.join(ROOT, "scripts", "load-burials.js"), "--execute", "--base", base],
+        { cwd: ROOT }
+      ).catch((e) => e)
+      assert.match(String(result.message ?? result), scenario.re, scenario.name)
+      // Dereferencing the agent record is a read. What must never appear is a write route.
+      const writes = seen.filter((u) => ["/create", "/update", "/delete", "/overwrite"].includes(u))
+      assert.deepEqual(writes, [], `${scenario.name}: the refusal happens before any write is attempted`)
+    } finally {
+      await new Promise((r) => server.close(r))
+    }
   }
 })
 

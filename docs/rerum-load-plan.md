@@ -61,23 +61,28 @@ kind, so writes are still refused. Verified against the live store:
 | `ACCESS_TOKEN` expiry | 2026-09-03, already past |
 | `POST /client/request-new-access-token` with `REFRESH_TOKEN` | **HTTP 500** — "Unknown or invalid refresh token" |
 
-The `ACCESS_TOKEN` is a Saint Louis University single-sign-on id_token, not the JWT RERUM
-returns when you register an application. They are easy to confuse because both are JWTs and
-both decode cleanly. RERUM's carries the agent IRI; an SSO token carries your university
-identity, which is a different thing and is useless to the store. The refresh token is not the
-pairing one either, so the set cannot heal itself.
+The `ACCESS_TOKEN` is a Saint Louis University / Okta access token: `cid`, `uid`, `scp`, and a
+one-hour lifetime. It carries no agent claim, and **that is not by itself a fault** — an earlier
+version of the loader treated a missing agent claim as proof of the wrong credential and refused
+to write. That gate was unsatisfiable: RERUM decides attribution when it stamps
+`__rerum.generatedBy`, not by putting an agent IRI in the bearer token, so demanding the claim
+would reject a perfectly good credential. The gate now verifies the agent against the store and
+confirms attribution on the first record actually written.
+
+What *is* fatal is the last row of the table: the store rejected the refresh token outright. The
+pair cannot heal itself.
 
 What this means: **the attribution problem is solved, the authentication problem is not.** The
-agent is correct and dedicated to this project. Someone has to re-run registration and paste the
-RERUM-issued access/refresh pair for that agent. `REQUIRE_AGENT_IRI` should also be flipped to
-`true` now that a real agent exists — with it `false` and `EXPECTED_AGENT_IRI` blank, the
-`agent.problem` check alone would let a write through under a token that names nobody, which is
-why `load-burials.js` no longer relies on it.
+agent is correct, dedicated to this project, and resolves on production. Someone has to re-run
+registration and put a fresh `ACCESS_TOKEN` / `REFRESH_TOKEN` pair in `.env`. `REQUIRE_AGENT_IRI`
+should also be flipped to `true` now that a real agent exists, so a token that resolves to a
+different agent is a hard failure rather than a warning.
 
 ## 3. What the loader does
 
 ```
 node scripts/load-burials.js                    # plan only, zero network calls
+node scripts/load-burials.js --preflight        # is the credential usable? writes nothing
 node scripts/load-burials.js --execute          # write
 node scripts/load-burials.js --execute --limit 3
 ```
@@ -89,8 +94,13 @@ local `server/` proxy so the access token never enters this process.
 For 117 records it emits **236 operations**: 1 Document, 117 Persons, 117 Annotations, 1
 list-append.
 
-Three properties matter for a load that has to be safe to interrupt:
+Four properties matter for a load that has to be safe to interrupt:
 
+- **Attribution is confirmed, not assumed.** After the first record the loader reads it back and
+  compares the store's own `__rerum.generatedBy` against `EXPECTED_AGENT_IRI`, and stops the run
+  if they differ. One stray record is a cleanup task; 236 permanent ones under the wrong agent on
+  a cemetery exhibit is not. The comparison tolerates the `http:`/`https:` inconsistency RERUM
+  itself writes these IRIs with.
 - **Placeholders, not guesses.** Operations reference each other as `@person:BurialsAlpha001_1`
   and `@burialIndex`. The loader substitutes real IRIs as it goes, so the transform needs no
   knowledge of the store and a partial run leaves no dangling references.
@@ -157,8 +167,9 @@ Two things the transcription did that a reader should know about:
    is reversible, and it keeps the exhibit working. Migrate everything to `store.rerum.io` as one
    deliberate issue-#14 move afterwards, rather than splitting the collection across two stores.
 2. **Provision credentials.** `copy sample.env .env`, fill `ACCESS_TOKEN`, `REFRESH_TOKEN`,
-   `EXPECTED_AGENT_IRI`, set `REQUIRE_AGENT_IRI=true`. Confirm with `npm run whoami` and
-   `GET http://localhost:3030/agent`.
+   `EXPECTED_AGENT_IRI`, set `REQUIRE_AGENT_IRI=true`. `npm start`, then
+   `node scripts/load-burials.js --preflight` — it refreshes, dereferences the agent on the target
+   store, and names the exact reason a credential is unusable without writing anything.
 3. **Canary.** `npm start`, then `node scripts/load-burials.js --execute --limit 3 --list <IRI>`.
    Open the three people in the exhibit and read them against the physical desk copy. This is the
    only step that needs the drawer.

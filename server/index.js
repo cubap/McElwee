@@ -10,6 +10,8 @@ app.listen(config.port, () => {
   console.log(`[mcelwee] entry subsite      http://localhost:${config.port}/entry/  (local only, never deployed)`)
   console.log(`[mcelwee] RERUM proxy        http://localhost:${config.port}/query, /create, /update, /delete, /overwrite`)
   console.log(`[mcelwee] upstream           ${config.apiAddr}`)
-  console.log(`[mcelwee] writing as         ${status.agentIri ?? "(no credentials)"}`)
+  // RERUM's access tokens name a person, not an app, so the decoded claim is usually absent;
+  // the configured agent is the honest answer to "what will this be attributed to".
+  console.log(`[mcelwee] writing as         ${status.agentIri ?? config.expectedAgentIri ?? "(no credentials)"}`)
   if (status.problem) console.warn(`[mcelwee] WARNING ${status.problem}`)
 })

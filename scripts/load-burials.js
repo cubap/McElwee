@@ -18,6 +18,7 @@ import fs from "node:fs"
 import path from "node:path"
 
 import { buildOperations, loadEvidence, pageIndexImages, defaultEvidencePath } from "./burials-payloads.js"
+import { SHARED_SANDBOX_AGENT } from "../server/agent.js"
 
 const ROOT = process.cwd()
 const LEDGER = path.join(ROOT, "source", "burials-evidence", "load-ledger.json")
@@ -25,10 +26,11 @@ const PLAN_OUT = path.join(ROOT, "source", "burials-evidence", "burials-plan.jso
 const ROWS = path.join(ROOT, "source", "handoff", "burials", "rows.json")
 
 function parseArgs(argv) {
-  const args = { execute: false, limit: 0, base: process.env.PROXY_BASE || "http://localhost:3030", list: "", newList: false }
+  const args = { execute: false, preflight: false, limit: 0, base: process.env.PROXY_BASE || "http://localhost:3030", list: "", newList: false }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
     if (a === "--execute") args.execute = true
+    else if (a === "--preflight") args.preflight = true
     else if (a === "--limit") args.limit = Number.parseInt(argv[++i], 10) || 0
     else if (a === "--base") args.base = argv[++i]
     else if (a === "--list") args.list = argv[++i]
@@ -42,7 +44,7 @@ function readLedger() {
   try {
     return JSON.parse(fs.readFileSync(LEDGER, "utf8").replace(/^\uFEFF/, ""))
   } catch {
-    return { created: {}, listUpdated: false }
+    return { created: {}, listUpdated: false, attributionVerified: false }
   }
 }
 
@@ -116,9 +118,13 @@ function idFrom(response) {
 }
 
 /**
- * The identity gate. `agent.problem` alone is not enough: it is only set when
- * EXPECTED_AGENT_IRI is configured, so a blank config would let a load write 236 permanent
- * records under a token that names nobody. These checks hold regardless of what is in .env.
+ * The identity gate, answered by the store rather than by the token.
+ *
+ * RERUM production credentials are the institution's own OAuth tokens: they name a person and
+ * an hour of validity and carry no agent claim, so decoding the JWT can never establish "which
+ * app is writing" - demanding one there refuses every valid credential. The store establishes
+ * attribution instead, by stamping `__rerum.generatedBy` on what it accepts. This checks
+ * everything the token *can* prove; `verifyCanary` checks the one thing it cannot.
  */
 async function preflight(base) {
   const agent = await fetch(`${base}/agent`)
@@ -128,23 +134,79 @@ async function preflight(base) {
     })
 
   const problems = []
-  if (agent.problem) problems.push(agent.problem)
-  if (!agent.agentIri) {
-    problems.push(
-      "The ACCESS_TOKEN carries no RERUM agent claim, so anything written would be unattributable. " +
-        "This is usually an identity-provider token pasted in by mistake; RERUM issues its own pair at registration."
-    )
+  if (agent.refreshError) {
+    problems.push(`${agent.refreshError} Re-register to get a fresh pair and put both values in .env.`)
+  }
+  if (agent.tokenExpiresAt && new Date(agent.tokenExpiresAt).getTime() <= Date.now()) {
+    problems.push(`The ACCESS_TOKEN is still expired (${agent.tokenExpiresAt}); refresh produced nothing usable.`)
   }
   if (agent.isSharedSandbox) {
     problems.push("The token belongs to the shared TinyThings sandbox agent, not to this project.")
   }
-  if (agent.tokenExpiresAt && new Date(agent.tokenExpiresAt).getTime() <= Date.now()) {
-    problems.push(`The ACCESS_TOKEN expired ${agent.tokenExpiresAt} and could not be refreshed.`)
+  if (agent.problem) problems.push(agent.problem)
+
+  const expected = agent.expectedAgentIri
+  if (!expected) {
+    problems.push("EXPECTED_AGENT_IRI is not set, so there is no identity to verify the load against.")
+  } else {
+    // The agent has to exist on the store being written to. An IRI minted on devstore would
+    // resolve to nothing here and every record would carry a dangling attribution.
+    const resolved = await fetch(expected)
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null)
+    if (!resolved) {
+      problems.push(`EXPECTED_AGENT_IRI ${expected} does not resolve on the target store.`)
+    } else if (resolved.type !== "Agent") {
+      problems.push(`${expected} is not a RERUM Agent (type: ${resolved.type}).`)
+    } else if (sameIri(resolved.id, SHARED_SANDBOX_AGENT)) {
+      problems.push(`${expected} is the shared TinyThings sandbox agent.`)
+    } else {
+      console.log(`agent            : ${expected}  (${resolved.label})`)
+    }
   }
+
   if (problems.length) {
     throw new Error(`Refusing to write:\n  - ${problems.join("\n  - ")}\n\nNothing was sent to the store.`)
   }
   return agent
+}
+
+/**
+ * RERUM is inconsistent about http/https in stored IRIs - the agent record above reports
+ * `generatedBy` with an `http:` scheme while its own `id` uses `https:`. Two spellings of one
+ * IRI must not fail an equality check that decides whether a load continues.
+ */
+function sameIri(a, b) {
+  const norm = (v) => String(v ?? "").replace(/^http:/, "https:").replace(/\/+$/, "")
+  return Boolean(a) && Boolean(b) && norm(a) === norm(b)
+}
+
+/**
+ * Ask the store who wrote the first record, before there is a batch of them to explain.
+ *
+ * This is the only check that sees RERUM's real answer: it reads the created record back and
+ * compares the attribution the store stamped on it. If the credential in use resolves to a
+ * different agent than configured, the load stops with one stray record instead of 236
+ * permanent ones under the wrong name.
+ */
+async function verifyCanary(iri, expected) {
+  const record = await fetch(iri)
+    .then((r) => r.json())
+    .catch(() => null)
+  const by = record?.__rerum?.generatedBy
+  if (!by) {
+    throw new Error(
+      `Could not read attribution back from ${iri}. Aborting before the rest of the load - ` +
+        "unverified writes are the ones you have to find by hand afterwards."
+    )
+  }
+  if (!sameIri(by, expected)) {
+    throw new Error(
+      `The store attributed the first record to ${by}, not the expected agent ${expected}.\n` +
+        `  ${iri} exists; nothing further was written. Reconcile the credential, then re-run.`
+    )
+  }
+  console.log(`attribution check: store stamped ${by}`)
 }
 
 /** The ItemList the exhibit reads its people from, created on the target store if needed. */
@@ -178,9 +240,11 @@ async function main() {
   if (args.help) {
     console.log(
       "usage: node scripts/load-burials.js [--execute] [--limit N] [--base URL] [--list IRI | --new-list]\n" +
-        "  --list IRI    population list to append people to; must already exist on the target store\n" +
-        "  --new-list    create the population list on the target store when it is missing\n\n" +
-        "Writes are refused unless the token resolves to a real, non-sandbox, unexpired RERUM agent."
+        "  --list IRI      population list to append people to; must already exist on the target store\n" +
+        "  --new-list      create the population list on the target store when it is missing\n" +
+        "  --preflight     check the credential against the store and write nothing\n\n" +
+        "Writes are refused unless the credential is unexpired and the configured agent exists on the\n" +
+        "target store, and the store's own attribution of the first record is checked before the rest."
     )
     return
   }
@@ -198,6 +262,12 @@ async function main() {
   console.log(`already in ledger: ${Object.keys(ledger.created).length}`)
   console.log(`to write         : ${pending.length}`)
 
+  if (args.preflight) {
+    await preflight(args.base)
+    console.log("\npreflight passed - the credential is usable and the store would accept these writes.")
+    return
+  }
+
   if (!args.execute) {
     fs.writeFileSync(PLAN_OUT, JSON.stringify({ generatedFrom: "source/burials-evidence/burials-evidence.json", operations }, null, 2))
     console.log(`\ndry run - plan written to ${path.relative(ROOT, PLAN_OUT)}`)
@@ -210,7 +280,8 @@ async function main() {
   // Confirm the proxy is up and can be attributed before the first write, so a missing,
   // wrong, or expired credential fails immediately instead of halfway through the batch.
   const agent = await preflight(args.base)
-  console.log(`\nwriting as ${agent.agentIri}\ntarget store ${agent.apiAddr}`)
+  const identity = agent.expectedAgentIri || agent.agentIri
+  console.log(`writing as       : ${identity}\ntarget store     : ${agent.apiAddr}`)
 
   let written = 0
   for (const op of pending) {
@@ -250,6 +321,12 @@ async function main() {
     const key = ledgerKey(op)
     ledger.created[key] = iri
     writeLedger(ledger)
+    // One record is a cheap experiment. 236 permanent ones under the wrong attribution are not.
+    if (!ledger.attributionVerified) {
+      await verifyCanary(iri, identity)
+      ledger.attributionVerified = true
+      writeLedger(ledger)
+    }
     written++
     if (written % 10 === 0 || written === 1) console.log(`  ${written}: ${op.kind} ${op.localId || op.ref} -> ${iri}`)
   }
