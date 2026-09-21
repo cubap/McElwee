@@ -27,6 +27,8 @@
     "whoami": "node scripts/whoami.js",
     "burials:plan": "node scripts/load-burials.js",
     "burials:load": "node scripts/load-burials.js --execute",
+    "catalog:provenance": "node scripts/catalog-provenance.js",
+    "catalog:provenance:load": "node scripts/catalog-provenance.js --execute",
     "test": "node --test \"test/**/*.test.js\""
   },
   "dependencies": {

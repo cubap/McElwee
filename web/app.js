@@ -117,7 +117,7 @@ async function expand(obj) {
     let annos = await findByTargetId(findId)
     let claims = {}
 
-    function record(key, value, anno, evidence) {
+    function record(key, value, anno, evidence, provenance) {
         if (!claims[key]) claims[key] = []
         let text = value === null || value === undefined ? "" : String(value)
         let existing = claims[key].find(c => c.value === text)
@@ -131,6 +131,7 @@ async function expand(obj) {
             count: 1,
             source: recordId(anno),
             evidence: evidence,
+            provenance: provenance || null,
             generatedBy: anno && anno.__rerum && anno.__rerum.generatedBy,
             motivation: anno && anno.motivation,
             createdAt: anno && anno.__rerum && anno.__rerum.createdAt,
@@ -153,7 +154,7 @@ async function expand(obj) {
                 continue
             }
             for (let k of Object.keys(entry)) {
-                if (k.charAt(0) === "@" || k === "evidence" || k === "source") continue
+                if (k.charAt(0) === "@" || k === "evidence" || k === "source" || k === "provenance") continue
                 let raw = entry[k]
                 // A falsy value is still a value. `raw.value || raw` used to render the
                 // number 0 and the empty string as "[object Object]" (issue #9).
@@ -162,7 +163,8 @@ async function expand(obj) {
                 let evidence = (raw && typeof raw === "object" && raw.evidence)
                     ? ((typeof raw.evidence === "object") ? recordId(raw.evidence) : raw.evidence)
                     : null
-                record(k, value, annos[i], evidence)
+                let provenance = (raw && typeof raw === "object" && raw.provenance) ? raw.provenance : null
+                record(k, value, annos[i], evidence, provenance)
             }
         }
     }
@@ -340,6 +342,9 @@ template.claimDetail = function(key, list) {
     html += `<dt>Written by</dt><dd>${cite(chosen.generatedBy, "shared transcription agent, sandbox@rerum.io", "agent")}</dd>`
     html += `<dt>Written on</dt><dd>${esc(dateOf(chosen))}</dd>`
     if (chosen.evidence) html += `<dt>Evidence</dt><dd>${cite(chosen.evidence, "catalog page", "document")}</dd>`
+    if (chosen.provenance && chosen.provenance.sourceImage && chosen.provenance.rect) {
+        html += `<dt>Source</dt><dd>${sourceFigure(chosen.provenance)}</dd>`
+    }
     if (chosen.superseded) html += `<dt>Status</dt><dd>superseded by a later revision</dd>`
     html += `</dl>`
     if (list.length > 1) {
@@ -353,6 +358,48 @@ template.claimDetail = function(key, list) {
     }
     html += `</div>`
     return html
+}
+
+/**
+ * The slice of the page a claim was read from, mounted beside the trace like the
+ * burial index's proof bench. The crop is drawn at source resolution by crop.js;
+ * the full page stays one click away.
+ */
+function sourceFigure(provenance) {
+    let url = provenance.sourceImage
+    let rect = provenance.rect
+    let size = /source-image-pixels-(\d+)x(\d+)/.exec(rect.source || "")
+    let dims = size ? ` data-width="${size[1]}" data-height="${size[2]}"` : ""
+    return `<figure class="mc-source" data-image="${esc(url)}" data-rect="${esc(JSON.stringify(rect))}"${dims}>
+        <div class="mc-source-frame"><img src="${esc(url)}" alt="The line on the page this claim was read from"></div>
+        <figcaption>
+            <a class="mc-source-full" href="${esc(url)}" target="_blank" rel="noopener">Open the full page</a>
+            <span class="mc-source-cite">${esc(url)}</span>
+        </figcaption>
+    </figure>`
+}
+
+/**
+ * After the trace is in the DOM, cut the source slice out of the page photograph.
+ * The rect was measured in the page's own pixel space, so the page's dimensions
+ * ride along in the rect's `source` label when the loader recorded them.
+ */
+function decorateSource(root) {
+    Array.prototype.forEach.call(root.querySelectorAll(".mc-source"), function(fig) {
+        if (fig.dataset.wired) return
+        fig.dataset.wired = "1"
+        let url = fig.dataset.image
+        let rect = null
+        try { rect = JSON.parse(fig.dataset.rect) } catch (err) { rect = null }
+        if (!url || !rect) return
+        let page = { image: url }
+        if (fig.dataset.width) page.width = Number(fig.dataset.width)
+        if (fig.dataset.height) page.height = Number(fig.dataset.height)
+        let img = fig.querySelector("img")
+        mcCropImage(page, rect, function(dataUrl) {
+            img.src = dataUrl || url
+        })
+    })
 }
 
 /**
@@ -862,6 +909,7 @@ function wireClaims(root) {
                 let claims = (mc.current && mc.current.__claims && mc.current.__claims[key]) || []
                 detail.innerHTML = template.claimDetail(key, claims)
                 decorateTrace(detail)
+                decorateSource(detail)
                 wireEvidence(detail)
                 detail.dataset.built = "1"
             }

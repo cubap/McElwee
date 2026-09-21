@@ -643,6 +643,54 @@ a:hover { text-decoration-thickness: 2px; }
     overflow-wrap: anywhere;
 }
 
+/* The slice of the page a claim was read from, mounted in the trace like the
+   proof bench mounts it beside the burial index. The crop is drawn at source
+   resolution, so it reads as the page itself, not as a thumbnail. */
+.mc-source {
+    margin: .25rem 0 0;
+    max-width: 26rem;
+    font-family: var(--f-value);
+    font-size: .92rem;
+}
+
+.mc-source-frame {
+    line-height: 0;
+    background: var(--ink);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+}
+
+.mc-source-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.mc-source figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem .75rem;
+    align-items: baseline;
+    margin-top: .35rem;
+    font-family: var(--f-stamp);
+    font-size: .72rem;
+}
+
+.mc-source-full {
+    color: var(--green);
+    text-decoration: none;
+    border-bottom: 1px solid var(--green-line);
+}
+
+.mc-source-full:hover {
+    border-bottom-color: var(--green);
+}
+
+.mc-source-cite {
+    color: var(--ink-faint);
+    overflow-wrap: anywhere;
+}
+
 /* Each link in the trace wears a chip marking its kind, so an assertion is
    distinguishable from its evidence before the label loads. */
 .mc-cite {
