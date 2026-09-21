@@ -1,0 +1,125 @@
+{
+  "note": "Manual visual transcriptions of the 'Inscriptions' pages (BurialsPage002-007). These are the typed text records of the engravings on the headstones — an independent transcription of the same stones as the alphabetical index, in the same two-column surname + entry layout. seq is the row ordinal per source/handoff/burials/rows.json.",
+  "pages": {
+    "BurialsPage002": {
+      "rows": [
+        { "seq": 1, "surname": "SCOTT", "entry": "Catharine w/o E.H. Scott born Oct. 18, 1808 Anderson Co. KY died July 07, 1862 aged 53y 9m 15d" },
+        { "seq": 2, "surname": "BLAND", "entry": "Claud J. s/o J.H. & J.J. Bland d. Dec. 02, 1883 aged 1y 8m 8d" },
+        { "seq": 3, "surname": "BLAND", "entry": "Minnie Lee, d/o J.H. & J.J. Bland d. Sep. 13, 1880 aged 2y" },
+        { "seq": 4, "surname": "CARR", "entry": "Elizabeth C. w/o J.W. Carr b. Oct. 01, 1842 d. Aug. 06, 1887" },
+        { "seq": 5, "surname": "CARR", "entry": "Laura E. d/o J.W. & E.C. Carr b. Feb. 03, 1883 d. (no date)" },
+        { "seq": 6, "surname": "CARR", "entry": "James H. s/o J.W. & E.C. Carr b. Feb. 02, 1878 d. Apr. 10, 1878" },
+        { "seq": 7, "surname": "CARR", "entry": "Mary L. d/o J.W. & E.C. Carr b. Jan. 04, 1872 d. Mar. 29, 1879" },
+        { "seq": 8, "surname": "CARR", "entry": "John E. s/o J.W. & E.C. Carr b. Jan. 17, 1870 d. Jan. 19, 1870" },
+        { "seq": 9, "surname": "CARR", "entry": "Permelia J. d/o J.W & E.C. Carr b. Feb. 16, 1862 d. Mar. 03, 1869" },
+        { "seq": 10, "surname": "CARR", "entry": "William, s/o J.W. & E.C. Carr b. Aug. 15, 1867 d. Oct. 27, 1867" },
+        { "seq": 11, "surname": "CARR", "entry": "Mahala J., w/o A. Carr d. 1867 stone broken" },
+        { "seq": 12, "surname": "TAYLOR", "entry": "Sarah, D. Mar. 1861 d. Mar. 1941" },
+        { "seq": 13, "surname": "PERKINS", "entry": "Albert, Co. D 118 ILL. INF" },
+        { "seq": 14, "surname": "ROBERTS", "entry": "James, b. Jan. 20, 1826 d. Nov. 09, 1862 aged 36y 9m 19d" },
+        { "seq": 15, "surname": "ROBERTS", "entry": "Eliott R., h/o Rebecca Roberts b. (broken) d. May 02, 1874" }
+      ]
+    },
+    "BurialsPage003": {
+      "rows": [
+        { "seq": 1, "surname": "WILSNACK", "entry": "Frank L., d. Aug. 02, 1875 aged 19y 10m 2d" },
+        { "seq": 2, "surname": "WILSNACK", "entry": "Theodore A., d. Feb. 11, 1886 aged 9y 11m 7d" },
+        { "seq": 3, "surname": "ROBERTS", "entry": "Rebecca S., w/o Elliott R. Roberts b. Jul. 30, 1802 d. Jul. 07, 1871" },
+        { "seq": 4, "surname": "CARR", "entry": "Marion D., 1866 - 1939" },
+        { "seq": 5, "surname": "CARR", "entry": "Laura T., 1866 - 1903" },
+        { "seq": 6, "surname": "STEWART", "entry": "Theo., b. Aug. 12, 1857 d. Oct. 28, 1928" },
+        { "seq": 7, "surname": "STEWART", "entry": "Ellen, b. aug. 24, 1858 d. Dec. 05, 1924" },
+        { "seq": 8, "surname": "HOUCHINS", "entry": "A. A., Feb. 03, 1844 -" },
+        { "seq": 9, "surname": "HOUCHINS", "entry": "S. B., b. Jun 18, 1849 d. May 07 1874" },
+        { "seq": 10, "surname": "HOUCHINS", "entry": "M. H., b. Dec. 29, 1843 d. Apr. 09, 1922" },
+        { "seq": 11, "surname": "HOUCHINS", "entry": "Susan R., w/o Abner A. Houchins b. Jun. 18, 1849 d. May 07, 1874" },
+        { "seq": 12, "surname": "GIVENS", "entry": "Margaret E., w/o L. W. Givens b: Jan. 18, 1845 d. Oct. 02, 1870" },
+        { "seq": 13, "surname": "GIVENS", "entry": "Lawson W., b. Apr. 25, 1828 d. May 05, 1903" },
+        { "seq": 14, "surname": "GIVENS", "entry": "James W., b. Nov. 12, 1840 d. Sep. 17, 1901" },
+        { "seq": 15, "surname": "GIVENS", "entry": "Isabel Jane, w/o J.W. Givens b. Mar. 25, 1837 d. Jun. 12, 1874" },
+        { "seq": 16, "surname": "GIVENS", "entry": "Elender H., b. Apr. 11, 1820 d. Aug. 26, 1892" },
+        { "seq": 17, "surname": "PATRICK", "entry": "James W., 1863 - 1926" },
+        { "seq": 18, "surname": "PATRICK", "entry": "Emma S., 1865 - 1940" },
+        { "seq": 19, "surname": "HENRY", "entry": "Malcolm, d. Nov. 26, 1854 aged 65y 17d" },
+        { "seq": 20, "surname": "HENRY", "entry": "Catherine, w/o Malcolm Henry d. Sep. 21, 1867 aged 75y 4m 22d" },
+        { "seq": 21, "surname": "MASSEY", "entry": "Matilda, w/o Nathan Massey d. Aug. 18, 1833 aged 35y 1d" },
+        { "seq": 22, "surname": "MASSEY", "entry": "Frances M., d/o Nathan & Matilda Massey d. Mar. 07, 1833 aged 4m 28d" }
+      ]
+    },
+    "BurialsPage004": {
+      "rows": [
+        { "seq": 1, "surname": "McELWEE", "entry": "James, b. Aug. 19, 1758 Greenville Co. Virginia d. June 13, 1834 aged 75y 1m 24d (Rev. War Monument)" },
+        { "seq": 2, "surname": "McELWEE", "entry": "Mary Mills, w/o James D. McElwee b. Mar. 13, 1809 d. Dec. 15, 1894" },
+        { "seq": 3, "surname": "McELWEE", "entry": "Rhoda Black, w/o James McElwee b. Mar. 04, 1777 d. Aug. 22, 1848 aged 71y 1m 21d" },
+        { "seq": 4, "surname": "McELWEE", "entry": "Mary, b. Jul 09, 1812 in York District S. Carolina d. Jul. 10, 1890" },
+        { "seq": 5, "surname": "MILLS", "entry": "Azubam, b. Jan. 11, 1786 d. Jan. 16, 1852" },
+        { "seq": 6, "surname": "GRIFFITH", "entry": "Oris B., b. Nov. 29, 1867 d. Mar. 20, 1937" },
+        { "seq": 7, "surname": "GORTON", "entry": "Charles K., b. May 24, 1854 d. Jul. 29, 1931" },
+        { "seq": 8, "surname": "GIVENS", "entry": "infant d/o J.W. & I.J. Givens b. & d. Nov. 01, 1867" },
+        { "seq": 9, "surname": "GIVENS", "entry": "Ulyses S., s/o J.W. & I.J. Givens d. Oct. 09, 1863 aged 9m 29d" },
+        { "seq": 10, "surname": "GIVENS", "entry": "infant s/o J.W. & I.J. Givens d. Jun. 21, 1874 aged 5 days" },
+        { "seq": 11, "surname": "GIVENS", "entry": "F. J., b. Sep. 02, 1811 d. Aug. 01, 1891" },
+        { "seq": 12, "surname": "GIVENS", "entry": "Samuel, born in York Co. S.C. Apr. 08, 1801 d. Jan. 16, 1880" },
+        { "seq": 13, "surname": "GIVENS", "entry": "Sarah, w/o Samuel Givens b. in York Co. S.C. Mar 06, 1798 d. Aug. 26, 1863" },
+        { "seq": 14, "surname": "GIVENS", "entry": "Albert R., s/o S. & S. Givens d. Aug. 29, 1852 aged 22y 7m 18d" },
+        { "seq": 15, "surname": "GIVENS", "entry": "Elizabeth, d/o S. & S. Givens b. Mar. 30, 1834 d. Jul. 08, 1856" }
+      ]
+    },
+    "BurialsPage005": {
+      "rows": [
+        { "seq": 1, "surname": "RUSSELL", "entry": "Cornie 1889 - 1897" },
+        { "seq": 2, "surname": "JENNINGS", "entry": "Delancy, w/o E.D. Jennings d. Oct. 10, 1856 aged 54y 2m 23d" },
+        { "seq": 3, "surname": "JENNINGS", "entry": "Edward D., b. Dec. 21, 1804 d. Jan. 03, 1884" },
+        { "seq": 4, "surname": "JENNINGS", "entry": "Jefferson A., s/o E.D. & H.F. Jennings b. Oct. 29, 1870 d. Jan. 24, 1873" },
+        { "seq": 5, "surname": "ROWLEY", "entry": "Sarah E., d/o Joel R. & Margaret A. J. Rowley d. Aug 28, 1857 aged 12ys" },
+        { "seq": 6, "surname": "ROWLEY", "entry": "Samuel L., s/o J.R. & M.A.J. Rowley d. Aug. 18, 1863 aged 1y 10m 20d" },
+        { "seq": 7, "surname": "ROWLEY", "entry": "Joel R., b. Jun. 25, 1834 d. Margaret A.J., w/o J. R. Rowley d/o Samuel & Sarah Givens b. Nov. 10, 1831 d. Nov. 27, 1888" },
+        { "seq": 8, "surname": "ROWLEY", "entry": "James R., s/o Joel R. & M.A.J. Rowley d. Aug. 30, 1863 aged 4y 3m 18d" },
+        { "seq": 9, "surname": "HOUCHINS", "entry": "Henry T., b. Oct. 04, 1812 d. Oct. 03, 1881" },
+        { "seq": 10, "surname": "RHEA", "entry": "Adaline, w/o Hamilton L. Rhea b. Mar. 21, 1832 d. Aug. 20, 1858" },
+        { "seq": 11, "surname": "RHEA", "entry": "George A., s/o Hamilton L. & A. Rhea d. Apr. 30, 1857" },
+        { "seq": 12, "surname": "RHEA", "entry": "Margaret C., b. Aug. 09, 1826 d. Dec. 20, 1872" },
+        { "seq": 13, "surname": "RHEA", "entry": "Messina, w/o Silas Rhea d/o Francis & Jemima Gilmore b. Feb. 05, 1800 d. Jul. 19, 1856" },
+        { "seq": 14, "surname": "RHEA", "entry": "Silas, b. Jun. 05, 1791 d. Jan. 11, 1847 aged 55y 7m 6d (has Star of David engraved)" },
+        { "seq": 15, "surname": "SCOGGINS", "entry": "Archibald, d. Jan. 09, 1873 aged 55y 2m 26d" },
+        { "seq": 16, "surname": "DOTY", "entry": "Glenn D., b. Jan. 1907 d. Feb. 1907" }
+      ]
+    },
+    "BurialsPage006": {
+      "rows": [
+        { "seq": 1, "surname": "DOTY", "entry": "Sarah E., d/o J.T. & S.N. Doty d. Apr. 09, 1884 aged 1m 5d" },
+        { "seq": 2, "surname": "GILMORE", "entry": "Francis, d. Apr. 29, 1841 aged 76y 4m 4d" },
+        { "seq": 3, "surname": "GILMORE", "entry": "Jemima, w/o Francis Gilmore d. Aug. 18, 1852 aged 83y" },
+        { "seq": 4, "surname": "GIVENS", "entry": "John G., born York Co. S.C. Emigrated to Pike Co. MO 1826 died May 21, 1875 aged 70y 8m 9d" },
+        { "seq": 5, "surname": "HOWEL", "entry": "Beatrice, d/o F. & S.A. Howel d. Sep. 07, 1818" },
+        { "seq": 6, "surname": "HOWEL", "entry": "Isiphina, d/o F. & S.A. Howel d. Sep. 06, 1848" },
+        { "seq": 7, "surname": "HOWEL", "entry": "Sally A., w/o Francis Howel b. Jan. 01, 1816 d. Sep. 09, 1847" },
+        { "seq": 8, "surname": "HALEY", "entry": "Martha, w/o J. Haley b. Sep. 20, 1838 d. Mar. 27, 1906 stone with initials M.H." },
+        { "seq": 9, "surname": "HOWELL", "entry": "Elizabeth, w/o Samuel Howell b. in York Co. S.C. Jun. 15, 1792 d. Sep. 20, 187-" },
+        { "seq": 10, "surname": "EDMONDS", "entry": "Robert B., s/o O.J. & M.E. Edmonds d. Nov. 01, 1876 aged 21y 11m" },
+        { "seq": 11, "surname": "BEVARD", "entry": "Sarah I. HOWELL, b. Apr. 13, 1867 d. Nov. 20, 1916" },
+        { "seq": 12, "surname": "HOWELL", "entry": "Edwin Wilson 1841 - 1928" },
+        { "seq": 13, "surname": "HOWEL", "entry": "Louisa G., w/o C.W. Howel b. Mar. 03, 1838 d. Jan. 06, 1882" },
+        { "seq": 14, "surname": "HOWEL", "entry": "Silas J., b. Sep. 19, 1847 d. Jan. 04, 1882" },
+        { "seq": 15, "surname": "HOWEL", "entry": "Annie T., b. Mar. 16, 1872 d. Nov. 14, 1880" }
+      ]
+    },
+    "BurialsPage007": {
+      "rows": [
+        { "seq": 1, "surname": "McELWEE", "entry": "George E., d. Nov. 02, 1883 aged 27y 4m 4d" },
+        { "seq": 2, "surname": "McELWEE", "entry": "Henry S., s/o Dan & N.L. McElwee b. Sep. 08, 1837 d. May 18, 1864" },
+        { "seq": 3, "surname": "McELWEE", "entry": "Alexander B., s/o Dan & Nancy McElwee d. Oct. 10, 1849" },
+        { "seq": 4, "surname": "McELWEE", "entry": "Dan, d. Mar. 07, 1873 aged 66y 10m 5d" },
+        { "seq": 5, "surname": "McELWEE", "entry": "Nancy, w/o Dan McElwee d. Feb. 09, 1892 aged 77y 11m 1d" },
+        { "seq": 6, "surname": "OWEN", "entry": "Joel, b. Sep. 18, 1821 d. Sep. 30, 1862" },
+        { "seq": 7, "surname": "STEWART", "entry": "James McElwee, s/o J.C. & M.E. Stewart b. Sep. 29, 1871 d. Dec. 12, 1876" },
+        { "seq": 8, "surname": "STEWART", "entry": "John Wiley, s/o J.C. & M.E. Stewart d. Mar. 17, 1879 aged 7m 7d" },
+        { "seq": 9, "surname": "STEWART", "entry": "Mary E., d/o J.C. & M.E. Stewart d. Dec. 19, 1881 aged 13y 7m 20d" },
+        { "seq": 10, "surname": "STEWART", "entry": "Charles, s/o J.C & Mary E. Stewart d. Feb. 06, 1882" },
+        { "seq": 11, "surname": "STEWART", "entry": "Roy M., s/o J.C. & M.E. Stewart d. Apr. 01, 1888 aged 1y 3m" },
+        { "seq": 12, "surname": "HETTICH", "entry": "infant s/o D. & J. Hettich b. Jun. 04, 1884 d. Jun. 21, 1884" },
+        { "seq": 13, "surname": "CRAFT", "entry": "Isaac C., s/o I.C. & N. Craft b. Jun. 13, 1871 d. Nov. 12, 1871" }
+      ]
+    }
+  }
+}

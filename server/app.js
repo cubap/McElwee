@@ -4,8 +4,8 @@ import { fileURLToPath } from "node:url"
 import express from "express"
 
 import { config as defaultConfig } from "./config.js"
-import { ENV_PATH, requireAgent } from "./tokens.js"
-import { inspectAgent, tokenExpiryMs } from "./agent.js"
+import { ENV_PATH, requireAgent, generateNewAccessToken } from "./tokens.js"
+import { inspectAgent, tokenExpiryMs, isTokenExpired } from "./agent.js"
 import { createQueryRouter } from "./routes/query.js"
 import { createCreateRouter } from "./routes/create.js"
 import { createUpdateRouter } from "./routes/update.js"
@@ -58,19 +58,36 @@ export function createApp({
   }
 
   // What am I writing as? The entry subsite shows this and `npm run whoami` prints it.
-  app.get("/agent", (req, res) => {
+  //
+  // An expired access token is refreshed here rather than reported as expired. RERUM access
+  // tokens are short-lived (an hour), so "expired" is the normal state of whatever is sitting
+  // in .env and says nothing about whether the credentials are usable - only the refresh
+  // endpoint knows that. Answering this route without trying leaves `whoami` and the loader's
+  // preflight describing a credential that would have worked.
+  app.get("/agent", async (req, res, next) => {
     const settings = req.app.locals.config
-    res.json({
-      ...inspectAgent(settings),
-      apiAddr: settings.apiAddr,
-      idPattern: settings.idPattern,
-      registrationUrl: settings.registrationUrl,
-      requireAgentIri: settings.requireAgentIri,
-      tokenExpiresAt: (() => {
-        const ms = tokenExpiryMs(settings.accessToken)
-        return ms ? new Date(ms).toISOString() : null
-      })()
-    })
+    try {
+      if (settings.accessToken && isTokenExpired(settings.accessToken) && settings.refreshToken) {
+        await generateNewAccessToken(settings, req.app.locals.envPath).catch((error) => {
+          res.locals.refreshError = error.message
+        })
+      }
+      res.json({
+        ...inspectAgent(settings),
+        apiAddr: settings.apiAddr,
+        idPattern: settings.idPattern,
+        registrationUrl: settings.registrationUrl,
+        expectedAgentIri: settings.expectedAgentIri || null,
+        requireAgentIri: settings.requireAgentIri,
+        refreshError: res.locals.refreshError || null,
+        tokenExpiresAt: (() => {
+          const ms = tokenExpiryMs(settings.accessToken)
+          return ms ? new Date(ms).toISOString() : null
+        })()
+      })
+    } catch (error) {
+      next(error)
+    }
   })
 
   // Health check for the CI smoke test and for anyone wondering if the proxy is up.

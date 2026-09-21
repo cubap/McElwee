@@ -70,6 +70,52 @@ the label, reproduced but kept off the determination.
             </aside>
         </div>
 
+        <!-- ================================================================
+             THE BURIAL INDEX. A different artifact from the specimen sheet
+             above, so it is mounted differently: the index is a typescript
+             ledger, and it is shown as one. Two things are held apart by
+             typographic role and must never be confused &mdash; what the
+             compiler typed, in the reading serif on the ruled line, and what
+             we reduced from it, in the label grotesk beneath. Pressing any
+             line lifts the page it came from and boxes the line on it, which
+             is the only citation an unattributed document can honestly get.
+             ================================================================ -->
+        <section class="mc-ledger" id="mc-burials" aria-labelledby="mc-burials-h" hidden>
+            <div class="mc-ledger-head">
+                <h2 id="mc-burials-h">The burial index</h2>
+                <p class="mc-ledger-note">
+                    Typed index of burials, <span id="mc-burials-count">no lines</span>. The compiler is not
+                    named anywhere on it. Every line below is reproduced as the typescript has it; the small
+                    caps under each line are our reading of it, not its words. Press a line to see it on the page.
+                </p>
+            </div>
+
+            <nav class="mc-ledger-dividers" id="mc-burials-dividers" aria-label="Jump to a surname in the burial index"></nav>
+
+            <div class="mc-ledger-body">
+                <ol class="mc-ledger-rows" id="mc-burials-rows"></ol>
+                <p class="mc-ledger-empty" id="mc-burials-empty" hidden>
+                    No line in the index carries that surname.
+                    <button type="button" class="mc-linklike" id="mc-burials-clear">Show the whole index</button>
+                </p>
+
+                <!--
+                  The proof bench. Deliberately not a modal: checking a reading against the
+                  source is a comparison, and a dialog would throw the index away while you
+                  do it. This holds beside the rows and stays put as they scroll.
+                -->
+                <figure class="mc-proof" id="mc-proof" tabindex="-1" hidden>
+                    <figcaption>
+                        <span class="mc-label" id="mc-proof-title">Page</span>
+                        <button type="button" class="mc-proof-close" id="mc-proof-close">Close</button>
+                    </figcaption>
+                    <div class="mc-proof-frame" id="mc-proof-frame"></div>
+                    <p class="mc-proof-line" id="mc-proof-line"></p>
+                    <p class="mc-proof-credit" id="mc-proof-credit"></p>
+                </figure>
+            </div>
+        </section>
+
         <div class="mc-locality" id="mc-how-to-read">
             <section class="mc-note">
                 <h2>How to read a sheet</h2>
@@ -130,6 +176,27 @@ the label, reproduced but kept off the determination.
             </p>
         </section>
         <section>
+            <h3>Photographs</h3>
+            <p>
+                Photographs of markers, of the ground, and of the historical maps in this collection are the
+                work of <a href="http://www.iowaz.info/" rel="noopener">iowaz.info</a>, a genealogy archive for
+                Fayette County, Iowa and Pike County, Missouri, and are used here with permission for
+                educational purposes. The cemetery set is at
+                <a href="https://public.fotki.com/iowaz/pike-co-missouri/mcelwee-cem-pike-co/" rel="noopener">public.fotki.com/iowaz</a>.
+                Its keeper encourages people to download and use the images.
+            </p>
+        </section>
+        <section>
+            <h3>The burial index</h3>
+            <p>
+                A typescript index of burials, photographed page by page and held as an unattributed desk copy
+                at the Lay Center. No compiler is named anywhere on it, so it can be cited only by where it is
+                kept. We are transcribing it to replace the 2018 catalog; the working transcription is published
+                with every line tied back to the page it came from, so that a name or a date can be checked
+                against the original rather than taken on trust.
+            </p>
+        </section>
+        <section>
             <h3>The data</h3>
             <p>
                 Records live on <a href="https://devstore.rerum.io/v1/id/5bc8089ce4b09992fca2222c" rel="noopener">devstore.rerum.io</a>
@@ -150,6 +217,7 @@ the label, reproduced but kept off the determination.
     <script src="mcdata.js"></script>
     <script src="config.js"></script>
     <script src="app.js"></script>
+    <script src="burials.js"></script>
 
 </body>
 

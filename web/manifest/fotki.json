@@ -3,9 +3,10 @@
     "@id": "https://cubap.github.io/McElwee/web/manifest/fotki.json",
     "@type": "sc:Manifest",
     "label": "McElwee Cemetery Catalog",
-    "description": "McElwee Cem, Pike Co, Missouri. Burials listings, maps, info. iowaz@swbell.net",
-    "attribution": "iowaz@swbell.net",
-    "license": "private/educational/personal use only.",
+    "description": "McElwee Cem, Pike Co, Missouri. Burials listings, maps, info. Photographs by iowaz.info.",
+    "attribution": "Photographs by <a href=\"http://www.iowaz.info/\">iowaz.info</a>, a genealogy archive for Fayette County, Iowa and Pike County, Missouri. Used with permission; the photographer encourages downloading and reuse for educational purposes. Album: <a href=\"https://public.fotki.com/iowaz/pike-co-missouri/mcelwee-cem-pike-co/\">McElwee Cemetery, Pike Co, Missouri</a>.",
+    "license": "http://www.iowaz.info/",
+    "rights": "Educational use permitted with attribution to iowaz.info. Contact iowaz@swbell.net for other uses.",
     "seeAlso": {
         "@id": "https://public.fotki.com/iowaz/pike-co-missouri/mcelwee-cem-pike-co/",
         "profile": "text/html"

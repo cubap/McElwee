@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Burial index — proofreader</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    --paper: #f4f1ea;
+    --card: #fffdf8;
+    --ink: #211d18;
+    --ink-soft: #5f574b;
+    --rule: #d8d1c4;
+    --accent: #6b4f2a;
+    --ok: #2f6b46;
+    --warn: #9a6b12;
+    --bad: #8f3226;
+    --flag: #6a4b8a;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 15px/1.5 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    display: flex; flex-direction: column;
+  }
+  button, input, select { font: inherit; color: inherit; }
+
+  header {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    padding: 10px 16px; background: var(--card);
+    border-bottom: 1px solid var(--rule);
+  }
+  header h1 { font-size: 15px; margin: 0; font-weight: 600; letter-spacing: .01em; }
+  .meter { flex: 1 1 220px; min-width: 160px; height: 8px; background: var(--rule); border-radius: 4px; overflow: hidden; }
+  .meter > i { display: block; height: 100%; background: var(--ok); width: 100%; transform: scaleX(0); transform-origin: left; transition: transform .18s ease; }
+  .tally { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .tally b { color: var(--ok); font-weight: 600; }
+  .tally i { color: var(--flag); font-style: normal; font-weight: 600; }
+  select, .btn {
+    background: var(--card); border: 1px solid var(--rule); border-radius: 5px;
+    padding: 4px 9px; font-size: 13px; cursor: pointer;
+  }
+  .btn:hover { border-color: var(--accent); }
+  .btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  main { flex: 1; display: grid; grid-template-columns: minmax(0,1fr) minmax(340px, 460px); gap: 0; min-height: 0; }
+  @media (max-width: 980px) { main { grid-template-columns: 1fr; grid-template-rows: minmax(0,1fr) auto; } }
+
+  /* ---- scan pane ---- */
+  #scan { overflow: auto; padding: 14px 16px; border-right: 1px solid var(--rule); }
+  .ctx { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+  .thumb { position: relative; flex: 0 0 auto; border: 1px solid var(--rule); background: #fff; }
+  .thumb img { display: block; width: 118px; height: auto; }
+  .thumb .mark { position: absolute; left: 0; right: 0; background: rgba(155, 89, 182, .28); border-top: 1px solid #c0392b; border-bottom: 1px solid #c0392b; }
+  .where { font-size: 13px; color: var(--ink-soft); }
+  .where b { display: block; color: var(--ink); font-size: 14px; }
+
+  .strip { position: relative; overflow: hidden; background: #fff; border: 1px solid var(--rule); border-radius: 3px; }
+  .strip + .strip { margin-top: 6px; }
+  .strip img { position: absolute; max-width: none; image-rendering: auto; }
+  .strip .guide { position: absolute; left: 0; right: 0; border-top: 1px dashed rgba(143,50,38,.5); pointer-events: none; }
+
+  /* ---- record pane ---- */
+  #rec { overflow: auto; padding: 14px 16px 40px; background: var(--paper); }
+  .badge { display: inline-block; font-size: 11px; letter-spacing: .07em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; }
+  .badge.high { color: var(--ok); border-color: var(--ok); }
+  .badge.medium { color: var(--warn); border-color: var(--warn); }
+  .badge.low { color: var(--bad); border-color: var(--bad); }
+  .badge.verified { color: #fff; background: var(--ok); border-color: var(--ok); }
+  .badge.flagged { color: #fff; background: var(--flag); border-color: var(--flag); }
+  .badge.blank { color: #fff; background: var(--ink-soft); border-color: var(--ink-soft); }
+
+  label { display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); margin: 14px 0 3px; }
+  .f { width: 100%; background: var(--card); border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 4px; padding: 7px 9px; }
+  .f:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  textarea.f { resize: vertical; min-height: 62px; font-size: 16px; }
+  #surname { font-size: 17px; letter-spacing: .04em; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  .grid .wide { grid-column: 1 / -1; }
+
+  /* Born / Died / Aged / Relationship are computed from the entry line rather
+     than typed. They sit recessed and carry a tag, so it is unmistakable at a
+     glance which values a human confirmed and which the parser inferred. */
+  .fld { position: relative; }
+  .pin { position: absolute; top: 12px; right: 0; font: 10px/1 ui-monospace, monospace; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); border: 0; border-bottom: 1px dashed var(--rule); background: none; padding: 2px 0; }
+  button.pin { cursor: pointer; color: var(--accent); border-bottom-color: transparent; }
+  button.pin:hover { border-bottom-color: var(--accent); }
+  .f.derived { background: #efeae0; color: var(--ink-soft); }
+  .hint { font-size: 12px; color: var(--warn); margin: 9px 0 0; }
+
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+  .act { border: 1px solid var(--rule); background: var(--card); border-radius: 5px; padding: 8px 12px; cursor: pointer; font-size: 14px; }
+  .act kbd { font: 11px/1 ui-monospace, monospace; opacity: .6; margin-left: 5px; }
+  .act:hover { border-color: var(--accent); }
+  .act.ok { border-color: var(--ok); color: var(--ok); }
+  .act.fl { border-color: var(--flag); color: var(--flag); }
+  .act.bl { border-color: var(--ink-soft); color: var(--ink-soft); }
+
+  footer { padding: 7px 16px; background: var(--card); border-top: 1px solid var(--rule); font-size: 12px; color: var(--ink-soft); display: flex; gap: 16px; flex-wrap: wrap; }
+  kbd { font: 11px/1.4 ui-monospace, SFMono-Regular, monospace; background: var(--paper); border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 3px; padding: 1px 5px; }
+  .nav { display: flex; gap: 6px; margin-top: 16px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--rule); cursor: pointer; border: none; padding: 0; }
+  .dot.cur { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .dot.v { background: var(--ok); } .dot.f { background: var(--flag); } .dot.b { background: var(--ink-soft); }
+  .empty { color: var(--ink-soft); font-style: italic; padding: 30px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Burial index — proofreading</h1>
+  <div class="meter"><i id="bar"></i></div>
+  <div class="tally" id="tally"></div>
+  <select id="pageSel" title="Jump to page"></select>
+  <select id="filterSel" title="Show rows">
+    <option value="all">All rows</option>
+    <option value="todo">Not yet decided</option>
+    <option value="low">Low confidence</option>
+    <option value="high">High confidence</option>
+    <option value="done">Decided</option>
+  </select>
+  <select id="zoomSel" title="Zoom">
+    <option value="2">2×</option><option value="3" selected>3×</option>
+    <option value="4">4×</option><option value="5">5×</option><option value="6">6×</option>
+  </select>
+  <button class="btn" id="batchBtn" title="Mark every still-uncorroborated high-confidence row as verified">Accept the corroborated</button>
+  <button class="btn" id="exportBtn">Export</button>
+</header>
+
+<main>
+  <section id="scan">
+    <div class="ctx">
+      <div class="thumb" id="thumb"><div class="mark" id="mark"></div></div>
+      <div class="where" id="where"></div>
+    </div>
+    <div id="strips"></div>
+  </section>
+
+  <section id="rec">
+    <div id="recBody"></div>
+  </section>
+</main>
+
+<footer>
+  <span><kbd>Enter</kbd> verified</span>
+  <span><kbd>F</kbd> flag</span>
+  <span><kbd>X</kbd> not a record</span>
+  <span><kbd>↓</kbd>/<kbd>↑</kbd> move</span>
+  <span><kbd>←</kbd>/<kbd>→</kbd> page</span>
+  <span><kbd>Esc</kbd> undo decision</span>
+  <span id="saved"></span>
+</footer>
+
+<script>
+/* The mirror filenames in web/manifest/fotki/ are truncated, and Alpha3-vi.jpg is
+   in fact Alpha002 (verified by hash). Map canonical page -> published image. */
+const IMG_FOR = {
+  BurialsAlpha000: "eCoMoCemMcElweeBurialsAlpha000-vi.jpg",
+  BurialsAlpha001: "eCoMoCemMcElweeBurialsAlpha001-vi.jpg",
+  BurialsAlpha002: "eCoMoCemMcElweeBurialsAlpha3-vi.jpg",
+  BurialsAlpha003: "eCoMoCemMcElweeBurialsAlpha003-vi.jpg",
+  BurialsAlpha004: "eCoMoCemMcElweeBurialsAlpha004-vi.jpg",
+  BurialsAlpha005: "eCoMoCemMcElweeBurialsAlpha005-vi.jpg",
+  BurialsIndex001: "eCoMoCemMcElweeBurialsIndex001-vi.jpg",
+  BurialsIndex002: "eCoMoCemMcElweeBurialsIndex002-vi.jpg",
+  BurialsIndex003: "eCoMoCemMcElweeBurialsIndex003-vi.jpg",
+  BurialsPage002: "keCoMoCemMcElweeBurialsPage002-vi.jpg",
+  BurialsPage003: "keCoMoCemMcElweeBurialsPage003-vi.jpg",
+  BurialsPage004: "keCoMoCemMcElweeBurialsPage004-vi.jpg",
+  BurialsPage005: "keCoMoCemMcElweeBurialsPage005-vi.jpg",
+  BurialsPage006: "keCoMoCemMcElweeBurialsPage006-vi.jpg",
+  BurialsPage007: "keCoMoCemMcElweeBurialsPage007-vi.jpg",
+  Family001: "PikeCoMoCemMcElweeFamily001-vi.jpg",
+};
+const IMG_BASE = "../../web/manifest/fotki/";
+/* Family001 was shot landscape; every other page is portrait 600x800. Band
+   coordinates are in source pixels, so the crop maths needs the real size. */
+const DIM = { Family001: { w: 800, h: 600 } };
+const dim = (p) => DIM[p] || { w: 600, h: 800 };
+const PAGE_LABEL = {
+  BurialsAlpha000: "Cover", BurialsAlpha001: "Alphabetical index A",
+  BurialsAlpha002: "Alphabetical index B", BurialsAlpha003: "Alphabetical index C",
+  BurialsAlpha004: "Alphabetical index D", BurialsAlpha005: "Alphabetical index E",
+  BurialsIndex001: "Given-name index 1", BurialsIndex002: "Given-name index 2",
+  BurialsIndex003: "Given-name index 3",
+  BurialsPage002: "Inscriptions 1", BurialsPage003: "Inscriptions 2",
+  BurialsPage004: "Inscriptions 3", BurialsPage005: "Inscriptions 4",
+  BurialsPage006: "Inscriptions 5", BurialsPage007: "Inscriptions 6",
+  Family001: "Family narrative",
+};
+const KEY = "mcelwee-proof-v1";
+const AT = KEY + "-at";
+
+let ROWS = [], state = { i: 0, zoom: 3, filter: "all", page: "" };
+let edits = {};   // index -> { surname, entry, born, died, aged, relationship, status }
+
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
+const persist = () => {
+  localStorage.setItem(KEY, JSON.stringify(edits));
+  localStorage.setItem(AT, new Date().toISOString());
+  stamp("local");
+  push();
+};
+const stamp = (where, extra) => {
+  const el = document.getElementById("saved");
+  el.textContent = (extra || ("saved to " + where + " " + new Date().toLocaleTimeString()));
+};
+/*
+ * localStorage alone is one browser profile deep, and hand transcription of a cemetery
+ * index is weeks of work. Mirror every save to the tool server so it becomes a file that
+ * can be committed. Debounced because typing fires persist() on each keystroke.
+ */
+let pushTimer = null;
+function push(now) {
+  clearTimeout(pushTimer);
+  const send = async () => {
+    try {
+      const r = await fetch("/save-edits", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(edits) });
+      const j = await r.json();
+      if (!j.ok) throw new Error(j.error || "rejected");
+      localStorage.setItem(AT, new Date().toISOString());
+      stamp("disk");
+    } catch (e) {
+      stamp("local only — disk mirror failed: " + e.message);
+    }
+  };
+  if (now) send(); else pushTimer = setTimeout(send, 700);
+}
+const count = (o) => Object.keys(o || {}).length;
+
+/**
+ * Reconciles this browser's copy with the file on disk. Three cases matter and only one
+ * is safe to decide silently: work that exists in one place and not the other. When both
+ * have work and the disk is newer, something happened in another profile or on another
+ * machine, and guessing which side wins would destroy transcription. So it asks.
+ */
+async function syncWithDisk() {
+  let disk = null;
+  try {
+    const r = await fetch("proof-edits.json?_=" + Date.now());
+    if (r.ok) {
+      const j = await r.json();
+      if (j && typeof j.edits === "object" && j.edits !== null) disk = j;
+    }
+  } catch { /* no server mirror yet */ }
+
+  const localN = count(edits), diskN = count(disk && disk.edits);
+  if (!localN && diskN) {
+    const at = disk.savedAt ? new Date(disk.savedAt).toLocaleString() : "an earlier session";
+    if (confirm("This browser has no saved edits, but the file on disk has " + diskN + " from " + at + ".\n\nLoad them?")) {
+      edits = disk.edits;
+      localStorage.setItem(KEY, JSON.stringify(edits));
+      localStorage.setItem(AT, disk.savedAt || new Date().toISOString());
+      stamp("disk (restored " + diskN + " edits)");
+      return;
+    }
+  }
+  if (!localN) { stamp("nothing saved yet"); return; }
+
+  const localAt = Date.parse(localStorage.getItem(AT) || "");
+  const diskAt = disk ? Date.parse(disk.savedAt || "") : 0;
+  /*
+   * push() records the local timestamp only after the server has confirmed the write, so
+   * after any normal reload local is never older than disk. If it is, some other profile
+   * or machine wrote that file, and which copy wins is not a call to make silently.
+   */
+  if (disk && diskAt > (isNaN(localAt) ? 0 : localAt)) {
+    const when = new Date(diskAt).toLocaleString();
+    if (confirm("The file on disk was written more recently (" + when + ", " + diskN + " edits) than this browser (" + localN + " edits).\n\nOK = load the disk copy.  Cancel = keep this browser's copy and overwrite the file.")) {
+      edits = disk.edits;
+      localStorage.setItem(KEY, JSON.stringify(edits));
+      localStorage.setItem(AT, disk.savedAt);
+      stamp("disk (restored " + diskN + " edits)");
+      return;
+    }
+  }
+  /* Back up work that predates the mirror, so reopening the page is enough to save it. */
+  push(true);
+}
+const e_of = (i) => (edits[i] ||= {});
+const status_of = (i) => edits[i]?.status || "";
+
+async function boot() {
+  /* One copy of the field logic, shared with the command-line batch tool. */
+  try { parseEntry = (await import("./parse-fields.mjs")).parseEntry; }
+  catch (err) { console.warn("parse-fields.mjs did not load — fields stay manual", err); }
+  const w = await (await fetch("burials-worksheet.json")).json();
+  /* The table rows and the loose prose lines (cover page + family narrative) are
+     proofread in one pass. Prose carries only a band centre, so widen it. */
+  ROWS = [
+    ...w.rows.map((r) => ({ ...r, kind: "row" })),
+    ...(w.prose || []).map((p) => ({ ...p, kind: "prose", y0: Math.max(0, p.y - 15), y1: p.y + 15, entry: p.text })),
+  ];
+  edits = load();
+  await syncWithDisk();
+  const pages = [...new Set(ROWS.map((r) => r.page))];
+  const sel = document.getElementById("pageSel");
+  sel.innerHTML = pages.map((p) => `<option value="${p}">${PAGE_LABEL[p] || p}</option>`).join("");
+  sel.onchange = () => { state.page = sel.value; state.filter = state.filter === "done" ? "all" : state.filter; jumpToFirstOfPage(); };
+  document.getElementById("filterSel").onchange = (ev) => { state.filter = ev.target.value; reflow(); };
+  document.getElementById("zoomSel").onchange = (ev) => { state.zoom = +ev.target.value; drawScan(); };
+  document.getElementById("exportBtn").onclick = exportAll;
+  document.getElementById("batchBtn").onclick = batchAccept;
+  document.addEventListener("keydown", onKey);
+  reflow();
+}
+
+const visible = () =>
+  ROWS.map((r, i) => ({ r, i })).filter(({ r, i }) => {
+    if (state.page && r.page !== state.page) return false;
+    const s = status_of(i);
+    switch (state.filter) {
+      case "todo": return !s;
+      case "done": return !!s;
+      case "low": return r.confidence === "low";
+      case "high": return r.confidence === "high";
+      default: return true;
+    }
+  });
+
+let LIST = [];
+function reflow() {
+  LIST = visible();
+  if (!LIST.length) { render(); return; }
+  const cur = LIST.findIndex((x) => x.i === state.i);
+  state.i = cur >= 0 ? LIST[cur].i : LIST[0].i;
+  render();
+}
+function jumpToFirstOfPage() {
+  const idx = ROWS.findIndex((r) => r.page === state.page);
+  if (idx >= 0) state.i = idx;
+  reflow();
+}
+function move(d) {
+  const k = LIST.findIndex((x) => x.i === state.i);
+  const n = Math.min(LIST.length - 1, Math.max(0, k + d));
+  if (n === k) return;
+  state.i = LIST[n].i;
+  render();
+  document.getElementById("scan").scrollTop = 0;
+}
+
+function val(i, f) { return edits[i]?.[f] ?? ROWS[i][f] ?? ""; }
+
+/* The entry line is the authoritative transcription and these fields are
+   DERIVED from it, so they can always be regenerated from what a human
+   actually read. A field the reviewer types into is pinned and stops being
+   derived — nothing they wrote can be overwritten by a later re-parse. */
+const DERIVED = [
+  { k: "born", l: "Born" },
+  { k: "died", l: "Died" },
+  { k: "aged", l: "Aged" },
+  { k: "relationship", l: "Relationship", ph: "D/O, S/O, W/O" },
+  { k: "bornPlace", l: "Born place" },
+  { k: "diedPlace", l: "Died place" },
+  { k: "parents", l: "Parents or spouse named in the entry", wide: true },
+];
+let parseEntry = null;
+
+const derive = (i) => {
+  const r = ROWS[i];
+  if (!r || r.kind === "prose" || !parseEntry) return {};
+  return parseEntry(val(i, "entry")) || {};
+};
+const isPinned = (i, k) => (edits[i]?.pins || []).includes(k);
+function resolvedFields(i) {
+  const d = derive(i), o = {};
+  for (const { k } of DERIVED) o[k] = isPinned(i, k) ? (edits[i]?.[k] ?? "") : (d[k] || ROWS[i][k] || "");
+  return o;
+}
+function fld(i, spec, d) {
+  const pinned = isPinned(i, spec.k);
+  const v = pinned ? (edits[i]?.[spec.k] ?? "") : (d[spec.k] || ROWS[i][spec.k] || "");
+  const tag = pinned
+    ? `<button class="pin" data-pin="${spec.k}" title="Hand-edited. Click to re-derive this from the entry line.">edited &#8634;</button>`
+    : `<span class="pin">derived</span>`;
+  return `<div class="fld${spec.wide ? " wide" : ""}">
+     <label for="i-${spec.k}">${spec.l}</label>${tag}
+     <input class="f${pinned ? "" : " derived"}" id="i-${spec.k}" value="${esc(v)}"${spec.ph ? ` placeholder="${spec.ph}"` : ""} autocomplete="off" spellcheck="false">
+   </div>`;
+}
+/* Update the derived inputs in place. A full render() here would steal focus
+   from the entry box mid-word, which is the one thing a long transcription
+   session cannot tolerate. */
+function syncDerived(i) {
+  if (ROWS[i]?.kind === "prose") return;
+  const d = derive(i);
+  for (const { k } of DERIVED) {
+    const el = document.getElementById("i-" + k);
+    if (!el || isPinned(i, k)) continue;
+    const v = d[k] || ROWS[i][k] || "";
+    if (el.value !== v) el.value = v;
+  }
+  showHint(i, d);
+}
+/* The warning has to refresh with the entry too. Rendered once at paint time it
+   goes stale and keeps nagging about a line the reviewer has already fixed. */
+function showHint(i, d) {
+  const el = document.getElementById("unparsedHint");
+  if (!el) return;
+  const unp = (d || derive(i)).unparsed || [];
+  el.innerHTML = unp.length
+    ? `The entry says <b>${unp.join("</b> and <b>")}</b> but nothing usable follows &mdash; check the scan, the line is probably still damaged.`
+    : "";
+  el.hidden = !unp.length;
+}
+function markEdited(i, k) {
+  const el = document.getElementById("i-" + k);
+  const box = el?.closest(".fld");
+  if (!box) return;
+  el.classList.remove("derived");
+  box.querySelector(".pin").outerHTML = `<button class="pin" data-pin="${k}" title="Hand-edited. Click to re-derive this from the entry line.">edited &#8634;</button>`;
+  box.querySelector("[data-pin]").onclick = () => unpin(i, k);
+}
+function unpin(i, k) {
+  const e = e_of(i);
+  e.pins = (e.pins || []).filter((x) => x !== k);
+  delete e[k];
+  persist();
+  render();
+}
+
+function render() {
+  const rows = LIST.length;
+  const i = state.i;
+  const r = ROWS[i];
+  const decided = ROWS.filter((_, k) => status_of(k)).length;
+  const blank = ROWS.filter((_, k) => status_of(k) === "blank").length;
+  const verified = ROWS.filter((_, k) => status_of(k) === "verified").length;
+  const flagged = ROWS.filter((_, k) => status_of(k) === "flagged").length;
+  document.getElementById("bar").style.transform = `scaleX(${decided / ROWS.length})`;
+  document.getElementById("tally").innerHTML =
+    `<b>${verified}</b> verified · <i>${flagged}</i> flagged · ${blank} not-a-record · ${decided}/${ROWS.length} decided`;
+  document.getElementById("pageSel").value = r?.page || state.page;
+  if (!r) { document.getElementById("recBody").innerHTML = '<p class="empty">Nothing matches this filter.</p>'; document.getElementById("strips").innerHTML = ""; return; }
+
+  const st = status_of(i);
+  const prose = r.kind === "prose";
+  const badge = st ? `<span class="badge ${st === "blank" ? "blank" : st}">${st}</span>`
+    : prose ? '<span class="badge medium">narrative</span>'
+    : `<span class="badge ${r.confidence}">${r.confidence} confidence</span>`;
+  const pos = LIST.findIndex((x) => x.i === i) + 1;
+
+  const d = derive(i);
+  const unp = d.unparsed || [];
+  const fields = prose
+    ? `<label for="i-entry">Line — transcribe what the page actually says</label>
+       <textarea class="f" id="i-entry" rows="3">${esc(val(i, "entry"))}</textarea>`
+    : `<label for="i-surname">Surname (gutter)</label>
+       <input class="f" id="i-surname" value="${esc(val(i, "surname"))}" autocomplete="off" spellcheck="false">
+       <label for="i-entry">Entry — transcribe what the stone/index actually says</label>
+       <textarea class="f" id="i-entry" rows="3">${esc(val(i, "entry"))}</textarea>
+       <div class="grid">${DERIVED.map((s) => fld(i, s, d)).join("")}</div>
+       <p class="hint" id="unparsedHint"${unp.length ? "" : " hidden"}></p>`;
+
+  document.getElementById("recBody").innerHTML = `
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      ${badge}
+      <span style="font-size:13px;color:var(--ink-soft)">line ${pos} of ${rows} · worksheet index ${i + 1}</span>
+      ${r.corroborated ? '<span style="font-size:13px;color:var(--ok)">✓ surname appears in its own entry</span>' : ""}
+    </div>
+    ${fields}
+    <label for="i-note">Note (optional)</label>
+    <input class="f" id="i-note" value="${esc(val(i, "note"))}" placeholder="illegible, damaged, conflicts with stone…">
+    <div class="actions">
+      <button class="act ok" data-act="verified">Verified<kbd>Enter</kbd></button>
+      <button class="act fl" data-act="flagged">Flag<kbd>F</kbd></button>
+      <button class="act bl" data-act="blank">Not a record<kbd>X</kbd></button>
+      <button class="act" data-act="undo">Undo<kbd>Esc</kbd></button>
+    </div>
+    <div class="nav">${LIST.map((x) => `<button class="dot ${status_of(x.i)[0] || ""} ${x.i === i ? "cur" : ""}" data-go="${x.i}" title="${PAGE_LABEL[x.r.page] || x.r.page}"></button>`).join("")}</div>
+  `;
+  for (const f of prose ? ["entry", "note"] : ["surname", "entry", "note"]) {
+    const el = document.getElementById("i-" + f);
+    el.oninput = () => { e_of(i)[f] = el.value; if (f === "entry") syncDerived(i); persist(); };
+  }
+  if (!prose) {
+    showHint(i, d);
+    for (const { k } of DERIVED) {
+      const el = document.getElementById("i-" + k);
+      el.oninput = () => {
+        const e = e_of(i);
+        e[k] = el.value;
+        if (!(e.pins || []).includes(k)) { (e.pins ||= []).push(k); markEdited(i, k); }
+        persist();
+      };
+    }
+    document.getElementById("recBody").querySelectorAll("[data-pin]").forEach((b) => (b.onclick = () => unpin(i, b.dataset.pin)));
+  }
+  document.getElementById("recBody").querySelectorAll("[data-act]").forEach((b) => (b.onclick = () => act(b.dataset.act)));
+  document.getElementById("recBody").querySelectorAll("[data-go]").forEach((b) => (b.onclick = () => { state.i = +b.dataset.go; render(); }));
+  drawScan();
+}
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+
+function drawScan() {
+  const r = ROWS[state.i];
+  const url = IMG_BASE + (IMG_FOR[r.page] || "");
+  const thumb = document.getElementById("thumb");
+  const mark = document.getElementById("mark");
+  if (thumb.dataset.src !== url) {
+    thumb.dataset.src = url;
+    thumb.textContent = "";
+    const im = document.createElement("img");
+    im.src = url;
+    im.alt = PAGE_LABEL[r.page] || r.page;
+    thumb.append(im, mark);
+  }
+  const box = document.getElementById("strips");
+  const avail = box.clientWidth || 620;
+  const z = state.zoom;
+  const { w: PW, h: PH } = dim(r.page);
+  const padY = Math.max(5, (r.y1 - r.y0) * 0.7);
+  const top = Math.max(0, r.y0 - padY), bot = Math.min(PH, r.y1 + padY), h = bot - top;
+
+  mark.style.cssText = `top:${(top / PH) * 100}%;height:${(h / PH) * 100}%`;
+  document.getElementById("where").innerHTML =
+    `<b>${PAGE_LABEL[r.page] || r.page}</b>${r.kind === "prose" ? "narrative line" : "table row"} at y ${r.y0}–${r.y1} of ${PH}<br>` +
+    `<span style="font-size:12px">${IMG_FOR[r.page]}</span>`;
+
+  // A 600px-wide line at 3× is 1800px, wider than the pane. Slice the band into
+  // overlapping horizontal strips so the whole line is legible without panning.
+  const step = Math.max(80, Math.floor(avail / z) - 24);
+  let html = "";
+  for (let x0 = 0; x0 < PW; x0 += step) {
+    const w = Math.min(PW - x0, step);
+    html += `<div class="strip" style="height:${Math.round(h * z)}px;width:${Math.round(w * z)}px">` +
+      `<img src="${url}" alt="" style="left:${Math.round(-x0 * z)}px;top:${Math.round(-top * z)}px;width:${PW * z}px;height:${PH * z}px">` +
+      `<div class="guide" style="top:${Math.round((r.y0 - top) * z)}px"></div></div>`;
+    if (x0 + w >= PW) break;
+  }
+  box.innerHTML = html;
+}
+
+function act(a) {
+  const i = state.i;
+  if (a === "undo") { delete edits[i]; persist(); render(); return; }
+  e_of(i).status = a;
+  persist();
+  if (a !== "flagged") move(1); else render();
+}
+
+function batchAccept() {
+  const cand = ROWS.map((r, i) => ({ r, i })).filter(({ r, i }) => r.corroborated && !status_of(i));
+  if (!cand.length) return alert("Nothing to accept — every corroborated row already has a decision.");
+  if (!confirm(`Mark ${cand.length} machine-corroborated rows as verified?\n\nThese are rows where the surname in the gutter matches the surname inside the entry text. It is strong evidence but not proof. You can undo any single row later with Esc.`)) return;
+  for (const { i } of cand) e_of(i).status = "verified";
+  persist(); reflow();
+}
+
+function exportAll() {
+  const head = ["kind", "page", "y0", "y1", "surname", "entry", "born", "bornPlace", "died", "diedPlace",
+    "aged", "relationship", "parents", "fieldsEdited", "note", "status", "confidence", "corroborated"];
+  const data = ROWS.map((r, i) => {
+    const res = resolvedFields(i);
+    return head.map((h) => {
+      if (h === "status") return status_of(i);
+      if (h === "kind") return r.kind;
+      if (h === "corroborated") return r.corroborated ? "yes" : "no";
+      if (h === "fieldsEdited") return (edits[i]?.pins || []).join("|");
+      if (res[h] !== undefined) return res[h];
+      if (h in (edits[i] || {})) return edits[i][h];
+      if (h === "entry" && r.kind === "prose") return r.text;
+      return r[h] ?? "";
+    });
+  });
+  const csv = "\uFEFF" + [head, ...data].map((c) => c.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\r\n");
+  dl("burials-verified.csv", csv, "text/csv");
+  dl("burials-verified.json", JSON.stringify({
+    exported: new Date().toISOString(),
+    note: "Corrected against the scans by a human reader. status=verified means reviewed and accepted. "
+      + "born/died/aged/relationship/places/parents are DERIVED from the entry line unless named in fieldsEdited.",
+    rows: ROWS.filter((r) => r.kind === "row").map((r) => {
+      const i = ROWS.indexOf(r);
+      return { ...r, ...edits[i], ...resolvedFields(i), fieldsEdited: edits[i]?.pins || [], status: status_of(i) };
+    }),
+    prose: ROWS.filter((r) => r.kind === "prose").map((r) => ({ ...r, ...edits[ROWS.indexOf(r)], status: status_of(ROWS.indexOf(r)) })),
+  }, null, 2), "application/json");
+}
+function dl(name, text, type) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+function onKey(ev) {
+  if (ev.target.matches("input, textarea")) {
+    if (ev.key === "Enter" && !ev.shiftKey && ev.target.id !== "i-entry") { ev.preventDefault(); ev.target.blur(); act("verified"); }
+    return;
+  }
+  const k = ev.key;
+  if (k === "Enter" || k === "a") { ev.preventDefault(); act("verified"); }
+  else if (k === "f") act("flagged");
+  else if (k === "x") act("blank");
+  else if (k === "Escape") act("undo");
+  else if (k === "ArrowDown" || k === "j") { ev.preventDefault(); move(1); }
+  else if (k === "ArrowUp" || k === "k") { ev.preventDefault(); move(-1); }
+  else if (k === "ArrowRight" || k === "ArrowLeft") {
+    ev.preventDefault();
+    const pages = [...new Set(ROWS.map((r) => r.page))];
+    const n = Math.min(pages.length - 1, Math.max(0, pages.indexOf(ROWS[state.i].page) + (k === "ArrowRight" ? 1 : -1)));
+    state.page = pages[n]; jumpToFirstOfPage();
+  }
+}
+window.addEventListener("resize", () => { if (ROWS.length) drawScan(); });
+boot();
+</script>
+</body>
+</html>

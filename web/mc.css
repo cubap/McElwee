@@ -799,7 +799,423 @@ mc-obj-viewer {
     to { opacity: 1; transform: none; }
 }
 
+/* ==========================================================================
+   THE BURIAL INDEX.
+   The specimen sheet mounts one person. The index is a different object &mdash; a
+   typed ledger with the compiler's own family groupings &mdash; so it is ruled
+   like one and read in columns. Two registers are held strictly apart: the
+   compiler's words sit on the rule in the reading serif, and our reduction of
+   them sits under the rule in the label grotesk. Nothing in the reduced line may
+   look like a transcription, because it is not one.
+   ========================================================================== */
+
+.mc-ledger {
+    max-width: 84rem;
+    margin: 0 auto var(--pad);
+    padding: 0 var(--pad);
+}
+
+.mc-ledger-head {
+    border-top: 2px solid var(--ink);
+    padding-top: 1rem;
+    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 34rem);
+    gap: var(--pad);
+    align-items: baseline;
+}
+
+.mc-ledger-head h2 {
+    font-family: var(--f-label);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 700;
+    font-size: clamp(1rem, 2.4vw, 1.2rem);
+    margin: 0;
+}
+
+.mc-ledger-note {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+}
+
+@media (max-width: 60rem) {
+    .mc-ledger-head { grid-template-columns: minmax(0, 1fr); gap: .5rem; }
+}
+
+/* surname strip: the drawer dividers, reused so the two indexes behave alike */
+.mc-ledger-dividers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem;
+    margin-bottom: 1rem;
+}
+
+.mc-ledger-dividers button {
+    font-family: var(--f-label);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: .2rem .5rem;
+    cursor: pointer;
+}
+
+.mc-ledger-dividers button:hover { background: var(--board-deep); color: var(--ink); }
+
+.mc-ledger-dividers button[aria-pressed="true"] {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--sheet);
+}
+
+.mc-ledger-dividers button:focus-visible,
+.mc-b-btn:focus-visible,
+.mc-b-witness:focus-visible,
+.mc-b-kin:focus-visible,
+.mc-proof-close:focus-visible,
+.mc-proof:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 2px;
+}
+
+/* rows on the left, the proof held on the right, both inside one mounted sheet */
+.mc-ledger-body {
+    position: relative;
+    background-color: var(--sheet);
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23f)' opacity='.05'/%3E%3C/svg%3E");
+    border: 1px solid var(--rule);
+    box-shadow:
+        0 1px 0 var(--board-deep),
+        0 10px 24px -18px rgba(20, 26, 20, .55);
+    padding: var(--pad);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--pad);
+    align-items: start;
+}
+
+.mc-ledger.has-proof .mc-ledger-body {
+    grid-template-columns: minmax(0, 1fr) 24rem;
+}
+
+@media (max-width: 72rem) {
+    .mc-ledger.has-proof .mc-ledger-body { grid-template-columns: minmax(0, 1fr); }
+}
+
+.mc-ledger-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mc-b {
+    border-bottom: 1px solid var(--rule-fine);
+}
+
+.mc-b:last-child { border-bottom: 0; }
+
+.mc-b-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: 0;
+    font: inherit;
+    color: inherit;
+    padding: .55rem .6rem .6rem;
+    cursor: pointer;
+    border-left: 2px solid transparent;
+}
+
+.mc-b-btn:hover { background: var(--sheet-edge); }
+
+.mc-b-btn[aria-pressed="true"] {
+    background: var(--green-wash);
+    border-left-color: var(--green);
+}
+
+/* the compiler's own family grouping: dependents hang under a head row */
+.mc-b--family .mc-b-btn { padding-left: 1.6rem; }
+
+.mc-b--family .mc-b-witness,
+.mc-b--family .mc-b-kin { margin-left: 1.6rem; }
+
+.mc-b--family .mc-b-btn::before {
+    content: "\2514";
+    position: absolute;
+    margin-left: -1.1rem;
+    color: var(--rule);
+    font-size: .8rem;
+}
+
+.mc-b { position: relative; }
+
+.mc-b-name {
+    font-family: var(--f-label);
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: .1rem;
+}
+
+/* the surname is the sort key, so it leads in the label face; the given name
+   follows in the reading serif because that is what a person is actually called */
+.mc-b-surname {
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.mc-b-name .mc-b-given {
+    font-family: var(--f-value);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: .01em;
+    font-size: 17px;
+    color: var(--ink-soft);
+}
+
+/* verbatim: the reading serif, on the rule, nothing else touching it */
+.mc-b-line {
+    font-family: var(--f-value);
+    font-size: 1.06rem;
+    line-height: 1.45;
+    color: var(--ink);
+}
+
+/* reduced: our reading, in the label face, visibly subordinate */
+.mc-b-reduced {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .1rem .85rem;
+    margin-top: .3rem;
+    font-family: var(--f-label);
+    font-size: .64rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+}
+
+.mc-b-reduced b {
+    font-weight: 600;
+    color: var(--ink-faint);
+}
+
+/* a second witness: the same person is also cut on a stone. It is a control in its
+   own right, so a reader can put the two photographs side by side */
+.mc-b-witness {
+    display: block;
+    margin: .3rem 0 .6rem;
+    padding: 0 0 .1rem;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--green-line);
+    font-family: var(--f-label);
+    font-size: .64rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--green);
+    cursor: pointer;
+}
+
+.mc-b-witness:hover,
+.mc-b-witness[aria-pressed="true"] {
+    color: var(--sheet);
+    background: var(--green);
+    border-bottom-color: var(--green);
+}
+
+.mc-b-witness-mark {
+    margin-right: .3rem;
+    font-weight: 400;
+}
+
+/* navigation, not evidence: the group the compiler placed this line under */
+.mc-b-kin {
+    display: block;
+    margin: .2rem 0 .6rem;
+    padding: 0 0 .1rem;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--rule-fine);
+    font-family: var(--f-label);
+    font-size: .64rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+}
+
+.mc-b-kin:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink-soft);
+}
+
+.mc-b-kin-mark {
+    margin-right: .3rem;
+    font-weight: 400;
+}
+
+.mc-ledger-empty {
+    font-family: var(--f-value);
+    color: var(--ink-soft);
+    padding: 1rem 0;
+    margin: 0;
+}
+
+.mc-linklike {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    color: var(--green);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* --- the proof bench ------------------------------------------------------ */
+
+.mc-proof {
+    margin: 0;
+    position: sticky;
+    top: 1rem;
+    border: 1px solid var(--rule);
+    background: var(--board);
+    padding: .75rem;
+    box-shadow: 0 12px 28px -20px rgba(20, 26, 20, .7);
+}
+
+@media (max-width: 72rem) {
+    /*
+      Narrow screens have no room beside the rows, and leaving the bench in document order
+      would put it after all 117 lines: pressing one would throw the reader away from it.
+      It becomes a sheet pinned along the bottom edge instead, so the line you pressed stays
+      on screen above it.
+    */
+    .mc-proof {
+        position: fixed;
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 6;
+        max-height: 62vh;
+        overflow: auto;
+        border-width: 1px 0 0;
+        box-shadow: 0 -14px 30px -22px rgba(20, 26, 20, .8);
+        padding-bottom: calc(.75rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .mc-proof-frame {
+        max-width: 17rem;
+    }
+
+    /* the sheet floats, so leave room to scroll the last lines clear of it */
+    .mc-ledger.has-proof {
+        padding-bottom: 45vh;
+    }
+}
+
+.mc-proof figcaption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: .5rem;
+}
+
+.mc-proof figcaption .mc-label {
+    font-size: .72rem;
+    letter-spacing: .12em;
+    color: var(--ink-soft);
+}
+
+.mc-proof-close {
+    font-family: var(--f-label);
+    font-size: .64rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    padding: .12rem .45rem;
+    cursor: pointer;
+}
+
+.mc-proof-close:hover { background: var(--board-deep); color: var(--ink); }
+
+/* the photograph, mounted; the highlight is measured in source pixels and
+   placed as a percentage so it holds at any width the column settles at */
+.mc-proof-frame {
+    position: relative;
+    line-height: 0;
+    background: var(--ink);
+    /* the scrim below is drawn 9999px in every direction; without this it would
+       darken the whole page instead of just the page photograph */
+    overflow: hidden;
+}
+
+.mc-proof-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* the outer box carries the position and the page's skew; the inner one carries the
+   reveal, because an animated transform would otherwise overwrite the rotation */
+.mc-proof-box {
+    position: absolute;
+    transform-origin: center;
+}
+
+.mc-proof-box-in {
+    display: block;
+    height: 100%;
+    border: 2px solid var(--green);
+    background: rgba(29, 90, 60, .13);
+    box-shadow: 0 0 0 9999px rgba(22, 25, 22, .42);
+    transform-origin: center;
+    animation: mc-locate 420ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+@keyframes mc-locate {
+    from { opacity: 0; filter: blur(3px); transform: scaleY(.12); }
+    to { opacity: 1; filter: blur(0); transform: scaleY(1); }
+}
+
+.mc-proof-line {
+    margin: .6rem 0 0;
+    font-family: var(--f-value);
+    font-size: 17px;
+    line-height: 1.45;
+    color: var(--ink);
+}
+
+.mc-proof-credit {
+    margin: .4rem 0 0;
+    font-family: var(--f-stamp);
+    font-size: .78rem;
+    letter-spacing: .04em;
+    color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mc-proof-box { animation: none; }
+}
+
 @media print {
     body { background: #fff; }
-    .mc-index, .mc-raw-toggle, mc-obj-viewer, .mc-map { display: none; }
+    .mc-index, .mc-raw-toggle, mc-obj-viewer, .mc-map, .mc-ledger-dividers, .mc-proof-close { display: none; }
+    .mc-ledger.has-proof .mc-ledger-body { grid-template-columns: minmax(0, 1fr); }
+    .mc-proof { display: none; }
 }

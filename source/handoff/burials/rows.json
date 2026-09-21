@@ -1,0 +1,2369 @@
+{
+ "document": "McElwee Cemetery burial index (typescript)",
+ "note": "Row numbering is ours, not the typist's. seq is the ordinal position of the row on the page, top to bottom, and is the only key the validator and the diff understand. Rows and prose blocks share one sequence per page so that nothing on a page is unnumbered.",
+ "total": 367,
+ "pages": [
+  {
+   "id": "BurialsAlpha000",
+   "image": "web/manifest/fotki/eCoMoCemMcElweeBurialsAlpha000-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 0,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "prose",
+     "y0": 116,
+     "y1": 152
+    },
+    {
+     "seq": 2,
+     "kind": "prose",
+     "y0": 356,
+     "y1": 392
+    },
+    {
+     "seq": 3,
+     "kind": "prose",
+     "y0": 647,
+     "y1": 683
+    }
+   ]
+  },
+  {
+   "id": "BurialsAlpha001",
+   "image": "web/manifest/fotki/eCoMoCemMcElweeBurialsAlpha001-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 0,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 67,
+     "y1": 85
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 98,
+     "y1": 112
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 118,
+     "y1": 131
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 139,
+     "y1": 148
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 181,
+     "y1": 197
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 202,
+     "y1": 218
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 224,
+     "y1": 240
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 246,
+     "y1": 262
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 268,
+     "y1": 284
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 290,
+     "y1": 309
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 324,
+     "y1": 339
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 346,
+     "y1": 361
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 369,
+     "y1": 380
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 383,
+     "y1": 391
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 403,
+     "y1": 421
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 449,
+     "y1": 462
+    },
+    {
+     "seq": 17,
+     "kind": "row",
+     "y0": 472,
+     "y1": 487
+    },
+    {
+     "seq": 18,
+     "kind": "row",
+     "y0": 507,
+     "y1": 523
+    },
+    {
+     "seq": 19,
+     "kind": "row",
+     "y0": 541,
+     "y1": 555
+    },
+    {
+     "seq": 20,
+     "kind": "row",
+     "y0": 576,
+     "y1": 590
+    },
+    {
+     "seq": 21,
+     "kind": "row",
+     "y0": 599,
+     "y1": 613
+    },
+    {
+     "seq": 22,
+     "kind": "row",
+     "y0": 622,
+     "y1": 636
+    },
+    {
+     "seq": 23,
+     "kind": "row",
+     "y0": 647,
+     "y1": 659
+    },
+    {
+     "seq": 24,
+     "kind": "row",
+     "y0": 667,
+     "y1": 682
+    },
+    {
+     "seq": 25,
+     "kind": "row",
+     "y0": 690,
+     "y1": 704
+    },
+    {
+     "seq": 26,
+     "kind": "row",
+     "y0": 712,
+     "y1": 727
+    }
+   ]
+  },
+  {
+   "id": "BurialsAlpha002",
+   "image": "web/manifest/fotki/eCoMoCemMcElweeBurialsAlpha3-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 0,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 60,
+     "y1": 81
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 89,
+     "y1": 104
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 105,
+     "y1": 132
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 139,
+     "y1": 161
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 171,
+     "y1": 187
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 193,
+     "y1": 204
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 205,
+     "y1": 228
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 237,
+     "y1": 261
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 270,
+     "y1": 294
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 304,
+     "y1": 329
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 330,
+     "y1": 349
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 364,
+     "y1": 385
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 400,
+     "y1": 428
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 434,
+     "y1": 458
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 468,
+     "y1": 481
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 492,
+     "y1": 514
+    },
+    {
+     "seq": 17,
+     "kind": "row",
+     "y0": 517,
+     "y1": 530
+    },
+    {
+     "seq": 18,
+     "kind": "row",
+     "y0": 538,
+     "y1": 558
+    },
+    {
+     "seq": 19,
+     "kind": "row",
+     "y0": 565,
+     "y1": 584
+    },
+    {
+     "seq": 20,
+     "kind": "row",
+     "y0": 598,
+     "y1": 611
+    },
+    {
+     "seq": 21,
+     "kind": "row",
+     "y0": 621,
+     "y1": 639
+    },
+    {
+     "seq": 22,
+     "kind": "row",
+     "y0": 641,
+     "y1": 665
+    },
+    {
+     "seq": 23,
+     "kind": "row",
+     "y0": 666,
+     "y1": 690
+    },
+    {
+     "seq": 24,
+     "kind": "row",
+     "y0": 691,
+     "y1": 712
+    },
+    {
+     "seq": 25,
+     "kind": "row",
+     "y0": 713,
+     "y1": 736
+    },
+    {
+     "seq": 26,
+     "kind": "row",
+     "y0": 737,
+     "y1": 748
+    }
+   ]
+  },
+  {
+   "id": "BurialsAlpha003",
+   "image": "web/manifest/fotki/eCoMoCemMcElweeBurialsAlpha003-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 0,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 56,
+     "y1": 73
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 74,
+     "y1": 104
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 111,
+     "y1": 125
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 126,
+     "y1": 153
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 155,
+     "y1": 173
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 178,
+     "y1": 198
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 200,
+     "y1": 224
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 234,
+     "y1": 257
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 268,
+     "y1": 282
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 293,
+     "y1": 312
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 314,
+     "y1": 332
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 340,
+     "y1": 356
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 361,
+     "y1": 383
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 395,
+     "y1": 419
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 430,
+     "y1": 455
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 456,
+     "y1": 474
+    },
+    {
+     "seq": 17,
+     "kind": "row",
+     "y0": 477,
+     "y1": 499
+    },
+    {
+     "seq": 18,
+     "kind": "row",
+     "y0": 512,
+     "y1": 536
+    },
+    {
+     "seq": 19,
+     "kind": "row",
+     "y0": 537,
+     "y1": 558
+    },
+    {
+     "seq": 20,
+     "kind": "row",
+     "y0": 560,
+     "y1": 579
+    },
+    {
+     "seq": 21,
+     "kind": "row",
+     "y0": 580,
+     "y1": 605
+    },
+    {
+     "seq": 22,
+     "kind": "row",
+     "y0": 606,
+     "y1": 635
+    },
+    {
+     "seq": 23,
+     "kind": "row",
+     "y0": 636,
+     "y1": 660
+    },
+    {
+     "seq": 24,
+     "kind": "row",
+     "y0": 669,
+     "y1": 697
+    },
+    {
+     "seq": 25,
+     "kind": "row",
+     "y0": 702,
+     "y1": 728
+    }
+   ]
+  },
+  {
+   "id": "BurialsAlpha004",
+   "image": "web/manifest/fotki/eCoMoCemMcElweeBurialsAlpha004-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 0,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 36,
+     "y1": 55
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 57,
+     "y1": 75
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 90,
+     "y1": 108
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 123,
+     "y1": 140
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 145,
+     "y1": 163
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 164,
+     "y1": 182
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 191,
+     "y1": 206
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 214,
+     "y1": 227
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 237,
+     "y1": 248
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 261,
+     "y1": 271
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 284,
+     "y1": 301
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 320,
+     "y1": 332
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 343,
+     "y1": 356
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 367,
+     "y1": 379
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 390,
+     "y1": 402
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 414,
+     "y1": 426
+    },
+    {
+     "seq": 17,
+     "kind": "row",
+     "y0": 437,
+     "y1": 451
+    },
+    {
+     "seq": 18,
+     "kind": "row",
+     "y0": 476,
+     "y1": 485
+    },
+    {
+     "seq": 19,
+     "kind": "row",
+     "y0": 499,
+     "y1": 509
+    },
+    {
+     "seq": 20,
+     "kind": "row",
+     "y0": 512,
+     "y1": 520
+    },
+    {
+     "seq": 21,
+     "kind": "row",
+     "y0": 535,
+     "y1": 544
+    },
+    {
+     "seq": 22,
+     "kind": "row",
+     "y0": 555,
+     "y1": 567
+    },
+    {
+     "seq": 23,
+     "kind": "row",
+     "y0": 578,
+     "y1": 592
+    },
+    {
+     "seq": 24,
+     "kind": "row",
+     "y0": 613,
+     "y1": 626
+    },
+    {
+     "seq": 25,
+     "kind": "row",
+     "y0": 636,
+     "y1": 649
+    },
+    {
+     "seq": 26,
+     "kind": "row",
+     "y0": 659,
+     "y1": 672
+    },
+    {
+     "seq": 27,
+     "kind": "row",
+     "y0": 676,
+     "y1": 684
+    },
+    {
+     "seq": 28,
+     "kind": "row",
+     "y0": 694,
+     "y1": 707
+    }
+   ]
+  },
+  {
+   "id": "BurialsAlpha005",
+   "image": "web/manifest/fotki/eCoMoCemMcElweeBurialsAlpha005-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 1.6,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 69,
+     "y1": 96
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 98,
+     "y1": 128
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 129,
+     "y1": 164
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 167,
+     "y1": 202
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 203,
+     "y1": 228
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 229,
+     "y1": 263
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 264,
+     "y1": 289
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 290,
+     "y1": 324
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 325,
+     "y1": 346
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 352,
+     "y1": 385
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 391,
+     "y1": 423
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 427,
+     "y1": 458
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 459,
+     "y1": 482
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 484,
+     "y1": 510
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 511,
+     "y1": 549
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 550,
+     "y1": 598
+    }
+   ]
+  },
+  {
+   "id": "BurialsIndex001",
+   "image": "web/manifest/fotki/eCoMoCemMcElweeBurialsIndex001-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 0,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 75,
+     "y1": 88
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 179,
+     "y1": 192
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 220,
+     "y1": 236
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 242,
+     "y1": 253
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 254,
+     "y1": 262
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 283,
+     "y1": 298
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 299,
+     "y1": 309
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 311,
+     "y1": 321
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 322,
+     "y1": 334
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 338,
+     "y1": 349
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 351,
+     "y1": 361
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 393,
+     "y1": 402
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 407,
+     "y1": 416
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 418,
+     "y1": 429
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 432,
+     "y1": 443
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 446,
+     "y1": 457
+    },
+    {
+     "seq": 17,
+     "kind": "row",
+     "y0": 460,
+     "y1": 470
+    },
+    {
+     "seq": 18,
+     "kind": "row",
+     "y0": 475,
+     "y1": 484
+    },
+    {
+     "seq": 19,
+     "kind": "row",
+     "y0": 488,
+     "y1": 498
+    },
+    {
+     "seq": 20,
+     "kind": "row",
+     "y0": 503,
+     "y1": 512
+    },
+    {
+     "seq": 21,
+     "kind": "row",
+     "y0": 516,
+     "y1": 526
+    },
+    {
+     "seq": 22,
+     "kind": "row",
+     "y0": 530,
+     "y1": 540
+    },
+    {
+     "seq": 23,
+     "kind": "row",
+     "y0": 543,
+     "y1": 554
+    },
+    {
+     "seq": 24,
+     "kind": "row",
+     "y0": 556,
+     "y1": 568
+    },
+    {
+     "seq": 25,
+     "kind": "row",
+     "y0": 572,
+     "y1": 582
+    },
+    {
+     "seq": 26,
+     "kind": "row",
+     "y0": 587,
+     "y1": 596
+    },
+    {
+     "seq": 27,
+     "kind": "row",
+     "y0": 600,
+     "y1": 609
+    },
+    {
+     "seq": 28,
+     "kind": "row",
+     "y0": 653,
+     "y1": 665
+    },
+    {
+     "seq": 29,
+     "kind": "row",
+     "y0": 682,
+     "y1": 692
+    },
+    {
+     "seq": 30,
+     "kind": "row",
+     "y0": 696,
+     "y1": 708
+    },
+    {
+     "seq": 31,
+     "kind": "row",
+     "y0": 709,
+     "y1": 720
+    },
+    {
+     "seq": 32,
+     "kind": "row",
+     "y0": 725,
+     "y1": 733
+    },
+    {
+     "seq": 33,
+     "kind": "row",
+     "y0": 738,
+     "y1": 748
+    }
+   ]
+  },
+  {
+   "id": "BurialsIndex002",
+   "image": "web/manifest/fotki/eCoMoCemMcElweeBurialsIndex002-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 0,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 71,
+     "y1": 85
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 105,
+     "y1": 115
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 116,
+     "y1": 133
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 138,
+     "y1": 155
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 166,
+     "y1": 178
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 179,
+     "y1": 190
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 219,
+     "y1": 226
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 232,
+     "y1": 240
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 245,
+     "y1": 253
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 254,
+     "y1": 264
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 266,
+     "y1": 276
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 294,
+     "y1": 302
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 309,
+     "y1": 318
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 319,
+     "y1": 330
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 331,
+     "y1": 342
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 344,
+     "y1": 358
+    },
+    {
+     "seq": 17,
+     "kind": "row",
+     "y0": 359,
+     "y1": 369
+    },
+    {
+     "seq": 18,
+     "kind": "row",
+     "y0": 371,
+     "y1": 382
+    },
+    {
+     "seq": 19,
+     "kind": "row",
+     "y0": 400,
+     "y1": 408
+    },
+    {
+     "seq": 20,
+     "kind": "row",
+     "y0": 413,
+     "y1": 425
+    },
+    {
+     "seq": 21,
+     "kind": "row",
+     "y0": 426,
+     "y1": 436
+    },
+    {
+     "seq": 22,
+     "kind": "row",
+     "y0": 437,
+     "y1": 449
+    },
+    {
+     "seq": 23,
+     "kind": "row",
+     "y0": 451,
+     "y1": 458
+    },
+    {
+     "seq": 24,
+     "kind": "row",
+     "y0": 463,
+     "y1": 474
+    },
+    {
+     "seq": 25,
+     "kind": "row",
+     "y0": 478,
+     "y1": 485
+    },
+    {
+     "seq": 26,
+     "kind": "row",
+     "y0": 490,
+     "y1": 503
+    },
+    {
+     "seq": 27,
+     "kind": "row",
+     "y0": 504,
+     "y1": 515
+    },
+    {
+     "seq": 28,
+     "kind": "row",
+     "y0": 516,
+     "y1": 528
+    },
+    {
+     "seq": 29,
+     "kind": "row",
+     "y0": 530,
+     "y1": 541
+    },
+    {
+     "seq": 30,
+     "kind": "row",
+     "y0": 543,
+     "y1": 556
+    },
+    {
+     "seq": 31,
+     "kind": "row",
+     "y0": 557,
+     "y1": 565
+    },
+    {
+     "seq": 32,
+     "kind": "row",
+     "y0": 571,
+     "y1": 583
+    },
+    {
+     "seq": 33,
+     "kind": "row",
+     "y0": 584,
+     "y1": 592
+    },
+    {
+     "seq": 34,
+     "kind": "row",
+     "y0": 611,
+     "y1": 623
+    },
+    {
+     "seq": 35,
+     "kind": "row",
+     "y0": 624,
+     "y1": 636
+    },
+    {
+     "seq": 36,
+     "kind": "row",
+     "y0": 637,
+     "y1": 649
+    },
+    {
+     "seq": 37,
+     "kind": "row",
+     "y0": 650,
+     "y1": 662
+    },
+    {
+     "seq": 38,
+     "kind": "row",
+     "y0": 664,
+     "y1": 674
+    },
+    {
+     "seq": 39,
+     "kind": "row",
+     "y0": 678,
+     "y1": 689
+    },
+    {
+     "seq": 40,
+     "kind": "row",
+     "y0": 690,
+     "y1": 703
+    },
+    {
+     "seq": 41,
+     "kind": "row",
+     "y0": 704,
+     "y1": 715
+    },
+    {
+     "seq": 42,
+     "kind": "row",
+     "y0": 716,
+     "y1": 734
+    }
+   ]
+  },
+  {
+   "id": "BurialsIndex003",
+   "image": "web/manifest/fotki/eCoMoCemMcElweeBurialsIndex003-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 0,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 217,
+     "y1": 229
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 294,
+     "y1": 304
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 322,
+     "y1": 331
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 337,
+     "y1": 346
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 366,
+     "y1": 374
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 411,
+     "y1": 420
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 425,
+     "y1": 432
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 454,
+     "y1": 464
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 468,
+     "y1": 477
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 557,
+     "y1": 564
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 627,
+     "y1": 635
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 641,
+     "y1": 649
+    }
+   ]
+  },
+  {
+   "id": "BurialsPage002",
+   "image": "web/manifest/fotki/keCoMoCemMcElweeBurialsPage002-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 1.6,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 72,
+     "y1": 85
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 105,
+     "y1": 122
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 123,
+     "y1": 132
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 133,
+     "y1": 153
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 163,
+     "y1": 174
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 175,
+     "y1": 195
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 211,
+     "y1": 231
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 250,
+     "y1": 270
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 271,
+     "y1": 287
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 288,
+     "y1": 300
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 301,
+     "y1": 314
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 315,
+     "y1": 329
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 330,
+     "y1": 343
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 344,
+     "y1": 357
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 358,
+     "y1": 372
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 382,
+     "y1": 400
+    },
+    {
+     "seq": 17,
+     "kind": "row",
+     "y0": 401,
+     "y1": 415
+    },
+    {
+     "seq": 18,
+     "kind": "row",
+     "y0": 425,
+     "y1": 444
+    },
+    {
+     "seq": 19,
+     "kind": "row",
+     "y0": 445,
+     "y1": 461
+    },
+    {
+     "seq": 20,
+     "kind": "row",
+     "y0": 462,
+     "y1": 473
+    },
+    {
+     "seq": 21,
+     "kind": "row",
+     "y0": 474,
+     "y1": 486
+    },
+    {
+     "seq": 22,
+     "kind": "row",
+     "y0": 487,
+     "y1": 505
+    },
+    {
+     "seq": 23,
+     "kind": "row",
+     "y0": 516,
+     "y1": 528
+    },
+    {
+     "seq": 24,
+     "kind": "row",
+     "y0": 529,
+     "y1": 546
+    },
+    {
+     "seq": 25,
+     "kind": "row",
+     "y0": 547,
+     "y1": 566
+    },
+    {
+     "seq": 26,
+     "kind": "row",
+     "y0": 567,
+     "y1": 587
+    },
+    {
+     "seq": 27,
+     "kind": "row",
+     "y0": 588,
+     "y1": 599
+    },
+    {
+     "seq": 28,
+     "kind": "row",
+     "y0": 600,
+     "y1": 617
+    },
+    {
+     "seq": 29,
+     "kind": "row",
+     "y0": 618,
+     "y1": 638
+    },
+    {
+     "seq": 30,
+     "kind": "row",
+     "y0": 648,
+     "y1": 656
+    },
+    {
+     "seq": 31,
+     "kind": "row",
+     "y0": 657,
+     "y1": 672
+    },
+    {
+     "seq": 32,
+     "kind": "row",
+     "y0": 695,
+     "y1": 715
+    }
+   ]
+  },
+  {
+   "id": "BurialsPage003",
+   "image": "web/manifest/fotki/keCoMoCemMcElweeBurialsPage003-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 1.9,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 89,
+     "y1": 114
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 115,
+     "y1": 150
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 151,
+     "y1": 188
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 189,
+     "y1": 223
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 224,
+     "y1": 244
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 245,
+     "y1": 280
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 281,
+     "y1": 318
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 319,
+     "y1": 368
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 369,
+     "y1": 411
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 412,
+     "y1": 441
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 442,
+     "y1": 491
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 492,
+     "y1": 527
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 528,
+     "y1": 555
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 556,
+     "y1": 584
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 585,
+     "y1": 621
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 622,
+     "y1": 660
+    },
+    {
+     "seq": 17,
+     "kind": "row",
+     "y0": 662,
+     "y1": 695
+    }
+   ]
+  },
+  {
+   "id": "BurialsPage004",
+   "image": "web/manifest/fotki/keCoMoCemMcElweeBurialsPage004-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 0.8,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 103,
+     "y1": 113
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 134,
+     "y1": 173
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 184,
+     "y1": 214
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 221,
+     "y1": 260
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 271,
+     "y1": 298
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 310,
+     "y1": 332
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 336,
+     "y1": 357
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 361,
+     "y1": 384
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 387,
+     "y1": 416
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 425,
+     "y1": 458
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 464,
+     "y1": 496
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 502,
+     "y1": 524
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 527,
+     "y1": 557
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 565,
+     "y1": 585
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 586,
+     "y1": 604
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 605,
+     "y1": 637
+    },
+    {
+     "seq": 17,
+     "kind": "row",
+     "y0": 640,
+     "y1": 674
+    }
+   ]
+  },
+  {
+   "id": "BurialsPage005",
+   "image": "web/manifest/fotki/keCoMoCemMcElweeBurialsPage005-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 2.7,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 137,
+     "y1": 160
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 161,
+     "y1": 193
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 199,
+     "y1": 234
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 235,
+     "y1": 256
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 258,
+     "y1": 292
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 298,
+     "y1": 331
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 338,
+     "y1": 377
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 379,
+     "y1": 399
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 401,
+     "y1": 437
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 442,
+     "y1": 488
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 489,
+     "y1": 527
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 547,
+     "y1": 586
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 587,
+     "y1": 612
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 621,
+     "y1": 661
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 662,
+     "y1": 703
+    }
+   ]
+  },
+  {
+   "id": "BurialsPage006",
+   "image": "web/manifest/fotki/keCoMoCemMcElweeBurialsPage006-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 0.8,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 92,
+     "y1": 107
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 110,
+     "y1": 143
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 144,
+     "y1": 157
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 158,
+     "y1": 185
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 186,
+     "y1": 206
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 210,
+     "y1": 223
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 224,
+     "y1": 257
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 262,
+     "y1": 291
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 301,
+     "y1": 331
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 341,
+     "y1": 376
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 381,
+     "y1": 416
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 426,
+     "y1": 439
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 447,
+     "y1": 468
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 469,
+     "y1": 491
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 500,
+     "y1": 535
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 540,
+     "y1": 562
+    },
+    {
+     "seq": 17,
+     "kind": "row",
+     "y0": 567,
+     "y1": 586
+    },
+    {
+     "seq": 18,
+     "kind": "row",
+     "y0": 607,
+     "y1": 624
+    },
+    {
+     "seq": 19,
+     "kind": "row",
+     "y0": 629,
+     "y1": 638
+    },
+    {
+     "seq": 20,
+     "kind": "row",
+     "y0": 646,
+     "y1": 665
+    },
+    {
+     "seq": 21,
+     "kind": "row",
+     "y0": 672,
+     "y1": 690
+    }
+   ]
+  },
+  {
+   "id": "BurialsPage007",
+   "image": "web/manifest/fotki/keCoMoCemMcElweeBurialsPage007-vi.jpg",
+   "width": 600,
+   "height": 800,
+   "skew": 1.4,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "row",
+     "y0": 147,
+     "y1": 161
+    },
+    {
+     "seq": 2,
+     "kind": "row",
+     "y0": 164,
+     "y1": 186
+    },
+    {
+     "seq": 3,
+     "kind": "row",
+     "y0": 187,
+     "y1": 221
+    },
+    {
+     "seq": 4,
+     "kind": "row",
+     "y0": 223,
+     "y1": 262
+    },
+    {
+     "seq": 5,
+     "kind": "row",
+     "y0": 271,
+     "y1": 288
+    },
+    {
+     "seq": 6,
+     "kind": "row",
+     "y0": 289,
+     "y1": 325
+    },
+    {
+     "seq": 7,
+     "kind": "row",
+     "y0": 326,
+     "y1": 341
+    },
+    {
+     "seq": 8,
+     "kind": "row",
+     "y0": 343,
+     "y1": 368
+    },
+    {
+     "seq": 9,
+     "kind": "row",
+     "y0": 369,
+     "y1": 393
+    },
+    {
+     "seq": 10,
+     "kind": "row",
+     "y0": 394,
+     "y1": 425
+    },
+    {
+     "seq": 11,
+     "kind": "row",
+     "y0": 426,
+     "y1": 435
+    },
+    {
+     "seq": 12,
+     "kind": "row",
+     "y0": 437,
+     "y1": 475
+    },
+    {
+     "seq": 13,
+     "kind": "row",
+     "y0": 480,
+     "y1": 519
+    },
+    {
+     "seq": 14,
+     "kind": "row",
+     "y0": 522,
+     "y1": 556
+    },
+    {
+     "seq": 15,
+     "kind": "row",
+     "y0": 564,
+     "y1": 588
+    },
+    {
+     "seq": 16,
+     "kind": "row",
+     "y0": 590,
+     "y1": 601
+    },
+    {
+     "seq": 17,
+     "kind": "row",
+     "y0": 607,
+     "y1": 629
+    },
+    {
+     "seq": 18,
+     "kind": "row",
+     "y0": 633,
+     "y1": 643
+    },
+    {
+     "seq": 19,
+     "kind": "row",
+     "y0": 661,
+     "y1": 671
+    },
+    {
+     "seq": 20,
+     "kind": "row",
+     "y0": 675,
+     "y1": 685
+    }
+   ]
+  },
+  {
+   "id": "Family001",
+   "image": "web/manifest/fotki/PikeCoMoCemMcElweeFamily001-vi.jpg",
+   "width": 800,
+   "height": 600,
+   "skew": -0.2,
+   "credit": "Photograph: iowaz.info (used for educational purposes)",
+   "items": [
+    {
+     "seq": 1,
+     "kind": "prose",
+     "y0": 29,
+     "y1": 65
+    },
+    {
+     "seq": 2,
+     "kind": "prose",
+     "y0": 56,
+     "y1": 92
+    },
+    {
+     "seq": 3,
+     "kind": "prose",
+     "y0": 69,
+     "y1": 105
+    },
+    {
+     "seq": 4,
+     "kind": "prose",
+     "y0": 84,
+     "y1": 120
+    },
+    {
+     "seq": 5,
+     "kind": "prose",
+     "y0": 98,
+     "y1": 134
+    },
+    {
+     "seq": 6,
+     "kind": "prose",
+     "y0": 113,
+     "y1": 149
+    },
+    {
+     "seq": 7,
+     "kind": "prose",
+     "y0": 127,
+     "y1": 163
+    },
+    {
+     "seq": 8,
+     "kind": "prose",
+     "y0": 142,
+     "y1": 178
+    },
+    {
+     "seq": 9,
+     "kind": "prose",
+     "y0": 156,
+     "y1": 192
+    },
+    {
+     "seq": 10,
+     "kind": "prose",
+     "y0": 169,
+     "y1": 205
+    },
+    {
+     "seq": 11,
+     "kind": "prose",
+     "y0": 184,
+     "y1": 220
+    },
+    {
+     "seq": 12,
+     "kind": "prose",
+     "y0": 198,
+     "y1": 234
+    },
+    {
+     "seq": 13,
+     "kind": "prose",
+     "y0": 213,
+     "y1": 249
+    },
+    {
+     "seq": 14,
+     "kind": "prose",
+     "y0": 228,
+     "y1": 264
+    },
+    {
+     "seq": 15,
+     "kind": "prose",
+     "y0": 242,
+     "y1": 278
+    },
+    {
+     "seq": 16,
+     "kind": "prose",
+     "y0": 256,
+     "y1": 292
+    },
+    {
+     "seq": 17,
+     "kind": "prose",
+     "y0": 271,
+     "y1": 307
+    },
+    {
+     "seq": 18,
+     "kind": "prose",
+     "y0": 286,
+     "y1": 322
+    },
+    {
+     "seq": 19,
+     "kind": "prose",
+     "y0": 301,
+     "y1": 337
+    },
+    {
+     "seq": 20,
+     "kind": "prose",
+     "y0": 315,
+     "y1": 351
+    },
+    {
+     "seq": 21,
+     "kind": "prose",
+     "y0": 330,
+     "y1": 366
+    },
+    {
+     "seq": 22,
+     "kind": "prose",
+     "y0": 346,
+     "y1": 382
+    },
+    {
+     "seq": 23,
+     "kind": "prose",
+     "y0": 360,
+     "y1": 396
+    },
+    {
+     "seq": 24,
+     "kind": "prose",
+     "y0": 374,
+     "y1": 410
+    },
+    {
+     "seq": 25,
+     "kind": "prose",
+     "y0": 389,
+     "y1": 425
+    },
+    {
+     "seq": 26,
+     "kind": "prose",
+     "y0": 404,
+     "y1": 440
+    },
+    {
+     "seq": 27,
+     "kind": "prose",
+     "y0": 419,
+     "y1": 455
+    },
+    {
+     "seq": 28,
+     "kind": "prose",
+     "y0": 433,
+     "y1": 469
+    },
+    {
+     "seq": 29,
+     "kind": "prose",
+     "y0": 448,
+     "y1": 484
+    },
+    {
+     "seq": 30,
+     "kind": "prose",
+     "y0": 464,
+     "y1": 500
+    },
+    {
+     "seq": 31,
+     "kind": "prose",
+     "y0": 477,
+     "y1": 513
+    },
+    {
+     "seq": 32,
+     "kind": "prose",
+     "y0": 491,
+     "y1": 527
+    },
+    {
+     "seq": 33,
+     "kind": "prose",
+     "y0": 507,
+     "y1": 543
+    },
+    {
+     "seq": 34,
+     "kind": "prose",
+     "y0": 523,
+     "y1": 559
+    }
+   ]
+  }
+ ]
+}

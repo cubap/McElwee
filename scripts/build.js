@@ -1,6 +1,7 @@
 import fs from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { run as buildBurials } from "./build-burials.js"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const dist = path.join(root, "dist")
@@ -38,13 +39,21 @@ const FORBIDDEN_PATTERNS = [
   { pattern: /ACCESS_TOKEN|REFRESH_TOKEN/, label: "credential reference" }
 ]
 
-function copyDir(from, to) {
+// Byte-identical copies of the burial plates the index already cites from manifest/fotki/.
+// They are the working download folder, not published assets, so shipping them would only
+// double the weight of the photographs on Pages.
+const SKIP_DIRS = [path.join("manifest", "fotki", "burials")]
+
+function copyDir(from, to, rel = "") {
   fs.mkdirSync(to, { recursive: true })
   for (const entry of fs.readdirSync(from, { withFileTypes: true })) {
     const src = path.join(from, entry.name)
     const dest = path.join(to, entry.name)
-    if (entry.isDirectory()) copyDir(src, dest)
-    else fs.copyFileSync(src, dest)
+    const nested = rel ? path.join(rel, entry.name) : entry.name
+    if (entry.isDirectory()) {
+      if (SKIP_DIRS.includes(nested)) continue
+      copyDir(src, dest, nested)
+    } else fs.copyFileSync(src, dest)
   }
 }
 
@@ -83,6 +92,16 @@ function guard() {
 }
 
 fs.rmSync(dist, { recursive: true, force: true })
+
+// The burial index is published data, not source: generate it into web/ first so the copy
+// below picks it up and the guard below is able to read it.
+try {
+  buildBurials()
+} catch (e) {
+  console.error(`Build refused: ${e.message}`)
+  process.exitCode = 1
+}
+
 copyDir(path.join(root, "web"), publicSite)
 fs.writeFileSync(path.join(dist, "index.html"), REDIRECT_PAGE)
 
