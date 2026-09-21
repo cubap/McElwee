@@ -157,11 +157,24 @@ export function buildOperations(evidence, pageImages = {}) {
   return { document: BURIAL_INDEX_DOC, operations }
 }
 
-/** Page id -> the photograph it was read from, taken from the handoff row scaffold. */
+/**
+ * Page id -> the photograph it was read from, taken from the handoff row scaffold.
+ *
+ * rows.json records paths from the repository root, but this provenance is published into a
+ * linked-data store where "web/manifest/fotki/x.jpg" cannot be opened by anyone. Resolve it
+ * against the deployed site so a consumer can fetch the page a claim was read from.
+ */
 export function pageIndexImages(rows) {
   const map = {}
-  for (const page of rows.pages || []) map[page.id] = page.image
+  for (const page of rows.pages || []) map[page.id] = page.image ? publicImageUrl(page.image) : null
   return map
+}
+
+export const SITE_BASE = (process.env.SITE_BASE || "https://cubap.github.io/McElwee/web/").replace(/\/?$/, "/")
+
+export function publicImageUrl(repoPath) {
+  if (/^https?:\/\//i.test(repoPath)) return repoPath
+  return SITE_BASE + repoPath.replace(/^\.?\/?(web\/)?/, "")
 }
 
 export function loadEvidence(file) {

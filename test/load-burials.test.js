@@ -7,7 +7,7 @@ import { execFile } from "node:child_process"
 import { test } from "node:test"
 import { promisify } from "node:util"
 
-import { buildOperations, pageIndexImages } from "../scripts/burials-payloads.js"
+import { buildOperations, pageIndexImages, SITE_BASE } from "../scripts/burials-payloads.js"
 
 const run = promisify(execFile)
 const ROOT = path.resolve(import.meta.dirname, "..")
@@ -228,4 +228,29 @@ test("preflight refuses a token that names no agent", async () => {
   } finally {
     await new Promise((r) => server.close(r))
   }
+})
+
+test("provenance points at a photograph a consumer can actually open", () => {
+  const rows = JSON.parse(fs.readFileSync(path.join(ROOT, "source", "handoff", "burials", "rows.json"), "utf8"))
+  const evidence = JSON.parse(fs.readFileSync(path.join(ROOT, "source", "burials-evidence", "burials-evidence.json"), "utf8"))
+  const { operations } = buildOperations(evidence, pageIndexImages(rows))
+
+  const annotated = operations.filter((o) => o.kind === "annotation")
+  assert.ok(annotated.length > 0, "no annotation was staged")
+
+  let cited = 0
+  for (const op of annotated) {
+    for (const body of op.payload.body) {
+      const provenance = Object.values(body)[0].provenance
+      if (!provenance) continue
+      const image = provenance.sourceImage
+      assert.match(image, /^https:\/\//, `${op.localId} cites ${image}, which cannot be dereferenced`)
+      assert.ok(image.startsWith(SITE_BASE), `${op.localId} cites ${image}, outside the published site`)
+      // The URL has to correspond to a plate that ships, or the citation is a dead link.
+      const local = path.join(ROOT, "web", image.slice(SITE_BASE.length).replace(/\//g, path.sep))
+      assert.ok(fs.existsSync(local), `${op.localId} cites ${image}, which is not in the build`)
+      cited++
+    }
+  }
+  assert.ok(cited > 0, "no annotation carries provenance at all")
 })
