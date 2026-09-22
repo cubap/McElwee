@@ -79,6 +79,16 @@ export function build(evidence, rows) {
     const engraving = record.engraving
       ? { page: record.engraving.sourcePage, rect: record.engraving.rect, text: record.engraving.entryText }
       : null
+    const fa = record.findagrave
+    const findagrave = fa ? {
+      url: fa.url,
+      memorialId: fa.id,
+      photo: fa.photo || null,
+      photoCount: fa.photoCount || 0,
+      citation: fa.citation,
+      accessed: fa.accessed,
+      maintainer: fa.maintainer || "Find a Grave"
+    } : null
     return {
       id: record.id,
       surname: record.surname || "",
@@ -88,7 +98,8 @@ export function build(evidence, rows) {
       rect: record.evidence?.rect || null,
       claims,
       claimList: orderClaims(claims),
-      engraving
+      engraving,
+      findagrave
     }
   })
 

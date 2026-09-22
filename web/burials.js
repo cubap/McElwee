@@ -93,6 +93,21 @@
             li.appendChild(alt)
         }
 
+        // A third source: the same person is memorialised on Find a Grave, with the
+        // site's own grave photograph and its own citation. Linked, not copied.
+        if (record.findagrave && record.findagrave.citation) {
+            var fa = document.createElement("button")
+            fa.type = "button"
+            fa.className = "mc-b-witness mc-b-witness--fg"
+            fa.setAttribute("aria-pressed", "false")
+            fa.setAttribute("aria-controls", "mc-proof")
+            fa.dataset.id = record.id
+            fa.dataset.witness = "findagrave"
+            fa.innerHTML = '<span class="mc-b-witness-mark">&#8258;</span> Memorialised on Find a Grave '
+                + (record.findagrave.photo ? "" : "<span class=\"mc-b-witness-none\">(no grave photo)</span>")
+            li.appendChild(fa)
+        }
+
         // The bracket in the margin means "buried with", but a mark that cannot be read
         // aloud is not information. Name the head of the group and go there.
         var group = record.claims.familyGroup
@@ -176,6 +191,9 @@
      * bench shows depends on what was pressed, so the reader can flip between them.
      */
     function subject(record, witness) {
+        if (witness === "findagrave" && record.findagrave) {
+            return { fa: record.findagrave, page: null }
+        }
         if (witness === "engraving" && record.engraving) {
             return {
                 page: (data.pages || {})[record.engraving.page] || null,
@@ -197,6 +215,30 @@
 
     function showProof(record, witness) {
         var it = subject(record, witness)
+
+        // The Find a Grave witness is not a page crop: it is the site's own
+        // photograph of the marker plus the citation the site prints itself.
+        if (it.fa) {
+            var fa = it.fa
+            el.burials.classList.add("has-proof")
+            el["proof-title"].textContent = "Find a Grave, memorial page"
+            el["proof-line"].textContent = (fa.photo ? "" : "No grave photograph on that site.")
+            el["proof-credit"].innerHTML =
+                '<span class="mc-proof-cite">' + esc(fa.citation) + '</span>'
+            current = { fa: fa, page: null }
+            el.proof.hidden = false
+
+            el["proof-frame"].innerHTML = ""
+            if (fa.photo) {
+                var img = document.createElement("img")
+                img.className = "mc-proof-crop"
+                img.src = fa.photo
+                img.alt = "Grave photograph from Find a Grave, " + (record.surname || "")
+                el["proof-frame"].appendChild(img)
+            }
+            return true
+        }
+
         if (!it.page || !it.page.image) return false
 
         el.burials.classList.add("has-proof")
@@ -236,6 +278,7 @@
      * reuses the exhibit's lightbox styling so the two read as the same object.
      */
     function openPageLightbox() {
+        if (current && current.fa) { openFindagraveLightbox(); return }
         if (!current || !current.page) return
         var box = document.getElementById("mc-page-lightbox")
         if (!box) {
@@ -259,6 +302,43 @@
             '<figcaption>' +
             '<a class="mc-lightbox-open" href="' + esc(page.image) + '" target="_blank" rel="noopener">Full image with citation in new tab</a>' +
             '<span class="mc-lightbox-cite">' + esc(page.credit || "Photograph held with this exhibit.") + '</span>' +
+            '</figcaption>' +
+            '</figure>' +
+            '</div>'
+        box.querySelector(".mc-lightbox-close").addEventListener("click", function () { box.close() })
+        box.showModal()
+    }
+
+    /**
+     * The Find a Grave lightbox mirrors the page lightbox: the full photograph,
+     * the source URL for opening on-site, and the citation the site prints.
+     */
+    function openFindagraveLightbox() {
+        if (!current || !current.fa) return
+        var fg = current.fa
+        var box = document.getElementById("mc-page-lightbox")
+        if (!box) {
+            box = document.createElement("dialog")
+            box.id = "mc-page-lightbox"
+            box.className = "mc-lightbox"
+            document.body.appendChild(box)
+            box.addEventListener("click", function (event) {
+                if (event.target === box) box.close()
+            })
+        }
+        box.innerHTML =
+            '<div class="mc-lightbox-head">' +
+            '<h2>Find a Grave, memorial page</h2>' +
+            '<button type="button" class="mc-lightbox-close" aria-label="Close">\u00d7</button>' +
+            '</div>' +
+            '<div class="mc-lightbox-images">' +
+            '<figure class="mc-lightbox-figure">' +
+            (fg.photo ?
+                '<img src="' + esc(fg.photo) + '" alt="Grave photograph from Find a Grave">' :
+                '<div class="mc-lightbox-empty">No grave photograph on that site.</div>') +
+            '<figcaption>' +
+            '<a class="mc-lightbox-open" href="' + esc(fg.url) + '" target="_blank" rel="noopener">Open the memorial on findagrave.com</a>' +
+            '<span class="mc-lightbox-cite">' + esc(fg.citation) + '</span>' +
             '</figcaption>' +
             '</figure>' +
             '</div>'

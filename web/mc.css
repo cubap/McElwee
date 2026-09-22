@@ -1253,6 +1253,27 @@ mc-obj-viewer {
     font-weight: 400;
 }
 
+/* the "(no grave photo)" hint is not a button state, so it sits out of the
+   uppercase stamp styling and reads as a quiet aside */
+.mc-b-witness-none {
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 400;
+    color: var(--ink-soft);
+    margin-left: .2rem;
+}
+
+/* the no-photo lightbox keeps the citation; the placeholder reads as an aside,
+   not as a second button state */
+.mc-lightbox-empty {
+    font-family: var(--f-stamp);
+    font-size: .8rem;
+    letter-spacing: .04em;
+    color: var(--ink-soft);
+    padding: 1.5rem 0;
+    background: var(--ink);
+}
+
 /* navigation, not evidence: the group the compiler placed this line under */
 .mc-b-kin {
     display: block;
