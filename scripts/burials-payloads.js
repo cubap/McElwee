@@ -53,16 +53,17 @@ function personName(record) {
  * Extra keys are ignored by the renderer, so the provenance rectangle rides along without
  * turning into a spurious field on the specimen sheet.
  */
-function claim(value, evidenceIri, record) {
+function claim(value, evidenceIri, record, extraProvenance = null) {
   if (value === null || value === undefined || String(value).trim() === "") return null
   const rect = record?.evidence?.rect
+  const provenance = extraProvenance || (rect ? { sourceImage: record.sourceImage || null, rect } : null)
   return {
     value: String(value).trim(),
     evidence: evidenceIri,
     // The renderer only reads `value` and `evidence` out of this object, so the rectangle
     // of the page photograph the claim was read from rides along as machine-checkable
     // provenance without appearing as a spurious field on the specimen sheet.
-    ...(rect ? { provenance: { sourceImage: record.sourceImage || null, rect } } : {})
+    ...(provenance ? { provenance } : {})
   }
 }
 
@@ -99,6 +100,41 @@ function annotationFor(record, evidenceIri, nameOf) {
       if (f.refCertainty) c.provenance.certainty = f.refCertainty
       body.push({ familyGroup: c })
     }
+  }
+
+  if (!body.length) return null
+
+  return {
+    "@context": ANNO,
+    "@type": "Annotation",
+    motivation: "describing",
+    target: `@person:${record.id}`,
+    body
+  }
+}
+
+/**
+ * Find a Grave is a second witness for the same person: the memorial page carries its own
+ * name, dates, grave photograph and citation. It is asserted as a separate annotation so
+ * the exhibit can show it alongside the index claims rather than folding it into them.
+ */
+function findagraveAnnotationFor(record) {
+  const fa = record.findagrave
+  if (!fa || !fa.url) return null
+
+  const provenance = {
+    citation: fa.citation || null,
+    accessed: fa.accessed || null,
+    maintainer: fa.maintainer || null
+  }
+
+  const body = []
+  const seeAlso = claim(fa.url, fa.url, null, provenance)
+  if (seeAlso) body.push({ seeAlso })
+
+  if (fa.photo) {
+    const depiction = claim(fa.photo, fa.url, null, provenance)
+    if (depiction) body.push({ depiction })
   }
 
   if (!body.length) return null
@@ -150,6 +186,13 @@ export function buildOperations(evidence, pageImages = {}) {
     const stamped = { ...record, sourceImage: pageImages[record.sourcePage] || null }
     const anno = annotationFor(stamped, "@burialIndex", nameOf)
     if (anno) operations.push({ kind: "annotation", payload: anno, localId: record.id })
+  }
+
+  // Find a Grave annotations come after the index annotations so their person target is
+  // guaranteed to exist; the loader skips them if they are already in the ledger.
+  for (const record of records) {
+    const fa = findagraveAnnotationFor(record)
+    if (fa) operations.push({ kind: "findagrave", payload: fa, localId: record.id })
   }
 
   const members = records.map((r) => ({ "@id": `@person:${r.id}`, "@type": "Person", name: personName(r) }))
