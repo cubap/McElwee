@@ -132,21 +132,33 @@ a:hover { text-decoration-thickness: 2px; }
     .mc-institution .mc-counts { margin-left: 0; flex-basis: 100%; text-align: left; }
 }
 
-/* --- cabinet: sheet + index ----------------------------------------------- */
+/* --- masthead: orientation above the burial index ------------------------- */
+
+.mc-masthead {
+    max-width: 84rem;
+    margin: 0 auto var(--pad);
+    padding: var(--pad);
+    background-color: var(--sheet);
+    border: 1px solid var(--rule);
+    box-shadow:
+        0 1px 0 var(--board-deep),
+        0 10px 24px -18px rgba(20, 26, 20, .55);
+}
+
+.mc-masthead .mc-determination {
+    margin-top: var(--gutter);
+}
+
+/* --- cabinet: the specimen sheet, shown only for a #specimen/ address ------ */
 
 .mc-cabinet {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 20rem;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--pad);
     align-items: start;
     padding: var(--pad);
     max-width: 84rem;
     margin: 0 auto;
-}
-
-@media (max-width: 60rem) {
-    .mc-cabinet { grid-template-columns: minmax(0, 1fr); }
-    .mc-cabinet > .mc-index { order: -1; }
 }
 
 /* --- the sheet ------------------------------------------------------------ */

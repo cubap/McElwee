@@ -13,6 +13,7 @@ mc.focusObject = document.getElementById("mc-view")
 mc.roster = document.getElementById("mc-roster")
 mc.dividers = document.getElementById("mc-dividers")
 mc.counts = document.getElementById("mc-counts")
+mc.cabinet = document.getElementById("mc-cabinet")
 
 // The exhibit's own vocabulary for the properties the catalog uses. Anything the store
 // asserts that is not listed here is still shown, under "Other assertions": hiding an
@@ -895,6 +896,7 @@ function rosterRow(item) {
 }
 
 function markLastSeen() {
+    if (!mc.roster) return
     let last = null
     try { last = localStorage.getItem(LAST_SEEN_KEY) } catch (err) { return }
     if (!last) return
@@ -1003,29 +1005,9 @@ if (mc.roster) {
 renderElement(document.getElementById("mc-location"), template.location())
 
 /**
- * The drawer index is the exhibit's table of contents, so it is built on every load and
- * not only when the list itself is the focused record. A visitor who arrives on one
- * child's sheet still has to be able to see who else is in the catalog.
- */
-async function loadDrawer() {
-    let listId = CFG.normalizeId(localStorage.getItem("CURRENT_LIST_ID")) || DEFAULT_LIST_ID
-    try {
-        let list = await get(listId)
-        let items = (list.itemListElement || []).map(item => ({
-            id: recordId(item),
-            name: clean(item.name || item.label || "")
-        })).filter(item => item.id)
-        mc.renderRoster(items)
-    } catch (err) {
-        if (mc.roster) {
-            mc.roster.innerHTML = `<li><span class="mc-empty">The drawer could not be read.</span></li>`
-        }
-    }
-}
-
-/**
- * Open on whatever the address asks for: a specimen, or the drawer. The exhibit is a
- * teaching object, so a teacher has to be able to send a student to one sheet.
+ * The burial index is the front door, so the specimen sheet is not opened on a bare load.
+ * It is a citable detail: revealed only when the address names one record, and otherwise
+ * left mounted but hidden so it never competes with the index.
  */
 function startFromAddress() {
     let wanted = null
@@ -1033,11 +1015,8 @@ function startFromAddress() {
     if (match) {
         try { wanted = CFG.normalizeId(decodeURIComponent(match[1])) } catch (err) { wanted = null }
     }
-    if (!wanted) {
-        wanted = CFG.normalizeId(localStorage.getItem("CURRENT_LIST_ID")) || DEFAULT_LIST_ID
-    }
-    mc.focusObject.setAttribute("mc-object", wanted)
+    if (mc.cabinet) mc.cabinet.hidden = !wanted
+    if (wanted) mc.focusObject.setAttribute("mc-object", wanted)
 }
-loadDrawer()
 startFromAddress()
 window.addEventListener("hashchange", startFromAddress)
