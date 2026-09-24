@@ -14,16 +14,19 @@
 
 <!--
 DIRECTION CONTRACT
-THESIS: the exhibit is a specimen sheet, not a profile. Every value shown is a claim
-someone transcribed, so it is printed as a claim with an accession trail. Refuses the
-genealogy-site default (cream paper, sepia photo, search box) and its opposite, the bare table.
+THESIS: the exhibit is a record on trial, not a profile. The burial index - the people and
+families interred here - is the front door; every value is a claim someone transcribed and is
+shown traceable to its source. Refuses the genealogy-site default (cream paper, sepia photo,
+search box) and its opposite, the bare table.
 OWN-WORLD: herbarium and museum mounting. Cool grey-green board, ruled mounting grid, off-white
 sheet held by four corners, one ink. Green is evidence; rust is disagreement; neither is decoration.
 Labels in a condensed institutional grotesk, values in a reading serif, identifiers as typed stamps.
-STORY: a student arrives, reads what is known and what is unverified, picks a specimen from the
-drawer index, reads its label, and presses any line to see the record that asserts it.
-FIRST VIEWPORT: the sheet itself - locality, accession counts, the determination statement, and the
-index of specimens beside it. No hero image, no search field.
+STORY: a student arrives, reads what is known and what is unverified, finds a name in the burial
+index, and presses any line to lift the page it was copied from. The 2018 specimen sheet survives
+as a citable detail (#specimen/<id>) whose per-claim provenance is the exhibit's method, but it no
+longer opens the page.
+FIRST VIEWPORT: the locality and the determination statement, then the burial index. No hero image,
+no search field, no competing catalog list.
 FORM: seed 275e135d, assigned index 3 (specimen sheet); staging fused from version-seams (contested
 values carry a seam that splays into competing claims) and full-state-trace (a provenance panel per
 claim). Two rules the build added and the copy states out loud: a contested line leads with the value
@@ -33,7 +36,7 @@ the label, reproduced but kept off the determination.
 -->
 
 <body>
-    <a class="skip-link" href="#mc-view">Skip to the records</a>
+    <a class="skip-link" href="#mc-burials">Skip to the burial index</a>
 
     <header class="mc-institution">
         <span class="mc-here">McElwee Cemetery</span>
@@ -42,38 +45,32 @@ the label, reproduced but kept off the determination.
     </header>
 
     <main>
-        <div class="mc-cabinet">
+        <!--
+          Orientation first. The locality and the determination statement tell a cold arrival
+          what this place is and how far to trust it. The burial index below is what people
+          actually came to read; the specimen sheet is a citable detail, mounted after it and
+          shown only when an address names one record.
+        -->
+        <div class="mc-masthead">
+            <mc-location id="mc-location" mc-location="l001">
+                <p class="mc-kicker">Locality</p>
+                <h1 class="mc-title">McElwee Cemetery</h1>
+                <p class="mc-dates">Pike County, Missouri, near Louisiana</p>
+            </mc-location>
 
-            <div class="mc-sheet">
-                <mc-location id="mc-location" mc-location="l001">
-                    <p class="mc-kicker">Locality</p>
-                    <h1 class="mc-title">McElwee Cemetery</h1>
-                    <p class="mc-dates">Pike County, Missouri, near Louisiana</p>
-                </mc-location>
-
-                <div class="mc-determination">
-                    <strong>Determination</strong>
-                    The catalog this exhibit is built on was made by hand, page by page, and its origin is
-                    unrecorded. No claim on this page has been checked against a county, church, or census
-                    record. What the exhibit can do is show you who asserted each one and when, so the
-                    uncertainty is visible instead of hidden.
-                </div>
-
-                <mc-view is="mc-view" id="mc-view" mc-object=""></mc-view>
+            <div class="mc-determination">
+                <strong>Determination</strong>
+                The records this exhibit is built on were made by hand, page by page, and their origin is
+                unrecorded. No claim here has been checked against a county, church, or census record. What
+                the exhibit can do is show you where each one came from, so the uncertainty is visible
+                instead of hidden.
             </div>
-
-            <aside class="mc-index" id="mc-index" aria-labelledby="mc-index-h">
-                <h2 id="mc-index-h">Drawer index</h2>
-                <div class="mc-dividers" id="mc-dividers" hidden></div>
-                <ol id="mc-roster"></ol>
-                <p class="mc-empty" id="mc-index-empty" hidden>Nothing in this drawer yet.</p>
-            </aside>
         </div>
 
         <!-- ================================================================
-             THE BURIAL INDEX. A different artifact from the specimen sheet
-             above, so it is mounted differently: the index is a typescript
-             ledger, and it is shown as one. Two things are held apart by
+             THE BURIAL INDEX - the front door. This is what people come to the
+             site to read: the people and families interred here. It is a
+             typescript ledger, and it is shown as one. Two things are held apart by
              typographic role and must never be confused &mdash; what the
              compiler typed, in the reading serif on the ruled line, and what
              we reduced from it, in the label grotesk beneath. Pressing any
@@ -118,6 +115,18 @@ the label, reproduced but kept off the determination.
                 </figure>
             </div>
         </section>
+
+        <!--
+          THE SPECIMEN SHEET. The 2018 linked-data catalog, one record at a time. It is
+          kept because a sheet is citable and its per-claim provenance is the exhibit's
+          whole method, but it is no longer the landing view: it stays hidden until an
+          address names a record (#specimen/<id>), so it never competes with the burial index.
+        -->
+        <div class="mc-cabinet" id="mc-cabinet" hidden>
+            <div class="mc-sheet">
+                <mc-view is="mc-view" id="mc-view" mc-object=""></mc-view>
+            </div>
+        </div>
 
         <!-- ================================================================
              THE ATLAS. The 1899 plat maps are not the exhibit's transcriptions;
@@ -165,11 +174,17 @@ the label, reproduced but kept off the determination.
 
         <div class="mc-locality" id="mc-how-to-read">
             <section class="mc-note">
-                <h2>How to read a sheet</h2>
+                <h2>How to read this exhibit</h2>
                 <p>
-                    Each line under a name is a <em>claim</em>, not a fact. The line is printed with the
-                    record that asserts it. Press any line and the exhibit opens that record: its
-                    identifier, who generated it, and the date it was written.
+                    Start with the <strong>burial index</strong>: it lists the people and families the
+                    cemetery holds. Press any line and the page it was copied from lifts beside it with
+                    that line boxed &mdash; the only citation an unattributed typescript can honestly give.
+                </p>
+                <p>
+                    The <strong>specimen sheet</strong> is the older 2018 catalog, kept as a citable detail.
+                    Each line under a name there is a <em>claim</em>, not a fact, printed with the record
+                    that asserts it. Press any line and the exhibit opens that record: its identifier, who
+                    generated it, and the date it was written.
                 </p>
                 <p>
                     A line with a <span class="mc-seam-mark">2 variants</span> mark is one where the records
