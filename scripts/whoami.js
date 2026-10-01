@@ -14,7 +14,8 @@ const config = readConfig()
 const status = inspectAgent(config)
 
 console.log("McElwee RERUM identity")
-console.log("  upstream        " + config.apiAddr)
+console.log("  reads from      " + config.apiAddr)
+console.log("  writes via      " + config.tinynodeAddr + "  (TinyNode passthrough)")
 console.log("  agent IRI       " + (status.agentIri ?? "(none)"))
 console.log("  token expires   " + (tokenExpiryMs(config.accessToken) ? new Date(tokenExpiryMs(config.accessToken)).toISOString() : "(unreadable or absent)"))
 console.log("  EXPECTED_AGENT  " + (config.expectedAgentIri || "(not set)"))
@@ -23,5 +24,5 @@ if (status.problem) {
   console.error("\n  PROBLEM  " + status.problem)
   process.exitCode = 1
 } else {
-  console.log("\n  OK  Writes from `npm start` will be attributed to this agent.")
+  console.log("\n  OK  The token mint will hand this credential to `npm start` and to the loaders.")
 }

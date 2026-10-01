@@ -9,8 +9,9 @@
  * `provenance: {sourceImage, rect}` to every claim in every annotation.
  *
  * Dry run by default. Nothing reaches the network until you pass --execute, and even then
- * it goes through the local proxy (server/) so the access token never lives in this
- * process or in the browser.
+ * this process never holds a credential: it asks the local server (server/) to mint a
+ * short-lived access token and carries that token to TinyNode itself, whose passthrough mode
+ * forwards it so RERUM attributes the updates to this project.
  *
  *   node scripts/catalog-provenance.js                    # plan only, writes provenance-plan.json
  *   node scripts/catalog-provenance.js --execute          # write everything
@@ -24,6 +25,7 @@ import fs from "node:fs"
 import path from "node:path"
 
 import { publicImageUrl } from "./burials-payloads.js"
+import { createWriter } from "./passthrough.js"
 
 const ROOT = process.cwd()
 const BASELINE = path.join(ROOT, "source", "handoff", "catalog", "machine-baseline.jsonl")
@@ -39,7 +41,7 @@ const CHAR_W = 14
 const LINE_HALF = 31
 
 function parseArgs(argv) {
-  const args = { execute: false, limit: 0, base: process.env.PROXY_BASE || "http://localhost:3030", help: false }
+  const args = { execute: false, limit: 0, base: process.env.MCELWEE_SERVER || "http://localhost:3030", help: false }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
     if (a === "--execute") args.execute = true
@@ -203,26 +205,14 @@ function isSuperseded(annotation) {
   return Array.isArray(next) && next.length > 0
 }
 
-async function put(base, payload) {
-  const response = await fetch(`${base}/update`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  })
-  const text = await response.text()
-  if (!response.ok) {
-    throw new Error(`PUT /update -> HTTP ${response.status}: ${text.slice(0, 200)}`)
-  }
-  return text ? JSON.parse(text) : null
-}
-
 async function main() {
   const args = parseArgs(process.argv.slice(2))
   if (args.help) {
     console.log(
       "usage: node scripts/catalog-provenance.js [--execute] [--limit N] [--base URL]\n" +
-        "  --execute   write the provenance updates through the local proxy\n" +
-        "  --limit N   write at most N annotations\n\n" +
+        "  --execute   write the provenance updates to TinyNode with a minted token\n" +
+        "  --limit N   write at most N annotations\n" +
+        "  --base URL  the local McElwee server that mints tokens (default http://localhost:3030)\n\n" +
         "Dry run by default: it reads the store and writes provenance-plan.json, nothing more."
     )
     return
@@ -308,10 +298,17 @@ async function main() {
     return
   }
 
+  // Minting the writer is also the identity check: the local server refuses to hand out a
+  // token for the shared sandbox agent, so a misattributed batch stops here, before the
+  // first annotation is touched.
+  const writer = await createWriter({ base: args.base })
+  console.log(`writing as       : ${writer.agentIri ?? "(agent not named by the token)"}`)
+  console.log(`passthrough via  : ${writer.tinynodeAddr}`)
+
   let written = 0
   for (const update of updates) {
     if (args.limit && written >= args.limit) break
-    await put(args.base, update.payload)
+    await writer.update(update.payload)
     written++
     if (written % 5 === 0 || written === 1) console.log(`  ${written}: ${update["@id"]} (${update.baseline})`)
   }

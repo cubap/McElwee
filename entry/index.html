@@ -13,8 +13,10 @@
         <h1>McElwee Cemetery &mdash; Data Entry</h1>
         <p class="notice">
             This subsite exists only on the development server. It is never copied into the
-            <a href="../web/">published exhibit</a>, which is read-only. Every record you save here is
-            written through the local RERUM proxy, so it is attributed to the agent in <code>.env</code>.
+            <a href="../web/">published exhibit</a>, which is read-only. Reads come straight from the
+            RERUM API; writes go to TinyNode carrying an access token that the local server minted
+            from <code>.env</code>, so TinyNode's passthrough mode attributes every record to that
+            agent rather than to its own instance.
         </p>
     </header>
 

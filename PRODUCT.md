@@ -47,10 +47,12 @@ part of the mechanism, not a disclaimer bolted on.
   There is no server behind the public site.
 - Records live in RERUM on `store.rerum.io`; the read-only site queries it directly over
   HTTPS (the endpoint returns `Access-Control-Allow-Origin: *`).
-- Data entry happens only through a local Express proxy (`server/`) and a local-only subsite
-  (`entry/`), never on the published site. Writes are refused until a McElwee-specific RERUM
-  agent is registered, because `__rerum.generatedBy` is set from the token and cannot be
-  corrected afterwards.
+- Data entry happens only from a local-only subsite (`entry/`), never on the published site.
+  The local Express server (`server/`) holds the credential and mints a short-lived access
+  token on loopback; the subsite carries that token to a TinyNode instance, whose passthrough
+  mode forwards it so the store attributes the record to this project. Writes are refused
+  until a McElwee-specific RERUM agent is registered, because `__rerum.generatedBy` is set
+  from the token and cannot be corrected afterwards.
 - `web/mcdata.js` seeds a bundled fallback copy of the records for when the store is
   unreachable.
 

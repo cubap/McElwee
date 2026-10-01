@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Read-only exhibit of the McElwee Cemetery catalog, with a local-only TinyNode proxy for RERUM writes.",
+  "description": "Read-only exhibit of the McElwee Cemetery catalog, with a local-only RERUM token mint for writes through TinyNode passthrough.",
   "license": "CC-BY",
   "author": "Walter J. Ong, S.J. Center for Digital Humanities <digitalhumanities@slu.edu>",
   "engines": {
@@ -31,7 +31,7 @@
     "findagrave:merge": "node source/findagrave/merge.mjs",
     "catalog:provenance": "node scripts/catalog-provenance.js",
     "catalog:provenance:load": "node scripts/catalog-provenance.js --execute",
-    "test": "node --test \"test/**/*.test.js\""
+    "test": "node --test --test-concurrency=1 \"test/**/*.test.js\""
   },
   "dependencies": {
     "dotenv": "^16.4.5",

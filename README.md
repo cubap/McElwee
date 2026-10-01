@@ -11,8 +11,8 @@ Two things live here, and only one of them is published.
 | | Where | Deployed? | Can write to RERUM? |
 |---|---|---|---|
 | The exhibit | `web/` | yes, GitHub Pages | no |
-| Data entry | `entry/` | never | yes, through the local proxy |
-| RERUM proxy | `server/` | never | yes, holds the token |
+| Data entry | `entry/` | never | yes, carrying a minted token to TinyNode |
+| Token mint | `server/` | never | holds the credential, hands out short-lived tokens |
 
 The published site is static files that query RERUM over HTTPS and render whatever the
 store currently holds. `web/mcdata.js` is the bundled fallback for when the store is
@@ -22,14 +22,26 @@ accept a write.
 ```
 web/         published exhibit (index.html, app.js, config.js, mcdata.js, mc.css, manifest/)
 entry/       local-only data-entry subsite, served at /entry/ by the dev server
-server/      Express app: static hosting + the TinyNode-style RERUM proxy
-scripts/     build, preview, whoami
+server/      Express app: static hosting + the loopback-only token mint
+scripts/     build, preview, whoami, the batch loaders, and their shared write client
 test/        node --test suites, including the guards that keep the site read-only
 dist/        build output, what gets deployed to Pages (gitignored)
 ```
 
 `web/config.js` is the only file in the front end that names a RERUM instance. Everything
 else reads `window.McElweeConfig`.
+
+### Reads and writes do not go to the same place
+
+| | endpoint | why |
+|---|---|---|
+| reads | `https://store.rerum.io/v1/api/query` | no credential needed, and the store's CORS allows any origin, which is what lets the published exhibit work with no server at all |
+| writes | `https://tiny.rerum.io/create` &c. with `Authorization: Bearer …` | TinyNode's [passthrough mode](https://github.com/CenterForDigitalHumanities/TinyNode/pull/134) forwards the header verbatim, so the store stamps `__rerum.generatedBy` with *this project's* agent rather than the instance's |
+
+Two things that are easy to get wrong. `store.rerum.io` is the RERUM API and the
+authorization portal; it runs no TinyNode, so there is nothing there to pass a token
+through. And TinyNode's `/query` does **not** honour passthrough - it always uses the
+instance's own credential - so reads must never be routed through it.
 
 ## How the exhibit is designed
 
@@ -78,19 +90,22 @@ npm start
 
 - exhibit &nbsp;&nbsp; http://localhost:3030/web/
 - data entry &nbsp; http://localhost:3030/entry/
-- proxy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `POST /query`, `POST /create`, `PUT /update`, `PUT /overwrite`, `DELETE /delete/:id`
+- token mint &nbsp; `POST /token` (loopback only), plus `GET /agent` and `GET /status`
 
 Other commands:
 
 | command | what it does |
 |---|---|
-| `npm test` | unit and proxy tests, plus the read-only and mixed-content guards |
+| `npm test` | unit and mint tests, plus the read-only and mixed-content guards |
 | `npm run build` | assembles `dist/`; exits non-zero if an edit control or an insecure RERUM URL would be published |
-| `npm run preview` | serves `dist/` on port 4000 so you see exactly what Pages will show |
+| `npm run preview` | serves `dist/` on port 4000 (or `$PORT`) so you see exactly what Pages will show |
 | `npm run whoami` | decodes `.env` and prints which RERUM agent writes would be attributed to |
 
-The token never leaves `server/`. `entry/` and `web/` talk to the proxy on the same
-origin, so nothing that reaches a browser can carry a credential.
+The refresh token never leaves `server/`. `entry/` and the batch loaders ask the mint for a
+short-lived access token over loopback and carry *that* to TinyNode themselves, so nothing
+that reaches a browser or a loader process can hold the long-lived credential. The mint is
+POST-only, loopback-only, and sends no CORS headers, which together mean a page on another
+origin cannot read it and a token cannot land in a URL-keyed log.
 
 ## Registering with RERUM
 
@@ -110,13 +125,15 @@ Before any writing resumes:
 3. Set `EXPECTED_AGENT_IRI` to the agent IRI you were issued.
 4. Run `npm run whoami`. It must print your agent and exit clean.
 
-If those steps have not been done, the proxy refuses writes rather than falling back to
-the sandbox: `POST /create` answers 401 with no credentials and 403 with sandbox ones, and
-`entry/` disables its save button and says why. An unattributed record is worse than no
-record, because the generator cannot be corrected later.
+If those steps have not been done, the mint refuses to produce a token rather than falling
+back to the sandbox: `POST /token` answers 401 with no credentials and 403 with sandbox ones
+or an agent that is not `EXPECTED_AGENT_IRI`, and `entry/` disables its save button and says
+why. An unattributed record is worse than no record, because the generator cannot be
+corrected later.
 
-`RERUM_FETCH_TIMEOUT_MS` bounds upstream calls; a hung store returns 504 and an
-unreachable one returns 502 instead of holding the request open.
+`RERUM_FETCH_TIMEOUT_MS` bounds the one upstream call the server still makes itself, the
+token refresh; a hung store returns 504 and an unreachable one returns 502 instead of
+holding the request open.
 
 ## Deploying
 
@@ -153,11 +170,17 @@ exist for anyone visiting the Pages site.
 
 It is deleted. In its place:
 
-- **`server/`** is a small Node proxy in the shape of [TinyNode](https://github.com/CenterForDigitalHumanities/TinyNode),
-  configured by `.env` instead of `tiny.properties`. It is private to this project, it
-  identifies itself as `McElwee-TinyNode/1.0`, and it is the only thing that holds a token.
-- **`web/`** is read-only. The person form, the `+` button, and the create/update handlers
-  moved to **`entry/`**, which the dev server mounts and the build refuses to publish.
+- **`server/`** is a small Node app configured by `.env` instead of `tiny.properties`. It was
+  never a copy of [TinyNode](https://github.com/CenterForDigitalHumanities/TinyNode) - it was
+  original code written in TinyNode's shape, because publishing a proxy that speaks the same
+  API is what let `web/` keep working after the servlet went away. It no longer reimplements
+  those endpoints at all. It hosts the two subsites and mints short-lived access tokens on
+  loopback, and it is the only thing that holds a credential.
+- **`entry/`** is local-only data entry. The person form, the `+` button, and the
+  create/update handlers moved out of `web/` here, and the build refuses to publish it. It
+  writes by carrying a minted token to TinyNode itself.
+- **`web/`** is read-only, and stays that way when deployed, because a GitHub Pages site has
+  no server to ask for a token.
 - **`web/config.js`** replaced the four hard-coded `http://` constants, and `normalizeId()`
   upgrades the `http://` IRIs that RERUM embeds inside `itemListElement` entries, which is
   what actually caused the mixed-content failures rather than the constants alone.
@@ -172,4 +195,4 @@ It is deleted. In its place:
 | #17 JSON-LD context on seeded entities | **open.** `web/mcdata.js` still seeds `"@context": ""`. |
 | #19 design pass | **done in this change.** See "How the exhibit is designed". |
 | #6 Event interface | **partly done.** `template.event` existed in the renderer's dispatch but was never defined, so any Event record crashed the viewer. It renders now. |
-| #8, #9 data quality | **fixed in code, still dirty in the store.** #9's `[object Object]` came from `expand()` stringifying a value object; the claims model cannot. #8 was the old servlet reading the request body as a single-byte charset, so U+2014 arrived as 0x14; the Node proxy decodes UTF-8 (guarded by a test) and the reader repairs the damaged records already in the store. The test annotations themselves are records, not bugs, and stay visible. |
+| #8, #9 data quality | **fixed in code, still dirty in the store.** #9's `[object Object]` came from `expand()` stringifying a value object; the claims model cannot. #8 was the old servlet reading the request body as a single-byte charset, so U+2014 arrived as 0x14; every path since decodes UTF-8 (guarded by a test) and the reader repairs the damaged records already in the store. The test annotations themselves are records, not bugs, and stay visible. |

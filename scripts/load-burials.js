@@ -2,8 +2,9 @@
  * Load the burial index into a RERUM store.
  *
  * Dry run by default. Nothing reaches the network until you pass --execute, and even then
- * it goes through the local proxy (server/) so the access token never lives in this
- * process or in the browser.
+ * this process never holds a credential: it asks the local server (server/) to mint a
+ * short-lived access token and carries that token to TinyNode itself, whose passthrough mode
+ * forwards it so RERUM attributes the records to this project.
  *
  *   node scripts/load-burials.js                    # plan only, writes burials-plan.json
  *   node scripts/load-burials.js --execute          # write everything
@@ -18,6 +19,7 @@ import fs from "node:fs"
 import path from "node:path"
 
 import { buildOperations, loadEvidence, pageIndexImages, defaultEvidencePath } from "./burials-payloads.js"
+import { createWriter } from "./passthrough.js"
 import { SHARED_SANDBOX_AGENT } from "../server/agent.js"
 
 const ROOT = process.cwd()
@@ -26,7 +28,7 @@ const PLAN_OUT = path.join(ROOT, "source", "burials-evidence", "burials-plan.jso
 const ROWS = path.join(ROOT, "source", "handoff", "burials", "rows.json")
 
 function parseArgs(argv) {
-  const args = { execute: false, preflight: false, limit: 0, base: process.env.PROXY_BASE || "http://localhost:3030", list: "", newList: false }
+  const args = { execute: false, preflight: false, limit: 0, base: process.env.MCELWEE_SERVER || "http://localhost:3030", list: "", newList: false }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
     if (a === "--execute") args.execute = true
@@ -94,25 +96,6 @@ function hasPlaceholders(node) {
   return false
 }
 
-async function post(base, route, payload, method = "POST") {
-  const response = await fetch(`${base}${route}`, {
-    method,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  })
-  const text = await response.text()
-  let json = null
-  try {
-    json = text ? JSON.parse(text) : null
-  } catch {
-    json = { raw: text }
-  }
-  if (!response.ok) {
-    throw new Error(`${method} ${route} -> HTTP ${response.status}: ${json?.error || text.slice(0, 200)}`)
-  }
-  return json
-}
-
 function idFrom(response) {
   return response?.["@id"] || response?.id || response?.new_obj_state?.["@id"] || null
 }
@@ -130,7 +113,7 @@ async function preflight(base) {
   const agent = await fetch(`${base}/agent`)
     .then((r) => r.json())
     .catch((e) => {
-      throw new Error(`Cannot reach the local proxy at ${base}: ${e.message}. Run \`npm start\` first.`)
+      throw new Error(`Cannot reach the local server at ${base}: ${e.message}. Run \`npm start\` first.`)
     })
 
   const problems = []
@@ -210,7 +193,7 @@ async function verifyCanary(iri, expected) {
 }
 
 /** The ItemList the exhibit reads its people from, created on the target store if needed. */
-async function ensureList(args, base, ledger) {
+async function ensureList(args, writer, ledger) {
   const wanted = args.list || ledger.listIri
   if (wanted) {
     const exists = await fetch(wanted).then((r) => r.ok, () => false)
@@ -219,7 +202,7 @@ async function ensureList(args, base, ledger) {
       throw new Error(`Population list ${wanted} does not exist on this store. Pass --new-list to create it there.`)
     }
   }
-  const created = await post(base, "/create", {
+  const created = await writer.create({
     "@context": "http://schema.org",
     "@type": ["ItemList", "http://www.w3.org/2000/01/rdf-schema#Bag"],
     name: "Cemetery Population",
@@ -242,9 +225,12 @@ async function main() {
       "usage: node scripts/load-burials.js [--execute] [--limit N] [--base URL] [--list IRI | --new-list]\n" +
         "  --list IRI      population list to append people to; must already exist on the target store\n" +
         "  --new-list      create the population list on the target store when it is missing\n" +
-        "  --preflight     check the credential against the store and write nothing\n\n" +
-        "Writes are refused unless the credential is unexpired and the configured agent exists on the\n" +
-        "target store, and the store's own attribution of the first record is checked before the rest."
+        "  --preflight     check the credential against the store and write nothing\n" +
+        "  --base URL      the local McElwee server that mints tokens (default http://localhost:3030)\n\n" +
+        "Writes go to TinyNode carrying a token from that server, so the store attributes them to\n" +
+        "this project. They are refused unless the credential is unexpired and the configured agent\n" +
+        "exists on the target store, and the store's own attribution of the first record is checked\n" +
+        "before the rest of the batch."
     )
     return
   }
@@ -277,18 +263,20 @@ async function main() {
     return
   }
 
-  // Confirm the proxy is up and can be attributed before the first write, so a missing,
-  // wrong, or expired credential fails immediately instead of halfway through the batch.
+  // Confirm the credential is attributable before the first write, so a missing, wrong, or
+  // expired token fails immediately instead of halfway through the batch. Minting the writer
+  // is the second half of that check: it proves the local server can actually produce a token.
   const agent = await preflight(args.base)
-  const identity = agent.expectedAgentIri || agent.agentIri
-  console.log(`writing as       : ${identity}\ntarget store     : ${agent.apiAddr}`)
+  const writer = await createWriter({ base: args.base })
+  const identity = agent.expectedAgentIri || agent.agentIri || writer.agentIri
+  console.log(`writing as       : ${identity}\ntarget store     : ${agent.apiAddr}\npassthrough via  : ${writer.tinynodeAddr}`)
 
   let written = 0
   for (const op of pending) {
     if (args.limit && written >= args.limit) break
 
     if (op.kind === "list-append") {
-      const listId = await ensureList(args, args.base, ledger)
+      const listId = await ensureList(args, writer, ledger)
       const list = await fetch(listId).then((r) => r.json())
       const existing = new Set((list.itemListElement || []).map((i) => i["@id"]))
       const resolvedMembers = resolve(op.payload.members, ledger)
@@ -300,7 +288,7 @@ async function main() {
       }
       list.itemListElement = (list.itemListElement || []).concat(ready)
       list.numberOfItems = list.itemListElement.length
-      const updated = await post(args.base, "/update", list, "PUT")
+      const updated = await writer.update(list)
       // RERUM versions an update under a new IRI; the ledger must point at the version
       // that actually carries the members, or the next run reads an empty list.
       const updatedIri = idFrom(updated)
@@ -319,7 +307,7 @@ async function main() {
       console.warn(`skip ${op.localId || op.ref}: unresolved placeholder (its person was not created)`)
       continue
     }
-    const created = await post(args.base, "/create", payload)
+    const created = await writer.create(payload)
     const iri = idFrom(created)
     if (!iri) throw new Error(`No @id came back for ${op.localId || op.ref}: ${JSON.stringify(created).slice(0, 200)}`)
     const key = ledgerKey(op)

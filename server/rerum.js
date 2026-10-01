@@ -2,9 +2,12 @@ import { config } from "./config.js"
 import { httpError } from "./rest.js"
 
 /**
- * fetch() against RERUM with a bounded timeout and error shapes the routes can pass
- * straight through to the client. Without the timeout a hung upstream request keeps the
- * socket open forever and the browser just spins.
+ * fetch() against RERUM with a bounded timeout and error shapes the caller can pass
+ * straight through. Without the timeout a hung upstream request keeps the socket open
+ * forever and the browser just spins.
+ *
+ * Only the token mint uses this any more; record reads and writes go from the browser or
+ * a loader straight to store.rerum.io / tiny.rerum.io.
  */
 export async function fetchRerum(url, options = {}, settings = config) {
   const timeoutMs = Number.isFinite(options.timeoutMs) ? options.timeoutMs : settings.timeoutMs
@@ -46,15 +49,18 @@ export async function fetchRerum(url, options = {}, settings = config) {
   return { ok: response.ok, status: response.status, headers: response.headers, text, payload }
 }
 
-/** Headers every upstream call should carry: identity, auth, and a JSON body promise. */
-export function rerumHeaders(body, settings = config) {
+/**
+ * Headers for the one upstream call this server still makes itself: trading the refresh
+ * token for an access token. Deliberately carries no Authorization - that endpoint is
+ * authenticated by the refresh token in the body.
+ */
+export function tokenRequestHeaders(body, settings = config) {
   const headers = {
     "User-Agent": settings.userAgent,
-    Accept: "application/ld+json, application/json;q=0.9, */*;q=0.8",
+    Accept: "application/json",
     "Content-Type": "application/json;charset=utf-8"
   }
   if (settings.origin) headers.Origin = settings.origin
-  if (settings.accessToken) headers.Authorization = `Bearer ${settings.accessToken}`
   if (body === undefined) delete headers["Content-Type"]
   return headers
 }
