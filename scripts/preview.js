@@ -21,7 +21,7 @@ const TYPES = {
 }
 
 /**
- * Serve exactly what `npm run build` produced, with no proxy and no entry subsite, so
+ * Serve exactly what `npm run build` produced, with no token mint and no entry subsite, so
  * what you see here is what GitHub Pages will show.
  */
 const server = http.createServer((req, res) => {
@@ -47,5 +47,5 @@ if (!fs.existsSync(dist)) {
 
 server.listen(port, () => {
   console.log(`[mcelwee] published-site preview  http://localhost:${port}/web/`)
-  console.log(`[mcelwee] serving read-only files from dist/ (no proxy, no /entry/)`)
+  console.log(`[mcelwee] serving read-only files from dist/ (no token mint, no /entry/)`)
 })

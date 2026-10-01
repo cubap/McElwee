@@ -3,9 +3,9 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { config } from "./config.js"
-import { fetchRerum, rerumHeaders } from "./rerum.js"
+import { fetchRerum, tokenRequestHeaders } from "./rerum.js"
 import { httpError } from "./rest.js"
-import { inspectAgent, isTokenExpired } from "./agent.js"
+import { inspectAgent, tokenExpiryMs } from "./agent.js"
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 export const ENV_PATH = path.resolve(here, "..", ".env")
@@ -61,7 +61,7 @@ export function generateNewAccessToken(settings = config, envPath = ENV_PATH) {
       url,
       {
         method: "POST",
-        headers: { ...rerumHeaders(body, settings), Authorization: "" },
+        headers: tokenRequestHeaders(body, settings),
         body
       },
       settings
@@ -105,43 +105,63 @@ export function generateNewAccessToken(settings = config, envPath = ENV_PATH) {
 }
 
 /**
- * Make sure a usable access token is in place before an upstream call.
- *
- * Pass-through when no token is configured at all: read-only use of the proxy should not
- * require credentials. Expired tokens are refreshed. Writes additionally require that the
- * token belongs to a registered, McElwee-specific agent, which is the whole point of
- * retiring the Java app: the generator on new data must be this app, not the shared
- * TinyThings sandbox.
+ * How much remaining life an access token must have before we are willing to hand it to
+ * a caller. RERUM tokens last an hour; a batch loader that starts with 30 seconds left
+ * would fail halfway through, so anything under two minutes is refreshed up front.
  */
-export function requireAgent({ write = false, refresh = generateNewAccessToken } = {}) {
-  return async function agentGuard(req, res, next) {
-    try {
-      const settings = req.app.locals.config
-      if (!settings.accessToken && !settings.refreshToken) {
-        if (write) {
-          return next(
-            httpError(
-              "This app is running without RERUM credentials, so it cannot write. Copy sample.env to .env and add the tokens from your RERUM registration.",
-              401
-            )
-          )
-        }
-        return next()
-      }
+export const REFRESH_SKEW_MS = 120_000
 
-      if (settings.accessToken && isTokenExpired(settings.accessToken)) {
-        await refresh(settings, req.app.locals.envPath)
-      }
+export function tokenRemainingMs(token, now = Date.now()) {
+  const expires = tokenExpiryMs(token)
+  return expires === null ? null : expires - now
+}
 
-      const status = inspectAgent(settings)
-      if (status.problem) {
-        const fatal = write && (settings.requireAgentIri || status.isSharedSandbox)
-        if (fatal) return next(httpError(status.problem, 403))
-        req.app.locals.logger.warn(`RERUM agent: ${status.problem}`)
-      }
-      next()
-    } catch (error) {
-      next(error)
+/**
+ * Produce a usable access token for a caller to put in the `Authorization` header of a
+ * write to TinyNode.
+ *
+ * This is now the single choke point for the attribution guarantee that used to live in
+ * the per-route `requireAgent` middleware. Nothing can obtain a token to pass through
+ * without clearing the same checks: credentials must exist, an expired or nearly-expired
+ * token is traded for a fresh one, and a token belonging to the shared TinyThings sandbox
+ * (or to an agent other than `EXPECTED_AGENT_IRI` when that is enforced) is refused. The
+ * store still decides the truth of `__rerum.generatedBy`; this refuses the obvious lies
+ * before a single record is written.
+ */
+export async function mintAccessToken(settings = config, envPath = ENV_PATH, { logger = console } = {}) {
+  if (!settings.accessToken && !settings.refreshToken) {
+    throw httpError(
+      "This app is running without RERUM credentials, so it cannot write. Copy sample.env to .env and add the tokens from your RERUM registration.",
+      401
+    )
+  }
+
+  const remaining = tokenRemainingMs(settings.accessToken)
+  // A token whose `exp` cannot be read is handed out rather than refreshed. Refreshing on
+  // unparseable expiry would trade a refresh token for every single write, and RERUM rotates
+  // on each trade, so one odd token in .env would spend the whole credential in an afternoon.
+  const needsRefresh = remaining === null ? !settings.accessToken : remaining < REFRESH_SKEW_MS
+  if (needsRefresh) {
+    if (!settings.refreshToken) {
+      throw httpError(
+        "ACCESS_TOKEN is expired and no REFRESH_TOKEN is configured. Put a valid REFRESH_TOKEN in .env or re-register.",
+        401
+      )
     }
+    await generateNewAccessToken(settings, envPath)
+  }
+
+  const status = inspectAgent(settings)
+  if (status.problem) {
+    if (settings.requireAgentIri || status.isSharedSandbox) throw httpError(status.problem, 403)
+    logger.warn?.(`RERUM agent: ${status.problem}`)
+  }
+
+  const expires = tokenExpiryMs(settings.accessToken)
+  return {
+    token: settings.accessToken,
+    agentIri: status.agentIri ?? settings.expectedAgentIri ?? null,
+    expiresAt: expires ? new Date(expires).toISOString() : null
   }
 }
+

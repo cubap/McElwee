@@ -104,13 +104,15 @@ test("carried-down surnames are not doubled and family heads stay linked", () =>
 })
 
 /**
- * A stand-in for the local proxy: /agent, /create, /update. It mints sequential IRIs the
- * way RERUM does so the loader's placeholder resolution and ledger are exercised for real,
- * and - because that is what the loader now depends on - it stamps `__rerum.generatedBy`
- * on everything it accepts, the way the store does.
+ * One process standing in for two services: the local token mint (`/agent`, `/token`) and the
+ * TinyNode instance the loader now writes to (`/create`, `/update`). It mints sequential IRIs
+ * the way RERUM does so the loader's placeholder resolution and ledger are exercised for real,
+ * and - because that is what the loader depends on - it stamps `__rerum.generatedBy` on
+ * everything it accepts, the way the store does.
  */
 function startMock() {
   const store = {}
+  const seen = { tokens: 0, authorizations: [] }
   let n = 0
   const server = http.createServer((req, res) => {
     const base = `http://127.0.0.1:${server.address().port}`
@@ -123,6 +125,18 @@ function startMock() {
         res.writeHead(code, { "Content-Type": "application/json" })
         res.end(JSON.stringify(obj))
       }
+      if (req.url === "/token" && req.method === "POST") {
+        seen.tokens++
+        return send(200, {
+          token: "mock-access-token",
+          agentIri,
+          expiresAt: new Date(Date.now() + 3_600_000).toISOString(),
+          tinynodeAddr: `${base}/`
+        })
+      }
+      // Passthrough is the whole arrangement: TinyNode must forward the caller's credential,
+      // so a write that arrives without one is not the thing under test.
+      if (["/create", "/update", "/overwrite"].includes(req.url)) seen.authorizations.push(req.headers.authorization ?? null)
       if (req.url === "/agent") {
         return send(200, {
           agentIri: null,
@@ -161,7 +175,7 @@ function startMock() {
   return new Promise((resolve) => {
     server.listen(0, "127.0.0.1", () => {
       const base = `http://127.0.0.1:${server.address().port}`
-      resolve({ base, store, close: () => new Promise((r) => server.close(r)) })
+      resolve({ base, store, seen, close: () => new Promise((r) => server.close(r)) })
     })
   })
 }
@@ -172,13 +186,15 @@ test("the loader writes, resolves placeholders, and is idempotent", async (t) =>
   const repo = path.join(dir, "repo")
   fs.mkdirSync(path.join(repo, "source", "burials-evidence"), { recursive: true })
   fs.mkdirSync(path.join(repo, "source", "handoff", "burials"), { recursive: true })
-  // The loader resolves its sibling import and its data paths relative to cwd, so give the
-  // sandbox a copy of both scripts at its root, plus the pure identity module it imports.
-  for (const f of ["load-burials.js", "burials-payloads.js"]) {
+  // The loader resolves its sibling imports and its data paths relative to cwd, so give the
+  // sandbox a copy of every script at its root, plus the two pure server modules they import.
+  for (const f of ["load-burials.js", "burials-payloads.js", "passthrough.js"]) {
     fs.copyFileSync(path.join(ROOT, "scripts", f), path.join(repo, f))
   }
   fs.mkdirSync(path.join(dir, "server"), { recursive: true })
-  fs.copyFileSync(path.join(ROOT, "server", "agent.js"), path.join(dir, "server", "agent.js"))
+  for (const f of ["agent.js", "endpoints.js"]) {
+    fs.copyFileSync(path.join(ROOT, "server", f), path.join(dir, "server", f))
+  }
   fs.writeFileSync(path.join(repo, "source", "burials-evidence", "burials-evidence.json"), JSON.stringify(EVIDENCE))
   fs.writeFileSync(path.join(repo, "source", "handoff", "burials", "rows.json"), JSON.stringify({ pages: [{ id: "BurialsAlpha001", image: "web/manifest/fotki/x.jpg" }] }))
 
@@ -189,6 +205,14 @@ test("the loader writes, resolves placeholders, and is idempotent", async (t) =>
 
   const first = await run(process.execPath, args, { cwd: repo, env })
   assert.match(first.stdout, /wrote 6 operation/)
+
+  // Every write has to carry the minted credential, or RERUM attributes the record to the
+  // TinyNode instance instead of to this project and the ledger looks fine while the data is not.
+  assert.ok(mock.seen.tokens >= 1, "the loader minted a token before writing")
+  assert.ok(mock.seen.authorizations.length >= 5, "the writes reached the TinyNode stand-in")
+  for (const [i, header] of mock.seen.authorizations.entries()) {
+    assert.equal(header, "Bearer mock-access-token", `write ${i} did not carry the bearer token`)
+  }
 
   const ledger = JSON.parse(fs.readFileSync(path.join(repo, "source", "burials-evidence", "load-ledger.json"), "utf8"))
   assert.equal(Object.keys(ledger.created).length, 5, "document + 2 people + 2 annotations")

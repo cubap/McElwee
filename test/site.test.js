@@ -40,12 +40,30 @@ test("the published site talks to RERUM over https only", () => {
   }
 })
 
-test("on the dev server the site uses the local proxy, not the store directly", () => {
-  const cfg = loadConfig("localhost", "http://localhost:3030")
-  assert.equal(cfg.servedLocally, true)
-  assert.equal(cfg.QUERY_URL, "http://localhost:3030/query")
-  assert.equal(cfg.CREATE_URL, "http://localhost:3030/create")
-  assert.equal(cfg.AGENT_URL, "http://localhost:3030/agent")
+test("reads go to the store and writes to TinyNode from either origin", () => {
+  // The split is the whole point of passthrough: the store's CORS headers already allow an
+  // anonymous read from anywhere, while a write has to carry our token to a TinyNode that
+  // forwards it. Neither of those is a job the local server can do better, so the URLs are
+  // the same whether this is GitHub Pages or `npm start`.
+  for (const [hostname, origin] of [["cubap.github.io", "https://cubap.github.io"], ["localhost", "http://localhost:3030"]]) {
+    const cfg = loadConfig(hostname, origin)
+    assert.equal(cfg.QUERY_URL, "https://store.rerum.io/v1/api/query")
+    assert.equal(cfg.CREATE_URL, "https://tiny.rerum.io/create")
+    assert.equal(cfg.UPDATE_URL, "https://tiny.rerum.io/update")
+    assert.equal(cfg.DELETE_URL, "https://tiny.rerum.io/delete")
+  }
+})
+
+test("only the local server can mint a token, so only it exposes the mint and identity URLs", () => {
+  const pages = loadConfig("cubap.github.io", "https://cubap.github.io")
+  assert.equal(pages.servedLocally, false)
+  assert.equal(pages.TOKEN_URL, null)
+  assert.equal(pages.AGENT_URL, null)
+
+  const local = loadConfig("localhost", "http://localhost:3030")
+  assert.equal(local.servedLocally, true)
+  assert.equal(local.TOKEN_URL, "http://localhost:3030/token")
+  assert.equal(local.AGENT_URL, "http://localhost:3030/agent")
 })
 
 test("normalizeId upgrades the http:// IRIs RERUM embeds in itemListElement", () => {
@@ -174,17 +192,23 @@ test("the entry subsite is the only place writes are issued from", () => {
   assert.match(entry, /CFG\.UPDATE_URL/)
   assert.match(entry, /CFG\.DELETE_URL/)
   assert.match(entry, /CFG\.EVIDENCE_ID/)
-  // Writes go to the proxy, which is same-origin on the dev server.
+  // Every write carries a bearer token, and the token comes from the mint rather than from
+  // anything this file knows. No URL is hardcoded here, so the config stays the single source.
+  assert.match(entry, /CFG\.TOKEN_URL/)
+  assert.match(entry, /Authorization.*Bearer /)
   assert.doesNotMatch(entry, /fetch\(["'`]https?:\/\//)
+  assert.doesNotMatch(entry, /REFRESH_TOKEN|refresh_token/)
 })
 
 test("the server's default upstream is the production store the records live on", () => {
   const config = readConfig({})
   assert.equal(config.apiAddr, "https://store.rerum.io/v1/api/")
+  assert.equal(config.tinynodeAddr, "https://tiny.rerum.io/")
   assert.equal(config.port, 3030)
   assert.match(config.userAgent, /McElwee/)
 })
 
-test("a trailing slash in RERUM_API_ADDR is not required", () => {
+test("a trailing slash in RERUM_API_ADDR or RERUM_TINYNODE_ADDR is not required", () => {
   assert.equal(readConfig({ RERUM_API_ADDR: "https://store.rerum.io/v1/api" }).apiAddr, "https://store.rerum.io/v1/api/")
+  assert.equal(readConfig({ RERUM_TINYNODE_ADDR: "https://tinydev.rerum.io" }).tinynodeAddr, "https://tinydev.rerum.io/")
 })

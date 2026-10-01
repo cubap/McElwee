@@ -11,6 +11,13 @@
 
   var RERUM_BASE = "https://store.rerum.io/v1"
 
+  // The TinyNode instance the entry form writes through. TinyNode runs in *passthrough*
+  // mode: it forwards the caller's `Authorization` header instead of substituting its own
+  // instance token, so a write made here is stamped with the McElwee agent rather than with
+  // TinyNode's. Note this is not store.rerum.io, which is the RERUM API and the
+  // authorization portal but is not itself a TinyNode.
+  var TINYNODE_BASE = "https://tiny.rerum.io/"
+
   // Hosts whose records are the same thing under http and https. RERUM hands back
   // `http://` IRIs inside itemListElement entries even though it serves them over
   // https, so any IRI lifted out of a payload has to be upgraded before fetch() or the
@@ -23,11 +30,6 @@
   ]
 
   var servedLocally = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(global.location.hostname)
-
-  // On the dev server, route through the local proxy so a single origin carries the
-  // token. On GitHub Pages there is no proxy, and RERUM's own CORS headers allow the
-  // read-only queries directly.
-  var API_ROOT = servedLocally ? global.location.origin + "/" : RERUM_BASE + "/api/"
 
   function normalizeId(id) {
     if (typeof id !== "string") return id
@@ -73,10 +75,19 @@
     // The digitized collection the atlas plates belong to, for attribution and link-back.
     ATLAS_COLLECTION_URL: "https://digital.shsmo.org/digital/collection/plat",
     BASE_ID: RERUM_BASE,
-    QUERY_URL: API_ROOT + "query",
-    CREATE_URL: API_ROOT + "create",
-    UPDATE_URL: API_ROOT + "update",
-    DELETE_URL: API_ROOT + "delete",
+    // Reads go straight to the RERUM API. Its CORS headers allow any origin, which is how
+    // the GitHub Pages exhibit has always worked, so the read path is the same whether the
+    // site is served from Pages or from this machine.
+    QUERY_URL: RERUM_BASE + "/api/query",
+    // Writes go to TinyNode in passthrough mode, with the bearer token from TOKEN_URL.
+    TINYNODE_BASE: TINYNODE_BASE,
+    CREATE_URL: TINYNODE_BASE + "create",
+    UPDATE_URL: TINYNODE_BASE + "update",
+    DELETE_URL: TINYNODE_BASE + "delete",
+    // The local server trades the project's refresh token for a short-lived access token.
+    // It exists only under `npm start`, and it is the only place a credential is ever
+    // read; nothing here holds a refresh token, and the deployed site has no write path.
+    TOKEN_URL: servedLocally ? global.location.origin + "/token" : null,
     AGENT_URL: servedLocally ? global.location.origin + "/agent" : null,
     normalizeId: normalizeId,
     isRerumId: isRerumId,

@@ -43,8 +43,9 @@ set it in the payload. All 2018 material — including the population list — i
 **shared sandbox agent**, i.e. `sandbox@rerum.io`.
 
 So: whoever loads the burials decides whose name is on 236 permanent public records about dead
-people. `server/agent.js` + `requireAgent({ write: true })` exist to refuse writes under the
-sandbox agent when `REQUIRE_AGENT_IRI=true`. A bulk load should not bypass that guard.
+people. `server/agent.js` + `mintAccessToken()` exist to refuse to hand out a token for the
+sandbox agent, or for an agent that is not `EXPECTED_AGENT_IRI`, when `REQUIRE_AGENT_IRI=true`.
+A bulk load should not bypass that guard.
 
 There is currently **no `.env`** in this checkout (only `sample.env`), so nothing can write at
 all today. That is the correct default state, not an oversight.
@@ -88,8 +89,10 @@ node scripts/load-burials.js --execute --limit 3
 ```
 
 `scripts/burials-payloads.js` is a pure transform: evidence store → ordered operations.
-`scripts/load-burials.js` is the only thing that touches the network, and it goes through the
-local `server/` proxy so the access token never enters this process.
+`scripts/load-burials.js` is the only thing that touches the network. It asks the local
+`server/` mint for a short-lived access token over loopback and sends its writes to TinyNode
+itself (`scripts/passthrough.js`), so the refresh token never enters this process. Reads go
+directly to the RERUM API, because TinyNode's `/query` does not honour a passed-through token.
 
 For 117 records it emits **236 operations**: 1 Document, 117 Persons, 117 Annotations, 1
 list-append.
